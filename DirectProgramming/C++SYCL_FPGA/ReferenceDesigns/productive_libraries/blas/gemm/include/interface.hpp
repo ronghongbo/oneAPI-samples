@@ -1,5 +1,7 @@
 #pragma once
+#include <complex>
 #include <iostream>
+#include <sstream>
 #include <type_traits>
 #include <tuple>
 
@@ -82,7 +84,6 @@ size_t gemm(bool transa, bool transb, int m, int n, int k, T alpha, const T *a, 
         << "ldc = " << ldc << ", n = " << n;
                
     auto [II, JJ, III, JJJ, KKK] = detail::get_dimensions<T>();
-    printf("II = %d, JJ = %d, III = %d, JJJ = %d, KKK = %d\n", II, JJ, III, JJJ, KKK);
 
     t2sp_assert(n % JJJ == 0) << "Due to the limitations of our current implementation, n must be a multiple of " << JJJ << ", but n = " << n;
     t2sp_assert(k % KKK == 0) << "Due to the limitations of our current implementation, k must be a multiple of " << KKK << ", but k = " << k;
