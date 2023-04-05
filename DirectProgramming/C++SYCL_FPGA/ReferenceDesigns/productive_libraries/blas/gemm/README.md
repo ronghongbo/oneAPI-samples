@@ -66,7 +66,7 @@ TODO
    cmake .. -DFPGA_DEVICE=intel_s10sx_pac:pac_s10
    ```
 
-5. Compile the design. Here we first compile gemm.cpp and then use it to generate oneapi code and then compile the generated code to FPGA. These steps have been written in `CMakeLists.txt`, we only need to enter the following:
+5. Compile the design. Here we first compile `gemm.cpp` and then use it to generate oneapi code and then compile the generated code to FPGA. These steps have been written in `CMakeLists.txt`, we only need to enter the following:
    
    ```shell
    # Generate test, compile for emulation (fast compile time, targets emulated FPGA device).
