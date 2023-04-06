@@ -6,6 +6,17 @@
 #include <tuple>
 
 #include "HalideBuffer.h"
+
+template<>
+HALIDE_ALWAYS_INLINE halide_type_t halide_type_of<std::complex<float>>() {
+    return halide_type_t(halide_type_complex, 64);
+}
+
+template<>
+HALIDE_ALWAYS_INLINE halide_type_t halide_type_of<std::complex<double>>() {
+    return halide_type_t(halide_type_complex, 128);
+}
+
 #include "sgemm.sycl.h"
 #include "dgemm.sycl.h"
 #include "cgemm.sycl.h"
