@@ -1,7 +1,14 @@
 project(gemm_oneapi)
 set(CMAKE_CXX_COMPILER icpx)
 
+# Due to restrictions of file size, we have split libHalide.a into parts. Join them into the original binary
+if(NOT EXISTS "${CMAKE_CURRENT_LIST_DIR}/../../tools/Halide/lib/libHalide.a")
+    execute_process(COMMAND cat libHalide.part.aa libHalide.part.ab libHalide.part.ac libHalide.part.ad libHalide.part.ae libHalide.part.af libHalide.part.ag  
+                    OUTPUT_FILE libHalide.a
+                    WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/../../tools/Halide/lib)
+endif()
 set(TOOLS_PATH "${CMAKE_CURRENT_LIST_DIR}/../../tools")
+
 if(NOT DEFINED ENV{MKLROOT})
     message(FATAL_ERROR "MKLROOT is not set")
 endif()
