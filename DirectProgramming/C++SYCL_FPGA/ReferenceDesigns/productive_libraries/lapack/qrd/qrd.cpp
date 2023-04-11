@@ -1,11 +1,25 @@
 // The only header file needed to use T2S/Halide interface.
 #include "Halide.h"
+
+// For printing output
+#include <stdio.h>
+
+// For validation of results.
+#include <assert.h>
+
 using namespace Halide;
 using namespace std;
 
-ImageParam a(Float(32), 3);
-#define BATCH    a.dim(2).extent()
+
+#define TYPE     Float(32)
 #define FuncType Func
+#define ZERO     0
+ImageParam a(Float(32), 3);
+
+#define BATCH   a.dim(2).extent()
+#define I       128
+#define J       128
+#define K       128 
 
 int main(void) {
     // Macros: for convenient use.
