@@ -79,11 +79,11 @@ endforeach()
 ### Generate Report
 ###############################################################################
 add_executable(gemm_report.a hardware_demo.cpp)
-add_dependencies(gemm_report.a gemm_generate_large_sgemm)
+add_dependencies(gemm_report.a gemm_generate_tiny_sgemm)
 add_custom_target(gemm_report DEPENDS gemm_report.a)
 target_include_directories(gemm_report.a PRIVATE "${TOOLS_PATH}/Halide/include")
 target_include_directories(gemm_report.a PRIVATE "${CMAKE_SOURCE_DIR}/include")
-target_compile_definitions(gemm_report.a PRIVATE "${DEVICE_DEFINE}" "T2SP_SGEMM")
+target_compile_definitions(gemm_report.a PRIVATE "${DEVICE_DEFINE}" T2SP_SGEMM TINY)
 set_target_properties(gemm_report.a PROPERTIES COMPILE_FLAGS "-fsycl -fintelfpga")
 set_target_properties(gemm_report.a PROPERTIES LINK_FLAGS "-fsycl -fintelfpga -reuse-exe=${CMAKE_BINARY_DIR}/gemm_fpga -Xshardware -Xstarget=${FPGA_DEVICE} -Xsffp-reassociate -Xsprofile -Xsclock=360MHz -Xsseed=5 -fsycl-link=early")
 
@@ -91,9 +91,9 @@ set_target_properties(gemm_report.a PROPERTIES LINK_FLAGS "-fsycl -fintelfpga -r
 ### FPGA Hardware
 ###############################################################################
 add_executable(gemm_fpga hardware_demo.cpp)
-add_dependencies(gemm_fpga gemm_generate_large_sgemm)
+add_dependencies(gemm_fpga gemm_generate_tiny_sgemm)
 target_include_directories(gemm_fpga PRIVATE "${TOOLS_PATH}/Halide/include")
 target_include_directories(gemm_fpga PRIVATE "${CMAKE_SOURCE_DIR}/include")
-target_compile_definitions(gemm_fpga PRIVATE "${DEVICE_DEFINE}" "T2SP_SGEMM")
+target_compile_definitions(gemm_fpga PRIVATE "${DEVICE_DEFINE}" T2SP_SGEMM TINY)
 set_target_properties(gemm_fpga PROPERTIES COMPILE_FLAGS "-fsycl -fintelfpga")
 set_target_properties(gemm_fpga PROPERTIES LINK_FLAGS "-fsycl -fintelfpga -reuse-exe=${CMAKE_BINARY_DIR}/gemm_fpga -Xshardware -Xstarget=${FPGA_DEVICE} -Xsffp-reassociate -Xsprofile -Xsclock=360MHz -Xsseed=5")
