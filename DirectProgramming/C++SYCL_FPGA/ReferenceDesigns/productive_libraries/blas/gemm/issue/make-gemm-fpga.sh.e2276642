@@ -1,0 +1,75 @@
+In file included from /home/u89062/oneAPI-samples/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/hardware_demo.cpp:5:
+In file included from /home/u89062/oneAPI-samples/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/include/sgemm.sycl.h:2:
+/home/u89062/oneAPI-samples/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/include/halide_runtime_etc.h:68:41: warning: comparison with NaN always evaluates to false in fast floating point modes [-Wtautological-constant-compare]
+inline bool is_nan_f32(float x) {return isnan(x);}
+                                        ^~~~~~~~
+/home/u89062/oneAPI-samples/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/include/halide_runtime_etc.h:69:42: warning: comparison with NaN always evaluates to false in fast floating point modes [-Wtautological-constant-compare]
+inline bool is_nan_f64(double x) {return isnan(x);}
+                                         ^~~~~~~~
+/home/u89062/oneAPI-samples/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/include/halide_runtime_etc.h:70:41: warning: comparison with infinity always evaluates to false in fast floating point modes [-Wtautological-constant-compare]
+inline bool is_inf_f32(float x) {return isinf(x);}
+                                        ^~~~~~~~
+/home/u89062/oneAPI-samples/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/include/halide_runtime_etc.h:71:42: warning: comparison with infinity always evaluates to false in fast floating point modes [-Wtautological-constant-compare]
+inline bool is_inf_f64(double x) {return isinf(x);}
+                                         ^~~~~~~~
+/home/u89062/oneAPI-samples/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/hardware_demo.cpp:24:44: warning: implicit conversion from 'int' to 'float' changes value from 2147483647 to 2147483648 [-Wimplicit-const-int-float-conversion]
+            a(k, i) = float(std::rand()) / RAND_MAX - 0.5f; 
+                                         ~ ^~~~~~~~
+/usr/include/stdlib.h:86:18: note: expanded from macro 'RAND_MAX'
+#define RAND_MAX        2147483647
+                        ^~~~~~~~~~
+/home/u89062/oneAPI-samples/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/hardware_demo.cpp:28:44: warning: implicit conversion from 'int' to 'float' changes value from 2147483647 to 2147483648 [-Wimplicit-const-int-float-conversion]
+            b(j, k) = float(std::rand()) / RAND_MAX - 0.5f; 
+                                         ~ ^~~~~~~~
+/usr/include/stdlib.h:86:18: note: expanded from macro 'RAND_MAX'
+#define RAND_MAX        2147483647
+                        ^~~~~~~~~~
+/home/u89062/oneAPI-samples/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/hardware_demo.cpp:32:44: warning: implicit conversion from 'int' to 'float' changes value from 2147483647 to 2147483648 [-Wimplicit-const-int-float-conversion]
+            c(j, i) = float(std::rand()) / RAND_MAX - 0.5f;
+                                         ~ ^~~~~~~~
+/usr/include/stdlib.h:86:18: note: expanded from macro 'RAND_MAX'
+#define RAND_MAX        2147483647
+                        ^~~~~~~~~~
+7 warnings generated.
+In file included from /home/u89062/oneAPI-samples/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/hardware_demo.cpp:5:
+In file included from /home/u89062/oneAPI-samples/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/include/sgemm.sycl.h:2:
+/home/u89062/oneAPI-samples/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/include/halide_runtime_etc.h:68:41: warning: comparison with NaN always evaluates to false in fast floating point modes [-Wtautological-constant-compare]
+inline bool is_nan_f32(float x) {return isnan(x);}
+                                        ^~~~~~~~
+/home/u89062/oneAPI-samples/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/include/halide_runtime_etc.h:69:42: warning: comparison with NaN always evaluates to false in fast floating point modes [-Wtautological-constant-compare]
+inline bool is_nan_f64(double x) {return isnan(x);}
+                                         ^~~~~~~~
+/home/u89062/oneAPI-samples/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/include/halide_runtime_etc.h:70:41: warning: comparison with infinity always evaluates to false in fast floating point modes [-Wtautological-constant-compare]
+inline bool is_inf_f32(float x) {return isinf(x);}
+                                        ^~~~~~~~
+/home/u89062/oneAPI-samples/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/include/halide_runtime_etc.h:71:42: warning: comparison with infinity always evaluates to false in fast floating point modes [-Wtautological-constant-compare]
+inline bool is_inf_f64(double x) {return isinf(x);}
+                                         ^~~~~~~~
+/home/u89062/oneAPI-samples/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/hardware_demo.cpp:24:44: warning: implicit conversion from 'int' to 'float' changes value from 2147483647 to 2147483648 [-Wimplicit-const-int-float-conversion]
+            a(k, i) = float(std::rand()) / RAND_MAX - 0.5f; 
+                                         ~ ^~~~~~~~
+/usr/include/stdlib.h:86:18: note: expanded from macro 'RAND_MAX'
+#define RAND_MAX        2147483647
+                        ^~~~~~~~~~
+/home/u89062/oneAPI-samples/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/hardware_demo.cpp:28:44: warning: implicit conversion from 'int' to 'float' changes value from 2147483647 to 2147483648 [-Wimplicit-const-int-float-conversion]
+            b(j, k) = float(std::rand()) / RAND_MAX - 0.5f; 
+                                         ~ ^~~~~~~~
+/usr/include/stdlib.h:86:18: note: expanded from macro 'RAND_MAX'
+#define RAND_MAX        2147483647
+                        ^~~~~~~~~~
+/home/u89062/oneAPI-samples/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/hardware_demo.cpp:32:44: warning: implicit conversion from 'int' to 'float' changes value from 2147483647 to 2147483648 [-Wimplicit-const-int-float-conversion]
+            c(j, i) = float(std::rand()) / RAND_MAX - 0.5f;
+                                         ~ ^~~~~~~~
+/usr/include/stdlib.h:86:18: note: expanded from macro 'RAND_MAX'
+#define RAND_MAX        2147483647
+                        ^~~~~~~~~~
+7 warnings generated.
+For more details, full Quartus compile output can be found in files quartuserr.tmp and quartus_sh_compile.log.
+Error: Compiler Error, not able to generate hardware
+
+llvm-foreach: 
+icpx: error: fpga compiler command failed with exit code 1 (use -v to see invocation)
+make[3]: *** [gemm_fpga] Error 1
+make[2]: *** [CMakeFiles/gemm_fpga.dir/all] Error 2
+make[1]: *** [CMakeFiles/gemm_fpga.dir/rule] Error 2
+make: *** [gemm_fpga] Error 2
