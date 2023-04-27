@@ -91,6 +91,7 @@ int main()
 
     // Compile the kernel to an oneAPI impl, and expose a C interface for the host to invoke
     Output.compile_to_oneapi({ TransA, TransB, alpha, beta, A, B, C }, KERNEL, IntelFPGA);
+//  Output.compile_to_host("gemm-interface.cpp", { TransA, TransB, alpha, beta, A, B, C }, KERNEL, IntelFPGA);
 
     return 0;
 }

@@ -39,61 +39,61 @@ link_directories("$ENV{MKLROOT}/lib/intel64")
 ###############################################################################
 foreach(SIZE "LARGE" "TINY")
     string(TOLOWER ${SIZE} LOWER_SIZE)
-    add_custom_target(gemm_generate_${LOWER_SIZE})
+    add_custom_target(generate_${LOWER_SIZE})
     foreach(GEMM_TYPE "SGEMM" "DGEMM" "CGEMM" "ZGEMM")
         string(TOLOWER ${GEMM_TYPE} LOWER_GEMM_TYPE)
-        add_executable(gemm_generate_${LOWER_SIZE}_${LOWER_GEMM_TYPE} gemm.cpp)
-        target_include_directories(gemm_generate_${LOWER_SIZE}_${LOWER_GEMM_TYPE} PRIVATE "${TOOLS_PATH}/Halide/include")
-        target_include_directories(gemm_generate_${LOWER_SIZE}_${LOWER_GEMM_TYPE} PRIVATE "${CMAKE_SOURCE_DIR}/include")
-        target_compile_definitions(gemm_generate_${LOWER_SIZE}_${LOWER_GEMM_TYPE} PRIVATE "T2SP_${GEMM_TYPE}" "${SIZE}" "${DEVICE_DEFINE}")
-        target_link_libraries(gemm_generate_${LOWER_SIZE}_${LOWER_GEMM_TYPE} PRIVATE pthread z dl Halide)
-        set_target_properties(gemm_generate_${LOWER_SIZE}_${LOWER_GEMM_TYPE} PROPERTIES CXX_STANDARD 11)
-        add_custom_command(TARGET gemm_generate_${LOWER_SIZE}_${LOWER_GEMM_TYPE}
+        add_executable(generate_${LOWER_SIZE}_${LOWER_GEMM_TYPE} gemm.cpp)
+        target_include_directories(generate_${LOWER_SIZE}_${LOWER_GEMM_TYPE} PRIVATE "${TOOLS_PATH}/Halide/include")
+        target_include_directories(generate_${LOWER_SIZE}_${LOWER_GEMM_TYPE} PRIVATE "${CMAKE_SOURCE_DIR}/include")
+        target_compile_definitions(generate_${LOWER_SIZE}_${LOWER_GEMM_TYPE} PRIVATE "T2SP_${GEMM_TYPE}" "${SIZE}" "${DEVICE_DEFINE}")
+        target_link_libraries(generate_${LOWER_SIZE}_${LOWER_GEMM_TYPE} PRIVATE pthread z dl Halide)
+        set_target_properties(generate_${LOWER_SIZE}_${LOWER_GEMM_TYPE} PROPERTIES CXX_STANDARD 11)
+        add_custom_command(TARGET generate_${LOWER_SIZE}_${LOWER_GEMM_TYPE}
                            POST_BUILD
-                           COMMAND env CLEARCODE=1 ${CMAKE_BINARY_DIR}/gemm_generate_${LOWER_SIZE}_${LOWER_GEMM_TYPE}
+                           COMMAND env CLEARCODE=1 ${CMAKE_BINARY_DIR}/generate_${LOWER_SIZE}_${LOWER_GEMM_TYPE}
                            WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/include
                            COMMENT "${LOWER_GEMM_TYPE} (${LOWER_SIZE} size): Start to generate ${LOWER_GEMM_TYPE}.sycl.h"
                            VERBATIM)
-        add_dependencies(gemm_generate_${LOWER_SIZE} gemm_generate_${LOWER_SIZE}_${LOWER_GEMM_TYPE})
+        add_dependencies(generate_${LOWER_SIZE} generate_${LOWER_SIZE}_${LOWER_GEMM_TYPE})
     endforeach()
 endforeach()
 
 ###############################################################################
 ### FPGA Emulator
 ###############################################################################
-add_custom_target(gemm_test)
+add_custom_target(test)
 foreach(N RANGE 0 4)
-    add_executable(gemm_test_${N} test.cpp)
-    target_include_directories(gemm_test_${N} PRIVATE "${TOOLS_PATH}/Halide/include")
-    target_include_directories(gemm_test_${N} PRIVATE "${CMAKE_SOURCE_DIR}/include")
-    target_include_directories(gemm_test_${N} PRIVATE "$ENV{MKLROOT}/include")
-    target_compile_definitions(gemm_test_${N} PRIVATE TINY MKL_ILP64 T2SP_NDEBUG "T2SP_TEST_${N}" FPGA_EMULATOR)
-    target_link_libraries(gemm_test_${N} mkl_sycl mkl_intel_ilp64 mkl_sequential mkl_core sycl OpenCL pthread m dl)
-    set_target_properties(gemm_test_${N} PROPERTIES COMPILE_FLAGS "-fsycl -fintelfpga")
-    set_target_properties(gemm_test_${N} PROPERTIES LINK_FLAGS "-fsycl -fintelfpga")
-    add_dependencies(gemm_test_${N} gemm_generate_tiny)
-    add_dependencies(gemm_test gemm_test_${N})
+    add_executable(test_${N} test.cpp)
+    target_include_directories(test_${N} PRIVATE "${TOOLS_PATH}/Halide/include")
+    target_include_directories(test_${N} PRIVATE "${CMAKE_SOURCE_DIR}/include")
+    target_include_directories(test_${N} PRIVATE "$ENV{MKLROOT}/include")
+    target_compile_definitions(test_${N} PRIVATE TINY MKL_ILP64 T2SP_NDEBUG "T2SP_TEST_${N}" FPGA_EMULATOR)
+    target_link_libraries(test_${N} mkl_sycl mkl_intel_ilp64 mkl_sequential mkl_core sycl OpenCL pthread m dl)
+    set_target_properties(test_${N} PROPERTIES COMPILE_FLAGS "-fsycl -fintelfpga")
+    set_target_properties(test_${N} PROPERTIES LINK_FLAGS "-fsycl -fintelfpga")
+    add_dependencies(test_${N} generate_tiny_sgemm)
+    add_dependencies(test test_${N})
 endforeach()
 
 ###############################################################################
 ### Generate Report
 ###############################################################################
-add_executable(gemm_report.a hardware_demo.cpp)
-add_dependencies(gemm_report.a gemm_generate_tiny_sgemm)
-add_custom_target(gemm_report DEPENDS gemm_report.a)
-target_include_directories(gemm_report.a PRIVATE "${TOOLS_PATH}/Halide/include")
-target_include_directories(gemm_report.a PRIVATE "${CMAKE_SOURCE_DIR}/include")
-target_compile_definitions(gemm_report.a PRIVATE "${DEVICE_DEFINE}" T2SP_SGEMM TINY)
-set_target_properties(gemm_report.a PROPERTIES COMPILE_FLAGS "-fsycl -fintelfpga")
-set_target_properties(gemm_report.a PROPERTIES LINK_FLAGS "-fsycl -fintelfpga -reuse-exe=${CMAKE_BINARY_DIR}/gemm_fpga -Xshardware -Xstarget=${FPGA_DEVICE} -Xsffp-reassociate -Xsprofile -Xsclock=360MHz -Xsseed=5 -fsycl-link=early")
+add_executable(report.a hardware_demo.cpp)
+add_dependencies(report.a generate_tiny_sgemm)
+add_custom_target(report DEPENDS report.a)
+target_include_directories(report.a PRIVATE "${TOOLS_PATH}/Halide/include")
+target_include_directories(report.a PRIVATE "${CMAKE_SOURCE_DIR}/include")
+target_compile_definitions(report.a PRIVATE "${DEVICE_DEFINE}" T2SP_SGEMM TINY)
+set_target_properties(report.a PROPERTIES COMPILE_FLAGS "-fsycl -fintelfpga")
+set_target_properties(report.a PROPERTIES LINK_FLAGS "-fsycl -fintelfpga -reuse-exe=${CMAKE_BINARY_DIR}/fpga -Xshardware -Xstarget=${FPGA_DEVICE} -Xsffp-reassociate -Xsffp-contract=fast -Xsprofile -Xsclock=360MHz -fsycl-link=early")
 
 ###############################################################################
 ### FPGA Hardware
 ###############################################################################
-add_executable(gemm_fpga hardware_demo.cpp)
-add_dependencies(gemm_fpga gemm_generate_tiny_sgemm)
-target_include_directories(gemm_fpga PRIVATE "${TOOLS_PATH}/Halide/include")
-target_include_directories(gemm_fpga PRIVATE "${CMAKE_SOURCE_DIR}/include")
-target_compile_definitions(gemm_fpga PRIVATE "${DEVICE_DEFINE}" T2SP_SGEMM TINY)
-set_target_properties(gemm_fpga PROPERTIES COMPILE_FLAGS "-fsycl -fintelfpga")
-set_target_properties(gemm_fpga PROPERTIES LINK_FLAGS "-fsycl -fintelfpga -reuse-exe=${CMAKE_BINARY_DIR}/gemm_fpga -Xshardware -Xstarget=${FPGA_DEVICE} -Xsffp-reassociate -Xsprofile -Xsclock=360MHz -Xsseed=5")
+add_executable(fpga hardware_demo.cpp)
+add_dependencies(fpga generate_tiny_sgemm)
+target_include_directories(fpga PRIVATE "${TOOLS_PATH}/Halide/include")
+target_include_directories(fpga PRIVATE "${CMAKE_SOURCE_DIR}/include")
+target_compile_definitions(fpga PRIVATE "${DEVICE_DEFINE}" T2SP_SGEMM TINY)
+set_target_properties(fpga PROPERTIES COMPILE_FLAGS "-fsycl -fintelfpga")
+set_target_properties(fpga PROPERTIES LINK_FLAGS "-fsycl -fintelfpga -reuse-exe=${CMAKE_BINARY_DIR}/fpga -Xshardware -Xstarget=${FPGA_DEVICE} -Xsffp-reassociate -Xsffp-contract=fast -Xsprofile -Xsclock=360MHz")

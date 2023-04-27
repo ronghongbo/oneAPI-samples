@@ -19,14 +19,61 @@
 #ifndef GEMM_CONST_PARAMS_H
 #define GEMM_CONST_PARAMS_H
 
+
 // Inner loop bounds, which are static constant parameters of the design
 #ifdef TINY // For verifying correctness only
-    #define KKK         4
-    #define JJJ         4
-    #define III         4
-    #define JJ          4
-    #define II          4
-    #define KK          4
+/*    #if defined(T16161)  // Match William's code: 256x256 matrices, 16x16x1 array
+        #define KKK         1
+        #define JJJ         16
+        #define III         16
+        #define JJ          16
+        #define II          16
+        #define KK          256
+    #elif defined(T881) // Match William's code: 8x8x1 array, each PE computes 1 value (On host: make I=8, J=8, K=64 to match their 64x64 matrices)
+*/
+        #define KKK         1
+        #define JJJ         8
+        #define III         8
+        #define JJ          1
+        #define II          1
+        #define KK          1
+/*
+        #define KKK         4
+        #define JJJ         4
+        #define III         4
+        #define JJ          4
+        #define II          4
+        #define KK          4
+*/
+/*    #elif defined(T441) // My mini version: 16x16 matrices 4x4x1 array
+        #define KKK         1
+        #define JJJ         4
+        #define III         4
+        #define JJ          4
+        #define II          4
+        #define KK          16
+    #elif defined(T222) // My mini version: 4x4 matrices 2x2x2 array
+        #define KKK         2
+        #define JJJ         2
+        #define III         2
+        #define JJ          2
+        #define II          2
+        #define KK          2
+    #elif defined(T221) // My mini version: 4x4 matrices 2x2x1 array
+        #define KKK         1
+        #define JJJ         2
+        #define III         2
+        #define JJ          2
+        #define II          2
+        #define KK          4
+    #else
+        #define KKK         4
+        #define JJJ         4
+        #define III         4
+        #define JJ          4
+        #define II          4
+        #define KK          4
+*/
 #else // LARGE
     #ifdef GPU
         #define KKK         8

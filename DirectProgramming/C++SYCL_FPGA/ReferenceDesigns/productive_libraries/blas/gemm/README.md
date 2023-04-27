@@ -83,11 +83,11 @@ TODO
    
    ```shell
    # Generate test, compile for emulation (fast compile time, targets emulated FPGA device).
-   make gemm_test
+   make test
    # Generate the HTML performance report.
-   make gemm_report
+   make report
    # Generate fpga demo, compile for FPGA hardware (longer compile time, targets FPGA device).
-   make gemm_fpga
+   make fpga
    ```
 
 ## Run the `GEMM` Design
@@ -97,11 +97,11 @@ TODO
 #### Run on FPGA Emulator
 
 ```shell
-./gemm_test_0 && ./gemm_test_1 && ./gemm_test_2 && ./gemm_test_3 && ./gemm_test_4
+./test_0 && ./test_1 && ./test_2 && ./test_3 && ./test_4
 ```
 
 #### Run on FPGA
 
 ```shell
-./gemm_fpga
+./fpga
 ```

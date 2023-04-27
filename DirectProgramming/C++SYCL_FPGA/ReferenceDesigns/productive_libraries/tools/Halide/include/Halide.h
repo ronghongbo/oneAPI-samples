@@ -32598,6 +32598,7 @@ protected:
         // As the calculation of some expressions may be complicated or have
         // side-effects, so we need to store their results in intermediate variables.
         std::string generate_intermediate_var(const std::string &);
+
     public:
         CodeGen_Clear_OneAPI_C(std::ostream &s, Target t)
             : CodeGen_Clear_C(s, t) {
@@ -32607,6 +32608,15 @@ protected:
 
     protected:
         constexpr static auto INDENT = 2;
+        //        bool: whether it is currently in the unroll loop.
+        //      string: loop variable name.
+        //        Expr: loop min.
+        //   streampos: the absolute position of the current output stream.
+        // Indentation: previous indentation at unroll loop
+        // If it is inside the unroll loop, we need to mention the channel
+        // read operation that will affect the unroll outside the loop.
+        std::tuple<bool, std::string, Expr, std::streampos, Indentation> in_unroll_loop;
+
         using CodeGen_Clear_C::visit;
         bool is_standard_opencl_type(Type type);
         bool is_irregular(Region &bounds);
