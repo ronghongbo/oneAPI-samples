@@ -683,9 +683,13 @@ auto sgemm(device_selector_t device_selector_v, bool p0, bool p1, float p2, floa
             int Z_pipe_base;
             Z_pipe_iter = 10240;
             Z_pipe_base = 0;
+            [[intel::initiation_interval(1)]]
             for (int i = 0; i < (A_extent_1 + 639) / 320; i++) {
+              [[intel::initiation_interval(1)]]
               for (int j = 0; j < (B_extent_0 + 255) / 256; j++) {
+                [[intel::initiation_interval(1)]]
                 for (int k = 0; k < (B_extent_1 + 511) / 512; k++) {
+                  [[intel::initiation_interval(1)]]
                   for (int kk_ii_jj = 0; kk_ii_jj < 32768; kk_ii_jj++) {
                     #pragma unroll
                     for (int iii = 0; iii < 10; iii++) {
