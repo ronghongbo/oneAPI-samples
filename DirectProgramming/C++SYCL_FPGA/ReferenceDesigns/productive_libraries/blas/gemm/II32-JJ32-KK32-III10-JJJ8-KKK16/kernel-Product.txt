@@ -1,0 +1,126 @@
+        oneapi_kernel_events.push_back(q_device.submit([&](sycl::handler &h){
+          h.single_task<class kernel_Product_class>([=](){
+            bFeeder_channel_array_t bFeeder_channel_array;
+            aFeeder_channel_array_t aFeeder_channel_array;
+            float Z_shreg[1024][8][10];
+            float Z_pipe_shreg[8][9217];
+            float16 Y_shreg[8];
+            float Z[8][10];
+            float16 X_shreg[10];
+            float Z_shreg_;
+            int Z_pipe_iter;
+            int Z_pipe_base;
+            Z_pipe_iter = 10240;
+            Z_pipe_base = 0;
+            for (int i = 0; i < (A_extent_1 + 639) / 320; i++) {
+              for (int j = 0; j < (B_extent_0 + 255) / 256; j++) {
+                for (int k = 0; k < (B_extent_1 + 511) / 512; k++) {
+                  for (int kk_ii_jj = 0; kk_ii_jj < 32768; kk_ii_jj++) {
+                    #pragma unroll
+                    for (int iii = 0; iii < 10; iii++) {
+                      #pragma unroll
+                      for (int jjj = 0; jjj < 8; jjj++) {
+                        Z[jjj][iii] = Z_shreg[1023][jjj][iii];
+                        #pragma unroll
+                        for (int l1 = 0; l1 < 1023; l1++) {
+                          Z_shreg[1023 - l1][jjj][iii] = Z_shreg[1022 - l1][jjj][iii];
+                        }
+                        Z_shreg[0][jjj][iii] = Z[jjj][iii];
+                      }
+                    }
+                    if (i < (A_extent_1 + 319) / 320) {
+                      bFeeder_channel_array = bFeeder_channel::read<>();
+                      aFeeder_channel_array = aFeeder_channel::read<>();
+                    }
+                    #pragma unroll
+                    for (int iii = 0; iii < 10; iii++) {
+                      #pragma unroll
+                      for (int jjj = 0; jjj < 8; jjj++) {
+                        X_shreg[iii] = jjj == 0 ? aFeeder_channel_array.s[iii] : X_shreg[iii];
+                        X_shreg[iii] = float16{
+                        sycl::ext::intel::fpga_reg(sycl::ext::intel::fpga_reg(X_shreg[iii][0])),
+                        sycl::ext::intel::fpga_reg(sycl::ext::intel::fpga_reg(X_shreg[iii][1])),
+                        sycl::ext::intel::fpga_reg(sycl::ext::intel::fpga_reg(X_shreg[iii][2])),
+                        sycl::ext::intel::fpga_reg(sycl::ext::intel::fpga_reg(X_shreg[iii][3])),
+                        sycl::ext::intel::fpga_reg(sycl::ext::intel::fpga_reg(X_shreg[iii][4])),
+                        sycl::ext::intel::fpga_reg(sycl::ext::intel::fpga_reg(X_shreg[iii][5])),
+                        sycl::ext::intel::fpga_reg(sycl::ext::intel::fpga_reg(X_shreg[iii][6])),
+                        sycl::ext::intel::fpga_reg(sycl::ext::intel::fpga_reg(X_shreg[iii][7])),
+                        sycl::ext::intel::fpga_reg(sycl::ext::intel::fpga_reg(X_shreg[iii][8])),
+                        sycl::ext::intel::fpga_reg(sycl::ext::intel::fpga_reg(X_shreg[iii][9])),
+                        sycl::ext::intel::fpga_reg(sycl::ext::intel::fpga_reg(X_shreg[iii][10])),
+                        sycl::ext::intel::fpga_reg(sycl::ext::intel::fpga_reg(X_shreg[iii][11])),
+                        sycl::ext::intel::fpga_reg(sycl::ext::intel::fpga_reg(X_shreg[iii][12])),
+                        sycl::ext::intel::fpga_reg(sycl::ext::intel::fpga_reg(X_shreg[iii][13])),
+                        sycl::ext::intel::fpga_reg(sycl::ext::intel::fpga_reg(X_shreg[iii][14])),
+                        sycl::ext::intel::fpga_reg(sycl::ext::intel::fpga_reg(X_shreg[iii][15]))
+                        };
+                        Y_shreg[jjj] = iii == 0 ? bFeeder_channel_array.s[jjj] : Y_shreg[jjj];
+                        Y_shreg[jjj] = float16{
+                        sycl::ext::intel::fpga_reg(sycl::ext::intel::fpga_reg(Y_shreg[jjj][0])),
+                        sycl::ext::intel::fpga_reg(sycl::ext::intel::fpga_reg(Y_shreg[jjj][1])),
+                        sycl::ext::intel::fpga_reg(sycl::ext::intel::fpga_reg(Y_shreg[jjj][2])),
+                        sycl::ext::intel::fpga_reg(sycl::ext::intel::fpga_reg(Y_shreg[jjj][3])),
+                        sycl::ext::intel::fpga_reg(sycl::ext::intel::fpga_reg(Y_shreg[jjj][4])),
+                        sycl::ext::intel::fpga_reg(sycl::ext::intel::fpga_reg(Y_shreg[jjj][5])),
+                        sycl::ext::intel::fpga_reg(sycl::ext::intel::fpga_reg(Y_shreg[jjj][6])),
+                        sycl::ext::intel::fpga_reg(sycl::ext::intel::fpga_reg(Y_shreg[jjj][7])),
+                        sycl::ext::intel::fpga_reg(sycl::ext::intel::fpga_reg(Y_shreg[jjj][8])),
+                        sycl::ext::intel::fpga_reg(sycl::ext::intel::fpga_reg(Y_shreg[jjj][9])),
+                        sycl::ext::intel::fpga_reg(sycl::ext::intel::fpga_reg(Y_shreg[jjj][10])),
+                        sycl::ext::intel::fpga_reg(sycl::ext::intel::fpga_reg(Y_shreg[jjj][11])),
+                        sycl::ext::intel::fpga_reg(sycl::ext::intel::fpga_reg(Y_shreg[jjj][12])),
+                        sycl::ext::intel::fpga_reg(sycl::ext::intel::fpga_reg(Y_shreg[jjj][13])),
+                        sycl::ext::intel::fpga_reg(sycl::ext::intel::fpga_reg(Y_shreg[jjj][14])),
+                        sycl::ext::intel::fpga_reg(sycl::ext::intel::fpga_reg(Y_shreg[jjj][15]))
+                        };
+                        Z_shreg_ = k == 0 && kk_ii_jj / 1024 == 0 ? float_from_bits(0) : sycl::ext::intel::fpga_reg(Z_shreg[0][jjj][iii]);
+                        #pragma unroll
+                        for (int kkk = 0; kkk < 16; kkk++) {
+                          Z_shreg_ = Z_shreg_ + X_shreg[iii][kkk] * Y_shreg[jjj][kkk];
+                          if (kkk % 4 == 3) {
+                            Z_shreg_ = sycl::ext::intel::fpga_reg(Z_shreg_);
+                          }
+                        }
+                        Z_shreg[0][jjj][iii] = Z_shreg_;
+                        #pragma unroll
+                        for (int kkk = 0; kkk < 16; kkk++) {
+                          if (kkk == 15 && kk_ii_jj / 1024 == 31 && k == (B_extent_1 + -1) / 512) {
+                            Z_pipe_shreg[jjj][iii * 1024] = Z_shreg[0][jjj][iii];
+                          }
+                        }
+                      }
+                    }
+                    if (kk_ii_jj % 32 == 0 && kk_ii_jj % 1024 / 32 == 0 && k == (B_extent_1 + -1) / 512 && kk_ii_jj / 1024 == 31 && i < (A_extent_1 + 319) / 320) {
+                      Z_pipe_base = Z_pipe_iter;
+                    }
+                    float8 Product_channel_;
+                    #pragma unroll
+                    for (int b_62 = 0; b_62 < 8; b_62++) {
+                      Product_channel_[b_62] = Z_pipe_shreg[b_62][0];
+                      #pragma unroll
+                      for (int b_62_dummy = 0; b_62_dummy < 8; b_62_dummy++) {
+                        Product_channel_[b_62_dummy] = sycl::ext::intel::fpga_reg(sycl::ext::intel::fpga_reg(Product_channel_[b_62_dummy]));
+                      }
+                    }
+                    if (Z_pipe_iter < Z_pipe_base + 10240) {
+                      Product_channel::write<>(Product_channel_);
+                    }
+                    #pragma unroll
+                    for (int b_63 = 0; b_63 < 8; b_63++) {
+                      #pragma unroll
+                      for (int p_31 = 0; p_31 < 9; p_31++) {
+                        #pragma unroll
+                        for (int l_31 = 0; l_31 < 1023; l_31++) {
+                          Z_pipe_shreg[b_63][p_31 * 1024 + l_31] = Z_pipe_shreg[b_63][p_31 * 1024 + l_31 + 1];
+                        }
+                        Z_pipe_shreg[b_63][p_31 * 1024 + 1023] = sycl::ext::intel::fpga_reg(sycl::ext::intel::fpga_reg(Z_pipe_shreg[b_63][p_31 * 1024 + 1024]));
+                      }
+                    }
+                    Z_pipe_iter = Z_pipe_iter + 1;
+                  }
+                }
+              }
+            }
+          }); //  h.single_task kernel_Product_class
+        })); // q_device.submit
