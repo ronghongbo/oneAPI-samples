@@ -1,0 +1,578 @@
+{
+  "nodes":
+  [
+    {
+      "type":"kernel"
+      , "id":2
+      , "name":"kernel_Product_class"
+      , "children":
+      [
+        {
+          "type":"bb"
+          , "id":3
+          , "name":"kernel_Product_class.B0"
+          , "details":
+          [
+            {
+              "type":"table"
+              , "Latency":"9"
+            }
+          ]
+        }
+        , {
+          "type":"bb"
+          , "id":4
+          , "name":"kernel_Product_class.B1"
+          , "details":
+          [
+            {
+              "type":"table"
+              , "Latency":"9"
+              , "II":"2"
+              , "Subloops":"Yes"
+              , "Pipelined":"Yes"
+              , "Fmax Bottlenecks":"No"
+              , "Loop Info":"Entry to loop. "
+              , "Loops To":"6"
+            }
+          ]
+        }
+        , {
+          "type":"bb"
+          , "id":5
+          , "name":"kernel_Product_class.B2"
+          , "details":
+          [
+            {
+              "type":"table"
+              , "Latency":"8"
+              , "II":"2"
+              , "Subloops":"Yes"
+              , "Pipelined":"Yes"
+              , "Fmax Bottlenecks":"No"
+              , "Loop Info":"Entry to loop. "
+              , "Loops To":"7"
+            }
+          ]
+        }
+        , {
+          "type":"bb"
+          , "id":6
+          , "name":"kernel_Product_class.B3"
+          , "details":
+          [
+            {
+              "type":"table"
+              , "Latency":"0"
+              , "II":"2"
+              , "Subloops":"Yes"
+              , "Pipelined":"Yes"
+              , "Fmax Bottlenecks":"No"
+              , "Loop Info":"Exit which branches back to loop. "
+            }
+          ]
+        }
+        , {
+          "type":"bb"
+          , "id":7
+          , "name":"kernel_Product_class.B4"
+          , "details":
+          [
+            {
+              "type":"table"
+              , "Latency":"0"
+              , "II":"2"
+              , "Subloops":"Yes"
+              , "Pipelined":"Yes"
+              , "Fmax Bottlenecks":"No"
+              , "Loop Info":"Exit which branches back to loop. "
+            }
+          ]
+        }
+        , {
+          "type":"bb"
+          , "id":8
+          , "name":"kernel_Product_class.B5"
+          , "children":
+          [
+            {
+              "type":"inst"
+              , "id":10
+              , "name":"Pipe Read"
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/glob/development-tools/versions/oneapi/2023.1/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/ext/intel/pipes.hpp"
+                    , "line":67
+                  }
+                ]
+              ]
+              , "details":
+              [
+                {
+                  "type":"table"
+                  , "Width":"256 bits"
+                  , "Depth":"256"
+                  , "Stall-free":"No"
+                  , "Start Cycle":"8"
+                  , "Latency":"0"
+                  , "Reference":
+                  [
+                    {
+                      "type":"text"
+                      , "text":"See %L for more information"
+                      , "links":
+                      [
+                        {
+                          "guide":"Best Practices Guide : Channels"
+                          , "link":"file:////glob/development-tools/versions/oneapi/2023.1/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/qah1476410829821.html"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+            , {
+              "type":"inst"
+              , "id":12
+              , "name":"Pipe Read"
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/glob/development-tools/versions/oneapi/2023.1/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/ext/intel/pipes.hpp"
+                    , "line":67
+                  }
+                ]
+              ]
+              , "details":
+              [
+                {
+                  "type":"table"
+                  , "Width":"256 bits"
+                  , "Depth":"256"
+                  , "Stall-free":"No"
+                  , "Start Cycle":"8"
+                  , "Latency":"0"
+                  , "Reference":
+                  [
+                    {
+                      "type":"text"
+                      , "text":"See %L for more information"
+                      , "links":
+                      [
+                        {
+                          "guide":"Best Practices Guide : Channels"
+                          , "link":"file:////glob/development-tools/versions/oneapi/2023.1/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/qah1476410829821.html"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+            , {
+              "type":"inst"
+              , "id":14
+              , "name":"Pipe Write"
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/glob/development-tools/versions/oneapi/2023.1/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/ext/intel/pipes.hpp"
+                    , "line":82
+                  }
+                ]
+              ]
+              , "details":
+              [
+                {
+                  "type":"table"
+                  , "Width":"256 bits"
+                  , "Depth":"256"
+                  , "Stall-free":"No"
+                  , "Start Cycle":"34"
+                  , "Latency":"0"
+                  , "Reference":
+                  [
+                    {
+                      "type":"text"
+                      , "text":"See %L for more information"
+                      , "links":
+                      [
+                        {
+                          "guide":"Best Practices Guide : Channels"
+                          , "link":"file:////glob/development-tools/versions/oneapi/2023.1/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/qah1476410829821.html"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+            , {
+              "type":"inst"
+              , "id":16
+              , "name":"Loop Input"
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/III8-JJJ8-KKK1/./include/sgemm.sycl.h"
+                    , "line":581
+                  }
+                ]
+              ]
+              , "details":
+              [
+                {
+                  "type":"table"
+                  , "Start Cycle":"0"
+                  , "Latency":"1"
+                  , "Loops To":"17"
+                }
+              ]
+            }
+            , {
+              "type":"inst"
+              , "id":17
+              , "name":"Loop End"
+              , "details":
+              [
+                {
+                  "type":"table"
+                  , "Start Cycle":"34"
+                  , "Latency":"1"
+                }
+              ]
+            }
+          ]
+          , "details":
+          [
+            {
+              "type":"table"
+              , "Latency":"34"
+              , "II":"4"
+              , "Subloops":"No"
+              , "Pipelined":"Yes"
+              , "Fmax Bottlenecks":"No"
+              , "Loop Info":"Loop is pipelined with II of 4. See Loops Analysis for more information."
+            }
+          ]
+        }
+        , {
+          "type":"bb"
+          , "id":9
+          , "name":"kernel_Product_class.B6"
+          , "details":
+          [
+            {
+              "type":"table"
+              , "Latency":"0"
+            }
+          ]
+        }
+        , {
+          "type":"csr"
+          , "id":18
+          , "name":"Register Map"
+          , "debug":
+          [
+            [
+              {
+                "filename":"gemm_fpga_3.prj/ZTSZZN4t2sp5sgemm5sgemmEPFiRKN4sycl3_V16deviceEEbbffP15halide_buffer_tS9_S9_S9_ENKUlRNS2_7handlerEE1_csr.hpp"
+                , "line":1
+              }
+            ]
+          ]
+          , "children":
+          [
+            {
+              "type":"interface"
+              , "id":19
+              , "name":"start"
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/III8-JJJ8-KKK1/./include/sgemm.sycl.h"
+                    , "line":568
+                  }
+                ]
+              ]
+            }
+            , {
+              "type":"interface"
+              , "id":20
+              , "name":"done"
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/III8-JJJ8-KKK1/./include/sgemm.sycl.h"
+                    , "line":568
+                  }
+                ]
+              ]
+            }
+            , {
+              "type":"interface"
+              , "id":21
+              , "name":"busy"
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/III8-JJJ8-KKK1/./include/sgemm.sycl.h"
+                    , "line":568
+                  }
+                ]
+              ]
+            }
+            , {
+              "type":"interface"
+              , "id":22
+              , "name":"arg_A_extent_1"
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/III8-JJJ8-KKK1/./include/sgemm.sycl.h"
+                    , "line":568
+                  }
+                ]
+              ]
+              , "details":
+              [
+                {
+                  "type":"table"
+                  , "Stable":"No"
+                  , "Width":"32 bits"
+                  , "Kernel":"ZTSZZN4t2sp5sgemm5sgemmEPFiRKN4sycl3_V16deviceEEbbffP15halide_buffer_tS9_S9_S9_ENKUlRNS2_7handlerEE1"
+                }
+              ]
+            }
+            , {
+              "type":"interface"
+              , "id":23
+              , "name":"arg_B_extent_0"
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/III8-JJJ8-KKK1/./include/sgemm.sycl.h"
+                    , "line":568
+                  }
+                ]
+              ]
+              , "details":
+              [
+                {
+                  "type":"table"
+                  , "Stable":"No"
+                  , "Width":"32 bits"
+                  , "Kernel":"ZTSZZN4t2sp5sgemm5sgemmEPFiRKN4sycl3_V16deviceEEbbffP15halide_buffer_tS9_S9_S9_ENKUlRNS2_7handlerEE1"
+                }
+              ]
+            }
+            , {
+              "type":"interface"
+              , "id":24
+              , "name":"arg_B_extent_1"
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/III8-JJJ8-KKK1/./include/sgemm.sycl.h"
+                    , "line":568
+                  }
+                ]
+              ]
+              , "details":
+              [
+                {
+                  "type":"table"
+                  , "Stable":"No"
+                  , "Width":"32 bits"
+                  , "Kernel":"ZTSZZN4t2sp5sgemm5sgemmEPFiRKN4sycl3_V16deviceEEbbffP15halide_buffer_tS9_S9_S9_ENKUlRNS2_7handlerEE1"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+    , {
+      "type":"pipe"
+      , "id":15
+      , "name":"sycl::_V1::ext::intel::pipe<pipe_wrapper<t2sp::sgemm::Product_channel_pipe, sycl::_V1::vec<float, 8>"
+      , "debug":
+      [
+        [
+          {
+            "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/III8-JJJ8-KKK1/./include/sgemm.sycl.h"
+            , "line":568
+          }
+        ]
+      ]
+      , "details":
+      [
+        {
+          "type":"table"
+          , "Width":"256 bits"
+          , "Depth":"256"
+        }
+      ]
+    }
+    , {
+      "type":"pipe"
+      , "id":13
+      , "name":"sycl::_V1::ext::intel::pipe<pipe_wrapper<t2sp::sgemm::aFeeder_channel_pipe, t2sp::sgemm::aFeeder_channel_array_t, 256>"
+      , "debug":
+      [
+        [
+          {
+            "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/III8-JJJ8-KKK1/./include/sgemm.sycl.h"
+            , "line":568
+          }
+        ]
+      ]
+      , "details":
+      [
+        {
+          "type":"table"
+          , "Width":"256 bits"
+          , "Depth":"256"
+        }
+      ]
+    }
+    , {
+      "type":"pipe"
+      , "id":11
+      , "name":"sycl::_V1::ext::intel::pipe<pipe_wrapper<t2sp::sgemm::bFeeder_channel_pipe, t2sp::sgemm::bFeeder_channel_array_t, 256>"
+      , "debug":
+      [
+        [
+          {
+            "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/III8-JJJ8-KKK1/./include/sgemm.sycl.h"
+            , "line":568
+          }
+        ]
+      ]
+      , "details":
+      [
+        {
+          "type":"table"
+          , "Width":"256 bits"
+          , "Depth":"256"
+        }
+      ]
+    }
+  ]
+  , "links":
+  [
+    {
+      "from":11
+      , "to":10
+    }
+    , {
+      "from":13
+      , "to":12
+    }
+    , {
+      "from":14
+      , "to":15
+    }
+    , {
+      "from":19
+      , "to":3
+    }
+    , {
+      "from":9
+      , "to":20
+    }
+    , {
+      "from":3
+      , "to":21
+      , "reverse":2
+    }
+    , {
+      "from":22
+      , "to":4
+    }
+    , {
+      "from":23
+      , "to":3
+    }
+    , {
+      "from":24
+      , "to":3
+    }
+    , {
+      "from":6
+      , "to":4
+    }
+    , {
+      "from":3
+      , "to":4
+    }
+    , {
+      "from":7
+      , "to":5
+    }
+    , {
+      "from":4
+      , "to":5
+    }
+    , {
+      "from":7
+      , "to":6
+    }
+    , {
+      "from":17
+      , "to":7
+    }
+    , {
+      "from":17
+      , "to":16
+    }
+    , {
+      "from":5
+      , "to":16
+    }
+    , {
+      "from":10
+      , "to":17
+    }
+    , {
+      "from":12
+      , "to":17
+    }
+    , {
+      "from":14
+      , "to":17
+    }
+    , {
+      "from":6
+      , "to":9
+    }
+    , {
+      "from":16
+      , "to":10
+    }
+    , {
+      "from":16
+      , "to":12
+    }
+    , {
+      "from":10
+      , "to":14
+    }
+    , {
+      "from":12
+      , "to":14
+    }
+  ]
+}

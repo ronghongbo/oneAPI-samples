@@ -1,0 +1,88 @@
+{
+  "nodes":
+  [
+    {
+      "name":"kernel_Product_class"
+      , "id":1
+      , "type":"kernel"
+      , "children":
+      [
+        {
+          "name":"kernel_Product_class.B0"
+          , "id":2
+          , "type":"bb"
+          , "children":
+          [
+            {
+              "name":"Cluster 0"
+              , "id":10
+              , "type":"cluster"
+            }
+          ]
+        }
+        , {
+          "name":"kernel_Product_class.B1"
+          , "id":3
+          , "type":"bb"
+          , "children":
+          [
+            {
+              "name":"Cluster 1"
+              , "id":12
+              , "type":"cluster"
+            }
+          ]
+        }
+        , {
+          "name":"kernel_Product_class.B2"
+          , "id":4
+          , "type":"bb"
+          , "children":
+          [
+            {
+              "name":"Cluster 2"
+              , "id":310
+              , "type":"cluster"
+            }
+          ]
+        }
+        , {
+          "name":"kernel_Product_class.B3"
+          , "id":5
+          , "type":"bb"
+        }
+        , {
+          "name":"kernel_Product_class.B4"
+          , "id":6
+          , "type":"bb"
+        }
+        , {
+          "name":"kernel_Product_class.B5"
+          , "id":7
+          , "type":"bb"
+          , "children":
+          [
+            {
+              "name":"Cluster 3"
+              , "id":1641
+              , "type":"cluster"
+            }
+            , {
+              "name":"Cluster 4"
+              , "id":1644
+              , "type":"cluster"
+            }
+          ]
+        }
+        , {
+          "name":"kernel_Product_class.B6"
+          , "id":8
+          , "type":"bb"
+        }
+      ]
+    }
+  ]
+  , "links":
+  [
+  ]
+}
