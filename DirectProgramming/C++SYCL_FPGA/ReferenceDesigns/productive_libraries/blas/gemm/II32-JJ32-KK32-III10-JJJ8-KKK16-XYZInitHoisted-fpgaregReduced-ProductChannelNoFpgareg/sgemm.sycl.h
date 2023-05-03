@@ -14,22 +14,23 @@ using namespace sycl;
 namespace t2sp::sgemm {
 
 typedef union {
+bool __attribute__ ((aligned(16))) s[16];
+struct {bool s0,  s1,  s2,  s3,  s4,  s5,  s6,  s7,  s8,  s9,  sa,  sb,  sc,  sd,  se,  sf;};
+} bool16;
+typedef union {
 bool __attribute__ ((aligned(8))) s[8];
 struct {bool s0,  s1,  s2,  s3,  s4,  s5,  s6,  s7;};
 } bool8;
-using aLoader_channel = pipe_wrapper<class aLoader_channel_pipe, float, 256>;
-// Use float8 for a/bFeeder_channel_array_t
-// struct aFeeder_channel_array_t { float s[8]; };
-#define aFeeder_channel_array_t float8
+using aLoader_channel = pipe_wrapper<class aLoader_channel_pipe, float16, 256>;
+struct aFeeder_channel_array_t { float16 s[10]; };
 using aFeeder_channel = pipe_wrapper<class aFeeder_channel_pipe, aFeeder_channel_array_t, 256>;
-using bLoader_channel = pipe_wrapper<class bLoader_channel_pipe, float, 256>;
-//struct bFeeder_channel_array_t { float s[8]; };
-#define bFeeder_channel_array_t float8
+using bLoader_channel = pipe_wrapper<class bLoader_channel_pipe, float16, 256>;
+struct bFeeder_channel_array_t { float16 s[8]; };
 using bFeeder_channel = pipe_wrapper<class bFeeder_channel_pipe, bFeeder_channel_array_t, 256>;
 using Product_channel = pipe_wrapper<class Product_channel_pipe, float8, 256>;
 using cLoader_channel = pipe_wrapper<class cLoader_channel_pipe, float8, 256>;
 using Out_channel = pipe_wrapper<class Out_channel_pipe, float8, 256>;
-auto sgemm(device_selector_t device_selector_v, bool TransA, bool TransB, float alpha, float beta, struct halide_buffer_t *A_buffer, struct halide_buffer_t *B_buffer, struct halide_buffer_t *C_buffer, struct halide_buffer_t *Output_buffer) {
+auto sgemm(device_selector_t device_selector_v, bool p0, bool p1, float p2, float p3, struct halide_buffer_t *A_buffer, struct halide_buffer_t *B_buffer, struct halide_buffer_t *C_buffer, struct halide_buffer_t *Output_buffer) {
   std::vector<sycl::event> oneapi_kernel_events{};
   std::vector<size_t> kernels_used_to_measure_time{};
   auto exception_handler = [](sycl::exception_list exceptions) {
@@ -122,11 +123,11 @@ auto sgemm(device_selector_t device_selector_v, bool TransA, bool TransB, float 
   if (_halide_buffer_is_bounds_query(Output_buffer)) {
     struct halide_dimension_t s3[6] = {
       {0, 8, 1, 0},
-      {0, 1, 8, 0},
-      {0, 1, 8, 0},
-      {0, 8, 8, 0},
-      {0, (B_extent_0 + 7) / 8, 64, 0},
-      {0, (A_extent_1 + 7) / 8, (B_extent_0 + 7) / 8 * 64, 0},
+      {0, 32, 8, 0},
+      {0, 32, 256, 0},
+      {0, 10, 8192, 0},
+      {0, (B_extent_0 + 255) / 256, 81920, 0},
+      {0, (A_extent_1 + 319) / 320, (B_extent_0 + 255) / 256 * 81920, 0},
     };
   }
   if (!(_halide_buffer_is_bounds_query(Output_buffer) || (_halide_buffer_is_bounds_query(C_buffer) || (_halide_buffer_is_bounds_query(A_buffer) || _halide_buffer_is_bounds_query(B_buffer))))) {
@@ -138,36 +139,28 @@ auto sgemm(device_selector_t device_selector_v, bool TransA, bool TransB, float 
     int64_t Output_total_extent_3 = Output_total_extent_2 * (int64_t)(Output_extent_3);
     int64_t Output_total_extent_4 = Output_total_extent_3 * (int64_t)(Output_extent_4);
     int64_t Output_total_extent_5 = Output_total_extent_4 * (int64_t)(Output_extent_5);
-    int32_t A_serializer_k_extent_realized = A_extent_0;
-    int32_t A_serializer_i_extent_realized = A_extent_1;
-    int32_t B_serializer_j_extent_realized = B_extent_0;
-    int32_t B_serializer_k_extent_realized = B_extent_1;
-    int32_t C_serializer_j_extent_realized = C_extent_0;
-    int32_t C_serializer_i_extent_realized = C_extent_1;
-    int32_t unloader_j_extent_realized = C_extent_0;
-    int32_t unloader_i_extent_realized = C_extent_1;
     halide_buffer_t b0;
     struct halide_dimension_t s4[9] = {
-      {0, 1, 1, 0},
-      {0, 1, 1, 0},
-      {0, 8, 1, 0},
-      {0, 1, 8, 0},
-      {0, 1, 8, 0},
-      {0, 1, 8, 0},
-      {0, A_serializer_k_extent_realized, 8, 0},
-      {0, 1, A_serializer_k_extent_realized * 8, 0},
-      {0, A_serializer_i_extent_realized, A_serializer_k_extent_realized * 8, 0},
+      {0, 16, 1, 0},
+      {0, 1, 16, 0},
+      {0, 10, 16, 0},
+      {0, 1, 160, 0},
+      {0, 32, 160, 0},
+      {0, 32, 5120, 0},
+      {0, (B_extent_1 + 511) / 512, 163840, 0},
+      {0, 1, (B_extent_1 + 511) / 512 * 163840, 0},
+      {0, (A_extent_1 + 319) / 320, (B_extent_1 + 511) / 512 * 163840, 0},
     };
     struct halide_dimension_t s5[9] = {
-      {0, 1, 1, 0},
-      {0, 1, 1, 0},
-      {0, 8, 1, 0},
-      {0, 1, 8, 0},
-      {0, 1, 8, 0},
-      {0, 1, 8, 0},
-      {0, A_serializer_k_extent_realized, 8, 0},
-      {0, 1, A_serializer_k_extent_realized * 8, 0},
-      {0, A_serializer_i_extent_realized, A_serializer_k_extent_realized * 8, 0},
+      {0, 16, 1, 0},
+      {0, 1, 16, 0},
+      {0, 10, 16, 0},
+      {0, 1, 160, 0},
+      {0, 32, 160, 0},
+      {0, 32, 5120, 0},
+      {0, (B_extent_1 + 511) / 512, 163840, 0},
+      {0, 1, (B_extent_1 + 511) / 512 * 163840, 0},
+      {0, (A_extent_1 + 319) / 320, (B_extent_1 + 511) / 512 * 163840, 0},
     };
     struct halide_buffer_t * A_serializer_mem_channel_buffer = _halide_buffer_init(&b0, s4, (void *)((uint64_t)(ADD_UINT64_T_SUFFIX(0))), (uint64_t)(ADD_UINT64_T_SUFFIX(0)), (struct halide_device_interface_t *)((uint64_t)(ADD_UINT64_T_SUFFIX(0))), 2, 32, 9, s5, (uint64_t)(ADD_UINT64_T_SUFFIX(0)));
     int32_t halide_device_and_host_malloc_result_3 = 0; // halide_device_and_host_malloc(A_serializer_mem_channel_buffer, NULL /* halide_oneapi_device_interface() replaced */) replaced with line(s) below 
@@ -244,11 +237,11 @@ auto sgemm(device_selector_t device_selector_v, bool TransA, bool TransB, float 
         float *A = (float*)(A_buffer->host);
         A_serializer_mem_channel = (float*)(A_serializer_mem_channel_buffer->host);
         {
-          for (int i = 0; i < (A_extent_1 + 7) / 8; i++) {
-            for (int k = 0; k < B_extent_1; k++) {
-              for (int iii = 0; iii < 8; iii++) {
-                if (i * 8 + iii < A_extent_1 && k < B_extent_1) {
-                  auto _D0 = (!TransA ? k : i * 8 + iii) + (!TransA ? i * 8 + iii : k) * A_stride_1 - (A_min_1 * A_stride_1 + A_min_0);
+          for (int i = 0; i < (A_extent_1 + 319) / 320; i++) {
+            for (int k = 0; k < (B_extent_1 + 511) / 512; k++) {
+              for (int kk_ii_iii_kkk = 0; kk_ii_iii_kkk < 163840; kk_ii_iii_kkk++) {
+                if (i * 320 + (kk_ii_iii_kkk % 160 / 16 + kk_ii_iii_kkk % 5120 / 160 * 10) < A_extent_1 && (kk_ii_iii_kkk / 5120 + k * 32) * 16 < B_extent_1) {
+                  auto _D0 = (!p0 ? k * 512 + (kk_ii_iii_kkk / 5120 * 16 + kk_ii_iii_kkk % 16) : i * 320 + (kk_ii_iii_kkk % 160 / 16 + kk_ii_iii_kkk % 5120 / 160 * 10)) + (!p0 ? i * 320 + (kk_ii_iii_kkk % 160 / 16 + kk_ii_iii_kkk % 5120 / 160 * 10) : k * 512 + (kk_ii_iii_kkk / 5120 * 16 + kk_ii_iii_kkk % 16)) * A_stride_1 - (A_min_1 * A_stride_1 + A_min_0);
                   A_serializer_mem_channel[addr_temp] = ((float *)A)[_D0];
                 }
                 addr_temp = addr_temp + 1;
@@ -292,13 +285,30 @@ auto sgemm(device_selector_t device_selector_v, bool TransA, bool TransB, float 
         h.single_task<class kernel_aLoader_class>([=](){
           int addr_temp;
           addr_temp = 0;
-          for (int i = 0; i < (A_extent_1 + 15) / 8; i++) {
-            for (int j = 0; j < (B_extent_0 + 7) / 8; j++) {
-              for (int k = 0; k < B_extent_1; k++) {
-                for (int iii = 0; iii < 8; iii++) {
-                  if (j == 0 && k == 0 || i < (A_extent_1 + 7) / 8) {
-                    auto _D1 = addr_temp / ((B_extent_0 + 7) / 8 * B_extent_1 * 8) * B_extent_1 * 8 + addr_temp % (B_extent_1 * 8);
-                    aLoader_channel::write<>(i * 8 + iii < A_extent_1 && k < B_extent_1 && i < (A_extent_1 + 7) / 8 ? A_serializer_mem_channel[_D1] : float_from_bits(0));
+          for (int i = 0; i < (A_extent_1 + 639) / 320; i++) {
+            for (int j = 0; j < (B_extent_0 + 255) / 256; j++) {
+              for (int k = 0; k < (B_extent_1 + 511) / 512; k++) {
+                for (int kk_ii_iii = 0; kk_ii_iii < 10240; kk_ii_iii++) {
+                  if (j == 0 && k == 0 || i < (A_extent_1 + 319) / 320) {
+                    auto _D1 = (addr_temp / ((B_extent_0 + 255) / 256 * ((B_extent_1 + 511) / 512) * 10240) * ((B_extent_1 + 511) / 512) * 10240 + addr_temp % ((B_extent_1 + 511) / 512 * 10240)) * 16;
+                    aLoader_channel::write<>(i * 320 + (kk_ii_iii % 320 / 10 * 10 + kk_ii_iii % 10) < A_extent_1 && (kk_ii_iii / 320 + k * 32) * 16 < B_extent_1 && i < (A_extent_1 + 319) / 320 ? float16{
+                      A_serializer_mem_channel[_D1 + 0],
+                      A_serializer_mem_channel[_D1 + 1],
+                      A_serializer_mem_channel[_D1 + 2],
+                      A_serializer_mem_channel[_D1 + 3],
+                      A_serializer_mem_channel[_D1 + 4],
+                      A_serializer_mem_channel[_D1 + 5],
+                      A_serializer_mem_channel[_D1 + 6],
+                      A_serializer_mem_channel[_D1 + 7],
+                      A_serializer_mem_channel[_D1 + 8],
+                      A_serializer_mem_channel[_D1 + 9],
+                      A_serializer_mem_channel[_D1 + 10],
+                      A_serializer_mem_channel[_D1 + 11],
+                      A_serializer_mem_channel[_D1 + 12],
+                      A_serializer_mem_channel[_D1 + 13],
+                      A_serializer_mem_channel[_D1 + 14],
+                      A_serializer_mem_channel[_D1 + 15]
+                    } : float16{float_from_bits(0)});
                   }
                   addr_temp = addr_temp + 1;
                 }
@@ -314,23 +324,25 @@ auto sgemm(device_selector_t device_selector_v, bool TransA, bool TransB, float 
       oneapi_kernel_events.push_back(q_device.submit([&](sycl::handler &h){
         h.single_task<class kernel_aFeeder_class>([=](){
           aFeeder_channel_array_t aFeeder_channel_array;
-          float aFeeder_value_shreg;
+          float16 aFeeder_value_shreg;
           uint32_t aFeeder_time_stamp_shreg;
-          float aFeeder_in_v;
+          float16 aFeeder_in_v;
           uint aFeeder_cycle;
-          // OpenCL's __attribute__((memory, numbanks(8), singlepump, numwriteports(1), numreadports(1)))DB[2][8]
-          [[intel::fpga_memory(), intel::numbanks(8), intel::singlepump, intel::simple_dual_port]]
-          float DB[2][8];
+          // OpenCL's __attribute__((memory, numbanks(16), singlepump, numwriteports(1), numreadports(1)))DB[2][32][32][16]
+          [[intel::fpga_memory(), intel::numbanks(16), intel::singlepump, intel::simple_dual_port]]
+          float16 DB[2][32][32][16];
           #pragma unroll
           for (int jjj_init = 0; jjj_init < 8; jjj_init++) {
             if (jjj_init == 0) {
-              aFeeder_cycle = (uint)(ADD_UINT64_T_SUFFIX(0));
+              aFeeder_cycle = (uint)(ADD_UINT64_T_SUFFIX(22528));
             }
           }
           while(1) {
-            aFeeder_in_v = aLoader_channel::read<>();
+            if ((uint)(ADD_UINT64_T_SUFFIX(22528)) <= aFeeder_cycle % (uint)(ADD_UINT64_T_SUFFIX(32768))) {
+              aFeeder_in_v = aLoader_channel::read<>();
+            }
             #pragma unroll
-            for (int buf = 0; buf < 8; buf++) {
+            for (int buf = 0; buf < 10; buf++) {
               if (buf == 0) {
                 aFeeder_value_shreg = aFeeder_in_v;
                 aFeeder_time_stamp_shreg = aFeeder_cycle;
@@ -338,44 +350,64 @@ auto sgemm(device_selector_t device_selector_v, bool TransA, bool TransB, float 
                 aFeeder_value_shreg = aFeeder_value_shreg;
                 aFeeder_time_stamp_shreg = aFeeder_time_stamp_shreg;
               }
-              aFeeder_value_shreg = sycl::ext::intel::fpga_reg(sycl::ext::intel::fpga_reg(aFeeder_value_shreg));
+              aFeeder_value_shreg = float16{
+              sycl::ext::intel::fpga_reg(sycl::ext::intel::fpga_reg(aFeeder_value_shreg[0])),
+              sycl::ext::intel::fpga_reg(sycl::ext::intel::fpga_reg(aFeeder_value_shreg[1])),
+              sycl::ext::intel::fpga_reg(sycl::ext::intel::fpga_reg(aFeeder_value_shreg[2])),
+              sycl::ext::intel::fpga_reg(sycl::ext::intel::fpga_reg(aFeeder_value_shreg[3])),
+              sycl::ext::intel::fpga_reg(sycl::ext::intel::fpga_reg(aFeeder_value_shreg[4])),
+              sycl::ext::intel::fpga_reg(sycl::ext::intel::fpga_reg(aFeeder_value_shreg[5])),
+              sycl::ext::intel::fpga_reg(sycl::ext::intel::fpga_reg(aFeeder_value_shreg[6])),
+              sycl::ext::intel::fpga_reg(sycl::ext::intel::fpga_reg(aFeeder_value_shreg[7])),
+              sycl::ext::intel::fpga_reg(sycl::ext::intel::fpga_reg(aFeeder_value_shreg[8])),
+              sycl::ext::intel::fpga_reg(sycl::ext::intel::fpga_reg(aFeeder_value_shreg[9])),
+              sycl::ext::intel::fpga_reg(sycl::ext::intel::fpga_reg(aFeeder_value_shreg[10])),
+              sycl::ext::intel::fpga_reg(sycl::ext::intel::fpga_reg(aFeeder_value_shreg[11])),
+              sycl::ext::intel::fpga_reg(sycl::ext::intel::fpga_reg(aFeeder_value_shreg[12])),
+              sycl::ext::intel::fpga_reg(sycl::ext::intel::fpga_reg(aFeeder_value_shreg[13])),
+              sycl::ext::intel::fpga_reg(sycl::ext::intel::fpga_reg(aFeeder_value_shreg[14])),
+              sycl::ext::intel::fpga_reg(sycl::ext::intel::fpga_reg(aFeeder_value_shreg[15]))
+              };
               aFeeder_time_stamp_shreg = sycl::ext::intel::fpga_reg(sycl::ext::intel::fpga_reg(aFeeder_time_stamp_shreg));
-              if (buf == (int)(aFeeder_time_stamp_shreg % (uint)(ADD_UINT64_T_SUFFIX(8)) % (uint)(ADD_UINT64_T_SUFFIX(8)))) {
-                DB[(bool)(aFeeder_time_stamp_shreg / (uint)(ADD_UINT64_T_SUFFIX(8)) % (uint)(ADD_UINT64_T_SUFFIX(2)))][buf] = aFeeder_value_shreg;
+              if ((uint)(ADD_UINT64_T_SUFFIX(22528)) <= aFeeder_time_stamp_shreg % (uint)(ADD_UINT64_T_SUFFIX(32768))) {
+                if (buf == (int)((aFeeder_time_stamp_shreg % (uint)(ADD_UINT64_T_SUFFIX(32768)) - (uint)(ADD_UINT64_T_SUFFIX(22528))) % (uint)(ADD_UINT64_T_SUFFIX(10)))) {
+                  DB[(bool)(aFeeder_time_stamp_shreg / (uint)(ADD_UINT64_T_SUFFIX(32768)) % (uint)(ADD_UINT64_T_SUFFIX(2)))][(int)(aFeeder_time_stamp_shreg % (uint)(ADD_UINT64_T_SUFFIX(32768)) - (uint)(ADD_UINT64_T_SUFFIX(22528))) / 320][(int)(aFeeder_time_stamp_shreg % (uint)(ADD_UINT64_T_SUFFIX(32768)) - (uint)(ADD_UINT64_T_SUFFIX(22528))) / 10 % 32][buf] = aFeeder_value_shreg;
+                }
               }
-              if ((uint)(ADD_UINT64_T_SUFFIX(0)) < aFeeder_time_stamp_shreg / (uint)(ADD_UINT64_T_SUFFIX(8)) && aFeeder_time_stamp_shreg % (uint)(ADD_UINT64_T_SUFFIX(8)) < (uint)(ADD_UINT64_T_SUFFIX(1))) {
-                aFeeder_channel_array[buf] = DB[!(bool)(aFeeder_time_stamp_shreg / (uint)(ADD_UINT64_T_SUFFIX(8)) % (uint)(ADD_UINT64_T_SUFFIX(2)))][buf];
+              if ((uint)(ADD_UINT64_T_SUFFIX(0)) < aFeeder_time_stamp_shreg / (uint)(ADD_UINT64_T_SUFFIX(32768))) {
+                aFeeder_channel_array.s[buf] = DB[!(bool)(aFeeder_time_stamp_shreg / (uint)(ADD_UINT64_T_SUFFIX(32768)) % (uint)(ADD_UINT64_T_SUFFIX(2)))][(int)(aFeeder_time_stamp_shreg % (uint)(ADD_UINT64_T_SUFFIX(32768))) / 1024][(int)(aFeeder_time_stamp_shreg % (uint)(ADD_UINT64_T_SUFFIX(32768))) / 32 % 32][buf];
               }
             }
-            if ((uint)(ADD_UINT64_T_SUFFIX(0)) < aFeeder_time_stamp_shreg / (uint)(ADD_UINT64_T_SUFFIX(8)) && aFeeder_time_stamp_shreg % (uint)(ADD_UINT64_T_SUFFIX(8)) < (uint)(ADD_UINT64_T_SUFFIX(1))) {
+            if ((uint)(ADD_UINT64_T_SUFFIX(0)) < aFeeder_time_stamp_shreg / (uint)(ADD_UINT64_T_SUFFIX(32768))) {
               aFeeder_channel::write<>(aFeeder_channel_array);
             }
             aFeeder_cycle = aFeeder_cycle + (uint)(ADD_UINT64_T_SUFFIX(1));
           }
         }); //  h.single_task kernel_aFeeder_class
       })); // q_device.submit
+      int32_t B_serializer_mem_channel_stride_8_s = (B_extent_0 + 255) / 256 * ((B_extent_1 + 511) / 512);
       halide_buffer_t b1;
       struct halide_dimension_t s7[9] = {
-        {0, 1, 1, 0},
-        {0, 8, 1, 0},
-        {0, 1, 8, 0},
-        {0, 1, 8, 0},
-        {0, 1, 8, 0},
-        {0, 1, 8, 0},
-        {0, B_serializer_k_extent_realized, 8, 0},
-        {0, B_serializer_j_extent_realized, B_serializer_k_extent_realized * 8, 0},
-        {0, 1, B_serializer_j_extent_realized * B_serializer_k_extent_realized * 8, 0},
+        {0, 16, 1, 0},
+        {0, 8, 16, 0},
+        {0, 1, 128, 0},
+        {0, 32, 128, 0},
+        {0, 1, 4096, 0},
+        {0, 32, 4096, 0},
+        {0, (B_extent_1 + 511) / 512, 131072, 0},
+        {0, (B_extent_0 + 255) / 256, (B_extent_1 + 511) / 512 * 131072, 0},
+        {0, 1, B_serializer_mem_channel_stride_8_s * 131072, 0},
       };
       struct halide_dimension_t s8[9] = {
-        {0, 1, 1, 0},
-        {0, 8, 1, 0},
-        {0, 1, 8, 0},
-        {0, 1, 8, 0},
-        {0, 1, 8, 0},
-        {0, 1, 8, 0},
-        {0, B_serializer_k_extent_realized, 8, 0},
-        {0, B_serializer_j_extent_realized, B_serializer_k_extent_realized * 8, 0},
-        {0, 1, B_serializer_j_extent_realized * B_serializer_k_extent_realized * 8, 0},
+        {0, 16, 1, 0},
+        {0, 8, 16, 0},
+        {0, 1, 128, 0},
+        {0, 32, 128, 0},
+        {0, 1, 4096, 0},
+        {0, 32, 4096, 0},
+        {0, (B_extent_1 + 511) / 512, 131072, 0},
+        {0, (B_extent_0 + 255) / 256, (B_extent_1 + 511) / 512 * 131072, 0},
+        {0, 1, B_serializer_mem_channel_stride_8_s * 131072, 0},
       };
       struct halide_buffer_t * B_serializer_mem_channel_buffer = _halide_buffer_init(&b1, s7, (void *)((uint64_t)(ADD_UINT64_T_SUFFIX(0))), (uint64_t)(ADD_UINT64_T_SUFFIX(0)), (struct halide_device_interface_t *)((uint64_t)(ADD_UINT64_T_SUFFIX(0))), 2, 32, 9, s8, (uint64_t)(ADD_UINT64_T_SUFFIX(0)));
       int32_t halide_device_and_host_malloc_result_2 = 0; // halide_device_and_host_malloc(B_serializer_mem_channel_buffer, NULL /* halide_oneapi_device_interface() replaced */) replaced with line(s) below 
@@ -452,12 +484,44 @@ auto sgemm(device_selector_t device_selector_v, bool TransA, bool TransB, float 
           float *B = (float*)(B_buffer->host);
           B_serializer_mem_channel = (float*)(B_serializer_mem_channel_buffer->host);
           {
-            for (int j = 0; j < (B_extent_0 + 7) / 8; j++) {
-              for (int k = 0; k < B_extent_1; k++) {
-                for (int jjj = 0; jjj < 8; jjj++) {
-                  if (k < B_extent_1 && j * 8 + jjj < B_extent_0) {
-                    auto _D2 = (!TransB ? j * 8 + jjj : k) + (!TransB ? k : j * 8 + jjj) * B_stride_1 - (B_min_1 * B_stride_1 + B_min_0);
-                    B_serializer_mem_channel[addr_temp] = ((float *)B)[_D2];
+            for (int j = 0; j < (B_extent_0 + 255) / 256; j++) {
+              for (int k = 0; k < (B_extent_1 + 511) / 512; k++) {
+                for (int kk_jj_jjj = 0; kk_jj_jjj < 8192; kk_jj_jjj++) {
+                  if ((kk_jj_jjj / 256 + k * 32) * 16 < B_extent_1 && j * 256 + (kk_jj_jjj % 256 / 8 * 8 + kk_jj_jjj % 8) < B_extent_0) {
+                    auto _D2 = (!p1 ? int16{j * 256 + (kk_jj_jjj % 256 / 8 * 8 + kk_jj_jjj % 8)} : (kk_jj_jjj / 256 + k * 32) * 16 + 1 * int16{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15}) + (!p1 ? (kk_jj_jjj / 256 + k * 32) * 16 + 1 * int16{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15} : int16{j * 256 + (kk_jj_jjj % 256 / 8 * 8 + kk_jj_jjj % 8)}) * int16{B_stride_1} - (int16{B_min_1 * B_stride_1 + B_min_0});
+                    float16 _V0;
+                    _V0[0] = ((float*)B)[_D2[0]];
+                    _V0[1] = ((float*)B)[_D2[1]];
+                    _V0[2] = ((float*)B)[_D2[2]];
+                    _V0[3] = ((float*)B)[_D2[3]];
+                    _V0[4] = ((float*)B)[_D2[4]];
+                    _V0[5] = ((float*)B)[_D2[5]];
+                    _V0[6] = ((float*)B)[_D2[6]];
+                    _V0[7] = ((float*)B)[_D2[7]];
+                    _V0[8] = ((float*)B)[_D2[8]];
+                    _V0[9] = ((float*)B)[_D2[9]];
+                    _V0[10] = ((float*)B)[_D2[10]];
+                    _V0[11] = ((float*)B)[_D2[11]];
+                    _V0[12] = ((float*)B)[_D2[12]];
+                    _V0[13] = ((float*)B)[_D2[13]];
+                    _V0[14] = ((float*)B)[_D2[14]];
+                    _V0[15] = ((float*)B)[_D2[15]];
+                    B_serializer_mem_channel[addr_temp * 16 + 0] = _V0[0];
+                    B_serializer_mem_channel[addr_temp * 16 + 1] = _V0[1];
+                    B_serializer_mem_channel[addr_temp * 16 + 2] = _V0[2];
+                    B_serializer_mem_channel[addr_temp * 16 + 3] = _V0[3];
+                    B_serializer_mem_channel[addr_temp * 16 + 4] = _V0[4];
+                    B_serializer_mem_channel[addr_temp * 16 + 5] = _V0[5];
+                    B_serializer_mem_channel[addr_temp * 16 + 6] = _V0[6];
+                    B_serializer_mem_channel[addr_temp * 16 + 7] = _V0[7];
+                    B_serializer_mem_channel[addr_temp * 16 + 8] = _V0[8];
+                    B_serializer_mem_channel[addr_temp * 16 + 9] = _V0[9];
+                    B_serializer_mem_channel[addr_temp * 16 + 10] = _V0[10];
+                    B_serializer_mem_channel[addr_temp * 16 + 11] = _V0[11];
+                    B_serializer_mem_channel[addr_temp * 16 + 12] = _V0[12];
+                    B_serializer_mem_channel[addr_temp * 16 + 13] = _V0[13];
+                    B_serializer_mem_channel[addr_temp * 16 + 14] = _V0[14];
+                    B_serializer_mem_channel[addr_temp * 16 + 15] = _V0[15];
                   }
                   addr_temp = addr_temp + 1;
                 }
@@ -500,13 +564,30 @@ auto sgemm(device_selector_t device_selector_v, bool TransA, bool TransB, float 
           h.single_task<class kernel_bLoader_class>([=](){
             int addr_temp;
             addr_temp = 0;
-            for (int i = 0; i < (A_extent_1 + 15) / 8; i++) {
-              for (int j = 0; j < (B_extent_0 + 7) / 8; j++) {
-                for (int k = 0; k < B_extent_1; k++) {
-                  for (int jjj = 0; jjj < 8; jjj++) {
-                    if (j == 0 && k == 0 || i < (A_extent_1 + 7) / 8) {
-                      auto _D3 = addr_temp % ((B_extent_0 + 7) / 8 * B_extent_1 * 8);
-                      bLoader_channel::write<>(k < B_extent_1 && j * 8 + jjj < B_extent_0 && i < (A_extent_1 + 7) / 8 ? B_serializer_mem_channel[_D3] : float_from_bits(0));
+            for (int i = 0; i < (A_extent_1 + 639) / 320; i++) {
+              for (int j = 0; j < (B_extent_0 + 255) / 256; j++) {
+                for (int k = 0; k < (B_extent_1 + 511) / 512; k++) {
+                  for (int kk_jj_jjj = 0; kk_jj_jjj < 8192; kk_jj_jjj++) {
+                    if (j == 0 && k == 0 || i < (A_extent_1 + 319) / 320) {
+                      auto _D3 = addr_temp % ((B_extent_0 + 255) / 256 * ((B_extent_1 + 511) / 512) * 8192) * 16;
+                      bLoader_channel::write<>((kk_jj_jjj / 256 + k * 32) * 16 < B_extent_1 && j * 256 + (kk_jj_jjj % 256 / 8 * 8 + kk_jj_jjj % 8) < B_extent_0 && i < (A_extent_1 + 319) / 320 ? float16{
+                        B_serializer_mem_channel[_D3 + 0],
+                        B_serializer_mem_channel[_D3 + 1],
+                        B_serializer_mem_channel[_D3 + 2],
+                        B_serializer_mem_channel[_D3 + 3],
+                        B_serializer_mem_channel[_D3 + 4],
+                        B_serializer_mem_channel[_D3 + 5],
+                        B_serializer_mem_channel[_D3 + 6],
+                        B_serializer_mem_channel[_D3 + 7],
+                        B_serializer_mem_channel[_D3 + 8],
+                        B_serializer_mem_channel[_D3 + 9],
+                        B_serializer_mem_channel[_D3 + 10],
+                        B_serializer_mem_channel[_D3 + 11],
+                        B_serializer_mem_channel[_D3 + 12],
+                        B_serializer_mem_channel[_D3 + 13],
+                        B_serializer_mem_channel[_D3 + 14],
+                        B_serializer_mem_channel[_D3 + 15]
+                      } : float16{float_from_bits(0)});
                     }
                     addr_temp = addr_temp + 1;
                   }
@@ -522,21 +603,23 @@ auto sgemm(device_selector_t device_selector_v, bool TransA, bool TransB, float 
         oneapi_kernel_events.push_back(q_device.submit([&](sycl::handler &h){
           h.single_task<class kernel_bFeeder_class>([=](){
             bFeeder_channel_array_t bFeeder_channel_array;
-            float bFeeder_value_shreg;
+            float16 bFeeder_value_shreg;
             uint32_t bFeeder_time_stamp_shreg;
-            float bFeeder_in_v;
+            float16 bFeeder_in_v;
             uint bFeeder_cycle;
-            // OpenCL's __attribute__((memory, numbanks(8), singlepump, numwriteports(1), numreadports(1)))DB[2][8]
+            // OpenCL's __attribute__((memory, numbanks(8), singlepump, numwriteports(1), numreadports(1)))DB[2][32][32][8]
             [[intel::fpga_memory(), intel::numbanks(8), intel::singlepump, intel::simple_dual_port]]
-            float DB[2][8];
+            float16 DB[2][32][32][8];
             #pragma unroll
-            for (int iii_init = 0; iii_init < 8; iii_init++) {
+            for (int iii_init = 0; iii_init < 10; iii_init++) {
               if (iii_init == 0) {
-                bFeeder_cycle = (uint)(ADD_UINT64_T_SUFFIX(0));
+                bFeeder_cycle = (uint)(ADD_UINT64_T_SUFFIX(24576));
               }
             }
             while(1) {
-              bFeeder_in_v = bLoader_channel::read<>();
+              if ((uint)(ADD_UINT64_T_SUFFIX(24576)) <= bFeeder_cycle % (uint)(ADD_UINT64_T_SUFFIX(32768))) {
+                bFeeder_in_v = bLoader_channel::read<>();
+              }
               #pragma unroll
               for (int buf = 0; buf < 8; buf++) {
                 if (buf == 0) {
@@ -546,16 +629,35 @@ auto sgemm(device_selector_t device_selector_v, bool TransA, bool TransB, float 
                   bFeeder_value_shreg = bFeeder_value_shreg;
                   bFeeder_time_stamp_shreg = bFeeder_time_stamp_shreg;
                 }
-                bFeeder_value_shreg = sycl::ext::intel::fpga_reg(sycl::ext::intel::fpga_reg(bFeeder_value_shreg));
+                bFeeder_value_shreg = float16{
+                sycl::ext::intel::fpga_reg(sycl::ext::intel::fpga_reg(bFeeder_value_shreg[0])),
+                sycl::ext::intel::fpga_reg(sycl::ext::intel::fpga_reg(bFeeder_value_shreg[1])),
+                sycl::ext::intel::fpga_reg(sycl::ext::intel::fpga_reg(bFeeder_value_shreg[2])),
+                sycl::ext::intel::fpga_reg(sycl::ext::intel::fpga_reg(bFeeder_value_shreg[3])),
+                sycl::ext::intel::fpga_reg(sycl::ext::intel::fpga_reg(bFeeder_value_shreg[4])),
+                sycl::ext::intel::fpga_reg(sycl::ext::intel::fpga_reg(bFeeder_value_shreg[5])),
+                sycl::ext::intel::fpga_reg(sycl::ext::intel::fpga_reg(bFeeder_value_shreg[6])),
+                sycl::ext::intel::fpga_reg(sycl::ext::intel::fpga_reg(bFeeder_value_shreg[7])),
+                sycl::ext::intel::fpga_reg(sycl::ext::intel::fpga_reg(bFeeder_value_shreg[8])),
+                sycl::ext::intel::fpga_reg(sycl::ext::intel::fpga_reg(bFeeder_value_shreg[9])),
+                sycl::ext::intel::fpga_reg(sycl::ext::intel::fpga_reg(bFeeder_value_shreg[10])),
+                sycl::ext::intel::fpga_reg(sycl::ext::intel::fpga_reg(bFeeder_value_shreg[11])),
+                sycl::ext::intel::fpga_reg(sycl::ext::intel::fpga_reg(bFeeder_value_shreg[12])),
+                sycl::ext::intel::fpga_reg(sycl::ext::intel::fpga_reg(bFeeder_value_shreg[13])),
+                sycl::ext::intel::fpga_reg(sycl::ext::intel::fpga_reg(bFeeder_value_shreg[14])),
+                sycl::ext::intel::fpga_reg(sycl::ext::intel::fpga_reg(bFeeder_value_shreg[15]))
+                };
                 bFeeder_time_stamp_shreg = sycl::ext::intel::fpga_reg(sycl::ext::intel::fpga_reg(bFeeder_time_stamp_shreg));
-                if (buf == (int)(bFeeder_time_stamp_shreg % (uint)(ADD_UINT64_T_SUFFIX(8)) % (uint)(ADD_UINT64_T_SUFFIX(8)))) {
-                  DB[(bool)(bFeeder_time_stamp_shreg / (uint)(ADD_UINT64_T_SUFFIX(8)) % (uint)(ADD_UINT64_T_SUFFIX(2)))][buf] = bFeeder_value_shreg;
+                if ((uint)(ADD_UINT64_T_SUFFIX(24576)) <= bFeeder_time_stamp_shreg % (uint)(ADD_UINT64_T_SUFFIX(32768))) {
+                  if (buf == (int)((bFeeder_time_stamp_shreg % (uint)(ADD_UINT64_T_SUFFIX(32768)) - (uint)(ADD_UINT64_T_SUFFIX(24576))) % (uint)(ADD_UINT64_T_SUFFIX(8)))) {
+                    DB[(bool)(bFeeder_time_stamp_shreg / (uint)(ADD_UINT64_T_SUFFIX(32768)) % (uint)(ADD_UINT64_T_SUFFIX(2)))][(int)(bFeeder_time_stamp_shreg % (uint)(ADD_UINT64_T_SUFFIX(32768)) - (uint)(ADD_UINT64_T_SUFFIX(24576))) / 256][(int)(bFeeder_time_stamp_shreg % (uint)(ADD_UINT64_T_SUFFIX(32768)) - (uint)(ADD_UINT64_T_SUFFIX(24576))) / 8 % 32][buf] = bFeeder_value_shreg;
+                  }
                 }
-                if ((uint)(ADD_UINT64_T_SUFFIX(0)) < bFeeder_time_stamp_shreg / (uint)(ADD_UINT64_T_SUFFIX(8)) && bFeeder_time_stamp_shreg % (uint)(ADD_UINT64_T_SUFFIX(8)) < (uint)(ADD_UINT64_T_SUFFIX(1))) {
-                  bFeeder_channel_array[buf] = DB[!(bool)(bFeeder_time_stamp_shreg / (uint)(ADD_UINT64_T_SUFFIX(8)) % (uint)(ADD_UINT64_T_SUFFIX(2)))][buf];
+                if ((uint)(ADD_UINT64_T_SUFFIX(0)) < bFeeder_time_stamp_shreg / (uint)(ADD_UINT64_T_SUFFIX(32768))) {
+                  bFeeder_channel_array.s[buf] = DB[!(bool)(bFeeder_time_stamp_shreg / (uint)(ADD_UINT64_T_SUFFIX(32768)) % (uint)(ADD_UINT64_T_SUFFIX(2)))][(int)(bFeeder_time_stamp_shreg % (uint)(ADD_UINT64_T_SUFFIX(32768))) / 1024][(int)(bFeeder_time_stamp_shreg % (uint)(ADD_UINT64_T_SUFFIX(32768))) % 32][buf];
                 }
               }
-              if ((uint)(ADD_UINT64_T_SUFFIX(0)) < bFeeder_time_stamp_shreg / (uint)(ADD_UINT64_T_SUFFIX(8)) && bFeeder_time_stamp_shreg % (uint)(ADD_UINT64_T_SUFFIX(8)) < (uint)(ADD_UINT64_T_SUFFIX(1))) {
+              if ((uint)(ADD_UINT64_T_SUFFIX(0)) < bFeeder_time_stamp_shreg / (uint)(ADD_UINT64_T_SUFFIX(32768))) {
                 bFeeder_channel::write<>(bFeeder_channel_array);
               }
               bFeeder_cycle = bFeeder_cycle + (uint)(ADD_UINT64_T_SUFFIX(1));
@@ -569,110 +671,169 @@ auto sgemm(device_selector_t device_selector_v, bool TransA, bool TransB, float 
         #endif
         oneapi_kernel_events.push_back(q_device.submit([&](sycl::handler &h){
           h.single_task<class kernel_Product_class>([=](){
-            // a/bFeeder_channel_array has the same type as X/Y_shreg, and thus can be removed.
-            //   bFeeder_channel_array_t bFeeder_channel_array;
-            //   aFeeder_channel_array_t aFeeder_channel_array;
+            bFeeder_channel_array_t bFeeder_channel_array;
+            aFeeder_channel_array_t aFeeder_channel_array;
             // Must allocate the shift registers in registers.
             [[intel::fpga_register]]
-            float Z_shreg[8][8];
+            float Z_shreg[1024][8][10];
             [[intel::fpga_register]]
-            float Z_pipe_shreg[8][8];
-            // Make X/Y_shreg as float8 type instead of float[8]. Otherwise, they cannot be directly assignable like X_shreg=...
+            float Z_pipe_shreg[8][9217];
             [[intel::fpga_register]]
-            float8 Y_shreg; 
-            //float Y_shreg[8];
+            float16 Y_shreg[8];
             [[intel::fpga_register]]
-            float8 X_shreg;
-            //float X_shreg[8];
+            float Z[8][10];
+            [[intel::fpga_register]]
+            float16 X_shreg[10];
+            [[intel::fpga_register]]
+            float Z_shreg_;
             int Z_pipe_iter;
             int Z_pipe_base;
-            Z_pipe_iter = 8;
+            Z_pipe_iter = 10240;
             Z_pipe_base = 0;
             // Explicitly set II=1 for each loop, but this might be optional.
             [[intel::initiation_interval(1)]]
-            for (int i = 0; i < (A_extent_1 + 15) / 8; i++) {
+            for (int i = 0; i < (A_extent_1 + 639) / 320; i++) {
               [[intel::initiation_interval(1)]]
-              for (int j = 0; j < (B_extent_0 + 7) / 8; j++) {
-                // Hoist Initialization of Z out
-                #pragma unroll
-                for (int iii = 0; iii < 8; iii++) {
-                   #pragma unroll
-                   for (int jjj = 0; jjj < 8; jjj++) {
-                       Z_shreg[jjj][iii] = 0;
-                   }
-                }
+              for (int j = 0; j < (B_extent_0 + 255) / 256; j++) {
                 [[intel::initiation_interval(1)]]
-                for (int k = 0; k < B_extent_1; k++) {
-                  if (i < (A_extent_1 + 7) / 8) {
-                    X_shreg = bFeeder_channel::read<>();
-                    Y_shreg = aFeeder_channel::read<>();
-                  }
-                  // Hoist initialization of X and Y out
-                  /*#pragma unroll
-                  for (int iii = 0; iii < 8; iii++) {
-                      X_shreg[iii] = aFeeder_channel_array.s[iii];
-                  }
-                  #pragma unroll
-                  for (int jjj = 0; jjj < 8; jjj++) {
-                    Y_shreg[jjj] = bFeeder_channel_array.s[jjj];
-                  }*/
-
-                  #pragma unroll
-                  for (int iii = 0; iii < 8; iii++) {
+                for (int k = 0; k < (B_extent_1 + 511) / 512; k++) {
+                  [[intel::initiation_interval(1)]]
+                  for (int kk_ii_jj = 0; kk_ii_jj < 32768; kk_ii_jj++) {
                     #pragma unroll
-                    for (int jjj = 0; jjj < 8; jjj++) {
-                      // Hoist out initialization, reduce usage of fpga_reg
-                      //  X_shreg[iii] = jjj == 0 ? aFeeder_channel_array.s[iii] : X_shreg[iii];
-                      //  X_shreg[iii] = sycl::ext::intel::fpga_reg(sycl::ext::intel::fpga_reg(X_shreg[iii]));
-                      X_shreg[iii] = sycl::ext::intel::fpga_reg(X_shreg[iii]);
-
-                      // Hoist out initialization, reduce usage of fpga_reg
-                      //  Y_shreg[jjj] = iii == 0 ? bFeeder_channel_array.s[jjj] : Y_shreg[jjj];
-                      //  Y_shreg[jjj] = sycl::ext::intel::fpga_reg(sycl::ext::intel::fpga_reg(Y_shreg[jjj]));
-                      Y_shreg[jjj] = sycl::ext::intel::fpga_reg(Y_shreg[jjj]);
-                      
-                      // Hoist out initialization
-                      //  Z_shreg[jjj][iii] = (k == 0 ? float_from_bits(0) : Z_shreg[jjj][iii]) + X_shreg[iii] * Y_shreg[jjj];
-                      Z_shreg[jjj][iii] = X_shreg[iii] * Y_shreg[jjj] + Z_shreg[jjj][iii];
-                      if (k == B_extent_1 + -1) {
-                        Z_pipe_shreg[jjj][iii] = Z_shreg[jjj][iii];
+                    for (int iii = 0; iii < 10; iii++) {
+                      #pragma unroll
+                      for (int jjj = 0; jjj < 8; jjj++) {
+                        Z[jjj][iii] = Z_shreg[1023][jjj][iii];
+                        #pragma unroll
+                        for (int l1 = 0; l1 < 1023; l1++) {
+                          Z_shreg[1023 - l1][jjj][iii] = Z_shreg[1022 - l1][jjj][iii];
+                        }
+                        Z_shreg[0][jjj][iii] = Z[jjj][iii];
                       }
                     }
-                  }
-                  if (i < (A_extent_1 + 7) / 8 && k == B_extent_1 + -1) {
-                    Z_pipe_base = Z_pipe_iter;
-                  }
-                  // Remove the buffer for Product_channel_ constructed by using fpga_regs. Let compiler to figure it out
-                  // And merge the output of Z_pipe and its shift into the same loop nest (I guess it might help
-                  // compiler to find out this is a common pattern)
-                  /*
-                  float8 Product_channel_;
-                  #pragma unroll
-                  for (int b_62 = 0; b_62 < 8; b_62++) {
-                    Product_channel_[b_62] = Z_pipe_shreg[b_62][0];
-                    #pragma unroll
-                    for (int b_62_dummy = 0; b_62_dummy < 8; b_62_dummy++) {
-                      Product_channel_[b_62_dummy] = sycl::ext::intel::fpga_reg(sycl::ext::intel::fpga_reg(Product_channel_[b_62_dummy]));
+                    // Hoist out initialization, reduce usage of fpga_reg
+                    if (k == 0 && kk_ii_jj / 1024 == 0) {
+                       #pragma unroll
+                       for (int jjj = 0; jjj < 8; jjj++) {
+                          #pragma unroll
+                          for (int iii = 0; iii < 10; iii++) {
+                              Z_shreg[0][jjj][iii] = float_from_bits(0);
+                          }
+                       }
                     }
-                  }
-                  if (Z_pipe_iter < Z_pipe_base + 8) {
-                    Product_channel::write<>(Product_channel_);
-                  }*/
-                  float8 Product_channel_;
-                  #pragma unroll
-                  for (int b_63 = 0; b_63 < 8; b_63++) {
-                    Product_channel_[b_63] = Z_pipe_shreg[b_63][0];
-                    #pragma unroll
-                    for (int p_31 = 0; p_31 < 7; p_31++) {
-                        // Remove fpga_reg for shifting Z_pipe. 
-                        //   Z_pipe_shreg[b_63][p_31] = sycl::ext::intel::fpga_reg(sycl::ext::intel::fpga_reg(Z_pipe_shreg[b_63][p_31 + 1]));
-                        Z_pipe_shreg[b_63][p_31] = Z_pipe_shreg[b_63][p_31 + 1];
+                    if (i < (A_extent_1 + 319) / 320) {
+                      bFeeder_channel_array = bFeeder_channel::read<>();
+                      aFeeder_channel_array = aFeeder_channel::read<>();
                     }
+                    // Hoist initialization of X and Y out
+                    #pragma unroll
+                    for (int iii = 0; iii < 10; iii++) {
+                      X_shreg[iii] = aFeeder_channel_array.s[iii];
+                    }
+                    #pragma unroll
+                    for (int jjj = 0; jjj < 8; jjj++) {
+                      Y_shreg[jjj] = bFeeder_channel_array.s[jjj];
+                    }
+                    #pragma unroll
+                    for (int iii = 0; iii < 10; iii++) {
+                      #pragma unroll
+                      for (int jjj = 0; jjj < 8; jjj++) {
+                        // Hoist out initialization, reduce usage of fpga_reg
+                        //  X_shreg[iii] = jjj == 0 ? aFeeder_channel_array.s[iii] : X_shreg[iii];
+                        X_shreg[iii] = float16{
+                         sycl::ext::intel::fpga_reg(X_shreg[iii][0]),
+                         sycl::ext::intel::fpga_reg(X_shreg[iii][1]),
+                         sycl::ext::intel::fpga_reg(X_shreg[iii][2]),
+                         sycl::ext::intel::fpga_reg(X_shreg[iii][3]),
+                         sycl::ext::intel::fpga_reg(X_shreg[iii][4]),
+                         sycl::ext::intel::fpga_reg(X_shreg[iii][5]),
+                         sycl::ext::intel::fpga_reg(X_shreg[iii][6]),
+                         sycl::ext::intel::fpga_reg(X_shreg[iii][7]),
+                         sycl::ext::intel::fpga_reg(X_shreg[iii][8]),
+                         sycl::ext::intel::fpga_reg(X_shreg[iii][9]),
+                         sycl::ext::intel::fpga_reg(X_shreg[iii][10]),
+                         sycl::ext::intel::fpga_reg(X_shreg[iii][11]),
+                         sycl::ext::intel::fpga_reg(X_shreg[iii][12]),
+                         sycl::ext::intel::fpga_reg(X_shreg[iii][13]),
+                         sycl::ext::intel::fpga_reg(X_shreg[iii][14]),
+                         sycl::ext::intel::fpga_reg(X_shreg[iii][15])
+                        };
+                        // Y_shreg[jjj] = iii == 0 ? bFeeder_channel_array.s[jjj] : Y_shreg[jjj];
+                        Y_shreg[jjj] = float16{
+                         sycl::ext::intel::fpga_reg(Y_shreg[jjj][0]),
+                         sycl::ext::intel::fpga_reg(Y_shreg[jjj][1]),
+                         sycl::ext::intel::fpga_reg(Y_shreg[jjj][2]),
+                         sycl::ext::intel::fpga_reg(Y_shreg[jjj][3]),
+                         sycl::ext::intel::fpga_reg(Y_shreg[jjj][4]),
+                         sycl::ext::intel::fpga_reg(Y_shreg[jjj][5]),
+                         sycl::ext::intel::fpga_reg(Y_shreg[jjj][6]),
+                         sycl::ext::intel::fpga_reg(Y_shreg[jjj][7]),
+                         sycl::ext::intel::fpga_reg(Y_shreg[jjj][8]),
+                         sycl::ext::intel::fpga_reg(Y_shreg[jjj][9]),
+                         sycl::ext::intel::fpga_reg(Y_shreg[jjj][10]),
+                         sycl::ext::intel::fpga_reg(Y_shreg[jjj][11]),
+                         sycl::ext::intel::fpga_reg(Y_shreg[jjj][12]),
+                         sycl::ext::intel::fpga_reg(Y_shreg[jjj][13]),
+                         sycl::ext::intel::fpga_reg(Y_shreg[jjj][14]),
+                         sycl::ext::intel::fpga_reg(Y_shreg[jjj][15])
+                        };
+                        Z_shreg_ =  sycl::ext::intel::fpga_reg(Z_shreg[0][jjj][iii]);
+                        #pragma unroll
+                        for (int kkk = 0; kkk < 16; kkk++) {
+                          Z_shreg_ = Z_shreg_ + X_shreg[iii][kkk] * Y_shreg[jjj][kkk];
+                        }
+                        Z_shreg[0][jjj][iii] = Z_shreg_;
+                        /*Z_shreg_ = k == 0 && kk_ii_jj / 1024 == 0 ? float_from_bits(0) : sycl::ext::intel::fpga_reg(Z_shreg[0][jjj][iii]);
+                        #pragma unroll
+                        for (int kkk = 0; kkk < 16; kkk++) {
+                          Z_shreg_ = Z_shreg_ + X_shreg[iii][kkk] * Y_shreg[jjj][kkk];
+                          if (kkk % 4 == 3) {
+                            Z_shreg_ = sycl::ext::intel::fpga_reg(Z_shreg_);
+                          }
+                        }
+                        Z_shreg[0][jjj][iii] = Z_shreg_;
+                        */
+
+                        #pragma unroll
+                        for (int kkk = 0; kkk < 16; kkk++) {
+                          if (kkk == 15 && kk_ii_jj / 1024 == 31 && k == (B_extent_1 + -1) / 512) {
+                            Z_pipe_shreg[jjj][iii * 1024] = Z_shreg[0][jjj][iii];
+                          }
+                        }
+                      }
+                    }
+                    if (kk_ii_jj % 32 == 0 && kk_ii_jj % 1024 / 32 == 0 && k == (B_extent_1 + -1) / 512 && kk_ii_jj / 1024 == 31 && i < (A_extent_1 + 319) / 320) {
+                      Z_pipe_base = Z_pipe_iter;
+                    }
+                    // Remove the buffer for Product_channel_ constructed by using fpga_regs. Let compiler to figure it out
+                    // And merge the output of Z_pipe and its shift into the same loop nest (I guess it might help
+                    // compiler to find out this is a common pattern)
+                    float8 Product_channel_;
+                    #pragma unroll
+                    for (int b_62 = 0; b_62 < 8; b_62++) {
+                      Product_channel_[b_62] = Z_pipe_shreg[b_62][0];
+                      /*
+                      #pragma unroll
+                      for (int b_62_dummy = 0; b_62_dummy < 8; b_62_dummy++) {
+                        Product_channel_[b_62_dummy] = sycl::ext::intel::fpga_reg(sycl::ext::intel::fpga_reg(Product_channel_[b_62_dummy]));
+                      }*/
+                    }
+                    #pragma unroll
+                    for (int b_63 = 0; b_63 < 8; b_63++) {
+                      #pragma unroll
+                      for (int p_31 = 0; p_31 < 9; p_31++) {
+                        #pragma unroll
+                        for (int l_31 = 0; l_31 < 1023; l_31++) {
+                          Z_pipe_shreg[b_63][p_31 * 1024 + l_31] = Z_pipe_shreg[b_63][p_31 * 1024 + l_31 + 1];
+                        }
+                        Z_pipe_shreg[b_63][p_31 * 1024 + 1023] = sycl::ext::intel::fpga_reg(sycl::ext::intel::fpga_reg(Z_pipe_shreg[b_63][p_31 * 1024 + 1024]));
+                      }
+                    }
+                    if (Z_pipe_iter < Z_pipe_base + 10240) {
+                      Product_channel::write<>(Product_channel_);
+                    }
+                    Z_pipe_iter = Z_pipe_iter + 1;
                   }
-                  if (Z_pipe_iter < Z_pipe_base + 8) {
-                    Product_channel::write<>(Product_channel_);
-                  }
-                  Z_pipe_iter = Z_pipe_iter + 1;
                 }
               }
             }
@@ -681,19 +842,19 @@ auto sgemm(device_selector_t device_selector_v, bool TransA, bool TransB, float 
         halide_buffer_t b2;
         struct halide_dimension_t s10[6] = {
           {0, 8, 1, 0},
-          {0, 1, 8, 0},
-          {0, 1, 8, 0},
-          {0, 8, 8, 0},
-          {0, C_serializer_j_extent_realized, 64, 0},
-          {0, C_serializer_i_extent_realized, C_serializer_j_extent_realized * 64, 0},
+          {0, 32, 8, 0},
+          {0, 32, 256, 0},
+          {0, 10, 8192, 0},
+          {0, (B_extent_0 + 255) / 256, 81920, 0},
+          {0, (A_extent_1 + 319) / 320, (B_extent_0 + 255) / 256 * 81920, 0},
         };
         struct halide_dimension_t s11[6] = {
           {0, 8, 1, 0},
-          {0, 1, 8, 0},
-          {0, 1, 8, 0},
-          {0, 8, 8, 0},
-          {0, C_serializer_j_extent_realized, 64, 0},
-          {0, C_serializer_i_extent_realized, C_serializer_j_extent_realized * 64, 0},
+          {0, 32, 8, 0},
+          {0, 32, 256, 0},
+          {0, 10, 8192, 0},
+          {0, (B_extent_0 + 255) / 256, 81920, 0},
+          {0, (A_extent_1 + 319) / 320, (B_extent_0 + 255) / 256 * 81920, 0},
         };
         struct halide_buffer_t * C_serializer_mem_channel_buffer = _halide_buffer_init(&b2, s10, (void *)((uint64_t)(ADD_UINT64_T_SUFFIX(0))), (uint64_t)(ADD_UINT64_T_SUFFIX(0)), (struct halide_device_interface_t *)((uint64_t)(ADD_UINT64_T_SUFFIX(0))), 2, 32, 6, s11, (uint64_t)(ADD_UINT64_T_SUFFIX(0)));
         int32_t halide_device_and_host_malloc_result_1 = 0; // halide_device_and_host_malloc(C_serializer_mem_channel_buffer, NULL /* halide_oneapi_device_interface() replaced */) replaced with line(s) below 
@@ -770,11 +931,11 @@ auto sgemm(device_selector_t device_selector_v, bool TransA, bool TransB, float 
             float *C = (float*)(C_buffer->host);
             C_serializer_mem_channel = (float*)(C_serializer_mem_channel_buffer->host);
             {
-              for (int i = 0; i < (A_extent_1 + 7) / 8; i++) {
-                for (int j = 0; j < (B_extent_0 + 7) / 8; j++) {
-                  for (int iii = 0; iii < 8; iii++) {
-                    if (beta != float_from_bits(0)) {
-                      auto _D4 = j * 8 + (i * 8 + iii) * C_stride_1 - (C_min_1 * C_stride_1 + C_min_0);
+              for (int i = 0; i < (A_extent_1 + 319) / 320; i++) {
+                for (int j = 0; j < (B_extent_0 + 255) / 256; j++) {
+                  for (int iii_ii_jj = 0; iii_ii_jj < 10240; iii_ii_jj++) {
+                    if (p3 != float_from_bits(0)) {
+                      auto _D4 = (j * 32 + iii_ii_jj % 32) * 8 + (i * 320 + (iii_ii_jj / 1024 + iii_ii_jj % 1024 / 32 * 10)) * C_stride_1 - (C_min_1 * C_stride_1 + C_min_0);
                       auto _D5 = float8{
                         C[_D4 + 0],
                         C[_D4 + 1],
@@ -835,10 +996,10 @@ auto sgemm(device_selector_t device_selector_v, bool TransA, bool TransB, float 
             h.single_task<class kernel_cLoader_class>([=](){
               int addr_temp;
               addr_temp = 0;
-              for (int i = 0; i < (A_extent_1 + 7) / 8; i++) {
-                for (int j = 0; j < (B_extent_0 + 7) / 8; j++) {
-                  for (int iii = 0; iii < 8; iii++) {
-                    if (beta != float_from_bits(0)) {
+              for (int i = 0; i < (A_extent_1 + 319) / 320; i++) {
+                for (int j = 0; j < (B_extent_0 + 255) / 256; j++) {
+                  for (int iii_ii_jj = 0; iii_ii_jj < 10240; iii_ii_jj++) {
+                    if (p3 != float_from_bits(0)) {
                       cLoader_channel::write<>(float8{
                         C_serializer_mem_channel[addr_temp * 8 + 0],
                         C_serializer_mem_channel[addr_temp * 8 + 1],
@@ -863,11 +1024,12 @@ auto sgemm(device_selector_t device_selector_v, bool TransA, bool TransB, float 
           #endif
           oneapi_kernel_events.push_back(q_device.submit([&](sycl::handler &h){
             h.single_task<class kernel_Out_class>([=](){
+              float Z[8][10];
               float8 Add_shreg;
-              for (int i = 0; i < (A_extent_1 + 7) / 8; i++) {
-                for (int j = 0; j < (B_extent_0 + 7) / 8; j++) {
-                  for (int iii = 0; iii < 8; iii++) {
-                    Add_shreg = (beta == float_from_bits(0) ? float8{float_from_bits(0)} : cLoader_channel::read<>() * float8{beta}) + Product_channel::read<>() * float8{alpha};
+              for (int i = 0; i < (A_extent_1 + 319) / 320; i++) {
+                for (int j = 0; j < (B_extent_0 + 255) / 256; j++) {
+                  for (int iii_ii_jj = 0; iii_ii_jj < 10240; iii_ii_jj++) {
+                    Add_shreg = (p3 == float_from_bits(0) ? float8{float_from_bits(0)} : cLoader_channel::read<>() * float8{p3}) + Product_channel::read<>() * float8{p2};
                     Out_channel::write<>(Add_shreg);
                   }
                 }
@@ -877,19 +1039,19 @@ auto sgemm(device_selector_t device_selector_v, bool TransA, bool TransB, float 
           halide_buffer_t b3;
           struct halide_dimension_t s13[6] = {
             {0, 8, 1, 0},
-            {0, 1, 8, 0},
-            {0, 1, 8, 0},
-            {0, 8, 8, 0},
-            {0, unloader_j_extent_realized, 64, 0},
-            {0, unloader_i_extent_realized, unloader_j_extent_realized * 64, 0},
+            {0, 32, 8, 0},
+            {0, 32, 256, 0},
+            {0, 10, 8192, 0},
+            {0, (B_extent_0 + 255) / 256, 81920, 0},
+            {0, (A_extent_1 + 319) / 320, (B_extent_0 + 255) / 256 * 81920, 0},
           };
           struct halide_dimension_t s14[6] = {
             {0, 8, 1, 0},
-            {0, 1, 8, 0},
-            {0, 1, 8, 0},
-            {0, 8, 8, 0},
-            {0, unloader_j_extent_realized, 64, 0},
-            {0, unloader_i_extent_realized, unloader_j_extent_realized * 64, 0},
+            {0, 32, 8, 0},
+            {0, 32, 256, 0},
+            {0, 10, 8192, 0},
+            {0, (B_extent_0 + 255) / 256, 81920, 0},
+            {0, (A_extent_1 + 319) / 320, (B_extent_0 + 255) / 256 * 81920, 0},
           };
           struct halide_buffer_t * unloader_mem_channel_buffer = _halide_buffer_init(&b3, s13, (void *)((uint64_t)(ADD_UINT64_T_SUFFIX(0))), (uint64_t)(ADD_UINT64_T_SUFFIX(0)), (struct halide_device_interface_t *)((uint64_t)(ADD_UINT64_T_SUFFIX(0))), 2, 32, 6, s14, (uint64_t)(ADD_UINT64_T_SUFFIX(0)));
           int32_t halide_device_and_host_malloc_result = 0; // halide_device_and_host_malloc(unloader_mem_channel_buffer, NULL /* halide_oneapi_device_interface() replaced */) replaced with line(s) below 
@@ -961,9 +1123,9 @@ auto sgemm(device_selector_t device_selector_v, bool TransA, bool TransB, float 
               h.single_task<class kernel_unloader_class>([=](){
                 int addr_temp;
                 addr_temp = 0;
-                for (int i = 0; i < (A_extent_1 + 7) / 8; i++) {
-                  for (int j = 0; j < (B_extent_0 + 7) / 8; j++) {
-                    for (int iii = 0; iii < 8; iii++) {
+                for (int i = 0; i < (A_extent_1 + 319) / 320; i++) {
+                  for (int j = 0; j < (B_extent_0 + 255) / 256; j++) {
+                    for (int iii_ii_jj = 0; iii_ii_jj < 10240; iii_ii_jj++) {
                       auto _D6 = Out_channel::read<>();
                       unloader_mem_channel[addr_temp * 8 + 0] = _D6[0];
                       unloader_mem_channel[addr_temp * 8 + 1] = _D6[1];
@@ -1041,9 +1203,9 @@ auto sgemm(device_selector_t device_selector_v, bool TransA, bool TransB, float 
               unloader_mem_channel = (float*)(unloader_mem_channel_buffer->host);
               float *Output = (float*)(Output_buffer->host);
               {
-                for (int i = 0; i < (A_extent_1 + 7) / 8; i++) {
-                  for (int j = 0; j < (B_extent_0 + 7) / 8; j++) {
-                    for (int iii = 0; iii < 8; iii++) {
+                for (int i = 0; i < (A_extent_1 + 319) / 320; i++) {
+                  for (int j = 0; j < (B_extent_0 + 255) / 256; j++) {
+                    for (int iii_ii_jj = 0; iii_ii_jj < 10240; iii_ii_jj++) {
                       auto _D7 = float8{
                         unloader_mem_channel[addr_temp * 8 + 0],
                         unloader_mem_channel[addr_temp * 8 + 1],
@@ -1054,7 +1216,7 @@ auto sgemm(device_selector_t device_selector_v, bool TransA, bool TransB, float 
                         unloader_mem_channel[addr_temp * 8 + 6],
                         unloader_mem_channel[addr_temp * 8 + 7]
                       };
-                      auto _D8 = i * Output_stride_5 + (iii * Output_stride_3 + j * Output_stride_4) - (Output_min_5 * Output_stride_5 + (Output_min_4 * Output_stride_4 + (Output_min_3 * Output_stride_3 + (Output_min_2 * Output_stride_2 + (Output_min_1 * Output_stride_1 + Output_min_0)))));
+                      auto _D8 = i * Output_stride_5 + (j * Output_stride_4 + (iii_ii_jj / 1024 * Output_stride_3 + (iii_ii_jj % 32 * Output_stride_1 + iii_ii_jj % 1024 / 32 * Output_stride_2))) - (Output_min_5 * Output_stride_5 + (Output_min_4 * Output_stride_4 + (Output_min_3 * Output_stride_3 + (Output_min_2 * Output_stride_2 + (Output_min_1 * Output_stride_1 + Output_min_0)))));
                       Output[_D8 + 0] = _D7[0];
                       Output[_D8 + 1] = _D7[1];
                       Output[_D8 + 2] = _D7[2];
