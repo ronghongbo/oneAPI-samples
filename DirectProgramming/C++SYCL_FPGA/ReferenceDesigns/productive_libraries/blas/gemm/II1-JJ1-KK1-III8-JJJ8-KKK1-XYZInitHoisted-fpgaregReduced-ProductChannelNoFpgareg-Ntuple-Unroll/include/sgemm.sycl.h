@@ -591,10 +591,15 @@ auto sgemm(device_selector_t device_selector_v, bool TransA, bool TransB, float 
                 [[intel::initiation_interval(1)]]
                 for (int k = 0; k < B_extent_1; k++) {
                   // Hoist initialization of X and Y out
+                  FLOAT8 bFeeder_channel_array;
+                  FLOAT8 aFeeder_channel_array;
                   if (i < (A_extent_1 + 7) / 8) {
-                    Y_shreg = bFeeder_channel::read<>();
-                    X_shreg = aFeeder_channel::read<>();
+                    bFeeder_channel_array = bFeeder_channel::read<>();
+                    aFeeder_channel_array = aFeeder_channel::read<>();
                   }
+                  Y_shreg = bFeeder_channel_array;
+                  X_shreg = aFeeder_channel_array;
+
                   fpga_tools::UnrolledLoop<8>([&](auto iii) {
                     fpga_tools::UnrolledLoop<8>([&](auto jjj) {
                       // Hoist out initialization, reduce usage of fpga_reg
@@ -614,8 +619,8 @@ auto sgemm(device_selector_t device_selector_v, bool TransA, bool TransB, float 
                       if (k == B_extent_1 + -1) {
                         Z_pipe_shreg[jjj][iii] = Z_shreg[jjj][iii];
                       }
-                    }
-                  }
+                    });
+                  });
                   if (i < (A_extent_1 + 7) / 8 && k == B_extent_1 + -1) {
                     Z_pipe_base = Z_pipe_iter;
                   }
@@ -637,13 +642,13 @@ auto sgemm(device_selector_t device_selector_v, bool TransA, bool TransB, float 
                   }*/
                   FLOAT8 Product_channel_;
                   fpga_tools::UnrolledLoop<8>([&](auto b_63) {
-                    Product_channel.template get<b_63>() = Z_pipe_shreg[b_63][0];
+                    Product_channel_.template get<b_63>() = Z_pipe_shreg[b_63][0];
                     fpga_tools::UnrolledLoop<7>([&](auto p_31) {
                         // Remove fpga_reg for shifting Z_pipe. 
                         //   Z_pipe_shreg[b_63][p_31] = sycl::ext::intel::fpga_reg(sycl::ext::intel::fpga_reg(Z_pipe_shreg[b_63][p_31 + 1]));
                         Z_pipe_shreg[b_63][p_31] = Z_pipe_shreg[b_63][p_31 + 1];
-                    }
-                  }
+                    });
+                  });
                   if (Z_pipe_iter < Z_pipe_base + 8) {
                     Product_channel::write<>(Product_channel_);
                   }
@@ -842,7 +847,11 @@ auto sgemm(device_selector_t device_selector_v, bool TransA, bool TransB, float 
               for (int i = 0; i < (A_extent_1 + 7) / 8; i++) {
                 for (int j = 0; j < (B_extent_0 + 7) / 8; j++) {
                   for (int iii = 0; iii < 8; iii++) {
-                    Add_shreg = (beta == float_from_bits(0) ? float8{float_from_bits(0)} : cLoader_channel::read<>() * float8{beta}) + Product_channel::read<>() * float8{alpha};
+                    float8 cl = cLoader_channel::read<>();
+                    FLOAT8 pc = Product_channel::read<>();
+                    fpga_tools::UnrolledLoop<8>([&](auto jjj){
+                        Add_shreg[jjj] = (beta == float_from_bits(0) ? float_from_bits(0) : cl[jjj] * beta) + pc.template get<jjj>() * alpha;
+                    });
                     Out_channel::write<>(Add_shreg);
                   }
                 }
