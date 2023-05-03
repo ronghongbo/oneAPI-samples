@@ -9,6 +9,8 @@
 
 #include "pipe_wrapper.hpp"
 #include "complex_helper.hpp"
+#include "tuple.hpp"
+#include "unrolled_loop.hpp"
 
 using namespace sycl;
 namespace t2sp::sgemm {
@@ -18,7 +20,9 @@ bool __attribute__ ((aligned(8))) s[8];
 struct {bool s0,  s1,  s2,  s3,  s4,  s5,  s6,  s7;};
 } bool8;
 using aLoader_channel = pipe_wrapper<class aLoader_channel_pipe, float, 256>;
-struct aFeeder_channel_array_t { float s[8]; };
+// Replace this with NTuple
+using aFeeder_channel_array_t = fpga_tools::NTuple<float, 8>;
+//struct aFeeder_channel_array_t { float s[8]; };
 using aFeeder_channel = pipe_wrapper<class aFeeder_channel_pipe, aFeeder_channel_array_t, 256>;
 using bLoader_channel = pipe_wrapper<class bLoader_channel_pipe, float, 256>;
 struct bFeeder_channel_array_t { float s[8]; };
@@ -326,8 +330,9 @@ auto sgemm(device_selector_t device_selector_v, bool TransA, bool TransB, float 
           }
           while(1) {
             aFeeder_in_v = aLoader_channel::read<>();
-            #pragma unroll
-            for (int buf = 0; buf < 8; buf++) {
+            //#pragma unroll
+            //for (int buf = 0; buf < 8; buf++) {
+            fpga_tools::UnrolledLoop<8>([&](auto buf) {
               if (buf == 0) {
                 aFeeder_value_shreg = aFeeder_in_v;
                 aFeeder_time_stamp_shreg = aFeeder_cycle;
@@ -341,9 +346,9 @@ auto sgemm(device_selector_t device_selector_v, bool TransA, bool TransB, float 
                 DB[(bool)(aFeeder_time_stamp_shreg / (uint)(ADD_UINT64_T_SUFFIX(8)) % (uint)(ADD_UINT64_T_SUFFIX(2)))][buf] = aFeeder_value_shreg;
               }
               if ((uint)(ADD_UINT64_T_SUFFIX(0)) < aFeeder_time_stamp_shreg / (uint)(ADD_UINT64_T_SUFFIX(8)) && aFeeder_time_stamp_shreg % (uint)(ADD_UINT64_T_SUFFIX(8)) < (uint)(ADD_UINT64_T_SUFFIX(1))) {
-                aFeeder_channel_array.s[buf] = DB[!(bool)(aFeeder_time_stamp_shreg / (uint)(ADD_UINT64_T_SUFFIX(8)) % (uint)(ADD_UINT64_T_SUFFIX(2)))][buf];
+                aFeeder_channel_array.template get<buf>() = DB[!(bool)(aFeeder_time_stamp_shreg / (uint)(ADD_UINT64_T_SUFFIX(8)) % (uint)(ADD_UINT64_T_SUFFIX(2)))][buf];
               }
-            }
+            });
             if ((uint)(ADD_UINT64_T_SUFFIX(0)) < aFeeder_time_stamp_shreg / (uint)(ADD_UINT64_T_SUFFIX(8)) && aFeeder_time_stamp_shreg % (uint)(ADD_UINT64_T_SUFFIX(8)) < (uint)(ADD_UINT64_T_SUFFIX(1))) {
               aFeeder_channel::write<>(aFeeder_channel_array);
             }
@@ -601,10 +606,11 @@ auto sgemm(device_selector_t device_selector_v, bool TransA, bool TransB, float 
                     aFeeder_channel_array = aFeeder_channel::read<>();
                   }
                   // Hoist initialization of X and Y out
-                  #pragma unroll
-                  for (int iii = 0; iii < 8; iii++) {
-                      X_shreg[iii] = aFeeder_channel_array.s[iii];
-                  }
+                 fpga_tools::UnrolledLoop<8>([&](auto iii) {
+                 //#pragma unroll
+                 // for (int iii = 0; iii < 8; iii++) {
+                      X_shreg[iii] = aFeeder_channel_array.template get<iii>();
+                  });
                   #pragma unroll
                   for (int jjj = 0; jjj < 8; jjj++) {
                     Y_shreg[jjj] = bFeeder_channel_array.s[jjj];
