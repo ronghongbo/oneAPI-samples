@@ -580,17 +580,15 @@ auto sgemm(device_selector_t device_selector_v, bool p0, bool p1, float p2, floa
             for (int i = 0; i < (A_extent_1 + 5) / 3; i++) {
               [[intel::initiation_interval(1)]]
               for (int j = 0; j < (B_extent_0 + 2) / 3; j++) {
-                [[intel::initiation_interval(1)]]
-                for (int k = 0; k < B_extent_1; k++) {
-                  if (k == 0) {
-                    #pragma unroll
-                    for (int iii = 0; iii < 3; iii++) {
+                #pragma unroll
+                for (int iii = 0; iii < 3; iii++) {
                       #pragma unroll
                       for (int jjj = 0; jjj < 3; jjj++) {
                         Z_shreg[jjj][iii] = float_from_bits(0);
                       }
-                    }
-                  }
+                }
+                [[intel::initiation_interval(1)]]
+                for (int k = 0; k < B_extent_1; k++) {
                   if (i < (A_extent_1 + 2) / 3) {
                     bFeeder_channel_array = bFeeder_channel::read<>();
                     aFeeder_channel_array = aFeeder_channel::read<>();
