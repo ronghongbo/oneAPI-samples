@@ -673,32 +673,33 @@ auto sgemm(device_selector_t device_selector_v, bool p0, bool p1, float p2, floa
           h.single_task<class kernel_Product_class>([=](){
             bFeeder_channel_array_t bFeeder_channel_array;
             aFeeder_channel_array_t aFeeder_channel_array;
-            // Must allocate the shift registers in registers.
-            [[intel::fpga_register]]
-            float Z_shreg[1024][8][10];
-            [[intel::fpga_register]]
-            float Z_pipe_shreg[8][9217];
-            [[intel::fpga_register]]
-            float16 Y_shreg[8];
-            [[intel::fpga_register]]
-            float Z[8][10];
-            [[intel::fpga_register]]
-            float16 X_shreg[10];
-            [[intel::fpga_register]]
-            float Z_shreg_;
             int Z_pipe_iter;
             int Z_pipe_base;
             Z_pipe_iter = 10240;
             Z_pipe_base = 0;
             // Explicitly set II=1 for each loop, but this might be optional.
-            [[intel::initiation_interval(1)]]
+            //[[intel::initiation_interval(1)]]
             for (int i = 0; i < (A_extent_1 + 639) / 320; i++) {
-              [[intel::initiation_interval(1)]]
+              //[[intel::initiation_interval(1)]]
               for (int j = 0; j < (B_extent_0 + 255) / 256; j++) {
-                [[intel::initiation_interval(1)]]
+                //[[intel::initiation_interval(1)]]
                 for (int k = 0; k < (B_extent_1 + 511) / 512; k++) {
                   [[intel::initiation_interval(1)]]
                   for (int kk_ii_jj = 0; kk_ii_jj < 32768; kk_ii_jj++) {
+                      // Must allocate the shift registers in registers.
+                      [[intel::fpga_register]]
+                      float Z_shreg[1024][8][10];
+                      [[intel::fpga_register]]
+                      float Z_pipe_shreg[8][9217];
+                      [[intel::fpga_register]]
+                      float16 Y_shreg[8];
+                      [[intel::fpga_register]]
+                      float Z[8][10];
+                      [[intel::fpga_register]]
+                      float16 X_shreg[10];
+                      [[intel::fpga_register]]
+                      float Z_shreg_;
+
                     #pragma unroll
                     for (int iii = 0; iii < 10; iii++) {
                       #pragma unroll
@@ -717,7 +718,7 @@ auto sgemm(device_selector_t device_selector_v, bool p0, bool p1, float p2, floa
                        for (int jjj = 0; jjj < 8; jjj++) {
                           #pragma unroll
                           for (int iii = 0; iii < 10; iii++) {
-                              Z_shreg[0][jjj][iii] = float_from_bits(0);
+                              Z_shreg[0][jjj][iii] = 0;
                           }
                        }
                     }
@@ -740,26 +741,26 @@ auto sgemm(device_selector_t device_selector_v, bool p0, bool p1, float p2, floa
                       for (int jjj = 0; jjj < 8; jjj++) {
                         // Hoist out initialization, reduce usage of fpga_reg
                         //  X_shreg[iii] = jjj == 0 ? aFeeder_channel_array.s[iii] : X_shreg[iii];
-                        X_shreg[iii] = float16{
-                         sycl::ext::intel::fpga_reg(X_shreg[iii][0]),
-                         sycl::ext::intel::fpga_reg(X_shreg[iii][1]),
-                         sycl::ext::intel::fpga_reg(X_shreg[iii][2]),
-                         sycl::ext::intel::fpga_reg(X_shreg[iii][3]),
-                         sycl::ext::intel::fpga_reg(X_shreg[iii][4]),
-                         sycl::ext::intel::fpga_reg(X_shreg[iii][5]),
-                         sycl::ext::intel::fpga_reg(X_shreg[iii][6]),
-                         sycl::ext::intel::fpga_reg(X_shreg[iii][7]),
-                         sycl::ext::intel::fpga_reg(X_shreg[iii][8]),
-                         sycl::ext::intel::fpga_reg(X_shreg[iii][9]),
-                         sycl::ext::intel::fpga_reg(X_shreg[iii][10]),
-                         sycl::ext::intel::fpga_reg(X_shreg[iii][11]),
-                         sycl::ext::intel::fpga_reg(X_shreg[iii][12]),
-                         sycl::ext::intel::fpga_reg(X_shreg[iii][13]),
-                         sycl::ext::intel::fpga_reg(X_shreg[iii][14]),
-                         sycl::ext::intel::fpga_reg(X_shreg[iii][15])
-                        };
                         // Y_shreg[jjj] = iii == 0 ? bFeeder_channel_array.s[jjj] : Y_shreg[jjj];
-                        Y_shreg[jjj] = float16{
+                        X_shreg[iii] = float16{
+                           sycl::ext::intel::fpga_reg(X_shreg[iii][0]),
+                           sycl::ext::intel::fpga_reg(X_shreg[iii][1]),
+                           sycl::ext::intel::fpga_reg(X_shreg[iii][2]),
+                           sycl::ext::intel::fpga_reg(X_shreg[iii][3]),
+                           sycl::ext::intel::fpga_reg(X_shreg[iii][4]),
+                           sycl::ext::intel::fpga_reg(X_shreg[iii][5]),
+                           sycl::ext::intel::fpga_reg(X_shreg[iii][6]),
+                           sycl::ext::intel::fpga_reg(X_shreg[iii][7]),
+                           sycl::ext::intel::fpga_reg(X_shreg[iii][8]),
+                           sycl::ext::intel::fpga_reg(X_shreg[iii][9]),
+                           sycl::ext::intel::fpga_reg(X_shreg[iii][10]),
+                           sycl::ext::intel::fpga_reg(X_shreg[iii][11]),
+                           sycl::ext::intel::fpga_reg(X_shreg[iii][12]),
+                           sycl::ext::intel::fpga_reg(X_shreg[iii][13]),
+                           sycl::ext::intel::fpga_reg(X_shreg[iii][14]),
+                           sycl::ext::intel::fpga_reg(X_shreg[iii][15])
+                          };
+                         Y_shreg[jjj] = float16{
                          sycl::ext::intel::fpga_reg(Y_shreg[jjj][0]),
                          sycl::ext::intel::fpga_reg(Y_shreg[jjj][1]),
                          sycl::ext::intel::fpga_reg(Y_shreg[jjj][2]),
