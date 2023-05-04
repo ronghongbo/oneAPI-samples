@@ -697,8 +697,6 @@ auto sgemm(device_selector_t device_selector_v, bool p0, bool p1, float p2, floa
                       float Z[8][10];
                       [[intel::fpga_register]]
                       float16 X_shreg[10];
-                      [[intel::fpga_register]]
-                      float Z_shreg_;
 
                     #pragma unroll
                     for (int iii = 0; iii < 10; iii++) {
@@ -778,10 +776,13 @@ auto sgemm(device_selector_t device_selector_v, bool p0, bool p1, float p2, floa
                          sycl::ext::intel::fpga_reg(Y_shreg[jjj][14]),
                          sycl::ext::intel::fpga_reg(Y_shreg[jjj][15])
                         };
-                        Z_shreg_ =  sycl::ext::intel::fpga_reg(Z_shreg[0][jjj][iii]);
+                         [[intel::fpga_register]]
+                         float Z_shreg_;
+                         // Z_shreg is local to PE,no need of fpga_reg
+                        Z_shreg_ =  /*sycl::ext::intel::fpga_reg(*/Z_shreg[0][jjj][iii];//);
                         #pragma unroll
                         for (int kkk = 0; kkk < 16; kkk++) {
-                          Z_shreg_ = Z_shreg_ + X_shreg[iii][kkk] * Y_shreg[jjj][kkk];
+                          Z_shreg_ += X_shreg[iii][kkk] * Y_shreg[jjj][kkk];
                         }
                         Z_shreg[0][jjj][iii] = Z_shreg_;
                         /*Z_shreg_ = k == 0 && kk_ii_jj / 1024 == 0 ? float_from_bits(0) : sycl::ext::intel::fpga_reg(Z_shreg[0][jjj][iii]);

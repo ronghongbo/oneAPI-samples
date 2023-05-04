@@ -615,9 +615,10 @@ auto sgemm(device_selector_t device_selector_v, bool p0, bool p1, float p2, floa
 
                   #pragma unroll
                   for (int iii = 0; iii < 3; iii++) {
-                    X_shreg[iii] = sycl::ext::intel::fpga_reg(X_shreg[iii]);
+                    //X_shreg[iii] = sycl::ext::intel::fpga_reg(X_shreg[iii]);
                     #pragma unroll
                     for (int jjj = 0; jjj < 3; jjj++) {
+                      X_shreg[iii] = sycl::ext::intel::fpga_reg(X_shreg[iii]);
                       Y_shreg[jjj] = sycl::ext::intel::fpga_reg(Y_shreg[jjj]);
                       Z_shreg[jjj][iii] += X_shreg[iii] * Y_shreg[jjj];
                       if (k == B_extent_1 + -1) {
