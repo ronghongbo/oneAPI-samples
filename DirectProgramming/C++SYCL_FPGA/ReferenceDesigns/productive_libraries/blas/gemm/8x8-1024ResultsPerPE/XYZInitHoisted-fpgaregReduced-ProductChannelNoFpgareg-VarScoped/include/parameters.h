@@ -22,11 +22,20 @@
 // Inner loop bounds, which are static constant parameters of the design
 #ifdef TINY // For verifying correctness only
     #define KKK         1
-    #define JJJ         3
-    #define III         3
+    #define JJJ         8
+    #define III         8
     #define JJ          1
     #define II          1
     #define KK          1
+
+/*
+    #define KKK         4
+    #define JJJ         4
+    #define III         4
+    #define JJ          4
+    #define II          4
+    #define KK          4
+*/
 #else // LARGE
     #ifdef GPU
         #define KKK         8
@@ -69,7 +78,7 @@
         #ifdef T2SP_SGEMM
             #define KKK         16
             #define JJJ         8
-            #define III         8
+            #define III         10
             #define JJ          32
             #define II          32
             #define KK          32
