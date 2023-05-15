@@ -88164,7 +88164,10 @@ struct ShiftRegAlloc {
     vector<Expr>           PE_extents;              // Extents of the PE_dims.
 
     // Additional info for the linearized_dims
-    vector<RegStrategy> strategy;                   // Should rotation/shift/direct access be used for the corresponding linearized time_dims?
+    vector<RegStrategy>    strategy;                // Should rotation/shift/direct access be used for the corresponding linearized time_dims?
+
+    // The scope to allocate the shift registers
+    string                 scope_loop;              // Scope loop where we'll allocate the shift registers
 };
 
 /* Minimize the sizes of shift registers. */
