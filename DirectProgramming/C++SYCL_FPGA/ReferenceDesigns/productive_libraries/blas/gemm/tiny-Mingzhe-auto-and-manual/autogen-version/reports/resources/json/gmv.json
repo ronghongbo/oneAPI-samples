@@ -1,0 +1,349 @@
+{
+  "nodes":
+  [
+    {
+      "name":"DDR"
+      , "id":9081
+      , "details":
+      [
+        {
+          "type":"table"
+          , "Interleaving":"Yes"
+          , "Interleave Size":"1024 bytes"
+          , "Channels":"2 channels"
+          , "Maximum bandwidth the BSP can deliver":"34133.00 MB/s<br><small><i> Note: Realistic maximum bandwidth is about 90% of the above due to loss from interconnect and memory controller.</i></small>"
+          , "Channel DDR Width (bits)":"512, 512"
+        }
+      ]
+      , "type":"memsys"
+      , "children":
+      [
+        {
+          "name":"channel 0"
+          , "id":9083
+          , "details":
+          [
+            {
+              "type":"table"
+              , "Data Width":"512"
+              , "Address Width":"32"
+              , "Latency":"500"
+              , "ReadWrite Mode":"Read/Write"
+              , "Maximum Burst":"16"
+              , "Wait Request":"0"
+              , "Start Address":"0x0"
+            }
+          ]
+          , "type":"bb"
+        }
+        , {
+          "name":"channel 1"
+          , "id":9084
+          , "details":
+          [
+            {
+              "type":"table"
+              , "Data Width":"512"
+              , "Address Width":"32"
+              , "Latency":"500"
+              , "ReadWrite Mode":"Read/Write"
+              , "Maximum Burst":"16"
+              , "Wait Request":"0"
+              , "Start Address":"0x100000000"
+            }
+          ]
+          , "type":"bb"
+        }
+      ]
+    }
+    , {
+      "name":"Memory Controller"
+      , "id":9082
+      , "parent":"9081"
+      , "bw":"34133.00"
+      , "num_channels":"2"
+      , "interleave":"1"
+      , "details":
+      [
+        {
+          "type":"table"
+          , "Maximum bandwidth the BSP can deliver":"34133.00 MB/s<br><small><i> Note: Realistic maximum bandwidth is about 90% of the above due to loss from interconnect and memory controller.</i></small>"
+        }
+      ]
+      , "type":"bb"
+    }
+    , {
+      "name":"Global Memory Interconnect"
+      , "id":9085
+      , "parent":"9081"
+      , "type":"bb"
+      , "children":
+      [
+        {
+          "name":"SHARE"
+          , "id":9086
+          , "type":"arb"
+        }
+        , {
+          "name":"Write Interconnect"
+          , "id":9089
+          , "details":
+          [
+            {
+              "type":"table"
+              , "Name":"DDR"
+              , "Interconnect Style":"tree"
+              , "Writes":"1"
+              , "User specified force-single-store-ring flag":"False"
+              , "Store Rings":"2"
+            }
+          ]
+          , "type":"bb"
+        }
+        , {
+          "name":"Read Interconnect"
+          , "id":9087
+          , "details":
+          [
+            {
+              "type":"table"
+              , "Name":"DDR"
+              , "Interconnect Style":"tree"
+              , "Reads":"3"
+            }
+          ]
+          , "type":"bb"
+        }
+        , {
+          "name":"Read Interconnect Router"
+          , "id":9088
+          , "details":
+          [
+            {
+              "type":"table"
+              , "User specified num-reorder flag":"Unset"
+            }
+          ]
+          , "type":"memsys"
+          , "children":
+          [
+            {
+              "name":"Bus 0"
+              , "id":9096
+              , "type":"memsys"
+            }
+            , {
+              "name":"Bus 1"
+              , "id":9097
+              , "type":"memsys"
+            }
+          ]
+        }
+      ]
+    }
+    , {
+      "name":"Global Memory Loads"
+      , "id":9090
+      , "parent":"9081"
+      , "type":"bb"
+      , "children":
+      [
+        {
+          "name":"LD"
+          , "id":9091
+          , "kwidth":"128"
+          , "mwidth":"512"
+          , "details":
+          [
+            {
+              "type":"table"
+              , "Start Cycle":"72"
+              , "Latency":"249 cycles"
+              , "Width":"128 bits"
+              , "DDR Width":"512 bits"
+              , "Uses Caching":"No"
+              , "LSU Style":"BURST-COALESCED"
+              , "Kernel":"kernel_aLoader_class"
+            }
+          ]
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u114360/oneapi/oneAPI-samples/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/include/sgemm.sycl.h"
+                , "line":292
+              }
+            ]
+          ]
+          , "type":"inst"
+        }
+        , {
+          "name":"LD"
+          , "id":9092
+          , "kwidth":"128"
+          , "mwidth":"512"
+          , "details":
+          [
+            {
+              "type":"table"
+              , "Start Cycle":"71"
+              , "Latency":"249 cycles"
+              , "Width":"128 bits"
+              , "DDR Width":"512 bits"
+              , "Uses Caching":"No"
+              , "LSU Style":"BURST-COALESCED"
+              , "Kernel":"kernel_bLoader_class"
+            }
+          ]
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u114360/oneapi/oneAPI-samples/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/include/sgemm.sycl.h"
+                , "line":520
+              }
+            ]
+          ]
+          , "type":"inst"
+        }
+        , {
+          "name":"LD"
+          , "id":9093
+          , "kwidth":"128"
+          , "mwidth":"512"
+          , "details":
+          [
+            {
+              "type":"table"
+              , "Start Cycle":"5"
+              , "Latency":"249 cycles"
+              , "Width":"128 bits"
+              , "DDR Width":"512 bits"
+              , "Uses Caching":"No"
+              , "LSU Style":"BURST-COALESCED"
+              , "Kernel":"kernel_cLoader_class"
+            }
+          ]
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u114360/oneapi/oneAPI-samples/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/include/sgemm.sycl.h"
+                , "line":847
+              }
+            ]
+          ]
+          , "type":"inst"
+        }
+      ]
+    }
+    , {
+      "name":"Global Memory Stores"
+      , "id":9094
+      , "parent":"9081"
+      , "type":"bb"
+      , "children":
+      [
+        {
+          "name":"ST"
+          , "id":9095
+          , "kwidth":"128"
+          , "mwidth":"512"
+          , "details":
+          [
+            {
+              "type":"table"
+              , "Start Cycle":"9"
+              , "Latency":"2 cycles"
+              , "Width":"128 bits"
+              , "DDR Width":"512 bits"
+              , "Uses Write Ack":"No"
+              , "LSU Style":"BURST-COALESCED"
+              , "Kernel":"kernel_unloader_class"
+            }
+          ]
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u114360/oneapi/oneAPI-samples/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/include/sgemm.sycl.h"
+                , "line":970
+              }
+            ]
+          ]
+          , "type":"inst"
+        }
+      ]
+    }
+  ]
+  , "links":
+  [
+    {
+      "from":9083
+      , "to":9082
+    }
+    , {
+      "from":9082
+      , "to":9083
+    }
+    , {
+      "from":9084
+      , "to":9082
+    }
+    , {
+      "from":9082
+      , "to":9084
+    }
+    , {
+      "from":9087
+      , "to":9086
+    }
+    , {
+      "from":9089
+      , "to":9086
+    }
+    , {
+      "from":9086
+      , "to":9082
+    }
+    , {
+      "from":9091
+      , "to":9087
+    }
+    , {
+      "from":9092
+      , "to":9087
+    }
+    , {
+      "from":9093
+      , "to":9087
+    }
+    , {
+      "from":9095
+      , "to":9089
+    }
+    , {
+      "from":9082
+      , "to":9096
+    }
+    , {
+      "from":9082
+      , "to":9097
+    }
+    , {
+      "from":9096
+      , "to":9091
+      , "reverse":1
+    }
+    , {
+      "from":9097
+      , "to":9092
+      , "reverse":1
+    }
+    , {
+      "from":9096
+      , "to":9093
+      , "reverse":1
+    }
+  ]
+}
