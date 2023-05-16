@@ -1,0 +1,2287 @@
+{
+  "nodes":
+  [
+    {
+      "name":"kernel_aFeeder"
+      , "id":1602
+      , "type":"kernel"
+      , "children":
+      [
+        {
+          "name":"On-chip Memory"
+          , "id":1603
+          , "type":"memtype"
+          , "children":
+          [
+            {
+              "name":"DB"
+              , "id":1604
+              , "brief":"Implemented size:2048 bytes = (4 banks) x (32 words per bank) x (16 bytes per word) | Memory Usage:28 MLABs | Number of banks:4 | Bank width (word size):16 bytes | Bank depth:32 words | Number of replicates:1 | Number of private copies:1 | RAM Mode:Simple dual-port | Pump configuration:Single-pumped | User defined attributes:memory, singlepump, numbanks(4), simple_dual_port"
+              , "details":
+              [
+                {
+                  "type":"table"
+                  , "Declared at":
+                  [
+                    {
+                      "type":"text"
+                      , "text":"%L"
+                      , "links":
+                      [
+                        {
+                          "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
+                          , "line":"181"
+                        }
+                      ]
+                    }
+                  ]
+                  , "Requested size":"2048 bytes"
+                  , "Implemented size":"2048 bytes = (4 banks) x (32 words per bank) x (16 bytes per word)"
+                  , "Memory Usage":"28 MLABs"
+                  , "Number of banks":"4"
+                  , "Bank width (word size)":"16 bytes"
+                  , "Bank depth":"32 words"
+                  , "Number of replicates":"1"
+                  , "Number of private copies":"1"
+                  , "RAM Mode":"Simple dual-port"
+                  , "Pump configuration":"Single-pumped"
+                  , "Additional information":"In each private copy:</br>  Variable 'DB' occupies memory words [0-127] and has 1 array element per memory word."
+                  , "Address bit information":"<table><tr><td>Byte address</td><td>b<sub>10</sub></td><td>b<sub>9</sub></td><td>b<sub>8</sub></td><td>b<sub>7</sub></td><td>b<sub>6</sub></td><td>b<sub>5</sub></td><td>b<sub>4</sub></td><td>b<sub>3</sub></td><td>b<sub>2</sub></td><td>b<sub>1</sub></td><td>b<sub>0</sub></td></tr><tr><td>Sub-word bits</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr><td>Word address bits</td><td>b<sub>10</sub></td><td>b<sub>9</sub></td><td>b<sub>8</sub></td><td>b<sub>7</sub></td><td>b<sub>6</sub></td><td>b<sub>5</sub></td><td>b<sub>4</sub></td><td></td><td></td><td></td><td></td></tr><tr><td>Bank bits</td><td></td><td></td><td></td><td></td><td></td><td>b<sub>5</sub></td><td>b<sub>4</sub></td><td></td><td></td><td></td><td></td></tr></table>"
+                  , "User defined attributes":"memory, singlepump, numbanks(4), simple_dual_port"
+                  , "Reference":
+                  [
+                    {
+                      "type":"text"
+                      , "text":"See %L for more information"
+                      , "links":
+                      [
+                        {
+                          "guide":"Best Practices Guide : Local Memory"
+                          , "link":"file:////glob/development-tools/versions/oneapi/2023.1.1/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/chn1469549457114.html"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
+                    , "line":181
+                  }
+                ]
+              ]
+              , "type":"memsys"
+              , "children":
+              [
+                {
+                  "name":"Bank 0"
+                  , "id":1613
+                  , "brief":"Memory Usage:7 MLABs | Bank width:16 bytes | Bank depth:32 words | Implemented bank size:512 bytes = (32 words) x (16 bytes per word)"
+                  , "details":
+                  [
+                    {
+                      "type":"table"
+                      , "Memory Usage":"7 MLABs"
+                      , "Bank width":"16 bytes"
+                      , "Bank depth":"32 words"
+                      , "Implemented bank size":"512 bytes = (32 words) x (16 bytes per word)"
+                      , "Number of active ports":"2"
+                      , "Number of read ports":"1"
+                      , "Number of write ports":"1"
+                      , "Additional information":"In each private copy:</br>  Variable 'DB' occupies memory words [0-127] and has 1 array element per memory word."
+                      , "Address bit information":"<table><tr><td>Byte address</td><td>b<sub>10</sub></td><td>b<sub>9</sub></td><td>b<sub>8</sub></td><td>b<sub>7</sub></td><td>b<sub>6</sub></td><td>b<sub>5</sub></td><td>b<sub>4</sub></td><td>b<sub>3</sub></td><td>b<sub>2</sub></td><td>b<sub>1</sub></td><td>b<sub>0</sub></td></tr><tr><td>Sub-word bits</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr><td>Word address bits</td><td>b<sub>10</sub></td><td>b<sub>9</sub></td><td>b<sub>8</sub></td><td>b<sub>7</sub></td><td>b<sub>6</sub></td><td><b>0</b></td><td><b>0</b></td><td></td><td></td><td></td><td></td></tr><tr><td>Bank bits</td><td></td><td></td><td></td><td></td><td></td><td><b>0</b></td><td><b>0</b></td><td></td><td></td><td></td><td></td></tr></table>"
+                    }
+                  ]
+                  , "debug":
+                  [
+                    [
+                      {
+                        "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
+                        , "line":181
+                      }
+                    ]
+                  ]
+                  , "type":"bank"
+                  , "children":
+                  [
+                    {
+                      "name":"Replicate 0"
+                      , "id":1614
+                      , "padding":"0"
+                      , "depth":"32"
+                      , "brief":"Implemented size:512 bytes = (32 words) x (16 bytes per word) | Memory Usage:7 MLABs"
+                      , "details":
+                      [
+                        {
+                          "type":"table"
+                          , "Implemented size":"512 bytes = (32 words) x (16 bytes per word)"
+                          , "Memory Usage":"7 MLABs"
+                          , "Number of physical ports":"2"
+                          , "Number of read ports":"1"
+                          , "Number of write ports":"1"
+                          , "Additional information":"In each private copy:</br>  Variable 'DB' occupies memory words [0-127] and has 1 array element per memory word."
+                          , "Address bit information":"<table><tr><td>Byte address</td><td>b<sub>10</sub></td><td>b<sub>9</sub></td><td>b<sub>8</sub></td><td>b<sub>7</sub></td><td>b<sub>6</sub></td><td>b<sub>5</sub></td><td>b<sub>4</sub></td><td>b<sub>3</sub></td><td>b<sub>2</sub></td><td>b<sub>1</sub></td><td>b<sub>0</sub></td></tr><tr><td>Sub-word bits</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr><td>Word address bits</td><td>b<sub>10</sub></td><td>b<sub>9</sub></td><td>b<sub>8</sub></td><td>b<sub>7</sub></td><td>b<sub>6</sub></td><td><b>0</b></td><td><b>0</b></td><td></td><td></td><td></td><td></td></tr><tr><td>Bank bits</td><td></td><td></td><td></td><td></td><td></td><td><b>0</b></td><td><b>0</b></td><td></td><td></td><td></td><td></td></tr></table>"
+                        }
+                      ]
+                      , "debug":
+                      [
+                        [
+                          {
+                            "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
+                            , "line":181
+                          }
+                        ]
+                      ]
+                      , "type":"replicate"
+                      , "children":
+                      [
+                        {
+                          "name":"R"
+                          , "id":1615
+                          , "type":"port"
+                        }
+                        , {
+                          "name":"W"
+                          , "id":1616
+                          , "type":"port"
+                        }
+                      ]
+                      , "copies":
+                      {
+                        "num":1
+                        , "details":
+                        [
+                          {
+                            "type":"table"
+                            , "Width":"16 bytes"
+                            , "Depth per copy (including padding)":"32 words"
+                            , "Number of private copies":"1"
+                            , "Additional information":"In each private copy:</br>  Variable 'DB' occupies memory words [0-127] and has 1 array element per memory word."
+                            , "Address bit information":"<table><tr><td>Byte address</td><td>b<sub>10</sub></td><td>b<sub>9</sub></td><td>b<sub>8</sub></td><td>b<sub>7</sub></td><td>b<sub>6</sub></td><td>b<sub>5</sub></td><td>b<sub>4</sub></td><td>b<sub>3</sub></td><td>b<sub>2</sub></td><td>b<sub>1</sub></td><td>b<sub>0</sub></td></tr><tr><td>Sub-word bits</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr><td>Word address bits</td><td>b<sub>10</sub></td><td>b<sub>9</sub></td><td>b<sub>8</sub></td><td>b<sub>7</sub></td><td>b<sub>6</sub></td><td><b>0</b></td><td><b>0</b></td><td></td><td></td><td></td><td></td></tr><tr><td>Bank bits</td><td></td><td></td><td></td><td></td><td></td><td><b>0</b></td><td><b>0</b></td><td></td><td></td><td></td><td></td></tr></table>"
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+                , {
+                  "name":"Bank 1"
+                  , "id":1617
+                  , "brief":"Memory Usage:7 MLABs | Bank width:16 bytes | Bank depth:32 words | Implemented bank size:512 bytes = (32 words) x (16 bytes per word)"
+                  , "details":
+                  [
+                    {
+                      "type":"table"
+                      , "Memory Usage":"7 MLABs"
+                      , "Bank width":"16 bytes"
+                      , "Bank depth":"32 words"
+                      , "Implemented bank size":"512 bytes = (32 words) x (16 bytes per word)"
+                      , "Number of active ports":"2"
+                      , "Number of read ports":"1"
+                      , "Number of write ports":"1"
+                      , "Additional information":"In each private copy:</br>  Variable 'DB' occupies memory words [0-127] and has 1 array element per memory word."
+                      , "Address bit information":"<table><tr><td>Byte address</td><td>b<sub>10</sub></td><td>b<sub>9</sub></td><td>b<sub>8</sub></td><td>b<sub>7</sub></td><td>b<sub>6</sub></td><td>b<sub>5</sub></td><td>b<sub>4</sub></td><td>b<sub>3</sub></td><td>b<sub>2</sub></td><td>b<sub>1</sub></td><td>b<sub>0</sub></td></tr><tr><td>Sub-word bits</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr><td>Word address bits</td><td>b<sub>10</sub></td><td>b<sub>9</sub></td><td>b<sub>8</sub></td><td>b<sub>7</sub></td><td>b<sub>6</sub></td><td><b>0</b></td><td><b>1</b></td><td></td><td></td><td></td><td></td></tr><tr><td>Bank bits</td><td></td><td></td><td></td><td></td><td></td><td><b>0</b></td><td><b>1</b></td><td></td><td></td><td></td><td></td></tr></table>"
+                    }
+                  ]
+                  , "debug":
+                  [
+                    [
+                      {
+                        "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
+                        , "line":181
+                      }
+                    ]
+                  ]
+                  , "type":"bank"
+                  , "children":
+                  [
+                    {
+                      "name":"Replicate 0"
+                      , "id":1618
+                      , "padding":"0"
+                      , "depth":"32"
+                      , "brief":"Implemented size:512 bytes = (32 words) x (16 bytes per word) | Memory Usage:7 MLABs"
+                      , "details":
+                      [
+                        {
+                          "type":"table"
+                          , "Implemented size":"512 bytes = (32 words) x (16 bytes per word)"
+                          , "Memory Usage":"7 MLABs"
+                          , "Number of physical ports":"2"
+                          , "Number of read ports":"1"
+                          , "Number of write ports":"1"
+                          , "Additional information":"In each private copy:</br>  Variable 'DB' occupies memory words [0-127] and has 1 array element per memory word."
+                          , "Address bit information":"<table><tr><td>Byte address</td><td>b<sub>10</sub></td><td>b<sub>9</sub></td><td>b<sub>8</sub></td><td>b<sub>7</sub></td><td>b<sub>6</sub></td><td>b<sub>5</sub></td><td>b<sub>4</sub></td><td>b<sub>3</sub></td><td>b<sub>2</sub></td><td>b<sub>1</sub></td><td>b<sub>0</sub></td></tr><tr><td>Sub-word bits</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr><td>Word address bits</td><td>b<sub>10</sub></td><td>b<sub>9</sub></td><td>b<sub>8</sub></td><td>b<sub>7</sub></td><td>b<sub>6</sub></td><td><b>0</b></td><td><b>1</b></td><td></td><td></td><td></td><td></td></tr><tr><td>Bank bits</td><td></td><td></td><td></td><td></td><td></td><td><b>0</b></td><td><b>1</b></td><td></td><td></td><td></td><td></td></tr></table>"
+                        }
+                      ]
+                      , "debug":
+                      [
+                        [
+                          {
+                            "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
+                            , "line":181
+                          }
+                        ]
+                      ]
+                      , "type":"replicate"
+                      , "children":
+                      [
+                        {
+                          "name":"R"
+                          , "id":1619
+                          , "type":"port"
+                        }
+                        , {
+                          "name":"W"
+                          , "id":1620
+                          , "type":"port"
+                        }
+                      ]
+                      , "copies":
+                      {
+                        "num":1
+                        , "details":
+                        [
+                          {
+                            "type":"table"
+                            , "Width":"16 bytes"
+                            , "Depth per copy (including padding)":"32 words"
+                            , "Number of private copies":"1"
+                            , "Additional information":"In each private copy:</br>  Variable 'DB' occupies memory words [0-127] and has 1 array element per memory word."
+                            , "Address bit information":"<table><tr><td>Byte address</td><td>b<sub>10</sub></td><td>b<sub>9</sub></td><td>b<sub>8</sub></td><td>b<sub>7</sub></td><td>b<sub>6</sub></td><td>b<sub>5</sub></td><td>b<sub>4</sub></td><td>b<sub>3</sub></td><td>b<sub>2</sub></td><td>b<sub>1</sub></td><td>b<sub>0</sub></td></tr><tr><td>Sub-word bits</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr><td>Word address bits</td><td>b<sub>10</sub></td><td>b<sub>9</sub></td><td>b<sub>8</sub></td><td>b<sub>7</sub></td><td>b<sub>6</sub></td><td><b>0</b></td><td><b>1</b></td><td></td><td></td><td></td><td></td></tr><tr><td>Bank bits</td><td></td><td></td><td></td><td></td><td></td><td><b>0</b></td><td><b>1</b></td><td></td><td></td><td></td><td></td></tr></table>"
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+                , {
+                  "name":"Bank 2"
+                  , "id":1621
+                  , "brief":"Memory Usage:7 MLABs | Bank width:16 bytes | Bank depth:32 words | Implemented bank size:512 bytes = (32 words) x (16 bytes per word)"
+                  , "details":
+                  [
+                    {
+                      "type":"table"
+                      , "Memory Usage":"7 MLABs"
+                      , "Bank width":"16 bytes"
+                      , "Bank depth":"32 words"
+                      , "Implemented bank size":"512 bytes = (32 words) x (16 bytes per word)"
+                      , "Number of active ports":"2"
+                      , "Number of read ports":"1"
+                      , "Number of write ports":"1"
+                      , "Additional information":"In each private copy:</br>  Variable 'DB' occupies memory words [0-127] and has 1 array element per memory word."
+                      , "Address bit information":"<table><tr><td>Byte address</td><td>b<sub>10</sub></td><td>b<sub>9</sub></td><td>b<sub>8</sub></td><td>b<sub>7</sub></td><td>b<sub>6</sub></td><td>b<sub>5</sub></td><td>b<sub>4</sub></td><td>b<sub>3</sub></td><td>b<sub>2</sub></td><td>b<sub>1</sub></td><td>b<sub>0</sub></td></tr><tr><td>Sub-word bits</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr><td>Word address bits</td><td>b<sub>10</sub></td><td>b<sub>9</sub></td><td>b<sub>8</sub></td><td>b<sub>7</sub></td><td>b<sub>6</sub></td><td><b>1</b></td><td><b>0</b></td><td></td><td></td><td></td><td></td></tr><tr><td>Bank bits</td><td></td><td></td><td></td><td></td><td></td><td><b>1</b></td><td><b>0</b></td><td></td><td></td><td></td><td></td></tr></table>"
+                    }
+                  ]
+                  , "debug":
+                  [
+                    [
+                      {
+                        "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
+                        , "line":181
+                      }
+                    ]
+                  ]
+                  , "type":"bank"
+                  , "children":
+                  [
+                    {
+                      "name":"Replicate 0"
+                      , "id":1622
+                      , "padding":"0"
+                      , "depth":"32"
+                      , "brief":"Implemented size:512 bytes = (32 words) x (16 bytes per word) | Memory Usage:7 MLABs"
+                      , "details":
+                      [
+                        {
+                          "type":"table"
+                          , "Implemented size":"512 bytes = (32 words) x (16 bytes per word)"
+                          , "Memory Usage":"7 MLABs"
+                          , "Number of physical ports":"2"
+                          , "Number of read ports":"1"
+                          , "Number of write ports":"1"
+                          , "Additional information":"In each private copy:</br>  Variable 'DB' occupies memory words [0-127] and has 1 array element per memory word."
+                          , "Address bit information":"<table><tr><td>Byte address</td><td>b<sub>10</sub></td><td>b<sub>9</sub></td><td>b<sub>8</sub></td><td>b<sub>7</sub></td><td>b<sub>6</sub></td><td>b<sub>5</sub></td><td>b<sub>4</sub></td><td>b<sub>3</sub></td><td>b<sub>2</sub></td><td>b<sub>1</sub></td><td>b<sub>0</sub></td></tr><tr><td>Sub-word bits</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr><td>Word address bits</td><td>b<sub>10</sub></td><td>b<sub>9</sub></td><td>b<sub>8</sub></td><td>b<sub>7</sub></td><td>b<sub>6</sub></td><td><b>1</b></td><td><b>0</b></td><td></td><td></td><td></td><td></td></tr><tr><td>Bank bits</td><td></td><td></td><td></td><td></td><td></td><td><b>1</b></td><td><b>0</b></td><td></td><td></td><td></td><td></td></tr></table>"
+                        }
+                      ]
+                      , "debug":
+                      [
+                        [
+                          {
+                            "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
+                            , "line":181
+                          }
+                        ]
+                      ]
+                      , "type":"replicate"
+                      , "children":
+                      [
+                        {
+                          "name":"R"
+                          , "id":1623
+                          , "type":"port"
+                        }
+                        , {
+                          "name":"W"
+                          , "id":1624
+                          , "type":"port"
+                        }
+                      ]
+                      , "copies":
+                      {
+                        "num":1
+                        , "details":
+                        [
+                          {
+                            "type":"table"
+                            , "Width":"16 bytes"
+                            , "Depth per copy (including padding)":"32 words"
+                            , "Number of private copies":"1"
+                            , "Additional information":"In each private copy:</br>  Variable 'DB' occupies memory words [0-127] and has 1 array element per memory word."
+                            , "Address bit information":"<table><tr><td>Byte address</td><td>b<sub>10</sub></td><td>b<sub>9</sub></td><td>b<sub>8</sub></td><td>b<sub>7</sub></td><td>b<sub>6</sub></td><td>b<sub>5</sub></td><td>b<sub>4</sub></td><td>b<sub>3</sub></td><td>b<sub>2</sub></td><td>b<sub>1</sub></td><td>b<sub>0</sub></td></tr><tr><td>Sub-word bits</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr><td>Word address bits</td><td>b<sub>10</sub></td><td>b<sub>9</sub></td><td>b<sub>8</sub></td><td>b<sub>7</sub></td><td>b<sub>6</sub></td><td><b>1</b></td><td><b>0</b></td><td></td><td></td><td></td><td></td></tr><tr><td>Bank bits</td><td></td><td></td><td></td><td></td><td></td><td><b>1</b></td><td><b>0</b></td><td></td><td></td><td></td><td></td></tr></table>"
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+                , {
+                  "name":"Bank 3"
+                  , "id":1625
+                  , "brief":"Memory Usage:7 MLABs | Bank width:16 bytes | Bank depth:32 words | Implemented bank size:512 bytes = (32 words) x (16 bytes per word)"
+                  , "details":
+                  [
+                    {
+                      "type":"table"
+                      , "Memory Usage":"7 MLABs"
+                      , "Bank width":"16 bytes"
+                      , "Bank depth":"32 words"
+                      , "Implemented bank size":"512 bytes = (32 words) x (16 bytes per word)"
+                      , "Number of active ports":"2"
+                      , "Number of read ports":"1"
+                      , "Number of write ports":"1"
+                      , "Additional information":"In each private copy:</br>  Variable 'DB' occupies memory words [0-127] and has 1 array element per memory word."
+                      , "Address bit information":"<table><tr><td>Byte address</td><td>b<sub>10</sub></td><td>b<sub>9</sub></td><td>b<sub>8</sub></td><td>b<sub>7</sub></td><td>b<sub>6</sub></td><td>b<sub>5</sub></td><td>b<sub>4</sub></td><td>b<sub>3</sub></td><td>b<sub>2</sub></td><td>b<sub>1</sub></td><td>b<sub>0</sub></td></tr><tr><td>Sub-word bits</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr><td>Word address bits</td><td>b<sub>10</sub></td><td>b<sub>9</sub></td><td>b<sub>8</sub></td><td>b<sub>7</sub></td><td>b<sub>6</sub></td><td><b>1</b></td><td><b>1</b></td><td></td><td></td><td></td><td></td></tr><tr><td>Bank bits</td><td></td><td></td><td></td><td></td><td></td><td><b>1</b></td><td><b>1</b></td><td></td><td></td><td></td><td></td></tr></table>"
+                    }
+                  ]
+                  , "debug":
+                  [
+                    [
+                      {
+                        "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
+                        , "line":181
+                      }
+                    ]
+                  ]
+                  , "type":"bank"
+                  , "children":
+                  [
+                    {
+                      "name":"Replicate 0"
+                      , "id":1626
+                      , "padding":"0"
+                      , "depth":"32"
+                      , "brief":"Implemented size:512 bytes = (32 words) x (16 bytes per word) | Memory Usage:7 MLABs"
+                      , "details":
+                      [
+                        {
+                          "type":"table"
+                          , "Implemented size":"512 bytes = (32 words) x (16 bytes per word)"
+                          , "Memory Usage":"7 MLABs"
+                          , "Number of physical ports":"2"
+                          , "Number of read ports":"1"
+                          , "Number of write ports":"1"
+                          , "Additional information":"In each private copy:</br>  Variable 'DB' occupies memory words [0-127] and has 1 array element per memory word."
+                          , "Address bit information":"<table><tr><td>Byte address</td><td>b<sub>10</sub></td><td>b<sub>9</sub></td><td>b<sub>8</sub></td><td>b<sub>7</sub></td><td>b<sub>6</sub></td><td>b<sub>5</sub></td><td>b<sub>4</sub></td><td>b<sub>3</sub></td><td>b<sub>2</sub></td><td>b<sub>1</sub></td><td>b<sub>0</sub></td></tr><tr><td>Sub-word bits</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr><td>Word address bits</td><td>b<sub>10</sub></td><td>b<sub>9</sub></td><td>b<sub>8</sub></td><td>b<sub>7</sub></td><td>b<sub>6</sub></td><td><b>1</b></td><td><b>1</b></td><td></td><td></td><td></td><td></td></tr><tr><td>Bank bits</td><td></td><td></td><td></td><td></td><td></td><td><b>1</b></td><td><b>1</b></td><td></td><td></td><td></td><td></td></tr></table>"
+                        }
+                      ]
+                      , "debug":
+                      [
+                        [
+                          {
+                            "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
+                            , "line":181
+                          }
+                        ]
+                      ]
+                      , "type":"replicate"
+                      , "children":
+                      [
+                        {
+                          "name":"R"
+                          , "id":1627
+                          , "type":"port"
+                        }
+                        , {
+                          "name":"W"
+                          , "id":1628
+                          , "type":"port"
+                        }
+                      ]
+                      , "copies":
+                      {
+                        "num":1
+                        , "details":
+                        [
+                          {
+                            "type":"table"
+                            , "Width":"16 bytes"
+                            , "Depth per copy (including padding)":"32 words"
+                            , "Number of private copies":"1"
+                            , "Additional information":"In each private copy:</br>  Variable 'DB' occupies memory words [0-127] and has 1 array element per memory word."
+                            , "Address bit information":"<table><tr><td>Byte address</td><td>b<sub>10</sub></td><td>b<sub>9</sub></td><td>b<sub>8</sub></td><td>b<sub>7</sub></td><td>b<sub>6</sub></td><td>b<sub>5</sub></td><td>b<sub>4</sub></td><td>b<sub>3</sub></td><td>b<sub>2</sub></td><td>b<sub>1</sub></td><td>b<sub>0</sub></td></tr><tr><td>Sub-word bits</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr><td>Word address bits</td><td>b<sub>10</sub></td><td>b<sub>9</sub></td><td>b<sub>8</sub></td><td>b<sub>7</sub></td><td>b<sub>6</sub></td><td><b>1</b></td><td><b>1</b></td><td></td><td></td><td></td><td></td></tr><tr><td>Bank bits</td><td></td><td></td><td></td><td></td><td></td><td><b>1</b></td><td><b>1</b></td><td></td><td></td><td></td><td></td></tr></table>"
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+            , {
+              "name":"aFeeder_channel_array"
+              , "id":1629
+              , "details":
+              [
+                {
+                  "type":"table"
+                  , "Declared at":
+                  [
+                    {
+                      "type":"text"
+                      , "text":"%L"
+                      , "links":
+                      [
+                        {
+                          "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
+                          , "line":"174"
+                        }
+                      ]
+                    }
+                  ]
+                  , "Additional information":"This variable is carried through the pipeline in registers (rather than being stored in RAM)"
+                }
+              ]
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
+                    , "line":174
+                  }
+                ]
+              ]
+              , "type":"reg"
+            }
+          ]
+        }
+        , {
+          "name":"Load"
+          , "id":1605
+          , "brief":"Width:128 bits | Stall-free:Yes | Type:Pipelined never-stall | Loads from:DB | Start cycle:10 | Latency:3"
+          , "details":
+          [
+            {
+              "type":"table"
+              , "Width":"128 bits"
+              , "Stall-free":"Yes"
+              , "Type":"Pipelined never-stall"
+              , "Loads from":"DB"
+              , "Start cycle":"10"
+              , "Latency":"3"
+              , "Inlined Debug Locations":
+              [
+                {
+                  "type":"text"
+                  , "text":"%L > %L"
+                  , "links":
+                  [
+                    {
+                      "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
+                      , "line":"210"
+                    }
+                    , {
+                      "filename":"/glob/development-tools/versions/oneapi/2023.0.1/oneapi/compiler/2023.0.0/linux/bin-llvm/../include/sycl/handler.hpp"
+                      , "line":"1100"
+                    }
+                  ]
+                }
+              ]
+              , "Reference":
+              [
+                {
+                  "type":"text"
+                  , "text":"See %L for more information"
+                  , "links":
+                  [
+                    {
+                      "guide":"Best Practices Guide : Load-Store Units"
+                      , "link":"file:////glob/development-tools/versions/oneapi/2023.1.1/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/yeo1491314105959.html"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
+                , "line":210
+              }
+            ]
+          ]
+          , "type":"inst"
+        }
+        , {
+          "name":"Load"
+          , "id":1606
+          , "brief":"Width:128 bits | Stall-free:Yes | Type:Pipelined never-stall | Loads from:DB | Start cycle:12 | Latency:3"
+          , "details":
+          [
+            {
+              "type":"table"
+              , "Width":"128 bits"
+              , "Stall-free":"Yes"
+              , "Type":"Pipelined never-stall"
+              , "Loads from":"DB"
+              , "Start cycle":"12"
+              , "Latency":"3"
+              , "Inlined Debug Locations":
+              [
+                {
+                  "type":"text"
+                  , "text":"%L > %L"
+                  , "links":
+                  [
+                    {
+                      "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
+                      , "line":"210"
+                    }
+                    , {
+                      "filename":"/glob/development-tools/versions/oneapi/2023.0.1/oneapi/compiler/2023.0.0/linux/bin-llvm/../include/sycl/handler.hpp"
+                      , "line":"1100"
+                    }
+                  ]
+                }
+              ]
+              , "Reference":
+              [
+                {
+                  "type":"text"
+                  , "text":"See %L for more information"
+                  , "links":
+                  [
+                    {
+                      "guide":"Best Practices Guide : Load-Store Units"
+                      , "link":"file:////glob/development-tools/versions/oneapi/2023.1.1/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/yeo1491314105959.html"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
+                , "line":210
+              }
+            ]
+          ]
+          , "type":"inst"
+        }
+        , {
+          "name":"Load"
+          , "id":1607
+          , "brief":"Width:128 bits | Stall-free:Yes | Type:Pipelined never-stall | Loads from:DB | Start cycle:14 | Latency:3"
+          , "details":
+          [
+            {
+              "type":"table"
+              , "Width":"128 bits"
+              , "Stall-free":"Yes"
+              , "Type":"Pipelined never-stall"
+              , "Loads from":"DB"
+              , "Start cycle":"14"
+              , "Latency":"3"
+              , "Inlined Debug Locations":
+              [
+                {
+                  "type":"text"
+                  , "text":"%L > %L"
+                  , "links":
+                  [
+                    {
+                      "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
+                      , "line":"210"
+                    }
+                    , {
+                      "filename":"/glob/development-tools/versions/oneapi/2023.0.1/oneapi/compiler/2023.0.0/linux/bin-llvm/../include/sycl/handler.hpp"
+                      , "line":"1100"
+                    }
+                  ]
+                }
+              ]
+              , "Reference":
+              [
+                {
+                  "type":"text"
+                  , "text":"See %L for more information"
+                  , "links":
+                  [
+                    {
+                      "guide":"Best Practices Guide : Load-Store Units"
+                      , "link":"file:////glob/development-tools/versions/oneapi/2023.1.1/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/yeo1491314105959.html"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
+                , "line":210
+              }
+            ]
+          ]
+          , "type":"inst"
+        }
+        , {
+          "name":"Load"
+          , "id":1608
+          , "brief":"Width:128 bits | Stall-free:Yes | Type:Pipelined never-stall | Loads from:DB | Start cycle:16 | Latency:3"
+          , "details":
+          [
+            {
+              "type":"table"
+              , "Width":"128 bits"
+              , "Stall-free":"Yes"
+              , "Type":"Pipelined never-stall"
+              , "Loads from":"DB"
+              , "Start cycle":"16"
+              , "Latency":"3"
+              , "Inlined Debug Locations":
+              [
+                {
+                  "type":"text"
+                  , "text":"%L > %L"
+                  , "links":
+                  [
+                    {
+                      "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
+                      , "line":"210"
+                    }
+                    , {
+                      "filename":"/glob/development-tools/versions/oneapi/2023.0.1/oneapi/compiler/2023.0.0/linux/bin-llvm/../include/sycl/handler.hpp"
+                      , "line":"1100"
+                    }
+                  ]
+                }
+              ]
+              , "Reference":
+              [
+                {
+                  "type":"text"
+                  , "text":"See %L for more information"
+                  , "links":
+                  [
+                    {
+                      "guide":"Best Practices Guide : Load-Store Units"
+                      , "link":"file:////glob/development-tools/versions/oneapi/2023.1.1/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/yeo1491314105959.html"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
+                , "line":210
+              }
+            ]
+          ]
+          , "type":"inst"
+        }
+        , {
+          "name":"Store"
+          , "id":1609
+          , "brief":"Width:128 bits | Stall-free:Yes | Type:Pipelined never-stall | Stores to:DB | Start cycle:9 | Latency:1"
+          , "details":
+          [
+            {
+              "type":"table"
+              , "Width":"128 bits"
+              , "Stall-free":"Yes"
+              , "Type":"Pipelined never-stall"
+              , "Stores to":"DB"
+              , "Start cycle":"9"
+              , "Latency":"1"
+              , "Inlined Debug Locations":
+              [
+                {
+                  "type":"text"
+                  , "text":"%L > %L"
+                  , "links":
+                  [
+                    {
+                      "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
+                      , "line":"207"
+                    }
+                    , {
+                      "filename":"/glob/development-tools/versions/oneapi/2023.0.1/oneapi/compiler/2023.0.0/linux/bin-llvm/../include/sycl/handler.hpp"
+                      , "line":"1100"
+                    }
+                  ]
+                }
+              ]
+              , "Reference":
+              [
+                {
+                  "type":"text"
+                  , "text":"See %L for more information"
+                  , "links":
+                  [
+                    {
+                      "guide":"Best Practices Guide : Load-Store Units"
+                      , "link":"file:////glob/development-tools/versions/oneapi/2023.1.1/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/yeo1491314105959.html"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
+                , "line":207
+              }
+            ]
+          ]
+          , "type":"inst"
+        }
+        , {
+          "name":"Store"
+          , "id":1610
+          , "brief":"Width:128 bits | Stall-free:Yes | Type:Pipelined never-stall | Stores to:DB | Start cycle:11 | Latency:1"
+          , "details":
+          [
+            {
+              "type":"table"
+              , "Width":"128 bits"
+              , "Stall-free":"Yes"
+              , "Type":"Pipelined never-stall"
+              , "Stores to":"DB"
+              , "Start cycle":"11"
+              , "Latency":"1"
+              , "Inlined Debug Locations":
+              [
+                {
+                  "type":"text"
+                  , "text":"%L > %L"
+                  , "links":
+                  [
+                    {
+                      "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
+                      , "line":"207"
+                    }
+                    , {
+                      "filename":"/glob/development-tools/versions/oneapi/2023.0.1/oneapi/compiler/2023.0.0/linux/bin-llvm/../include/sycl/handler.hpp"
+                      , "line":"1100"
+                    }
+                  ]
+                }
+              ]
+              , "Reference":
+              [
+                {
+                  "type":"text"
+                  , "text":"See %L for more information"
+                  , "links":
+                  [
+                    {
+                      "guide":"Best Practices Guide : Load-Store Units"
+                      , "link":"file:////glob/development-tools/versions/oneapi/2023.1.1/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/yeo1491314105959.html"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
+                , "line":207
+              }
+            ]
+          ]
+          , "type":"inst"
+        }
+        , {
+          "name":"Store"
+          , "id":1611
+          , "brief":"Width:128 bits | Stall-free:Yes | Type:Pipelined never-stall | Stores to:DB | Start cycle:13 | Latency:1"
+          , "details":
+          [
+            {
+              "type":"table"
+              , "Width":"128 bits"
+              , "Stall-free":"Yes"
+              , "Type":"Pipelined never-stall"
+              , "Stores to":"DB"
+              , "Start cycle":"13"
+              , "Latency":"1"
+              , "Inlined Debug Locations":
+              [
+                {
+                  "type":"text"
+                  , "text":"%L > %L"
+                  , "links":
+                  [
+                    {
+                      "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
+                      , "line":"207"
+                    }
+                    , {
+                      "filename":"/glob/development-tools/versions/oneapi/2023.0.1/oneapi/compiler/2023.0.0/linux/bin-llvm/../include/sycl/handler.hpp"
+                      , "line":"1100"
+                    }
+                  ]
+                }
+              ]
+              , "Reference":
+              [
+                {
+                  "type":"text"
+                  , "text":"See %L for more information"
+                  , "links":
+                  [
+                    {
+                      "guide":"Best Practices Guide : Load-Store Units"
+                      , "link":"file:////glob/development-tools/versions/oneapi/2023.1.1/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/yeo1491314105959.html"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
+                , "line":207
+              }
+            ]
+          ]
+          , "type":"inst"
+        }
+        , {
+          "name":"Store"
+          , "id":1612
+          , "brief":"Width:128 bits | Stall-free:Yes | Type:Pipelined never-stall | Stores to:DB | Start cycle:15 | Latency:1"
+          , "details":
+          [
+            {
+              "type":"table"
+              , "Width":"128 bits"
+              , "Stall-free":"Yes"
+              , "Type":"Pipelined never-stall"
+              , "Stores to":"DB"
+              , "Start cycle":"15"
+              , "Latency":"1"
+              , "Inlined Debug Locations":
+              [
+                {
+                  "type":"text"
+                  , "text":"%L > %L"
+                  , "links":
+                  [
+                    {
+                      "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
+                      , "line":"207"
+                    }
+                    , {
+                      "filename":"/glob/development-tools/versions/oneapi/2023.0.1/oneapi/compiler/2023.0.0/linux/bin-llvm/../include/sycl/handler.hpp"
+                      , "line":"1100"
+                    }
+                  ]
+                }
+              ]
+              , "Reference":
+              [
+                {
+                  "type":"text"
+                  , "text":"See %L for more information"
+                  , "links":
+                  [
+                    {
+                      "guide":"Best Practices Guide : Load-Store Units"
+                      , "link":"file:////glob/development-tools/versions/oneapi/2023.1.1/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/yeo1491314105959.html"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
+                , "line":207
+              }
+            ]
+          ]
+          , "type":"inst"
+        }
+      ]
+    }
+    , {
+      "name":"kernel_bFeeder"
+      , "id":1630
+      , "type":"kernel"
+      , "children":
+      [
+        {
+          "name":"On-chip Memory"
+          , "id":1631
+          , "type":"memtype"
+          , "children":
+          [
+            {
+              "name":"DB"
+              , "id":1632
+              , "brief":"Implemented size:2048 bytes = (4 banks) x (32 words per bank) x (16 bytes per word) | Memory Usage:28 MLABs | Number of banks:4 | Bank width (word size):16 bytes | Bank depth:32 words | Number of replicates:1 | Number of private copies:1 | RAM Mode:Simple dual-port | Pump configuration:Single-pumped | User defined attributes:memory, singlepump, numbanks(4), simple_dual_port"
+              , "details":
+              [
+                {
+                  "type":"table"
+                  , "Declared at":
+                  [
+                    {
+                      "type":"text"
+                      , "text":"%L"
+                      , "links":
+                      [
+                        {
+                          "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
+                          , "line":"261"
+                        }
+                      ]
+                    }
+                  ]
+                  , "Requested size":"2048 bytes"
+                  , "Implemented size":"2048 bytes = (4 banks) x (32 words per bank) x (16 bytes per word)"
+                  , "Memory Usage":"28 MLABs"
+                  , "Number of banks":"4"
+                  , "Bank width (word size)":"16 bytes"
+                  , "Bank depth":"32 words"
+                  , "Number of replicates":"1"
+                  , "Number of private copies":"1"
+                  , "RAM Mode":"Simple dual-port"
+                  , "Pump configuration":"Single-pumped"
+                  , "Additional information":"In each private copy:</br>  Variable 'DB' occupies memory words [0-127] and has 1 array element per memory word."
+                  , "Address bit information":"<table><tr><td>Byte address</td><td>b<sub>10</sub></td><td>b<sub>9</sub></td><td>b<sub>8</sub></td><td>b<sub>7</sub></td><td>b<sub>6</sub></td><td>b<sub>5</sub></td><td>b<sub>4</sub></td><td>b<sub>3</sub></td><td>b<sub>2</sub></td><td>b<sub>1</sub></td><td>b<sub>0</sub></td></tr><tr><td>Sub-word bits</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr><td>Word address bits</td><td>b<sub>10</sub></td><td>b<sub>9</sub></td><td>b<sub>8</sub></td><td>b<sub>7</sub></td><td>b<sub>6</sub></td><td>b<sub>5</sub></td><td>b<sub>4</sub></td><td></td><td></td><td></td><td></td></tr><tr><td>Bank bits</td><td></td><td></td><td></td><td></td><td></td><td>b<sub>5</sub></td><td>b<sub>4</sub></td><td></td><td></td><td></td><td></td></tr></table>"
+                  , "User defined attributes":"memory, singlepump, numbanks(4), simple_dual_port"
+                  , "Reference":
+                  [
+                    {
+                      "type":"text"
+                      , "text":"See %L for more information"
+                      , "links":
+                      [
+                        {
+                          "guide":"Best Practices Guide : Local Memory"
+                          , "link":"file:////glob/development-tools/versions/oneapi/2023.1.1/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/chn1469549457114.html"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
+                    , "line":261
+                  }
+                ]
+              ]
+              , "type":"memsys"
+              , "children":
+              [
+                {
+                  "name":"Bank 0"
+                  , "id":1641
+                  , "brief":"Memory Usage:7 MLABs | Bank width:16 bytes | Bank depth:32 words | Implemented bank size:512 bytes = (32 words) x (16 bytes per word)"
+                  , "details":
+                  [
+                    {
+                      "type":"table"
+                      , "Memory Usage":"7 MLABs"
+                      , "Bank width":"16 bytes"
+                      , "Bank depth":"32 words"
+                      , "Implemented bank size":"512 bytes = (32 words) x (16 bytes per word)"
+                      , "Number of active ports":"2"
+                      , "Number of read ports":"1"
+                      , "Number of write ports":"1"
+                      , "Additional information":"In each private copy:</br>  Variable 'DB' occupies memory words [0-127] and has 1 array element per memory word."
+                      , "Address bit information":"<table><tr><td>Byte address</td><td>b<sub>10</sub></td><td>b<sub>9</sub></td><td>b<sub>8</sub></td><td>b<sub>7</sub></td><td>b<sub>6</sub></td><td>b<sub>5</sub></td><td>b<sub>4</sub></td><td>b<sub>3</sub></td><td>b<sub>2</sub></td><td>b<sub>1</sub></td><td>b<sub>0</sub></td></tr><tr><td>Sub-word bits</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr><td>Word address bits</td><td>b<sub>10</sub></td><td>b<sub>9</sub></td><td>b<sub>8</sub></td><td>b<sub>7</sub></td><td>b<sub>6</sub></td><td><b>0</b></td><td><b>0</b></td><td></td><td></td><td></td><td></td></tr><tr><td>Bank bits</td><td></td><td></td><td></td><td></td><td></td><td><b>0</b></td><td><b>0</b></td><td></td><td></td><td></td><td></td></tr></table>"
+                    }
+                  ]
+                  , "debug":
+                  [
+                    [
+                      {
+                        "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
+                        , "line":261
+                      }
+                    ]
+                  ]
+                  , "type":"bank"
+                  , "children":
+                  [
+                    {
+                      "name":"Replicate 0"
+                      , "id":1642
+                      , "padding":"0"
+                      , "depth":"32"
+                      , "brief":"Implemented size:512 bytes = (32 words) x (16 bytes per word) | Memory Usage:7 MLABs"
+                      , "details":
+                      [
+                        {
+                          "type":"table"
+                          , "Implemented size":"512 bytes = (32 words) x (16 bytes per word)"
+                          , "Memory Usage":"7 MLABs"
+                          , "Number of physical ports":"2"
+                          , "Number of read ports":"1"
+                          , "Number of write ports":"1"
+                          , "Additional information":"In each private copy:</br>  Variable 'DB' occupies memory words [0-127] and has 1 array element per memory word."
+                          , "Address bit information":"<table><tr><td>Byte address</td><td>b<sub>10</sub></td><td>b<sub>9</sub></td><td>b<sub>8</sub></td><td>b<sub>7</sub></td><td>b<sub>6</sub></td><td>b<sub>5</sub></td><td>b<sub>4</sub></td><td>b<sub>3</sub></td><td>b<sub>2</sub></td><td>b<sub>1</sub></td><td>b<sub>0</sub></td></tr><tr><td>Sub-word bits</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr><td>Word address bits</td><td>b<sub>10</sub></td><td>b<sub>9</sub></td><td>b<sub>8</sub></td><td>b<sub>7</sub></td><td>b<sub>6</sub></td><td><b>0</b></td><td><b>0</b></td><td></td><td></td><td></td><td></td></tr><tr><td>Bank bits</td><td></td><td></td><td></td><td></td><td></td><td><b>0</b></td><td><b>0</b></td><td></td><td></td><td></td><td></td></tr></table>"
+                        }
+                      ]
+                      , "debug":
+                      [
+                        [
+                          {
+                            "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
+                            , "line":261
+                          }
+                        ]
+                      ]
+                      , "type":"replicate"
+                      , "children":
+                      [
+                        {
+                          "name":"R"
+                          , "id":1643
+                          , "type":"port"
+                        }
+                        , {
+                          "name":"W"
+                          , "id":1644
+                          , "type":"port"
+                        }
+                      ]
+                      , "copies":
+                      {
+                        "num":1
+                        , "details":
+                        [
+                          {
+                            "type":"table"
+                            , "Width":"16 bytes"
+                            , "Depth per copy (including padding)":"32 words"
+                            , "Number of private copies":"1"
+                            , "Additional information":"In each private copy:</br>  Variable 'DB' occupies memory words [0-127] and has 1 array element per memory word."
+                            , "Address bit information":"<table><tr><td>Byte address</td><td>b<sub>10</sub></td><td>b<sub>9</sub></td><td>b<sub>8</sub></td><td>b<sub>7</sub></td><td>b<sub>6</sub></td><td>b<sub>5</sub></td><td>b<sub>4</sub></td><td>b<sub>3</sub></td><td>b<sub>2</sub></td><td>b<sub>1</sub></td><td>b<sub>0</sub></td></tr><tr><td>Sub-word bits</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr><td>Word address bits</td><td>b<sub>10</sub></td><td>b<sub>9</sub></td><td>b<sub>8</sub></td><td>b<sub>7</sub></td><td>b<sub>6</sub></td><td><b>0</b></td><td><b>0</b></td><td></td><td></td><td></td><td></td></tr><tr><td>Bank bits</td><td></td><td></td><td></td><td></td><td></td><td><b>0</b></td><td><b>0</b></td><td></td><td></td><td></td><td></td></tr></table>"
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+                , {
+                  "name":"Bank 1"
+                  , "id":1645
+                  , "brief":"Memory Usage:7 MLABs | Bank width:16 bytes | Bank depth:32 words | Implemented bank size:512 bytes = (32 words) x (16 bytes per word)"
+                  , "details":
+                  [
+                    {
+                      "type":"table"
+                      , "Memory Usage":"7 MLABs"
+                      , "Bank width":"16 bytes"
+                      , "Bank depth":"32 words"
+                      , "Implemented bank size":"512 bytes = (32 words) x (16 bytes per word)"
+                      , "Number of active ports":"2"
+                      , "Number of read ports":"1"
+                      , "Number of write ports":"1"
+                      , "Additional information":"In each private copy:</br>  Variable 'DB' occupies memory words [0-127] and has 1 array element per memory word."
+                      , "Address bit information":"<table><tr><td>Byte address</td><td>b<sub>10</sub></td><td>b<sub>9</sub></td><td>b<sub>8</sub></td><td>b<sub>7</sub></td><td>b<sub>6</sub></td><td>b<sub>5</sub></td><td>b<sub>4</sub></td><td>b<sub>3</sub></td><td>b<sub>2</sub></td><td>b<sub>1</sub></td><td>b<sub>0</sub></td></tr><tr><td>Sub-word bits</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr><td>Word address bits</td><td>b<sub>10</sub></td><td>b<sub>9</sub></td><td>b<sub>8</sub></td><td>b<sub>7</sub></td><td>b<sub>6</sub></td><td><b>0</b></td><td><b>1</b></td><td></td><td></td><td></td><td></td></tr><tr><td>Bank bits</td><td></td><td></td><td></td><td></td><td></td><td><b>0</b></td><td><b>1</b></td><td></td><td></td><td></td><td></td></tr></table>"
+                    }
+                  ]
+                  , "debug":
+                  [
+                    [
+                      {
+                        "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
+                        , "line":261
+                      }
+                    ]
+                  ]
+                  , "type":"bank"
+                  , "children":
+                  [
+                    {
+                      "name":"Replicate 0"
+                      , "id":1646
+                      , "padding":"0"
+                      , "depth":"32"
+                      , "brief":"Implemented size:512 bytes = (32 words) x (16 bytes per word) | Memory Usage:7 MLABs"
+                      , "details":
+                      [
+                        {
+                          "type":"table"
+                          , "Implemented size":"512 bytes = (32 words) x (16 bytes per word)"
+                          , "Memory Usage":"7 MLABs"
+                          , "Number of physical ports":"2"
+                          , "Number of read ports":"1"
+                          , "Number of write ports":"1"
+                          , "Additional information":"In each private copy:</br>  Variable 'DB' occupies memory words [0-127] and has 1 array element per memory word."
+                          , "Address bit information":"<table><tr><td>Byte address</td><td>b<sub>10</sub></td><td>b<sub>9</sub></td><td>b<sub>8</sub></td><td>b<sub>7</sub></td><td>b<sub>6</sub></td><td>b<sub>5</sub></td><td>b<sub>4</sub></td><td>b<sub>3</sub></td><td>b<sub>2</sub></td><td>b<sub>1</sub></td><td>b<sub>0</sub></td></tr><tr><td>Sub-word bits</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr><td>Word address bits</td><td>b<sub>10</sub></td><td>b<sub>9</sub></td><td>b<sub>8</sub></td><td>b<sub>7</sub></td><td>b<sub>6</sub></td><td><b>0</b></td><td><b>1</b></td><td></td><td></td><td></td><td></td></tr><tr><td>Bank bits</td><td></td><td></td><td></td><td></td><td></td><td><b>0</b></td><td><b>1</b></td><td></td><td></td><td></td><td></td></tr></table>"
+                        }
+                      ]
+                      , "debug":
+                      [
+                        [
+                          {
+                            "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
+                            , "line":261
+                          }
+                        ]
+                      ]
+                      , "type":"replicate"
+                      , "children":
+                      [
+                        {
+                          "name":"R"
+                          , "id":1647
+                          , "type":"port"
+                        }
+                        , {
+                          "name":"W"
+                          , "id":1648
+                          , "type":"port"
+                        }
+                      ]
+                      , "copies":
+                      {
+                        "num":1
+                        , "details":
+                        [
+                          {
+                            "type":"table"
+                            , "Width":"16 bytes"
+                            , "Depth per copy (including padding)":"32 words"
+                            , "Number of private copies":"1"
+                            , "Additional information":"In each private copy:</br>  Variable 'DB' occupies memory words [0-127] and has 1 array element per memory word."
+                            , "Address bit information":"<table><tr><td>Byte address</td><td>b<sub>10</sub></td><td>b<sub>9</sub></td><td>b<sub>8</sub></td><td>b<sub>7</sub></td><td>b<sub>6</sub></td><td>b<sub>5</sub></td><td>b<sub>4</sub></td><td>b<sub>3</sub></td><td>b<sub>2</sub></td><td>b<sub>1</sub></td><td>b<sub>0</sub></td></tr><tr><td>Sub-word bits</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr><td>Word address bits</td><td>b<sub>10</sub></td><td>b<sub>9</sub></td><td>b<sub>8</sub></td><td>b<sub>7</sub></td><td>b<sub>6</sub></td><td><b>0</b></td><td><b>1</b></td><td></td><td></td><td></td><td></td></tr><tr><td>Bank bits</td><td></td><td></td><td></td><td></td><td></td><td><b>0</b></td><td><b>1</b></td><td></td><td></td><td></td><td></td></tr></table>"
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+                , {
+                  "name":"Bank 2"
+                  , "id":1649
+                  , "brief":"Memory Usage:7 MLABs | Bank width:16 bytes | Bank depth:32 words | Implemented bank size:512 bytes = (32 words) x (16 bytes per word)"
+                  , "details":
+                  [
+                    {
+                      "type":"table"
+                      , "Memory Usage":"7 MLABs"
+                      , "Bank width":"16 bytes"
+                      , "Bank depth":"32 words"
+                      , "Implemented bank size":"512 bytes = (32 words) x (16 bytes per word)"
+                      , "Number of active ports":"2"
+                      , "Number of read ports":"1"
+                      , "Number of write ports":"1"
+                      , "Additional information":"In each private copy:</br>  Variable 'DB' occupies memory words [0-127] and has 1 array element per memory word."
+                      , "Address bit information":"<table><tr><td>Byte address</td><td>b<sub>10</sub></td><td>b<sub>9</sub></td><td>b<sub>8</sub></td><td>b<sub>7</sub></td><td>b<sub>6</sub></td><td>b<sub>5</sub></td><td>b<sub>4</sub></td><td>b<sub>3</sub></td><td>b<sub>2</sub></td><td>b<sub>1</sub></td><td>b<sub>0</sub></td></tr><tr><td>Sub-word bits</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr><td>Word address bits</td><td>b<sub>10</sub></td><td>b<sub>9</sub></td><td>b<sub>8</sub></td><td>b<sub>7</sub></td><td>b<sub>6</sub></td><td><b>1</b></td><td><b>0</b></td><td></td><td></td><td></td><td></td></tr><tr><td>Bank bits</td><td></td><td></td><td></td><td></td><td></td><td><b>1</b></td><td><b>0</b></td><td></td><td></td><td></td><td></td></tr></table>"
+                    }
+                  ]
+                  , "debug":
+                  [
+                    [
+                      {
+                        "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
+                        , "line":261
+                      }
+                    ]
+                  ]
+                  , "type":"bank"
+                  , "children":
+                  [
+                    {
+                      "name":"Replicate 0"
+                      , "id":1650
+                      , "padding":"0"
+                      , "depth":"32"
+                      , "brief":"Implemented size:512 bytes = (32 words) x (16 bytes per word) | Memory Usage:7 MLABs"
+                      , "details":
+                      [
+                        {
+                          "type":"table"
+                          , "Implemented size":"512 bytes = (32 words) x (16 bytes per word)"
+                          , "Memory Usage":"7 MLABs"
+                          , "Number of physical ports":"2"
+                          , "Number of read ports":"1"
+                          , "Number of write ports":"1"
+                          , "Additional information":"In each private copy:</br>  Variable 'DB' occupies memory words [0-127] and has 1 array element per memory word."
+                          , "Address bit information":"<table><tr><td>Byte address</td><td>b<sub>10</sub></td><td>b<sub>9</sub></td><td>b<sub>8</sub></td><td>b<sub>7</sub></td><td>b<sub>6</sub></td><td>b<sub>5</sub></td><td>b<sub>4</sub></td><td>b<sub>3</sub></td><td>b<sub>2</sub></td><td>b<sub>1</sub></td><td>b<sub>0</sub></td></tr><tr><td>Sub-word bits</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr><td>Word address bits</td><td>b<sub>10</sub></td><td>b<sub>9</sub></td><td>b<sub>8</sub></td><td>b<sub>7</sub></td><td>b<sub>6</sub></td><td><b>1</b></td><td><b>0</b></td><td></td><td></td><td></td><td></td></tr><tr><td>Bank bits</td><td></td><td></td><td></td><td></td><td></td><td><b>1</b></td><td><b>0</b></td><td></td><td></td><td></td><td></td></tr></table>"
+                        }
+                      ]
+                      , "debug":
+                      [
+                        [
+                          {
+                            "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
+                            , "line":261
+                          }
+                        ]
+                      ]
+                      , "type":"replicate"
+                      , "children":
+                      [
+                        {
+                          "name":"R"
+                          , "id":1651
+                          , "type":"port"
+                        }
+                        , {
+                          "name":"W"
+                          , "id":1652
+                          , "type":"port"
+                        }
+                      ]
+                      , "copies":
+                      {
+                        "num":1
+                        , "details":
+                        [
+                          {
+                            "type":"table"
+                            , "Width":"16 bytes"
+                            , "Depth per copy (including padding)":"32 words"
+                            , "Number of private copies":"1"
+                            , "Additional information":"In each private copy:</br>  Variable 'DB' occupies memory words [0-127] and has 1 array element per memory word."
+                            , "Address bit information":"<table><tr><td>Byte address</td><td>b<sub>10</sub></td><td>b<sub>9</sub></td><td>b<sub>8</sub></td><td>b<sub>7</sub></td><td>b<sub>6</sub></td><td>b<sub>5</sub></td><td>b<sub>4</sub></td><td>b<sub>3</sub></td><td>b<sub>2</sub></td><td>b<sub>1</sub></td><td>b<sub>0</sub></td></tr><tr><td>Sub-word bits</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr><td>Word address bits</td><td>b<sub>10</sub></td><td>b<sub>9</sub></td><td>b<sub>8</sub></td><td>b<sub>7</sub></td><td>b<sub>6</sub></td><td><b>1</b></td><td><b>0</b></td><td></td><td></td><td></td><td></td></tr><tr><td>Bank bits</td><td></td><td></td><td></td><td></td><td></td><td><b>1</b></td><td><b>0</b></td><td></td><td></td><td></td><td></td></tr></table>"
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+                , {
+                  "name":"Bank 3"
+                  , "id":1653
+                  , "brief":"Memory Usage:7 MLABs | Bank width:16 bytes | Bank depth:32 words | Implemented bank size:512 bytes = (32 words) x (16 bytes per word)"
+                  , "details":
+                  [
+                    {
+                      "type":"table"
+                      , "Memory Usage":"7 MLABs"
+                      , "Bank width":"16 bytes"
+                      , "Bank depth":"32 words"
+                      , "Implemented bank size":"512 bytes = (32 words) x (16 bytes per word)"
+                      , "Number of active ports":"2"
+                      , "Number of read ports":"1"
+                      , "Number of write ports":"1"
+                      , "Additional information":"In each private copy:</br>  Variable 'DB' occupies memory words [0-127] and has 1 array element per memory word."
+                      , "Address bit information":"<table><tr><td>Byte address</td><td>b<sub>10</sub></td><td>b<sub>9</sub></td><td>b<sub>8</sub></td><td>b<sub>7</sub></td><td>b<sub>6</sub></td><td>b<sub>5</sub></td><td>b<sub>4</sub></td><td>b<sub>3</sub></td><td>b<sub>2</sub></td><td>b<sub>1</sub></td><td>b<sub>0</sub></td></tr><tr><td>Sub-word bits</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr><td>Word address bits</td><td>b<sub>10</sub></td><td>b<sub>9</sub></td><td>b<sub>8</sub></td><td>b<sub>7</sub></td><td>b<sub>6</sub></td><td><b>1</b></td><td><b>1</b></td><td></td><td></td><td></td><td></td></tr><tr><td>Bank bits</td><td></td><td></td><td></td><td></td><td></td><td><b>1</b></td><td><b>1</b></td><td></td><td></td><td></td><td></td></tr></table>"
+                    }
+                  ]
+                  , "debug":
+                  [
+                    [
+                      {
+                        "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
+                        , "line":261
+                      }
+                    ]
+                  ]
+                  , "type":"bank"
+                  , "children":
+                  [
+                    {
+                      "name":"Replicate 0"
+                      , "id":1654
+                      , "padding":"0"
+                      , "depth":"32"
+                      , "brief":"Implemented size:512 bytes = (32 words) x (16 bytes per word) | Memory Usage:7 MLABs"
+                      , "details":
+                      [
+                        {
+                          "type":"table"
+                          , "Implemented size":"512 bytes = (32 words) x (16 bytes per word)"
+                          , "Memory Usage":"7 MLABs"
+                          , "Number of physical ports":"2"
+                          , "Number of read ports":"1"
+                          , "Number of write ports":"1"
+                          , "Additional information":"In each private copy:</br>  Variable 'DB' occupies memory words [0-127] and has 1 array element per memory word."
+                          , "Address bit information":"<table><tr><td>Byte address</td><td>b<sub>10</sub></td><td>b<sub>9</sub></td><td>b<sub>8</sub></td><td>b<sub>7</sub></td><td>b<sub>6</sub></td><td>b<sub>5</sub></td><td>b<sub>4</sub></td><td>b<sub>3</sub></td><td>b<sub>2</sub></td><td>b<sub>1</sub></td><td>b<sub>0</sub></td></tr><tr><td>Sub-word bits</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr><td>Word address bits</td><td>b<sub>10</sub></td><td>b<sub>9</sub></td><td>b<sub>8</sub></td><td>b<sub>7</sub></td><td>b<sub>6</sub></td><td><b>1</b></td><td><b>1</b></td><td></td><td></td><td></td><td></td></tr><tr><td>Bank bits</td><td></td><td></td><td></td><td></td><td></td><td><b>1</b></td><td><b>1</b></td><td></td><td></td><td></td><td></td></tr></table>"
+                        }
+                      ]
+                      , "debug":
+                      [
+                        [
+                          {
+                            "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
+                            , "line":261
+                          }
+                        ]
+                      ]
+                      , "type":"replicate"
+                      , "children":
+                      [
+                        {
+                          "name":"R"
+                          , "id":1655
+                          , "type":"port"
+                        }
+                        , {
+                          "name":"W"
+                          , "id":1656
+                          , "type":"port"
+                        }
+                      ]
+                      , "copies":
+                      {
+                        "num":1
+                        , "details":
+                        [
+                          {
+                            "type":"table"
+                            , "Width":"16 bytes"
+                            , "Depth per copy (including padding)":"32 words"
+                            , "Number of private copies":"1"
+                            , "Additional information":"In each private copy:</br>  Variable 'DB' occupies memory words [0-127] and has 1 array element per memory word."
+                            , "Address bit information":"<table><tr><td>Byte address</td><td>b<sub>10</sub></td><td>b<sub>9</sub></td><td>b<sub>8</sub></td><td>b<sub>7</sub></td><td>b<sub>6</sub></td><td>b<sub>5</sub></td><td>b<sub>4</sub></td><td>b<sub>3</sub></td><td>b<sub>2</sub></td><td>b<sub>1</sub></td><td>b<sub>0</sub></td></tr><tr><td>Sub-word bits</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr><td>Word address bits</td><td>b<sub>10</sub></td><td>b<sub>9</sub></td><td>b<sub>8</sub></td><td>b<sub>7</sub></td><td>b<sub>6</sub></td><td><b>1</b></td><td><b>1</b></td><td></td><td></td><td></td><td></td></tr><tr><td>Bank bits</td><td></td><td></td><td></td><td></td><td></td><td><b>1</b></td><td><b>1</b></td><td></td><td></td><td></td><td></td></tr></table>"
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+            , {
+              "name":"bFeeder_channel_array"
+              , "id":1657
+              , "details":
+              [
+                {
+                  "type":"table"
+                  , "Declared at":
+                  [
+                    {
+                      "type":"text"
+                      , "text":"%L"
+                      , "links":
+                      [
+                        {
+                          "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
+                          , "line":"254"
+                        }
+                      ]
+                    }
+                  ]
+                  , "Additional information":"This variable is carried through the pipeline in registers (rather than being stored in RAM)"
+                }
+              ]
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
+                    , "line":254
+                  }
+                ]
+              ]
+              , "type":"reg"
+            }
+          ]
+        }
+        , {
+          "name":"Load"
+          , "id":1633
+          , "brief":"Width:128 bits | Stall-free:Yes | Type:Pipelined never-stall | Loads from:DB | Start cycle:10 | Latency:3"
+          , "details":
+          [
+            {
+              "type":"table"
+              , "Width":"128 bits"
+              , "Stall-free":"Yes"
+              , "Type":"Pipelined never-stall"
+              , "Loads from":"DB"
+              , "Start cycle":"10"
+              , "Latency":"3"
+              , "Inlined Debug Locations":
+              [
+                {
+                  "type":"text"
+                  , "text":"%L > %L"
+                  , "links":
+                  [
+                    {
+                      "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
+                      , "line":"290"
+                    }
+                    , {
+                      "filename":"/glob/development-tools/versions/oneapi/2023.0.1/oneapi/compiler/2023.0.0/linux/bin-llvm/../include/sycl/handler.hpp"
+                      , "line":"1100"
+                    }
+                  ]
+                }
+              ]
+              , "Reference":
+              [
+                {
+                  "type":"text"
+                  , "text":"See %L for more information"
+                  , "links":
+                  [
+                    {
+                      "guide":"Best Practices Guide : Load-Store Units"
+                      , "link":"file:////glob/development-tools/versions/oneapi/2023.1.1/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/yeo1491314105959.html"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
+                , "line":290
+              }
+            ]
+          ]
+          , "type":"inst"
+        }
+        , {
+          "name":"Load"
+          , "id":1634
+          , "brief":"Width:128 bits | Stall-free:Yes | Type:Pipelined never-stall | Loads from:DB | Start cycle:12 | Latency:3"
+          , "details":
+          [
+            {
+              "type":"table"
+              , "Width":"128 bits"
+              , "Stall-free":"Yes"
+              , "Type":"Pipelined never-stall"
+              , "Loads from":"DB"
+              , "Start cycle":"12"
+              , "Latency":"3"
+              , "Inlined Debug Locations":
+              [
+                {
+                  "type":"text"
+                  , "text":"%L > %L"
+                  , "links":
+                  [
+                    {
+                      "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
+                      , "line":"290"
+                    }
+                    , {
+                      "filename":"/glob/development-tools/versions/oneapi/2023.0.1/oneapi/compiler/2023.0.0/linux/bin-llvm/../include/sycl/handler.hpp"
+                      , "line":"1100"
+                    }
+                  ]
+                }
+              ]
+              , "Reference":
+              [
+                {
+                  "type":"text"
+                  , "text":"See %L for more information"
+                  , "links":
+                  [
+                    {
+                      "guide":"Best Practices Guide : Load-Store Units"
+                      , "link":"file:////glob/development-tools/versions/oneapi/2023.1.1/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/yeo1491314105959.html"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
+                , "line":290
+              }
+            ]
+          ]
+          , "type":"inst"
+        }
+        , {
+          "name":"Load"
+          , "id":1635
+          , "brief":"Width:128 bits | Stall-free:Yes | Type:Pipelined never-stall | Loads from:DB | Start cycle:14 | Latency:3"
+          , "details":
+          [
+            {
+              "type":"table"
+              , "Width":"128 bits"
+              , "Stall-free":"Yes"
+              , "Type":"Pipelined never-stall"
+              , "Loads from":"DB"
+              , "Start cycle":"14"
+              , "Latency":"3"
+              , "Inlined Debug Locations":
+              [
+                {
+                  "type":"text"
+                  , "text":"%L > %L"
+                  , "links":
+                  [
+                    {
+                      "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
+                      , "line":"290"
+                    }
+                    , {
+                      "filename":"/glob/development-tools/versions/oneapi/2023.0.1/oneapi/compiler/2023.0.0/linux/bin-llvm/../include/sycl/handler.hpp"
+                      , "line":"1100"
+                    }
+                  ]
+                }
+              ]
+              , "Reference":
+              [
+                {
+                  "type":"text"
+                  , "text":"See %L for more information"
+                  , "links":
+                  [
+                    {
+                      "guide":"Best Practices Guide : Load-Store Units"
+                      , "link":"file:////glob/development-tools/versions/oneapi/2023.1.1/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/yeo1491314105959.html"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
+                , "line":290
+              }
+            ]
+          ]
+          , "type":"inst"
+        }
+        , {
+          "name":"Load"
+          , "id":1636
+          , "brief":"Width:128 bits | Stall-free:Yes | Type:Pipelined never-stall | Loads from:DB | Start cycle:16 | Latency:3"
+          , "details":
+          [
+            {
+              "type":"table"
+              , "Width":"128 bits"
+              , "Stall-free":"Yes"
+              , "Type":"Pipelined never-stall"
+              , "Loads from":"DB"
+              , "Start cycle":"16"
+              , "Latency":"3"
+              , "Inlined Debug Locations":
+              [
+                {
+                  "type":"text"
+                  , "text":"%L > %L"
+                  , "links":
+                  [
+                    {
+                      "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
+                      , "line":"290"
+                    }
+                    , {
+                      "filename":"/glob/development-tools/versions/oneapi/2023.0.1/oneapi/compiler/2023.0.0/linux/bin-llvm/../include/sycl/handler.hpp"
+                      , "line":"1100"
+                    }
+                  ]
+                }
+              ]
+              , "Reference":
+              [
+                {
+                  "type":"text"
+                  , "text":"See %L for more information"
+                  , "links":
+                  [
+                    {
+                      "guide":"Best Practices Guide : Load-Store Units"
+                      , "link":"file:////glob/development-tools/versions/oneapi/2023.1.1/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/yeo1491314105959.html"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
+                , "line":290
+              }
+            ]
+          ]
+          , "type":"inst"
+        }
+        , {
+          "name":"Store"
+          , "id":1637
+          , "brief":"Width:128 bits | Stall-free:Yes | Type:Pipelined never-stall | Stores to:DB | Start cycle:9 | Latency:1"
+          , "details":
+          [
+            {
+              "type":"table"
+              , "Width":"128 bits"
+              , "Stall-free":"Yes"
+              , "Type":"Pipelined never-stall"
+              , "Stores to":"DB"
+              , "Start cycle":"9"
+              , "Latency":"1"
+              , "Inlined Debug Locations":
+              [
+                {
+                  "type":"text"
+                  , "text":"%L > %L"
+                  , "links":
+                  [
+                    {
+                      "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
+                      , "line":"287"
+                    }
+                    , {
+                      "filename":"/glob/development-tools/versions/oneapi/2023.0.1/oneapi/compiler/2023.0.0/linux/bin-llvm/../include/sycl/handler.hpp"
+                      , "line":"1100"
+                    }
+                  ]
+                }
+              ]
+              , "Reference":
+              [
+                {
+                  "type":"text"
+                  , "text":"See %L for more information"
+                  , "links":
+                  [
+                    {
+                      "guide":"Best Practices Guide : Load-Store Units"
+                      , "link":"file:////glob/development-tools/versions/oneapi/2023.1.1/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/yeo1491314105959.html"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
+                , "line":287
+              }
+            ]
+          ]
+          , "type":"inst"
+        }
+        , {
+          "name":"Store"
+          , "id":1638
+          , "brief":"Width:128 bits | Stall-free:Yes | Type:Pipelined never-stall | Stores to:DB | Start cycle:11 | Latency:1"
+          , "details":
+          [
+            {
+              "type":"table"
+              , "Width":"128 bits"
+              , "Stall-free":"Yes"
+              , "Type":"Pipelined never-stall"
+              , "Stores to":"DB"
+              , "Start cycle":"11"
+              , "Latency":"1"
+              , "Inlined Debug Locations":
+              [
+                {
+                  "type":"text"
+                  , "text":"%L > %L"
+                  , "links":
+                  [
+                    {
+                      "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
+                      , "line":"287"
+                    }
+                    , {
+                      "filename":"/glob/development-tools/versions/oneapi/2023.0.1/oneapi/compiler/2023.0.0/linux/bin-llvm/../include/sycl/handler.hpp"
+                      , "line":"1100"
+                    }
+                  ]
+                }
+              ]
+              , "Reference":
+              [
+                {
+                  "type":"text"
+                  , "text":"See %L for more information"
+                  , "links":
+                  [
+                    {
+                      "guide":"Best Practices Guide : Load-Store Units"
+                      , "link":"file:////glob/development-tools/versions/oneapi/2023.1.1/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/yeo1491314105959.html"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
+                , "line":287
+              }
+            ]
+          ]
+          , "type":"inst"
+        }
+        , {
+          "name":"Store"
+          , "id":1639
+          , "brief":"Width:128 bits | Stall-free:Yes | Type:Pipelined never-stall | Stores to:DB | Start cycle:13 | Latency:1"
+          , "details":
+          [
+            {
+              "type":"table"
+              , "Width":"128 bits"
+              , "Stall-free":"Yes"
+              , "Type":"Pipelined never-stall"
+              , "Stores to":"DB"
+              , "Start cycle":"13"
+              , "Latency":"1"
+              , "Inlined Debug Locations":
+              [
+                {
+                  "type":"text"
+                  , "text":"%L > %L"
+                  , "links":
+                  [
+                    {
+                      "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
+                      , "line":"287"
+                    }
+                    , {
+                      "filename":"/glob/development-tools/versions/oneapi/2023.0.1/oneapi/compiler/2023.0.0/linux/bin-llvm/../include/sycl/handler.hpp"
+                      , "line":"1100"
+                    }
+                  ]
+                }
+              ]
+              , "Reference":
+              [
+                {
+                  "type":"text"
+                  , "text":"See %L for more information"
+                  , "links":
+                  [
+                    {
+                      "guide":"Best Practices Guide : Load-Store Units"
+                      , "link":"file:////glob/development-tools/versions/oneapi/2023.1.1/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/yeo1491314105959.html"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
+                , "line":287
+              }
+            ]
+          ]
+          , "type":"inst"
+        }
+        , {
+          "name":"Store"
+          , "id":1640
+          , "brief":"Width:128 bits | Stall-free:Yes | Type:Pipelined never-stall | Stores to:DB | Start cycle:15 | Latency:1"
+          , "details":
+          [
+            {
+              "type":"table"
+              , "Width":"128 bits"
+              , "Stall-free":"Yes"
+              , "Type":"Pipelined never-stall"
+              , "Stores to":"DB"
+              , "Start cycle":"15"
+              , "Latency":"1"
+              , "Inlined Debug Locations":
+              [
+                {
+                  "type":"text"
+                  , "text":"%L > %L"
+                  , "links":
+                  [
+                    {
+                      "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
+                      , "line":"287"
+                    }
+                    , {
+                      "filename":"/glob/development-tools/versions/oneapi/2023.0.1/oneapi/compiler/2023.0.0/linux/bin-llvm/../include/sycl/handler.hpp"
+                      , "line":"1100"
+                    }
+                  ]
+                }
+              ]
+              , "Reference":
+              [
+                {
+                  "type":"text"
+                  , "text":"See %L for more information"
+                  , "links":
+                  [
+                    {
+                      "guide":"Best Practices Guide : Load-Store Units"
+                      , "link":"file:////glob/development-tools/versions/oneapi/2023.1.1/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/yeo1491314105959.html"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
+                , "line":287
+              }
+            ]
+          ]
+          , "type":"inst"
+        }
+      ]
+    }
+    , {
+      "name":"kernel_Product"
+      , "id":1658
+      , "type":"kernel"
+      , "children":
+      [
+        {
+          "name":"On-chip Memory"
+          , "id":1659
+          , "type":"memtype"
+          , "children":
+          [
+            {
+              "name":"bFeeder_channel_array"
+              , "id":1660
+              , "details":
+              [
+                {
+                  "type":"table"
+                  , "Declared at":
+                  [
+                    {
+                      "type":"text"
+                      , "text":"%L"
+                      , "links":
+                      [
+                        {
+                          "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
+                          , "line":"305"
+                        }
+                      ]
+                    }
+                  ]
+                  , "Additional information":"This variable is carried through the pipeline in registers (rather than being stored in RAM)"
+                }
+              ]
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
+                    , "line":305
+                  }
+                ]
+              ]
+              , "type":"reg"
+            }
+            , {
+              "name":"aFeeder_channel_array"
+              , "id":1661
+              , "details":
+              [
+                {
+                  "type":"table"
+                  , "Declared at":
+                  [
+                    {
+                      "type":"text"
+                      , "text":"%L"
+                      , "links":
+                      [
+                        {
+                          "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
+                          , "line":"306"
+                        }
+                      ]
+                    }
+                  ]
+                  , "Additional information":"This variable is carried through the pipeline in registers (rather than being stored in RAM)"
+                }
+              ]
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
+                    , "line":306
+                  }
+                ]
+              ]
+              , "type":"reg"
+            }
+            , {
+              "name":"Z_shreg"
+              , "id":1662
+              , "details":
+              [
+                {
+                  "type":"table"
+                  , "Declared at":
+                  [
+                    {
+                      "type":"text"
+                      , "text":"%L"
+                      , "links":
+                      [
+                        {
+                          "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
+                          , "line":"307"
+                        }
+                      ]
+                    }
+                  ]
+                  , "Additional information":"This variable is carried through the pipeline in registers (rather than being stored in RAM)"
+                }
+              ]
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
+                    , "line":307
+                  }
+                ]
+              ]
+              , "type":"reg"
+            }
+            , {
+              "name":"Z_pipe_shreg"
+              , "id":1663
+              , "details":
+              [
+                {
+                  "type":"table"
+                  , "Declared at":
+                  [
+                    {
+                      "type":"text"
+                      , "text":"%L"
+                      , "links":
+                      [
+                        {
+                          "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
+                          , "line":"308"
+                        }
+                      ]
+                    }
+                  ]
+                  , "Additional information":"This variable is carried through the pipeline in registers (rather than being stored in RAM)"
+                }
+              ]
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
+                    , "line":308
+                  }
+                ]
+              ]
+              , "type":"reg"
+            }
+            , {
+              "name":"Y_shreg"
+              , "id":1664
+              , "details":
+              [
+                {
+                  "type":"table"
+                  , "Declared at":
+                  [
+                    {
+                      "type":"text"
+                      , "text":"%L"
+                      , "links":
+                      [
+                        {
+                          "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
+                          , "line":"309"
+                        }
+                      ]
+                    }
+                  ]
+                  , "Additional information":"This variable is carried through the pipeline in registers (rather than being stored in RAM)"
+                }
+              ]
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
+                    , "line":309
+                  }
+                ]
+              ]
+              , "type":"reg"
+            }
+            , {
+              "name":"Z"
+              , "id":1665
+              , "details":
+              [
+                {
+                  "type":"table"
+                  , "Declared at":
+                  [
+                    {
+                      "type":"text"
+                      , "text":"%L"
+                      , "links":
+                      [
+                        {
+                          "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
+                          , "line":"310"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
+                    , "line":310
+                  }
+                ]
+              ]
+              , "type":"unsynth"
+            }
+            , {
+              "name":"X_shreg"
+              , "id":1666
+              , "details":
+              [
+                {
+                  "type":"table"
+                  , "Declared at":
+                  [
+                    {
+                      "type":"text"
+                      , "text":"%L"
+                      , "links":
+                      [
+                        {
+                          "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
+                          , "line":"311"
+                        }
+                      ]
+                    }
+                  ]
+                  , "Additional information":"This variable is carried through the pipeline in registers (rather than being stored in RAM)"
+                }
+              ]
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
+                    , "line":311
+                  }
+                ]
+              ]
+              , "type":"reg"
+            }
+          ]
+        }
+      ]
+    }
+    , {
+      "name":"kernel_cLoader"
+      , "id":1667
+      , "type":"kernel"
+      , "children":
+      [
+        {
+          "name":"On-chip Memory"
+          , "id":1668
+          , "type":"memtype"
+          , "children":
+          [
+            {
+              "name":"__SYCLKernel"
+              , "id":1669
+              , "details":
+              [
+                {
+                  "type":"table"
+                  , "Declared at":
+                  [
+                    {
+                      "type":"text"
+                      , "text":"%L"
+                      , "links":
+                      [
+                        {
+                          "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
+                          , "line":"409"
+                        }
+                      ]
+                    }
+                  ]
+                  , "Additional information":"This variable is carried through the pipeline in registers (rather than being stored in RAM)"
+                }
+              ]
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
+                    , "line":409
+                  }
+                ]
+              ]
+              , "type":"reg"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+  , "links":
+  [
+    {
+      "from":1615
+      , "to":1605
+    }
+    , {
+      "from":1609
+      , "to":1616
+    }
+    , {
+      "from":1619
+      , "to":1606
+    }
+    , {
+      "from":1610
+      , "to":1620
+    }
+    , {
+      "from":1623
+      , "to":1607
+    }
+    , {
+      "from":1611
+      , "to":1624
+    }
+    , {
+      "from":1627
+      , "to":1608
+    }
+    , {
+      "from":1612
+      , "to":1628
+    }
+    , {
+      "from":1643
+      , "to":1633
+    }
+    , {
+      "from":1637
+      , "to":1644
+    }
+    , {
+      "from":1647
+      , "to":1634
+    }
+    , {
+      "from":1638
+      , "to":1648
+    }
+    , {
+      "from":1651
+      , "to":1635
+    }
+    , {
+      "from":1639
+      , "to":1652
+    }
+    , {
+      "from":1655
+      , "to":1636
+    }
+    , {
+      "from":1640
+      , "to":1656
+    }
+  ]
+}

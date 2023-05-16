@@ -1,0 +1,349 @@
+{
+  "nodes":
+  [
+    {
+      "name":"DDR"
+      , "id":1670
+      , "details":
+      [
+        {
+          "type":"table"
+          , "Interleaving":"Yes"
+          , "Interleave Size":"1024 bytes"
+          , "Channels":"2 channels"
+          , "Maximum bandwidth the BSP can deliver":"34133.00 MB/s<br><small><i> Note: Realistic maximum bandwidth is about 90% of the above due to loss from interconnect and memory controller.</i></small>"
+          , "Channel DDR Width (bits)":"512, 512"
+        }
+      ]
+      , "type":"memsys"
+      , "children":
+      [
+        {
+          "name":"channel 0"
+          , "id":1672
+          , "details":
+          [
+            {
+              "type":"table"
+              , "Data Width":"512"
+              , "Address Width":"32"
+              , "Latency":"500"
+              , "ReadWrite Mode":"Read/Write"
+              , "Maximum Burst":"16"
+              , "Wait Request":"0"
+              , "Start Address":"0x0"
+            }
+          ]
+          , "type":"bb"
+        }
+        , {
+          "name":"channel 1"
+          , "id":1673
+          , "details":
+          [
+            {
+              "type":"table"
+              , "Data Width":"512"
+              , "Address Width":"32"
+              , "Latency":"500"
+              , "ReadWrite Mode":"Read/Write"
+              , "Maximum Burst":"16"
+              , "Wait Request":"0"
+              , "Start Address":"0x100000000"
+            }
+          ]
+          , "type":"bb"
+        }
+      ]
+    }
+    , {
+      "name":"Memory Controller"
+      , "id":1671
+      , "parent":"1670"
+      , "bw":"34133.00"
+      , "num_channels":"2"
+      , "interleave":"1"
+      , "details":
+      [
+        {
+          "type":"table"
+          , "Maximum bandwidth the BSP can deliver":"34133.00 MB/s<br><small><i> Note: Realistic maximum bandwidth is about 90% of the above due to loss from interconnect and memory controller.</i></small>"
+        }
+      ]
+      , "type":"bb"
+    }
+    , {
+      "name":"Global Memory Interconnect"
+      , "id":1674
+      , "parent":"1670"
+      , "type":"bb"
+      , "children":
+      [
+        {
+          "name":"SHARE"
+          , "id":1675
+          , "type":"arb"
+        }
+        , {
+          "name":"Write Interconnect"
+          , "id":1678
+          , "details":
+          [
+            {
+              "type":"table"
+              , "Name":"DDR"
+              , "Interconnect Style":"tree"
+              , "Writes":"1"
+              , "User specified force-single-store-ring flag":"False"
+              , "Store Rings":"2"
+            }
+          ]
+          , "type":"bb"
+        }
+        , {
+          "name":"Read Interconnect"
+          , "id":1676
+          , "details":
+          [
+            {
+              "type":"table"
+              , "Name":"DDR"
+              , "Interconnect Style":"tree"
+              , "Reads":"3"
+            }
+          ]
+          , "type":"bb"
+        }
+        , {
+          "name":"Read Interconnect Router"
+          , "id":1677
+          , "details":
+          [
+            {
+              "type":"table"
+              , "User specified num-reorder flag":"Unset"
+            }
+          ]
+          , "type":"memsys"
+          , "children":
+          [
+            {
+              "name":"Bus 0"
+              , "id":1685
+              , "type":"memsys"
+            }
+            , {
+              "name":"Bus 1"
+              , "id":1686
+              , "type":"memsys"
+            }
+          ]
+        }
+      ]
+    }
+    , {
+      "name":"Global Memory Loads"
+      , "id":1679
+      , "parent":"1670"
+      , "type":"bb"
+      , "children":
+      [
+        {
+          "name":"LD"
+          , "id":1680
+          , "kwidth":"128"
+          , "mwidth":"512"
+          , "details":
+          [
+            {
+              "type":"table"
+              , "Start Cycle":"6"
+              , "Latency":"249 cycles"
+              , "Width":"128 bits"
+              , "DDR Width":"512 bits"
+              , "Uses Caching":"No"
+              , "LSU Style":"BURST-COALESCED"
+              , "Kernel":"kernel_aLoader"
+            }
+          ]
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
+                , "line":156
+              }
+            ]
+          ]
+          , "type":"inst"
+        }
+        , {
+          "name":"LD"
+          , "id":1681
+          , "kwidth":"128"
+          , "mwidth":"512"
+          , "details":
+          [
+            {
+              "type":"table"
+              , "Start Cycle":"7"
+              , "Latency":"249 cycles"
+              , "Width":"128 bits"
+              , "DDR Width":"512 bits"
+              , "Uses Caching":"Yes"
+              , "LSU Style":"BURST-COALESCED"
+              , "Kernel":"kernel_bLoader"
+            }
+          ]
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
+                , "line":236
+              }
+            ]
+          ]
+          , "type":"inst"
+        }
+        , {
+          "name":"LD"
+          , "id":1682
+          , "kwidth":"128"
+          , "mwidth":"512"
+          , "details":
+          [
+            {
+              "type":"table"
+              , "Start Cycle":"5"
+              , "Latency":"249 cycles"
+              , "Width":"128 bits"
+              , "DDR Width":"512 bits"
+              , "Uses Caching":"No"
+              , "LSU Style":"BURST-COALESCED"
+              , "Kernel":"kernel_cLoader"
+            }
+          ]
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
+                , "line":418
+              }
+            ]
+          ]
+          , "type":"inst"
+        }
+      ]
+    }
+    , {
+      "name":"Global Memory Stores"
+      , "id":1683
+      , "parent":"1670"
+      , "type":"bb"
+      , "children":
+      [
+        {
+          "name":"ST"
+          , "id":1684
+          , "kwidth":"128"
+          , "mwidth":"512"
+          , "details":
+          [
+            {
+              "type":"table"
+              , "Start Cycle":"9"
+              , "Latency":"2 cycles"
+              , "Width":"128 bits"
+              , "DDR Width":"512 bits"
+              , "Uses Write Ack":"No"
+              , "LSU Style":"BURST-COALESCED"
+              , "Kernel":"kernel_unloader"
+            }
+          ]
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
+                , "line":460
+              }
+            ]
+          ]
+          , "type":"inst"
+        }
+      ]
+    }
+  ]
+  , "links":
+  [
+    {
+      "from":1672
+      , "to":1671
+    }
+    , {
+      "from":1671
+      , "to":1672
+    }
+    , {
+      "from":1673
+      , "to":1671
+    }
+    , {
+      "from":1671
+      , "to":1673
+    }
+    , {
+      "from":1676
+      , "to":1675
+    }
+    , {
+      "from":1678
+      , "to":1675
+    }
+    , {
+      "from":1675
+      , "to":1671
+    }
+    , {
+      "from":1680
+      , "to":1676
+    }
+    , {
+      "from":1681
+      , "to":1676
+    }
+    , {
+      "from":1682
+      , "to":1676
+    }
+    , {
+      "from":1684
+      , "to":1678
+    }
+    , {
+      "from":1671
+      , "to":1685
+    }
+    , {
+      "from":1671
+      , "to":1686
+    }
+    , {
+      "from":1685
+      , "to":1680
+      , "reverse":1
+    }
+    , {
+      "from":1686
+      , "to":1681
+      , "reverse":1
+    }
+    , {
+      "from":1685
+      , "to":1682
+      , "reverse":1
+    }
+  ]
+}
