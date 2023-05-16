@@ -684,13 +684,13 @@ auto sgemm(device_selector_t device_selector_v, bool p0, bool p1, float p2, floa
             int Z_pipe_base;
             Z_pipe_iter = 8192;
             Z_pipe_base = 0;
+            [[intel::fpga_register]] float Z_shreg[1024][8][8];
+            [[intel::fpga_register]] float Z_pipe_shreg[8][7169];
             for (int i = 0; i < (A_extent_1 + 511) / 256; i++) {
               for (int j = 0; j < (B_extent_0 + 255) / 256; j++) {
                 for (int k = 0; k < (B_extent_1 + 511) / 512; k++) {
                   [[intel::initiation_interval(1)]]
                   for (int kk_ii_jj = 0; kk_ii_jj < 32768; kk_ii_jj++) {
-                      [[intel::fpga_register]] float Z_shreg[1024][8][8];
-                      [[intel::fpga_register]] float Z_pipe_shreg[8][7169];
                       [[intel::fpga_register]] float16 Y_shreg[8];
                       [[intel::fpga_register]] float Z[8][8];
                       [[intel::fpga_register]] float16 X_shreg[8];
