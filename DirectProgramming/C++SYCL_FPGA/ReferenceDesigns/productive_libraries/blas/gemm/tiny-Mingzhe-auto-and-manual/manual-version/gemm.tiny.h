@@ -15,9 +15,9 @@
 #define JJ 4
 #define II 4
 #define KK 4
-#define K 4
-#define J 4
-#define I 4
+//#define K 4
+//#define J 4
+//#define I 4
 #else
 #define KKK 4
 #define JJJ 4
@@ -25,9 +25,9 @@
 #define JJ 4
 #define II 4
 #define KK 4
-#define K 4
-#define J 4
-#define I 4
+//#define K 4
+//#define J 4
+//#define I 4
 #endif
 
 #define ADD_INT64_T_SUFFIX(x) x##l
@@ -47,12 +47,12 @@ using namespace sycl;
         ext::oneapi::experimental::printf(_format, ##__VA_ARGS__); \
     }
 
-constexpr size_t TOTAL_I = III * II * I;
-constexpr size_t TOTAL_J = JJJ * JJ * J;
-constexpr size_t TOTAL_K = KKK * KK * K;
-constexpr size_t num_elem_A = TOTAL_K * TOTAL_I;
-constexpr size_t num_elem_B = TOTAL_J * TOTAL_K;
-constexpr size_t num_elem_C = TOTAL_J * TOTAL_I;
+//constexpr size_t TOTAL_I = III * II * I;
+//constexpr size_t TOTAL_J = JJJ * JJ * J;
+//constexpr size_t TOTAL_K = KKK * KK * K;
+//constexpr size_t num_elem_A = TOTAL_K * TOTAL_I;
+//constexpr size_t num_elem_B = TOTAL_J * TOTAL_K;
+//constexpr size_t num_elem_C = TOTAL_J * TOTAL_I;
 
 using aLoader_channel =
     sycl::ext::intel::pipe<class _aLoader_channel_pipe, float4, 256>;
@@ -72,7 +72,15 @@ using Product_channel = sycl::ext::intel::pipe<class Product_channel_pipe, float
 using cLoader_channel = sycl::ext::intel::pipe<class cLoader_channel_pipe, float4, 256>;
 using Out_channel = sycl::ext::intel::pipe<class Out_channel_pipe, float4, 256>;
 
-void gemm(float *A, float *B, float *C, float *result, float p2, float p3, sycl::queue &q) {
+void gemm(float *A, float *B, float *C, float *result, float p2, float p3, const size_t I, const size_t J, const size_t K, sycl::queue &q) {
+
+    const size_t TOTAL_I = III * II * I;
+    const size_t TOTAL_J = JJJ * JJ * J;
+    const size_t TOTAL_K = KKK * KK * K;
+    const size_t num_elem_A = TOTAL_K * TOTAL_I;
+    const size_t num_elem_B = TOTAL_J * TOTAL_K;
+    const size_t num_elem_C = TOTAL_J * TOTAL_I;
+
     std::vector<sycl::event> oneapi_kernel_events;
     float *serialized_A = (float *)malloc(num_elem_A * sizeof(float));
     float *serialized_B = (float *)malloc(num_elem_B * sizeof(float));

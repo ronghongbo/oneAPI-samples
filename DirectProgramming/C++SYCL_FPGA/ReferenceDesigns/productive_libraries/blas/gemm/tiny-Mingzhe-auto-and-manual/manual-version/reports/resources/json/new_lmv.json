@@ -3,19 +3,19 @@
   [
     {
       "name":"kernel_aFeeder"
-      , "id":1602
+      , "id":9191
       , "type":"kernel"
       , "children":
       [
         {
           "name":"On-chip Memory"
-          , "id":1603
+          , "id":9192
           , "type":"memtype"
           , "children":
           [
             {
               "name":"DB"
-              , "id":1604
+              , "id":9193
               , "brief":"Implemented size:2048 bytes = (4 banks) x (32 words per bank) x (16 bytes per word) | Memory Usage:28 MLABs | Number of banks:4 | Bank width (word size):16 bytes | Bank depth:32 words | Number of replicates:1 | Number of private copies:1 | RAM Mode:Simple dual-port | Pump configuration:Single-pumped | User defined attributes:memory, singlepump, numbanks(4), simple_dual_port"
               , "details":
               [
@@ -29,8 +29,8 @@
                       , "links":
                       [
                         {
-                          "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
-                          , "line":"181"
+                          "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version/./gemm.tiny.h"
+                          , "line":"182"
                         }
                       ]
                     }
@@ -57,7 +57,7 @@
                       [
                         {
                           "guide":"Best Practices Guide : Local Memory"
-                          , "link":"file:////glob/development-tools/versions/oneapi/2023.1.1/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/chn1469549457114.html"
+                          , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/chn1469549457114.html"
                         }
                       ]
                     }
@@ -68,8 +68,8 @@
               [
                 [
                   {
-                    "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
-                    , "line":181
+                    "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version/./gemm.tiny.h"
+                    , "line":182
                   }
                 ]
               ]
@@ -78,7 +78,7 @@
               [
                 {
                   "name":"Bank 0"
-                  , "id":1613
+                  , "id":9202
                   , "brief":"Memory Usage:7 MLABs | Bank width:16 bytes | Bank depth:32 words | Implemented bank size:512 bytes = (32 words) x (16 bytes per word)"
                   , "details":
                   [
@@ -99,8 +99,8 @@
                   [
                     [
                       {
-                        "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
-                        , "line":181
+                        "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version/./gemm.tiny.h"
+                        , "line":182
                       }
                     ]
                   ]
@@ -109,7 +109,7 @@
                   [
                     {
                       "name":"Replicate 0"
-                      , "id":1614
+                      , "id":9203
                       , "padding":"0"
                       , "depth":"32"
                       , "brief":"Implemented size:512 bytes = (32 words) x (16 bytes per word) | Memory Usage:7 MLABs"
@@ -130,8 +130,8 @@
                       [
                         [
                           {
-                            "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
-                            , "line":181
+                            "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version/./gemm.tiny.h"
+                            , "line":182
                           }
                         ]
                       ]
@@ -140,12 +140,12 @@
                       [
                         {
                           "name":"R"
-                          , "id":1615
+                          , "id":9204
                           , "type":"port"
                         }
                         , {
                           "name":"W"
-                          , "id":1616
+                          , "id":9205
                           , "type":"port"
                         }
                       ]
@@ -169,7 +169,7 @@
                 }
                 , {
                   "name":"Bank 1"
-                  , "id":1617
+                  , "id":9206
                   , "brief":"Memory Usage:7 MLABs | Bank width:16 bytes | Bank depth:32 words | Implemented bank size:512 bytes = (32 words) x (16 bytes per word)"
                   , "details":
                   [
@@ -190,8 +190,8 @@
                   [
                     [
                       {
-                        "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
-                        , "line":181
+                        "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version/./gemm.tiny.h"
+                        , "line":182
                       }
                     ]
                   ]
@@ -200,7 +200,7 @@
                   [
                     {
                       "name":"Replicate 0"
-                      , "id":1618
+                      , "id":9207
                       , "padding":"0"
                       , "depth":"32"
                       , "brief":"Implemented size:512 bytes = (32 words) x (16 bytes per word) | Memory Usage:7 MLABs"
@@ -221,8 +221,8 @@
                       [
                         [
                           {
-                            "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
-                            , "line":181
+                            "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version/./gemm.tiny.h"
+                            , "line":182
                           }
                         ]
                       ]
@@ -231,12 +231,12 @@
                       [
                         {
                           "name":"R"
-                          , "id":1619
+                          , "id":9208
                           , "type":"port"
                         }
                         , {
                           "name":"W"
-                          , "id":1620
+                          , "id":9209
                           , "type":"port"
                         }
                       ]
@@ -260,7 +260,7 @@
                 }
                 , {
                   "name":"Bank 2"
-                  , "id":1621
+                  , "id":9210
                   , "brief":"Memory Usage:7 MLABs | Bank width:16 bytes | Bank depth:32 words | Implemented bank size:512 bytes = (32 words) x (16 bytes per word)"
                   , "details":
                   [
@@ -281,8 +281,8 @@
                   [
                     [
                       {
-                        "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
-                        , "line":181
+                        "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version/./gemm.tiny.h"
+                        , "line":182
                       }
                     ]
                   ]
@@ -291,7 +291,7 @@
                   [
                     {
                       "name":"Replicate 0"
-                      , "id":1622
+                      , "id":9211
                       , "padding":"0"
                       , "depth":"32"
                       , "brief":"Implemented size:512 bytes = (32 words) x (16 bytes per word) | Memory Usage:7 MLABs"
@@ -312,8 +312,8 @@
                       [
                         [
                           {
-                            "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
-                            , "line":181
+                            "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version/./gemm.tiny.h"
+                            , "line":182
                           }
                         ]
                       ]
@@ -322,12 +322,12 @@
                       [
                         {
                           "name":"R"
-                          , "id":1623
+                          , "id":9212
                           , "type":"port"
                         }
                         , {
                           "name":"W"
-                          , "id":1624
+                          , "id":9213
                           , "type":"port"
                         }
                       ]
@@ -351,7 +351,7 @@
                 }
                 , {
                   "name":"Bank 3"
-                  , "id":1625
+                  , "id":9214
                   , "brief":"Memory Usage:7 MLABs | Bank width:16 bytes | Bank depth:32 words | Implemented bank size:512 bytes = (32 words) x (16 bytes per word)"
                   , "details":
                   [
@@ -372,8 +372,8 @@
                   [
                     [
                       {
-                        "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
-                        , "line":181
+                        "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version/./gemm.tiny.h"
+                        , "line":182
                       }
                     ]
                   ]
@@ -382,7 +382,7 @@
                   [
                     {
                       "name":"Replicate 0"
-                      , "id":1626
+                      , "id":9215
                       , "padding":"0"
                       , "depth":"32"
                       , "brief":"Implemented size:512 bytes = (32 words) x (16 bytes per word) | Memory Usage:7 MLABs"
@@ -403,8 +403,8 @@
                       [
                         [
                           {
-                            "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
-                            , "line":181
+                            "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version/./gemm.tiny.h"
+                            , "line":182
                           }
                         ]
                       ]
@@ -413,12 +413,12 @@
                       [
                         {
                           "name":"R"
-                          , "id":1627
+                          , "id":9216
                           , "type":"port"
                         }
                         , {
                           "name":"W"
-                          , "id":1628
+                          , "id":9217
                           , "type":"port"
                         }
                       ]
@@ -444,7 +444,7 @@
             }
             , {
               "name":"aFeeder_channel_array"
-              , "id":1629
+              , "id":9218
               , "details":
               [
                 {
@@ -457,8 +457,8 @@
                       , "links":
                       [
                         {
-                          "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
-                          , "line":"174"
+                          "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version/./gemm.tiny.h"
+                          , "line":"176"
                         }
                       ]
                     }
@@ -470,8 +470,8 @@
               [
                 [
                   {
-                    "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
-                    , "line":174
+                    "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version/./gemm.tiny.h"
+                    , "line":176
                   }
                 ]
               ]
@@ -481,7 +481,7 @@
         }
         , {
           "name":"Load"
-          , "id":1605
+          , "id":9194
           , "brief":"Width:128 bits | Stall-free:Yes | Type:Pipelined never-stall | Loads from:DB | Start cycle:10 | Latency:3"
           , "details":
           [
@@ -501,12 +501,12 @@
                   , "links":
                   [
                     {
-                      "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
+                      "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version/./gemm.tiny.h"
                       , "line":"210"
                     }
                     , {
-                      "filename":"/glob/development-tools/versions/oneapi/2023.0.1/oneapi/compiler/2023.0.0/linux/bin-llvm/../include/sycl/handler.hpp"
-                      , "line":"1100"
+                      "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/handler.hpp"
+                      , "line":"1166"
                     }
                   ]
                 }
@@ -520,7 +520,7 @@
                   [
                     {
                       "guide":"Best Practices Guide : Load-Store Units"
-                      , "link":"file:////glob/development-tools/versions/oneapi/2023.1.1/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/yeo1491314105959.html"
+                      , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/yeo1491314105959.html"
                     }
                   ]
                 }
@@ -531,7 +531,7 @@
           [
             [
               {
-                "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version/./gemm.tiny.h"
                 , "line":210
               }
             ]
@@ -540,7 +540,7 @@
         }
         , {
           "name":"Load"
-          , "id":1606
+          , "id":9195
           , "brief":"Width:128 bits | Stall-free:Yes | Type:Pipelined never-stall | Loads from:DB | Start cycle:12 | Latency:3"
           , "details":
           [
@@ -560,12 +560,12 @@
                   , "links":
                   [
                     {
-                      "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
+                      "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version/./gemm.tiny.h"
                       , "line":"210"
                     }
                     , {
-                      "filename":"/glob/development-tools/versions/oneapi/2023.0.1/oneapi/compiler/2023.0.0/linux/bin-llvm/../include/sycl/handler.hpp"
-                      , "line":"1100"
+                      "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/handler.hpp"
+                      , "line":"1166"
                     }
                   ]
                 }
@@ -579,7 +579,7 @@
                   [
                     {
                       "guide":"Best Practices Guide : Load-Store Units"
-                      , "link":"file:////glob/development-tools/versions/oneapi/2023.1.1/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/yeo1491314105959.html"
+                      , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/yeo1491314105959.html"
                     }
                   ]
                 }
@@ -590,7 +590,7 @@
           [
             [
               {
-                "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version/./gemm.tiny.h"
                 , "line":210
               }
             ]
@@ -599,7 +599,7 @@
         }
         , {
           "name":"Load"
-          , "id":1607
+          , "id":9196
           , "brief":"Width:128 bits | Stall-free:Yes | Type:Pipelined never-stall | Loads from:DB | Start cycle:14 | Latency:3"
           , "details":
           [
@@ -619,12 +619,12 @@
                   , "links":
                   [
                     {
-                      "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
+                      "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version/./gemm.tiny.h"
                       , "line":"210"
                     }
                     , {
-                      "filename":"/glob/development-tools/versions/oneapi/2023.0.1/oneapi/compiler/2023.0.0/linux/bin-llvm/../include/sycl/handler.hpp"
-                      , "line":"1100"
+                      "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/handler.hpp"
+                      , "line":"1166"
                     }
                   ]
                 }
@@ -638,7 +638,7 @@
                   [
                     {
                       "guide":"Best Practices Guide : Load-Store Units"
-                      , "link":"file:////glob/development-tools/versions/oneapi/2023.1.1/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/yeo1491314105959.html"
+                      , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/yeo1491314105959.html"
                     }
                   ]
                 }
@@ -649,7 +649,7 @@
           [
             [
               {
-                "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version/./gemm.tiny.h"
                 , "line":210
               }
             ]
@@ -658,7 +658,7 @@
         }
         , {
           "name":"Load"
-          , "id":1608
+          , "id":9197
           , "brief":"Width:128 bits | Stall-free:Yes | Type:Pipelined never-stall | Loads from:DB | Start cycle:16 | Latency:3"
           , "details":
           [
@@ -678,12 +678,12 @@
                   , "links":
                   [
                     {
-                      "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
+                      "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version/./gemm.tiny.h"
                       , "line":"210"
                     }
                     , {
-                      "filename":"/glob/development-tools/versions/oneapi/2023.0.1/oneapi/compiler/2023.0.0/linux/bin-llvm/../include/sycl/handler.hpp"
-                      , "line":"1100"
+                      "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/handler.hpp"
+                      , "line":"1166"
                     }
                   ]
                 }
@@ -697,7 +697,7 @@
                   [
                     {
                       "guide":"Best Practices Guide : Load-Store Units"
-                      , "link":"file:////glob/development-tools/versions/oneapi/2023.1.1/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/yeo1491314105959.html"
+                      , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/yeo1491314105959.html"
                     }
                   ]
                 }
@@ -708,7 +708,7 @@
           [
             [
               {
-                "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version/./gemm.tiny.h"
                 , "line":210
               }
             ]
@@ -717,7 +717,7 @@
         }
         , {
           "name":"Store"
-          , "id":1609
+          , "id":9198
           , "brief":"Width:128 bits | Stall-free:Yes | Type:Pipelined never-stall | Stores to:DB | Start cycle:9 | Latency:1"
           , "details":
           [
@@ -737,12 +737,12 @@
                   , "links":
                   [
                     {
-                      "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
+                      "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version/./gemm.tiny.h"
                       , "line":"207"
                     }
                     , {
-                      "filename":"/glob/development-tools/versions/oneapi/2023.0.1/oneapi/compiler/2023.0.0/linux/bin-llvm/../include/sycl/handler.hpp"
-                      , "line":"1100"
+                      "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/handler.hpp"
+                      , "line":"1166"
                     }
                   ]
                 }
@@ -756,7 +756,7 @@
                   [
                     {
                       "guide":"Best Practices Guide : Load-Store Units"
-                      , "link":"file:////glob/development-tools/versions/oneapi/2023.1.1/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/yeo1491314105959.html"
+                      , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/yeo1491314105959.html"
                     }
                   ]
                 }
@@ -767,7 +767,7 @@
           [
             [
               {
-                "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version/./gemm.tiny.h"
                 , "line":207
               }
             ]
@@ -776,7 +776,7 @@
         }
         , {
           "name":"Store"
-          , "id":1610
+          , "id":9199
           , "brief":"Width:128 bits | Stall-free:Yes | Type:Pipelined never-stall | Stores to:DB | Start cycle:11 | Latency:1"
           , "details":
           [
@@ -796,12 +796,12 @@
                   , "links":
                   [
                     {
-                      "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
+                      "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version/./gemm.tiny.h"
                       , "line":"207"
                     }
                     , {
-                      "filename":"/glob/development-tools/versions/oneapi/2023.0.1/oneapi/compiler/2023.0.0/linux/bin-llvm/../include/sycl/handler.hpp"
-                      , "line":"1100"
+                      "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/handler.hpp"
+                      , "line":"1166"
                     }
                   ]
                 }
@@ -815,7 +815,7 @@
                   [
                     {
                       "guide":"Best Practices Guide : Load-Store Units"
-                      , "link":"file:////glob/development-tools/versions/oneapi/2023.1.1/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/yeo1491314105959.html"
+                      , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/yeo1491314105959.html"
                     }
                   ]
                 }
@@ -826,7 +826,7 @@
           [
             [
               {
-                "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version/./gemm.tiny.h"
                 , "line":207
               }
             ]
@@ -835,7 +835,7 @@
         }
         , {
           "name":"Store"
-          , "id":1611
+          , "id":9200
           , "brief":"Width:128 bits | Stall-free:Yes | Type:Pipelined never-stall | Stores to:DB | Start cycle:13 | Latency:1"
           , "details":
           [
@@ -855,12 +855,12 @@
                   , "links":
                   [
                     {
-                      "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
+                      "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version/./gemm.tiny.h"
                       , "line":"207"
                     }
                     , {
-                      "filename":"/glob/development-tools/versions/oneapi/2023.0.1/oneapi/compiler/2023.0.0/linux/bin-llvm/../include/sycl/handler.hpp"
-                      , "line":"1100"
+                      "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/handler.hpp"
+                      , "line":"1166"
                     }
                   ]
                 }
@@ -874,7 +874,7 @@
                   [
                     {
                       "guide":"Best Practices Guide : Load-Store Units"
-                      , "link":"file:////glob/development-tools/versions/oneapi/2023.1.1/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/yeo1491314105959.html"
+                      , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/yeo1491314105959.html"
                     }
                   ]
                 }
@@ -885,7 +885,7 @@
           [
             [
               {
-                "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version/./gemm.tiny.h"
                 , "line":207
               }
             ]
@@ -894,7 +894,7 @@
         }
         , {
           "name":"Store"
-          , "id":1612
+          , "id":9201
           , "brief":"Width:128 bits | Stall-free:Yes | Type:Pipelined never-stall | Stores to:DB | Start cycle:15 | Latency:1"
           , "details":
           [
@@ -914,12 +914,12 @@
                   , "links":
                   [
                     {
-                      "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
+                      "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version/./gemm.tiny.h"
                       , "line":"207"
                     }
                     , {
-                      "filename":"/glob/development-tools/versions/oneapi/2023.0.1/oneapi/compiler/2023.0.0/linux/bin-llvm/../include/sycl/handler.hpp"
-                      , "line":"1100"
+                      "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/handler.hpp"
+                      , "line":"1166"
                     }
                   ]
                 }
@@ -933,7 +933,7 @@
                   [
                     {
                       "guide":"Best Practices Guide : Load-Store Units"
-                      , "link":"file:////glob/development-tools/versions/oneapi/2023.1.1/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/yeo1491314105959.html"
+                      , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/yeo1491314105959.html"
                     }
                   ]
                 }
@@ -944,7 +944,7 @@
           [
             [
               {
-                "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version/./gemm.tiny.h"
                 , "line":207
               }
             ]
@@ -955,19 +955,19 @@
     }
     , {
       "name":"kernel_bFeeder"
-      , "id":1630
+      , "id":9219
       , "type":"kernel"
       , "children":
       [
         {
           "name":"On-chip Memory"
-          , "id":1631
+          , "id":9220
           , "type":"memtype"
           , "children":
           [
             {
               "name":"DB"
-              , "id":1632
+              , "id":9221
               , "brief":"Implemented size:2048 bytes = (4 banks) x (32 words per bank) x (16 bytes per word) | Memory Usage:28 MLABs | Number of banks:4 | Bank width (word size):16 bytes | Bank depth:32 words | Number of replicates:1 | Number of private copies:1 | RAM Mode:Simple dual-port | Pump configuration:Single-pumped | User defined attributes:memory, singlepump, numbanks(4), simple_dual_port"
               , "details":
               [
@@ -981,8 +981,8 @@
                       , "links":
                       [
                         {
-                          "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
-                          , "line":"261"
+                          "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version/./gemm.tiny.h"
+                          , "line":"263"
                         }
                       ]
                     }
@@ -1009,7 +1009,7 @@
                       [
                         {
                           "guide":"Best Practices Guide : Local Memory"
-                          , "link":"file:////glob/development-tools/versions/oneapi/2023.1.1/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/chn1469549457114.html"
+                          , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/chn1469549457114.html"
                         }
                       ]
                     }
@@ -1020,8 +1020,8 @@
               [
                 [
                   {
-                    "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
-                    , "line":261
+                    "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version/./gemm.tiny.h"
+                    , "line":263
                   }
                 ]
               ]
@@ -1030,7 +1030,7 @@
               [
                 {
                   "name":"Bank 0"
-                  , "id":1641
+                  , "id":9230
                   , "brief":"Memory Usage:7 MLABs | Bank width:16 bytes | Bank depth:32 words | Implemented bank size:512 bytes = (32 words) x (16 bytes per word)"
                   , "details":
                   [
@@ -1051,8 +1051,8 @@
                   [
                     [
                       {
-                        "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
-                        , "line":261
+                        "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version/./gemm.tiny.h"
+                        , "line":263
                       }
                     ]
                   ]
@@ -1061,7 +1061,7 @@
                   [
                     {
                       "name":"Replicate 0"
-                      , "id":1642
+                      , "id":9231
                       , "padding":"0"
                       , "depth":"32"
                       , "brief":"Implemented size:512 bytes = (32 words) x (16 bytes per word) | Memory Usage:7 MLABs"
@@ -1082,8 +1082,8 @@
                       [
                         [
                           {
-                            "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
-                            , "line":261
+                            "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version/./gemm.tiny.h"
+                            , "line":263
                           }
                         ]
                       ]
@@ -1092,12 +1092,12 @@
                       [
                         {
                           "name":"R"
-                          , "id":1643
+                          , "id":9232
                           , "type":"port"
                         }
                         , {
                           "name":"W"
-                          , "id":1644
+                          , "id":9233
                           , "type":"port"
                         }
                       ]
@@ -1121,7 +1121,7 @@
                 }
                 , {
                   "name":"Bank 1"
-                  , "id":1645
+                  , "id":9234
                   , "brief":"Memory Usage:7 MLABs | Bank width:16 bytes | Bank depth:32 words | Implemented bank size:512 bytes = (32 words) x (16 bytes per word)"
                   , "details":
                   [
@@ -1142,8 +1142,8 @@
                   [
                     [
                       {
-                        "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
-                        , "line":261
+                        "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version/./gemm.tiny.h"
+                        , "line":263
                       }
                     ]
                   ]
@@ -1152,7 +1152,7 @@
                   [
                     {
                       "name":"Replicate 0"
-                      , "id":1646
+                      , "id":9235
                       , "padding":"0"
                       , "depth":"32"
                       , "brief":"Implemented size:512 bytes = (32 words) x (16 bytes per word) | Memory Usage:7 MLABs"
@@ -1173,8 +1173,8 @@
                       [
                         [
                           {
-                            "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
-                            , "line":261
+                            "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version/./gemm.tiny.h"
+                            , "line":263
                           }
                         ]
                       ]
@@ -1183,12 +1183,12 @@
                       [
                         {
                           "name":"R"
-                          , "id":1647
+                          , "id":9236
                           , "type":"port"
                         }
                         , {
                           "name":"W"
-                          , "id":1648
+                          , "id":9237
                           , "type":"port"
                         }
                       ]
@@ -1212,7 +1212,7 @@
                 }
                 , {
                   "name":"Bank 2"
-                  , "id":1649
+                  , "id":9238
                   , "brief":"Memory Usage:7 MLABs | Bank width:16 bytes | Bank depth:32 words | Implemented bank size:512 bytes = (32 words) x (16 bytes per word)"
                   , "details":
                   [
@@ -1233,8 +1233,8 @@
                   [
                     [
                       {
-                        "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
-                        , "line":261
+                        "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version/./gemm.tiny.h"
+                        , "line":263
                       }
                     ]
                   ]
@@ -1243,7 +1243,7 @@
                   [
                     {
                       "name":"Replicate 0"
-                      , "id":1650
+                      , "id":9239
                       , "padding":"0"
                       , "depth":"32"
                       , "brief":"Implemented size:512 bytes = (32 words) x (16 bytes per word) | Memory Usage:7 MLABs"
@@ -1264,8 +1264,8 @@
                       [
                         [
                           {
-                            "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
-                            , "line":261
+                            "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version/./gemm.tiny.h"
+                            , "line":263
                           }
                         ]
                       ]
@@ -1274,12 +1274,12 @@
                       [
                         {
                           "name":"R"
-                          , "id":1651
+                          , "id":9240
                           , "type":"port"
                         }
                         , {
                           "name":"W"
-                          , "id":1652
+                          , "id":9241
                           , "type":"port"
                         }
                       ]
@@ -1303,7 +1303,7 @@
                 }
                 , {
                   "name":"Bank 3"
-                  , "id":1653
+                  , "id":9242
                   , "brief":"Memory Usage:7 MLABs | Bank width:16 bytes | Bank depth:32 words | Implemented bank size:512 bytes = (32 words) x (16 bytes per word)"
                   , "details":
                   [
@@ -1324,8 +1324,8 @@
                   [
                     [
                       {
-                        "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
-                        , "line":261
+                        "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version/./gemm.tiny.h"
+                        , "line":263
                       }
                     ]
                   ]
@@ -1334,7 +1334,7 @@
                   [
                     {
                       "name":"Replicate 0"
-                      , "id":1654
+                      , "id":9243
                       , "padding":"0"
                       , "depth":"32"
                       , "brief":"Implemented size:512 bytes = (32 words) x (16 bytes per word) | Memory Usage:7 MLABs"
@@ -1355,8 +1355,8 @@
                       [
                         [
                           {
-                            "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
-                            , "line":261
+                            "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version/./gemm.tiny.h"
+                            , "line":263
                           }
                         ]
                       ]
@@ -1365,12 +1365,12 @@
                       [
                         {
                           "name":"R"
-                          , "id":1655
+                          , "id":9244
                           , "type":"port"
                         }
                         , {
                           "name":"W"
-                          , "id":1656
+                          , "id":9245
                           , "type":"port"
                         }
                       ]
@@ -1396,7 +1396,7 @@
             }
             , {
               "name":"bFeeder_channel_array"
-              , "id":1657
+              , "id":9246
               , "details":
               [
                 {
@@ -1409,8 +1409,8 @@
                       , "links":
                       [
                         {
-                          "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
-                          , "line":"254"
+                          "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version/./gemm.tiny.h"
+                          , "line":"257"
                         }
                       ]
                     }
@@ -1422,8 +1422,8 @@
               [
                 [
                   {
-                    "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
-                    , "line":254
+                    "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version/./gemm.tiny.h"
+                    , "line":257
                   }
                 ]
               ]
@@ -1433,7 +1433,7 @@
         }
         , {
           "name":"Load"
-          , "id":1633
+          , "id":9222
           , "brief":"Width:128 bits | Stall-free:Yes | Type:Pipelined never-stall | Loads from:DB | Start cycle:10 | Latency:3"
           , "details":
           [
@@ -1453,12 +1453,12 @@
                   , "links":
                   [
                     {
-                      "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
-                      , "line":"290"
+                      "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version/./gemm.tiny.h"
+                      , "line":"291"
                     }
                     , {
-                      "filename":"/glob/development-tools/versions/oneapi/2023.0.1/oneapi/compiler/2023.0.0/linux/bin-llvm/../include/sycl/handler.hpp"
-                      , "line":"1100"
+                      "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/handler.hpp"
+                      , "line":"1166"
                     }
                   ]
                 }
@@ -1472,7 +1472,7 @@
                   [
                     {
                       "guide":"Best Practices Guide : Load-Store Units"
-                      , "link":"file:////glob/development-tools/versions/oneapi/2023.1.1/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/yeo1491314105959.html"
+                      , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/yeo1491314105959.html"
                     }
                   ]
                 }
@@ -1483,8 +1483,8 @@
           [
             [
               {
-                "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
-                , "line":290
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version/./gemm.tiny.h"
+                , "line":291
               }
             ]
           ]
@@ -1492,7 +1492,7 @@
         }
         , {
           "name":"Load"
-          , "id":1634
+          , "id":9223
           , "brief":"Width:128 bits | Stall-free:Yes | Type:Pipelined never-stall | Loads from:DB | Start cycle:12 | Latency:3"
           , "details":
           [
@@ -1512,12 +1512,12 @@
                   , "links":
                   [
                     {
-                      "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
-                      , "line":"290"
+                      "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version/./gemm.tiny.h"
+                      , "line":"291"
                     }
                     , {
-                      "filename":"/glob/development-tools/versions/oneapi/2023.0.1/oneapi/compiler/2023.0.0/linux/bin-llvm/../include/sycl/handler.hpp"
-                      , "line":"1100"
+                      "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/handler.hpp"
+                      , "line":"1166"
                     }
                   ]
                 }
@@ -1531,7 +1531,7 @@
                   [
                     {
                       "guide":"Best Practices Guide : Load-Store Units"
-                      , "link":"file:////glob/development-tools/versions/oneapi/2023.1.1/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/yeo1491314105959.html"
+                      , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/yeo1491314105959.html"
                     }
                   ]
                 }
@@ -1542,8 +1542,8 @@
           [
             [
               {
-                "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
-                , "line":290
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version/./gemm.tiny.h"
+                , "line":291
               }
             ]
           ]
@@ -1551,7 +1551,7 @@
         }
         , {
           "name":"Load"
-          , "id":1635
+          , "id":9224
           , "brief":"Width:128 bits | Stall-free:Yes | Type:Pipelined never-stall | Loads from:DB | Start cycle:14 | Latency:3"
           , "details":
           [
@@ -1571,12 +1571,12 @@
                   , "links":
                   [
                     {
-                      "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
-                      , "line":"290"
+                      "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version/./gemm.tiny.h"
+                      , "line":"291"
                     }
                     , {
-                      "filename":"/glob/development-tools/versions/oneapi/2023.0.1/oneapi/compiler/2023.0.0/linux/bin-llvm/../include/sycl/handler.hpp"
-                      , "line":"1100"
+                      "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/handler.hpp"
+                      , "line":"1166"
                     }
                   ]
                 }
@@ -1590,7 +1590,7 @@
                   [
                     {
                       "guide":"Best Practices Guide : Load-Store Units"
-                      , "link":"file:////glob/development-tools/versions/oneapi/2023.1.1/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/yeo1491314105959.html"
+                      , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/yeo1491314105959.html"
                     }
                   ]
                 }
@@ -1601,8 +1601,8 @@
           [
             [
               {
-                "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
-                , "line":290
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version/./gemm.tiny.h"
+                , "line":291
               }
             ]
           ]
@@ -1610,7 +1610,7 @@
         }
         , {
           "name":"Load"
-          , "id":1636
+          , "id":9225
           , "brief":"Width:128 bits | Stall-free:Yes | Type:Pipelined never-stall | Loads from:DB | Start cycle:16 | Latency:3"
           , "details":
           [
@@ -1630,12 +1630,12 @@
                   , "links":
                   [
                     {
-                      "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
-                      , "line":"290"
+                      "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version/./gemm.tiny.h"
+                      , "line":"291"
                     }
                     , {
-                      "filename":"/glob/development-tools/versions/oneapi/2023.0.1/oneapi/compiler/2023.0.0/linux/bin-llvm/../include/sycl/handler.hpp"
-                      , "line":"1100"
+                      "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/handler.hpp"
+                      , "line":"1166"
                     }
                   ]
                 }
@@ -1649,7 +1649,7 @@
                   [
                     {
                       "guide":"Best Practices Guide : Load-Store Units"
-                      , "link":"file:////glob/development-tools/versions/oneapi/2023.1.1/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/yeo1491314105959.html"
+                      , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/yeo1491314105959.html"
                     }
                   ]
                 }
@@ -1660,8 +1660,8 @@
           [
             [
               {
-                "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
-                , "line":290
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version/./gemm.tiny.h"
+                , "line":291
               }
             ]
           ]
@@ -1669,7 +1669,7 @@
         }
         , {
           "name":"Store"
-          , "id":1637
+          , "id":9226
           , "brief":"Width:128 bits | Stall-free:Yes | Type:Pipelined never-stall | Stores to:DB | Start cycle:9 | Latency:1"
           , "details":
           [
@@ -1689,12 +1689,12 @@
                   , "links":
                   [
                     {
-                      "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
-                      , "line":"287"
+                      "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version/./gemm.tiny.h"
+                      , "line":"288"
                     }
                     , {
-                      "filename":"/glob/development-tools/versions/oneapi/2023.0.1/oneapi/compiler/2023.0.0/linux/bin-llvm/../include/sycl/handler.hpp"
-                      , "line":"1100"
+                      "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/handler.hpp"
+                      , "line":"1166"
                     }
                   ]
                 }
@@ -1708,7 +1708,7 @@
                   [
                     {
                       "guide":"Best Practices Guide : Load-Store Units"
-                      , "link":"file:////glob/development-tools/versions/oneapi/2023.1.1/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/yeo1491314105959.html"
+                      , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/yeo1491314105959.html"
                     }
                   ]
                 }
@@ -1719,8 +1719,8 @@
           [
             [
               {
-                "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
-                , "line":287
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version/./gemm.tiny.h"
+                , "line":288
               }
             ]
           ]
@@ -1728,7 +1728,7 @@
         }
         , {
           "name":"Store"
-          , "id":1638
+          , "id":9227
           , "brief":"Width:128 bits | Stall-free:Yes | Type:Pipelined never-stall | Stores to:DB | Start cycle:11 | Latency:1"
           , "details":
           [
@@ -1748,12 +1748,12 @@
                   , "links":
                   [
                     {
-                      "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
-                      , "line":"287"
+                      "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version/./gemm.tiny.h"
+                      , "line":"288"
                     }
                     , {
-                      "filename":"/glob/development-tools/versions/oneapi/2023.0.1/oneapi/compiler/2023.0.0/linux/bin-llvm/../include/sycl/handler.hpp"
-                      , "line":"1100"
+                      "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/handler.hpp"
+                      , "line":"1166"
                     }
                   ]
                 }
@@ -1767,7 +1767,7 @@
                   [
                     {
                       "guide":"Best Practices Guide : Load-Store Units"
-                      , "link":"file:////glob/development-tools/versions/oneapi/2023.1.1/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/yeo1491314105959.html"
+                      , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/yeo1491314105959.html"
                     }
                   ]
                 }
@@ -1778,8 +1778,8 @@
           [
             [
               {
-                "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
-                , "line":287
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version/./gemm.tiny.h"
+                , "line":288
               }
             ]
           ]
@@ -1787,7 +1787,7 @@
         }
         , {
           "name":"Store"
-          , "id":1639
+          , "id":9228
           , "brief":"Width:128 bits | Stall-free:Yes | Type:Pipelined never-stall | Stores to:DB | Start cycle:13 | Latency:1"
           , "details":
           [
@@ -1807,12 +1807,12 @@
                   , "links":
                   [
                     {
-                      "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
-                      , "line":"287"
+                      "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version/./gemm.tiny.h"
+                      , "line":"288"
                     }
                     , {
-                      "filename":"/glob/development-tools/versions/oneapi/2023.0.1/oneapi/compiler/2023.0.0/linux/bin-llvm/../include/sycl/handler.hpp"
-                      , "line":"1100"
+                      "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/handler.hpp"
+                      , "line":"1166"
                     }
                   ]
                 }
@@ -1826,7 +1826,7 @@
                   [
                     {
                       "guide":"Best Practices Guide : Load-Store Units"
-                      , "link":"file:////glob/development-tools/versions/oneapi/2023.1.1/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/yeo1491314105959.html"
+                      , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/yeo1491314105959.html"
                     }
                   ]
                 }
@@ -1837,8 +1837,8 @@
           [
             [
               {
-                "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
-                , "line":287
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version/./gemm.tiny.h"
+                , "line":288
               }
             ]
           ]
@@ -1846,7 +1846,7 @@
         }
         , {
           "name":"Store"
-          , "id":1640
+          , "id":9229
           , "brief":"Width:128 bits | Stall-free:Yes | Type:Pipelined never-stall | Stores to:DB | Start cycle:15 | Latency:1"
           , "details":
           [
@@ -1866,12 +1866,12 @@
                   , "links":
                   [
                     {
-                      "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
-                      , "line":"287"
+                      "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version/./gemm.tiny.h"
+                      , "line":"288"
                     }
                     , {
-                      "filename":"/glob/development-tools/versions/oneapi/2023.0.1/oneapi/compiler/2023.0.0/linux/bin-llvm/../include/sycl/handler.hpp"
-                      , "line":"1100"
+                      "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/handler.hpp"
+                      , "line":"1166"
                     }
                   ]
                 }
@@ -1885,7 +1885,7 @@
                   [
                     {
                       "guide":"Best Practices Guide : Load-Store Units"
-                      , "link":"file:////glob/development-tools/versions/oneapi/2023.1.1/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/yeo1491314105959.html"
+                      , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/yeo1491314105959.html"
                     }
                   ]
                 }
@@ -1896,8 +1896,8 @@
           [
             [
               {
-                "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
-                , "line":287
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version/./gemm.tiny.h"
+                , "line":288
               }
             ]
           ]
@@ -1907,19 +1907,19 @@
     }
     , {
       "name":"kernel_Product"
-      , "id":1658
+      , "id":9247
       , "type":"kernel"
       , "children":
       [
         {
           "name":"On-chip Memory"
-          , "id":1659
+          , "id":9248
           , "type":"memtype"
           , "children":
           [
             {
               "name":"bFeeder_channel_array"
-              , "id":1660
+              , "id":9249
               , "details":
               [
                 {
@@ -1932,42 +1932,7 @@
                       , "links":
                       [
                         {
-                          "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
-                          , "line":"305"
-                        }
-                      ]
-                    }
-                  ]
-                  , "Additional information":"This variable is carried through the pipeline in registers (rather than being stored in RAM)"
-                }
-              ]
-              , "debug":
-              [
-                [
-                  {
-                    "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
-                    , "line":305
-                  }
-                ]
-              ]
-              , "type":"reg"
-            }
-            , {
-              "name":"aFeeder_channel_array"
-              , "id":1661
-              , "details":
-              [
-                {
-                  "type":"table"
-                  , "Declared at":
-                  [
-                    {
-                      "type":"text"
-                      , "text":"%L"
-                      , "links":
-                      [
-                        {
-                          "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
+                          "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version/./gemm.tiny.h"
                           , "line":"306"
                         }
                       ]
@@ -1980,7 +1945,7 @@
               [
                 [
                   {
-                    "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
+                    "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version/./gemm.tiny.h"
                     , "line":306
                   }
                 ]
@@ -1988,8 +1953,8 @@
               , "type":"reg"
             }
             , {
-              "name":"Z_shreg"
-              , "id":1662
+              "name":"aFeeder_channel_array"
+              , "id":9250
               , "details":
               [
                 {
@@ -2002,7 +1967,7 @@
                       , "links":
                       [
                         {
-                          "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
+                          "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version/./gemm.tiny.h"
                           , "line":"307"
                         }
                       ]
@@ -2015,7 +1980,7 @@
               [
                 [
                   {
-                    "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
+                    "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version/./gemm.tiny.h"
                     , "line":307
                   }
                 ]
@@ -2023,8 +1988,8 @@
               , "type":"reg"
             }
             , {
-              "name":"Z_pipe_shreg"
-              , "id":1663
+              "name":"Z_shreg"
+              , "id":9251
               , "details":
               [
                 {
@@ -2037,7 +2002,7 @@
                       , "links":
                       [
                         {
-                          "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
+                          "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version/./gemm.tiny.h"
                           , "line":"308"
                         }
                       ]
@@ -2050,7 +2015,7 @@
               [
                 [
                   {
-                    "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
+                    "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version/./gemm.tiny.h"
                     , "line":308
                   }
                 ]
@@ -2058,8 +2023,8 @@
               , "type":"reg"
             }
             , {
-              "name":"Y_shreg"
-              , "id":1664
+              "name":"Z_pipe_shreg"
+              , "id":9252
               , "details":
               [
                 {
@@ -2072,7 +2037,7 @@
                       , "links":
                       [
                         {
-                          "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
+                          "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version/./gemm.tiny.h"
                           , "line":"309"
                         }
                       ]
@@ -2085,7 +2050,7 @@
               [
                 [
                   {
-                    "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
+                    "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version/./gemm.tiny.h"
                     , "line":309
                   }
                 ]
@@ -2093,8 +2058,8 @@
               , "type":"reg"
             }
             , {
-              "name":"Z"
-              , "id":1665
+              "name":"Y_shreg"
+              , "id":9253
               , "details":
               [
                 {
@@ -2107,42 +2072,8 @@
                       , "links":
                       [
                         {
-                          "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
+                          "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version/./gemm.tiny.h"
                           , "line":"310"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-              , "debug":
-              [
-                [
-                  {
-                    "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
-                    , "line":310
-                  }
-                ]
-              ]
-              , "type":"unsynth"
-            }
-            , {
-              "name":"X_shreg"
-              , "id":1666
-              , "details":
-              [
-                {
-                  "type":"table"
-                  , "Declared at":
-                  [
-                    {
-                      "type":"text"
-                      , "text":"%L"
-                      , "links":
-                      [
-                        {
-                          "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
-                          , "line":"311"
                         }
                       ]
                     }
@@ -2154,8 +2085,77 @@
               [
                 [
                   {
-                    "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
+                    "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version/./gemm.tiny.h"
+                    , "line":310
+                  }
+                ]
+              ]
+              , "type":"reg"
+            }
+            , {
+              "name":"Z"
+              , "id":9254
+              , "details":
+              [
+                {
+                  "type":"table"
+                  , "Declared at":
+                  [
+                    {
+                      "type":"text"
+                      , "text":"%L"
+                      , "links":
+                      [
+                        {
+                          "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version/./gemm.tiny.h"
+                          , "line":"311"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version/./gemm.tiny.h"
                     , "line":311
+                  }
+                ]
+              ]
+              , "type":"unsynth"
+            }
+            , {
+              "name":"X_shreg"
+              , "id":9255
+              , "details":
+              [
+                {
+                  "type":"table"
+                  , "Declared at":
+                  [
+                    {
+                      "type":"text"
+                      , "text":"%L"
+                      , "links":
+                      [
+                        {
+                          "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version/./gemm.tiny.h"
+                          , "line":"312"
+                        }
+                      ]
+                    }
+                  ]
+                  , "Additional information":"This variable is carried through the pipeline in registers (rather than being stored in RAM)"
+                }
+              ]
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version/./gemm.tiny.h"
+                    , "line":312
                   }
                 ]
               ]
@@ -2167,19 +2167,19 @@
     }
     , {
       "name":"kernel_cLoader"
-      , "id":1667
+      , "id":9256
       , "type":"kernel"
       , "children":
       [
         {
           "name":"On-chip Memory"
-          , "id":1668
+          , "id":9257
           , "type":"memtype"
           , "children":
           [
             {
               "name":"__SYCLKernel"
-              , "id":1669
+              , "id":9258
               , "details":
               [
                 {
@@ -2192,25 +2192,74 @@
                       , "links":
                       [
                         {
-                          "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
-                          , "line":"409"
+                          "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version/./gemm.tiny.h"
+                          , "line":"411"
                         }
                       ]
                     }
                   ]
-                  , "Additional information":"This variable is carried through the pipeline in registers (rather than being stored in RAM)"
                 }
               ]
               , "debug":
               [
                 [
                   {
-                    "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
-                    , "line":409
+                    "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version/./gemm.tiny.h"
+                    , "line":411
                   }
                 ]
               ]
-              , "type":"reg"
+              , "type":"unsynth"
+            }
+          ]
+        }
+      ]
+    }
+    , {
+      "name":"kernel_Out"
+      , "id":9259
+      , "type":"kernel"
+      , "children":
+      [
+        {
+          "name":"On-chip Memory"
+          , "id":9260
+          , "type":"memtype"
+          , "children":
+          [
+            {
+              "name":"Z"
+              , "id":9261
+              , "details":
+              [
+                {
+                  "type":"table"
+                  , "Declared at":
+                  [
+                    {
+                      "type":"text"
+                      , "text":"%L"
+                      , "links":
+                      [
+                        {
+                          "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version/./gemm.tiny.h"
+                          , "line":"436"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version/./gemm.tiny.h"
+                    , "line":436
+                  }
+                ]
+              ]
+              , "type":"unsynth"
             }
           ]
         }
@@ -2220,68 +2269,68 @@
   , "links":
   [
     {
-      "from":1615
-      , "to":1605
+      "from":9204
+      , "to":9194
     }
     , {
-      "from":1609
-      , "to":1616
+      "from":9198
+      , "to":9205
     }
     , {
-      "from":1619
-      , "to":1606
+      "from":9208
+      , "to":9195
     }
     , {
-      "from":1610
-      , "to":1620
+      "from":9199
+      , "to":9209
     }
     , {
-      "from":1623
-      , "to":1607
+      "from":9212
+      , "to":9196
     }
     , {
-      "from":1611
-      , "to":1624
+      "from":9200
+      , "to":9213
     }
     , {
-      "from":1627
-      , "to":1608
+      "from":9216
+      , "to":9197
     }
     , {
-      "from":1612
-      , "to":1628
+      "from":9201
+      , "to":9217
     }
     , {
-      "from":1643
-      , "to":1633
+      "from":9232
+      , "to":9222
     }
     , {
-      "from":1637
-      , "to":1644
+      "from":9226
+      , "to":9233
     }
     , {
-      "from":1647
-      , "to":1634
+      "from":9236
+      , "to":9223
     }
     , {
-      "from":1638
-      , "to":1648
+      "from":9227
+      , "to":9237
     }
     , {
-      "from":1651
-      , "to":1635
+      "from":9240
+      , "to":9224
     }
     , {
-      "from":1639
-      , "to":1652
+      "from":9228
+      , "to":9241
     }
     , {
-      "from":1655
-      , "to":1636
+      "from":9244
+      , "to":9225
     }
     , {
-      "from":1640
-      , "to":1656
+      "from":9229
+      , "to":9245
     }
   ]
 }

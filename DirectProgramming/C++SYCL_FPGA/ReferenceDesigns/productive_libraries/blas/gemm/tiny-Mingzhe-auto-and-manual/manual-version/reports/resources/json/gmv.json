@@ -3,7 +3,7 @@
   [
     {
       "name":"DDR"
-      , "id":1670
+      , "id":9262
       , "details":
       [
         {
@@ -20,14 +20,14 @@
       [
         {
           "name":"channel 0"
-          , "id":1672
+          , "id":9264
           , "details":
           [
             {
               "type":"table"
               , "Data Width":"512"
               , "Address Width":"32"
-              , "Latency":"500"
+              , "Latency":"240"
               , "ReadWrite Mode":"Read/Write"
               , "Maximum Burst":"16"
               , "Wait Request":"0"
@@ -38,14 +38,14 @@
         }
         , {
           "name":"channel 1"
-          , "id":1673
+          , "id":9265
           , "details":
           [
             {
               "type":"table"
               , "Data Width":"512"
               , "Address Width":"32"
-              , "Latency":"500"
+              , "Latency":"240"
               , "ReadWrite Mode":"Read/Write"
               , "Maximum Burst":"16"
               , "Wait Request":"0"
@@ -58,8 +58,8 @@
     }
     , {
       "name":"Memory Controller"
-      , "id":1671
-      , "parent":"1670"
+      , "id":9263
+      , "parent":"9262"
       , "bw":"34133.00"
       , "num_channels":"2"
       , "interleave":"1"
@@ -74,19 +74,19 @@
     }
     , {
       "name":"Global Memory Interconnect"
-      , "id":1674
-      , "parent":"1670"
+      , "id":9266
+      , "parent":"9262"
       , "type":"bb"
       , "children":
       [
         {
           "name":"SHARE"
-          , "id":1675
+          , "id":9267
           , "type":"arb"
         }
         , {
           "name":"Write Interconnect"
-          , "id":1678
+          , "id":9270
           , "details":
           [
             {
@@ -102,7 +102,7 @@
         }
         , {
           "name":"Read Interconnect"
-          , "id":1676
+          , "id":9268
           , "details":
           [
             {
@@ -116,7 +116,7 @@
         }
         , {
           "name":"Read Interconnect Router"
-          , "id":1677
+          , "id":9269
           , "details":
           [
             {
@@ -129,12 +129,12 @@
           [
             {
               "name":"Bus 0"
-              , "id":1685
+              , "id":9277
               , "type":"memsys"
             }
             , {
               "name":"Bus 1"
-              , "id":1686
+              , "id":9278
               , "type":"memsys"
             }
           ]
@@ -143,22 +143,22 @@
     }
     , {
       "name":"Global Memory Loads"
-      , "id":1679
-      , "parent":"1670"
+      , "id":9271
+      , "parent":"9262"
       , "type":"bb"
       , "children":
       [
         {
           "name":"LD"
-          , "id":1680
+          , "id":9272
           , "kwidth":"128"
           , "mwidth":"512"
           , "details":
           [
             {
               "type":"table"
-              , "Start Cycle":"6"
-              , "Latency":"249 cycles"
+              , "Start Cycle":"134"
+              , "Latency":"156 cycles"
               , "Width":"128 bits"
               , "DDR Width":"512 bits"
               , "Uses Caching":"No"
@@ -170,8 +170,8 @@
           [
             [
               {
-                "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
-                , "line":156
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version/./gemm.tiny.h"
+                , "line":158
               }
             ]
           ]
@@ -179,18 +179,18 @@
         }
         , {
           "name":"LD"
-          , "id":1681
+          , "id":9273
           , "kwidth":"128"
           , "mwidth":"512"
           , "details":
           [
             {
               "type":"table"
-              , "Start Cycle":"7"
-              , "Latency":"249 cycles"
+              , "Start Cycle":"133"
+              , "Latency":"156 cycles"
               , "Width":"128 bits"
               , "DDR Width":"512 bits"
-              , "Uses Caching":"Yes"
+              , "Uses Caching":"No"
               , "LSU Style":"BURST-COALESCED"
               , "Kernel":"kernel_bLoader"
             }
@@ -199,8 +199,8 @@
           [
             [
               {
-                "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
-                , "line":236
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version/./gemm.tiny.h"
+                , "line":239
               }
             ]
           ]
@@ -208,7 +208,7 @@
         }
         , {
           "name":"LD"
-          , "id":1682
+          , "id":9274
           , "kwidth":"128"
           , "mwidth":"512"
           , "details":
@@ -216,7 +216,7 @@
             {
               "type":"table"
               , "Start Cycle":"5"
-              , "Latency":"249 cycles"
+              , "Latency":"156 cycles"
               , "Width":"128 bits"
               , "DDR Width":"512 bits"
               , "Uses Caching":"No"
@@ -228,8 +228,8 @@
           [
             [
               {
-                "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
-                , "line":418
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version/./gemm.tiny.h"
+                , "line":420
               }
             ]
           ]
@@ -239,14 +239,14 @@
     }
     , {
       "name":"Global Memory Stores"
-      , "id":1683
-      , "parent":"1670"
+      , "id":9275
+      , "parent":"9262"
       , "type":"bb"
       , "children":
       [
         {
           "name":"ST"
-          , "id":1684
+          , "id":9276
           , "kwidth":"128"
           , "mwidth":"512"
           , "details":
@@ -266,8 +266,8 @@
           [
             [
               {
-                "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
-                , "line":460
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version/./gemm.tiny.h"
+                , "line":461
               }
             ]
           ]
@@ -279,70 +279,70 @@
   , "links":
   [
     {
-      "from":1672
-      , "to":1671
+      "from":9264
+      , "to":9263
     }
     , {
-      "from":1671
-      , "to":1672
+      "from":9263
+      , "to":9264
     }
     , {
-      "from":1673
-      , "to":1671
+      "from":9265
+      , "to":9263
     }
     , {
-      "from":1671
-      , "to":1673
+      "from":9263
+      , "to":9265
     }
     , {
-      "from":1676
-      , "to":1675
+      "from":9268
+      , "to":9267
     }
     , {
-      "from":1678
-      , "to":1675
+      "from":9270
+      , "to":9267
     }
     , {
-      "from":1675
-      , "to":1671
+      "from":9267
+      , "to":9263
     }
     , {
-      "from":1680
-      , "to":1676
+      "from":9272
+      , "to":9268
     }
     , {
-      "from":1681
-      , "to":1676
+      "from":9273
+      , "to":9268
     }
     , {
-      "from":1682
-      , "to":1676
+      "from":9274
+      , "to":9268
     }
     , {
-      "from":1684
-      , "to":1678
+      "from":9276
+      , "to":9270
     }
     , {
-      "from":1671
-      , "to":1685
+      "from":9263
+      , "to":9277
     }
     , {
-      "from":1671
-      , "to":1686
+      "from":9263
+      , "to":9278
     }
     , {
-      "from":1685
-      , "to":1680
+      "from":9277
+      , "to":9272
       , "reverse":1
     }
     , {
-      "from":1686
-      , "to":1681
+      "from":9278
+      , "to":9273
       , "reverse":1
     }
     , {
-      "from":1685
-      , "to":1682
+      "from":9277
+      , "to":9274
       , "reverse":1
     }
   ]

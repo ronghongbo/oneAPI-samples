@@ -304,7 +304,7 @@
       , {
         "name":"kernel_bLoader"
         , "data":
-        [5117, 7611, 69, 0, 36]
+        [28060, 29575, 38, 5, 123]
         , "debug":
         [
           [
@@ -332,7 +332,7 @@
       , {
         "name":"kernel_Product"
         , "data":
-        [12462, 20623, 0, 64, 134]
+        [319116, 767055, 0, 64, 27955]
         , "debug":
         [
           [
@@ -346,7 +346,7 @@
       , {
         "name":"kernel_cLoader"
         , "data":
-        [2131, 4884, 17, 0, 23]
+        [2962, 5907, 16, 0, 33]
         , "debug":
         [
           [
@@ -360,7 +360,7 @@
       , {
         "name":"kernel_Out"
         , "data":
-        [1827, 2955, 0, 8, 30]
+        [2576, 3789, 0, 8, 30]
         , "debug":
         [
           [
@@ -374,7 +374,7 @@
       , {
         "name":"kernel_unloader"
         , "data":
-        [1924, 5032, 0, 0, 55]
+        [2782, 6087, 0, 0, 65]
         , "debug":
         [
           [
@@ -388,7 +388,7 @@
       , {
         "name":"kernel_aLoader"
         , "data":
-        [2657, 5534, 17, 0, 32]
+        [41200, 47632, 43, 10, 127]
         , "debug":
         [
           [
@@ -404,7 +404,7 @@
         , "classes":
         ["summary-highlight", "nohover"]
         , "data":
-        [32890, 59109, 103, 72, 488]
+        [403468, 872515, 97, 87, 28511]
       }
       , {
         "name":"Global Interconnect"
@@ -418,7 +418,7 @@
         , "classes":
         ["summary-highlight", "nohover"]
         , "data":
-        [179950, 358572, 492, 123, 0]
+        [134500, 172452, 397, 0, 0]
       }
       , {
         "name":"System description ROM"
@@ -439,9 +439,9 @@
         , "classes":
         ["summary-highlight", "nohover"]
         , "data":
-        [225441, 438304, 747, 195, 488]
+        [550569, 1065590, 646, 87, 28511]
         , "data_percent":
-        [26.3859, 25.6498, 27.5341, 12.8458]
+        [64.4393, 62.359, 23.8113, 5.73123]
       }
       , {
         "name":"Available"
@@ -457,59 +457,6 @@
     "name":"Compile Warnings"
     , "children":
     [
-      {
-        "name":"Load uses a Burst-coalesced cached LSU"
-        , "details":
-        [
-          {
-            "type":"text"
-            , "text":"Load with a private 128 kilobit cache. Cache is not shared with any other load. It is flushed on kernel start. Use Dynamic Profiler to verify cache effectiveness. Other kernels should not be updating the data in global memory while this kernel is using it. Cache is created when memory access pattern is data-dependent or appears to be repetitive. Simplify access pattern or mark pointer as 'volatile' to disable generation of this cache."
-          }
-        ]
-        , "debug":
-        [
-          [
-            {
-              "filename":"/glob/development-tools/versions/oneapi/2023.0.1/oneapi/compiler/2023.0.0/linux/bin-llvm/../include/sycl/handler.hpp"
-              , "line":1100
-            }
-            , {
-              "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
-              , "line":236
-            }
-          ]
-          , [
-            {
-              "filename":"/glob/development-tools/versions/oneapi/2023.0.1/oneapi/compiler/2023.0.0/linux/bin-llvm/../include/sycl/handler.hpp"
-              , "line":1100
-            }
-            , {
-              "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
-              , "line":237
-            }
-          ]
-          , [
-            {
-              "filename":"/glob/development-tools/versions/oneapi/2023.0.1/oneapi/compiler/2023.0.0/linux/bin-llvm/../include/sycl/handler.hpp"
-              , "line":1100
-            }
-            , {
-              "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
-              , "line":238
-            }
-          ]
-          , [
-            {
-              "filename":"/glob/development-tools/versions/oneapi/2023.0.1/oneapi/compiler/2023.0.0/linux/bin-llvm/../include/sycl/handler.hpp"
-              , "line":1100
-            }
-            , {
-              "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
-              , "line":239
-            }
-          ]
-        ]
-      }
     ]
   }
 }

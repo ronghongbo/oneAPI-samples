@@ -3,19 +3,19 @@
   [
     {
       "type":"kernel"
-      , "id":23
+      , "id":26
       , "name":"kernel_aFeeder"
       , "children":
       [
         {
           "type":"inst"
-          , "id":27
+          , "id":30
           , "name":"Store"
           , "debug":
           [
             [
               {
-                "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version/./gemm.tiny.h"
                 , "line":207
               }
             ]
@@ -39,7 +39,7 @@
                   [
                     {
                       "guide":"Best Practices Guide : Load-Store Units"
-                      , "link":"file:////glob/development-tools/versions/oneapi/2023.1.1/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/yeo1491314105959.html"
+                      , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/yeo1491314105959.html"
                     }
                   ]
                 }
@@ -49,13 +49,13 @@
         }
         , {
           "type":"inst"
-          , "id":28
+          , "id":31
           , "name":"Load"
           , "debug":
           [
             [
               {
-                "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version/./gemm.tiny.h"
                 , "line":210
               }
             ]
@@ -79,7 +79,7 @@
                   [
                     {
                       "guide":"Best Practices Guide : Load-Store Units"
-                      , "link":"file:////glob/development-tools/versions/oneapi/2023.1.1/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/yeo1491314105959.html"
+                      , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/yeo1491314105959.html"
                     }
                   ]
                 }
@@ -89,13 +89,13 @@
         }
         , {
           "type":"inst"
-          , "id":29
+          , "id":32
           , "name":"Store"
           , "debug":
           [
             [
               {
-                "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version/./gemm.tiny.h"
                 , "line":207
               }
             ]
@@ -119,7 +119,7 @@
                   [
                     {
                       "guide":"Best Practices Guide : Load-Store Units"
-                      , "link":"file:////glob/development-tools/versions/oneapi/2023.1.1/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/yeo1491314105959.html"
+                      , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/yeo1491314105959.html"
                     }
                   ]
                 }
@@ -129,13 +129,13 @@
         }
         , {
           "type":"inst"
-          , "id":30
+          , "id":33
           , "name":"Load"
           , "debug":
           [
             [
               {
-                "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version/./gemm.tiny.h"
                 , "line":210
               }
             ]
@@ -159,7 +159,7 @@
                   [
                     {
                       "guide":"Best Practices Guide : Load-Store Units"
-                      , "link":"file:////glob/development-tools/versions/oneapi/2023.1.1/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/yeo1491314105959.html"
+                      , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/yeo1491314105959.html"
                     }
                   ]
                 }
@@ -169,13 +169,13 @@
         }
         , {
           "type":"inst"
-          , "id":31
+          , "id":34
           , "name":"Store"
           , "debug":
           [
             [
               {
-                "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version/./gemm.tiny.h"
                 , "line":207
               }
             ]
@@ -199,7 +199,7 @@
                   [
                     {
                       "guide":"Best Practices Guide : Load-Store Units"
-                      , "link":"file:////glob/development-tools/versions/oneapi/2023.1.1/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/yeo1491314105959.html"
+                      , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/yeo1491314105959.html"
                     }
                   ]
                 }
@@ -209,13 +209,13 @@
         }
         , {
           "type":"inst"
-          , "id":32
+          , "id":35
           , "name":"Load"
           , "debug":
           [
             [
               {
-                "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version/./gemm.tiny.h"
                 , "line":210
               }
             ]
@@ -239,7 +239,7 @@
                   [
                     {
                       "guide":"Best Practices Guide : Load-Store Units"
-                      , "link":"file:////glob/development-tools/versions/oneapi/2023.1.1/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/yeo1491314105959.html"
+                      , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/yeo1491314105959.html"
                     }
                   ]
                 }
@@ -249,13 +249,13 @@
         }
         , {
           "type":"inst"
-          , "id":33
+          , "id":36
           , "name":"Store"
           , "debug":
           [
             [
               {
-                "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version/./gemm.tiny.h"
                 , "line":207
               }
             ]
@@ -279,7 +279,7 @@
                   [
                     {
                       "guide":"Best Practices Guide : Load-Store Units"
-                      , "link":"file:////glob/development-tools/versions/oneapi/2023.1.1/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/yeo1491314105959.html"
+                      , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/yeo1491314105959.html"
                     }
                   ]
                 }
@@ -289,13 +289,13 @@
         }
         , {
           "type":"inst"
-          , "id":34
+          , "id":37
           , "name":"Load"
           , "debug":
           [
             [
               {
-                "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version/./gemm.tiny.h"
                 , "line":210
               }
             ]
@@ -319,7 +319,7 @@
                   [
                     {
                       "guide":"Best Practices Guide : Load-Store Units"
-                      , "link":"file:////glob/development-tools/versions/oneapi/2023.1.1/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/yeo1491314105959.html"
+                      , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/yeo1491314105959.html"
                     }
                   ]
                 }
@@ -329,20 +329,20 @@
         }
         , {
           "type":"memtype"
-          , "id":43
+          , "id":46
           , "name":"On-chip Memory"
           , "children":
           [
             {
               "type":"memsys"
-              , "id":44
+              , "id":47
               , "name":"DB"
               , "debug":
               [
                 [
                   {
                     "filename":"gemm.tiny.h"
-                    , "line":181
+                    , "line":182
                   }
                 ]
               ]
@@ -350,146 +350,14 @@
               [
                 {
                   "type":"bank"
-                  , "id":45
+                  , "id":48
                   , "name":"Bank 0"
                   , "debug":
                   [
                     [
                       {
                         "filename":"gemm.tiny.h"
-                        , "line":181
-                      }
-                    ]
-                  ]
-                  , "children":
-                  [
-                    {
-                      "type":"port"
-                      , "id":49
-                      , "name":"R"
-                    }
-                    , {
-                      "type":"port"
-                      , "id":53
-                      , "name":"W"
-                    }
-                  ]
-                  , "details":
-                  [
-                    {
-                      "type":"table"
-                      , "details":
-                      [
-                        {
-                          "type":"brief"
-                          , "text":"2 total ports/bank\n1 read ports/bank\n1 write ports/bank"
-                        }
-                      ]
-                      , "Total number of ports per bank":"2"
-                      , "Number of read ports per bank":"1"
-                      , "Number of write ports per bank":"1"
-                      , "Total replication":"1"
-                    }
-                  ]
-                }
-                , {
-                  "type":"bank"
-                  , "id":46
-                  , "name":"Bank 1"
-                  , "debug":
-                  [
-                    [
-                      {
-                        "filename":"gemm.tiny.h"
-                        , "line":181
-                      }
-                    ]
-                  ]
-                  , "children":
-                  [
-                    {
-                      "type":"port"
-                      , "id":50
-                      , "name":"R"
-                    }
-                    , {
-                      "type":"port"
-                      , "id":54
-                      , "name":"W"
-                    }
-                  ]
-                  , "details":
-                  [
-                    {
-                      "type":"table"
-                      , "details":
-                      [
-                        {
-                          "type":"brief"
-                          , "text":"2 total ports/bank\n1 read ports/bank\n1 write ports/bank"
-                        }
-                      ]
-                      , "Total number of ports per bank":"2"
-                      , "Number of read ports per bank":"1"
-                      , "Number of write ports per bank":"1"
-                      , "Total replication":"1"
-                    }
-                  ]
-                }
-                , {
-                  "type":"bank"
-                  , "id":47
-                  , "name":"Bank 2"
-                  , "debug":
-                  [
-                    [
-                      {
-                        "filename":"gemm.tiny.h"
-                        , "line":181
-                      }
-                    ]
-                  ]
-                  , "children":
-                  [
-                    {
-                      "type":"port"
-                      , "id":51
-                      , "name":"R"
-                    }
-                    , {
-                      "type":"port"
-                      , "id":55
-                      , "name":"W"
-                    }
-                  ]
-                  , "details":
-                  [
-                    {
-                      "type":"table"
-                      , "details":
-                      [
-                        {
-                          "type":"brief"
-                          , "text":"2 total ports/bank\n1 read ports/bank\n1 write ports/bank"
-                        }
-                      ]
-                      , "Total number of ports per bank":"2"
-                      , "Number of read ports per bank":"1"
-                      , "Number of write ports per bank":"1"
-                      , "Total replication":"1"
-                    }
-                  ]
-                }
-                , {
-                  "type":"bank"
-                  , "id":48
-                  , "name":"Bank 3"
-                  , "debug":
-                  [
-                    [
-                      {
-                        "filename":"gemm.tiny.h"
-                        , "line":181
+                        , "line":182
                       }
                     ]
                   ]
@@ -524,6 +392,138 @@
                     }
                   ]
                 }
+                , {
+                  "type":"bank"
+                  , "id":49
+                  , "name":"Bank 1"
+                  , "debug":
+                  [
+                    [
+                      {
+                        "filename":"gemm.tiny.h"
+                        , "line":182
+                      }
+                    ]
+                  ]
+                  , "children":
+                  [
+                    {
+                      "type":"port"
+                      , "id":53
+                      , "name":"R"
+                    }
+                    , {
+                      "type":"port"
+                      , "id":57
+                      , "name":"W"
+                    }
+                  ]
+                  , "details":
+                  [
+                    {
+                      "type":"table"
+                      , "details":
+                      [
+                        {
+                          "type":"brief"
+                          , "text":"2 total ports/bank\n1 read ports/bank\n1 write ports/bank"
+                        }
+                      ]
+                      , "Total number of ports per bank":"2"
+                      , "Number of read ports per bank":"1"
+                      , "Number of write ports per bank":"1"
+                      , "Total replication":"1"
+                    }
+                  ]
+                }
+                , {
+                  "type":"bank"
+                  , "id":50
+                  , "name":"Bank 2"
+                  , "debug":
+                  [
+                    [
+                      {
+                        "filename":"gemm.tiny.h"
+                        , "line":182
+                      }
+                    ]
+                  ]
+                  , "children":
+                  [
+                    {
+                      "type":"port"
+                      , "id":54
+                      , "name":"R"
+                    }
+                    , {
+                      "type":"port"
+                      , "id":58
+                      , "name":"W"
+                    }
+                  ]
+                  , "details":
+                  [
+                    {
+                      "type":"table"
+                      , "details":
+                      [
+                        {
+                          "type":"brief"
+                          , "text":"2 total ports/bank\n1 read ports/bank\n1 write ports/bank"
+                        }
+                      ]
+                      , "Total number of ports per bank":"2"
+                      , "Number of read ports per bank":"1"
+                      , "Number of write ports per bank":"1"
+                      , "Total replication":"1"
+                    }
+                  ]
+                }
+                , {
+                  "type":"bank"
+                  , "id":51
+                  , "name":"Bank 3"
+                  , "debug":
+                  [
+                    [
+                      {
+                        "filename":"gemm.tiny.h"
+                        , "line":182
+                      }
+                    ]
+                  ]
+                  , "children":
+                  [
+                    {
+                      "type":"port"
+                      , "id":55
+                      , "name":"R"
+                    }
+                    , {
+                      "type":"port"
+                      , "id":59
+                      , "name":"W"
+                    }
+                  ]
+                  , "details":
+                  [
+                    {
+                      "type":"table"
+                      , "details":
+                      [
+                        {
+                          "type":"brief"
+                          , "text":"2 total ports/bank\n1 read ports/bank\n1 write ports/bank"
+                        }
+                      ]
+                      , "Total number of ports per bank":"2"
+                      , "Number of read ports per bank":"1"
+                      , "Number of write ports per bank":"1"
+                      , "Total replication":"1"
+                    }
+                  ]
+                }
               ]
               , "details":
               [
@@ -545,7 +545,7 @@
                       [
                         {
                           "guide":"Best Practices Guide : Local Memory"
-                          , "link":"file:////glob/development-tools/versions/oneapi/2023.1.1/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/chn1469549457114.html"
+                          , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/chn1469549457114.html"
                         }
                       ]
                     }
@@ -559,20 +559,20 @@
     }
     , {
       "type":"kernel"
-      , "id":77
+      , "id":83
       , "name":"kernel_bFeeder"
       , "children":
       [
         {
           "type":"inst"
-          , "id":81
+          , "id":87
           , "name":"Store"
           , "debug":
           [
             [
               {
-                "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
-                , "line":287
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version/./gemm.tiny.h"
+                , "line":288
               }
             ]
           ]
@@ -595,7 +595,7 @@
                   [
                     {
                       "guide":"Best Practices Guide : Load-Store Units"
-                      , "link":"file:////glob/development-tools/versions/oneapi/2023.1.1/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/yeo1491314105959.html"
+                      , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/yeo1491314105959.html"
                     }
                   ]
                 }
@@ -605,14 +605,14 @@
         }
         , {
           "type":"inst"
-          , "id":82
+          , "id":88
           , "name":"Load"
           , "debug":
           [
             [
               {
-                "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
-                , "line":290
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version/./gemm.tiny.h"
+                , "line":291
               }
             ]
           ]
@@ -635,7 +635,7 @@
                   [
                     {
                       "guide":"Best Practices Guide : Load-Store Units"
-                      , "link":"file:////glob/development-tools/versions/oneapi/2023.1.1/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/yeo1491314105959.html"
+                      , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/yeo1491314105959.html"
                     }
                   ]
                 }
@@ -645,14 +645,14 @@
         }
         , {
           "type":"inst"
-          , "id":83
+          , "id":89
           , "name":"Store"
           , "debug":
           [
             [
               {
-                "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
-                , "line":287
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version/./gemm.tiny.h"
+                , "line":288
               }
             ]
           ]
@@ -675,7 +675,7 @@
                   [
                     {
                       "guide":"Best Practices Guide : Load-Store Units"
-                      , "link":"file:////glob/development-tools/versions/oneapi/2023.1.1/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/yeo1491314105959.html"
+                      , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/yeo1491314105959.html"
                     }
                   ]
                 }
@@ -685,14 +685,14 @@
         }
         , {
           "type":"inst"
-          , "id":84
+          , "id":90
           , "name":"Load"
           , "debug":
           [
             [
               {
-                "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
-                , "line":290
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version/./gemm.tiny.h"
+                , "line":291
               }
             ]
           ]
@@ -715,7 +715,7 @@
                   [
                     {
                       "guide":"Best Practices Guide : Load-Store Units"
-                      , "link":"file:////glob/development-tools/versions/oneapi/2023.1.1/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/yeo1491314105959.html"
+                      , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/yeo1491314105959.html"
                     }
                   ]
                 }
@@ -725,14 +725,14 @@
         }
         , {
           "type":"inst"
-          , "id":85
+          , "id":91
           , "name":"Store"
           , "debug":
           [
             [
               {
-                "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
-                , "line":287
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version/./gemm.tiny.h"
+                , "line":288
               }
             ]
           ]
@@ -755,7 +755,7 @@
                   [
                     {
                       "guide":"Best Practices Guide : Load-Store Units"
-                      , "link":"file:////glob/development-tools/versions/oneapi/2023.1.1/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/yeo1491314105959.html"
+                      , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/yeo1491314105959.html"
                     }
                   ]
                 }
@@ -765,14 +765,14 @@
         }
         , {
           "type":"inst"
-          , "id":86
+          , "id":92
           , "name":"Load"
           , "debug":
           [
             [
               {
-                "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
-                , "line":290
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version/./gemm.tiny.h"
+                , "line":291
               }
             ]
           ]
@@ -795,7 +795,7 @@
                   [
                     {
                       "guide":"Best Practices Guide : Load-Store Units"
-                      , "link":"file:////glob/development-tools/versions/oneapi/2023.1.1/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/yeo1491314105959.html"
+                      , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/yeo1491314105959.html"
                     }
                   ]
                 }
@@ -805,14 +805,14 @@
         }
         , {
           "type":"inst"
-          , "id":87
+          , "id":93
           , "name":"Store"
           , "debug":
           [
             [
               {
-                "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
-                , "line":287
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version/./gemm.tiny.h"
+                , "line":288
               }
             ]
           ]
@@ -835,7 +835,7 @@
                   [
                     {
                       "guide":"Best Practices Guide : Load-Store Units"
-                      , "link":"file:////glob/development-tools/versions/oneapi/2023.1.1/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/yeo1491314105959.html"
+                      , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/yeo1491314105959.html"
                     }
                   ]
                 }
@@ -845,14 +845,14 @@
         }
         , {
           "type":"inst"
-          , "id":88
+          , "id":94
           , "name":"Load"
           , "debug":
           [
             [
               {
-                "filename":"/home/u114360/t2s-oneapi/gemm/src/gemm.tiny.h"
-                , "line":290
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version/./gemm.tiny.h"
+                , "line":291
               }
             ]
           ]
@@ -875,7 +875,7 @@
                   [
                     {
                       "guide":"Best Practices Guide : Load-Store Units"
-                      , "link":"file:////glob/development-tools/versions/oneapi/2023.1.1/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/yeo1491314105959.html"
+                      , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/yeo1491314105959.html"
                     }
                   ]
                 }
@@ -885,20 +885,20 @@
         }
         , {
           "type":"memtype"
-          , "id":97
+          , "id":103
           , "name":"On-chip Memory"
           , "children":
           [
             {
               "type":"memsys"
-              , "id":98
+              , "id":104
               , "name":"DB"
               , "debug":
               [
                 [
                   {
                     "filename":"gemm.tiny.h"
-                    , "line":261
+                    , "line":263
                   }
                 ]
               ]
@@ -906,14 +906,14 @@
               [
                 {
                   "type":"bank"
-                  , "id":99
+                  , "id":105
                   , "name":"Bank 0"
                   , "debug":
                   [
                     [
                       {
                         "filename":"gemm.tiny.h"
-                        , "line":261
+                        , "line":263
                       }
                     ]
                   ]
@@ -921,12 +921,12 @@
                   [
                     {
                       "type":"port"
-                      , "id":103
+                      , "id":109
                       , "name":"R"
                     }
                     , {
                       "type":"port"
-                      , "id":107
+                      , "id":113
                       , "name":"W"
                     }
                   ]
@@ -950,14 +950,14 @@
                 }
                 , {
                   "type":"bank"
-                  , "id":100
+                  , "id":106
                   , "name":"Bank 1"
                   , "debug":
                   [
                     [
                       {
                         "filename":"gemm.tiny.h"
-                        , "line":261
+                        , "line":263
                       }
                     ]
                   ]
@@ -965,12 +965,12 @@
                   [
                     {
                       "type":"port"
-                      , "id":104
+                      , "id":110
                       , "name":"R"
                     }
                     , {
                       "type":"port"
-                      , "id":108
+                      , "id":114
                       , "name":"W"
                     }
                   ]
@@ -994,14 +994,14 @@
                 }
                 , {
                   "type":"bank"
-                  , "id":101
+                  , "id":107
                   , "name":"Bank 2"
                   , "debug":
                   [
                     [
                       {
                         "filename":"gemm.tiny.h"
-                        , "line":261
+                        , "line":263
                       }
                     ]
                   ]
@@ -1009,12 +1009,12 @@
                   [
                     {
                       "type":"port"
-                      , "id":105
+                      , "id":111
                       , "name":"R"
                     }
                     , {
                       "type":"port"
-                      , "id":109
+                      , "id":115
                       , "name":"W"
                     }
                   ]
@@ -1038,14 +1038,14 @@
                 }
                 , {
                   "type":"bank"
-                  , "id":102
+                  , "id":108
                   , "name":"Bank 3"
                   , "debug":
                   [
                     [
                       {
                         "filename":"gemm.tiny.h"
-                        , "line":261
+                        , "line":263
                       }
                     ]
                   ]
@@ -1053,12 +1053,12 @@
                   [
                     {
                       "type":"port"
-                      , "id":106
+                      , "id":112
                       , "name":"R"
                     }
                     , {
                       "type":"port"
-                      , "id":110
+                      , "id":116
                       , "name":"W"
                     }
                   ]
@@ -1101,7 +1101,7 @@
                       [
                         {
                           "guide":"Best Practices Guide : Local Memory"
-                          , "link":"file:////glob/development-tools/versions/oneapi/2023.1.1/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/chn1469549457114.html"
+                          , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/chn1469549457114.html"
                         }
                       ]
                     }
@@ -1117,68 +1117,68 @@
   , "links":
   [
     {
-      "from":49
-      , "to":28
-    }
-    , {
-      "from":50
-      , "to":30
-    }
-    , {
-      "from":51
-      , "to":32
-    }
-    , {
       "from":52
-      , "to":34
+      , "to":31
     }
     , {
-      "from":27
-      , "to":53
+      "from":53
+      , "to":33
     }
     , {
-      "from":29
-      , "to":54
+      "from":54
+      , "to":35
     }
     , {
-      "from":31
-      , "to":55
+      "from":55
+      , "to":37
     }
     , {
-      "from":33
+      "from":30
       , "to":56
     }
     , {
-      "from":103
-      , "to":82
+      "from":32
+      , "to":57
     }
     , {
-      "from":104
-      , "to":84
+      "from":34
+      , "to":58
     }
     , {
-      "from":105
-      , "to":86
+      "from":36
+      , "to":59
     }
     , {
-      "from":106
+      "from":109
       , "to":88
     }
     , {
-      "from":81
-      , "to":107
+      "from":110
+      , "to":90
     }
     , {
-      "from":83
-      , "to":108
+      "from":111
+      , "to":92
     }
     , {
-      "from":85
-      , "to":109
+      "from":112
+      , "to":94
     }
     , {
       "from":87
-      , "to":110
+      , "to":113
+    }
+    , {
+      "from":89
+      , "to":114
+    }
+    , {
+      "from":91
+      , "to":115
+    }
+    , {
+      "from":93
+      , "to":116
     }
   ]
 }

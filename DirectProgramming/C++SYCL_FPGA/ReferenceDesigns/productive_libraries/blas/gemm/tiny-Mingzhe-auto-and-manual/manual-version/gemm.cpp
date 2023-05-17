@@ -18,6 +18,16 @@ int main(int argc, char *argv[]) {
               << q.get_device().get_info<sycl::info::device::name>().c_str()
               << std::endl;
 
+    constexpr size_t I = 4;
+    constexpr size_t J = 4;
+    constexpr size_t K = 4;
+    constexpr size_t TOTAL_I = III * II * I;
+    constexpr size_t TOTAL_J = JJJ * JJ * J;
+    constexpr size_t TOTAL_K = KKK * KK * K;
+    constexpr size_t num_elem_A = TOTAL_K * TOTAL_I;
+    constexpr size_t num_elem_B = TOTAL_J * TOTAL_K;
+    constexpr size_t num_elem_C = TOTAL_J * TOTAL_I;
+
     float *A = (float *)malloc(num_elem_A * sizeof(float));
     float *B = (float *)malloc(num_elem_B * sizeof(float));
     float *C = (float *)malloc(num_elem_C * sizeof(float));
@@ -35,7 +45,7 @@ int main(int argc, char *argv[]) {
         }
     }
 
-    gemm(A, B, C, result, 1, 1, q);
+    gemm(A, B, C, result, 1, 1, I, J, K, q);
 
     bool passed = true;
     // for (size_t i = 0; i < TOTAL_I; i++) {
