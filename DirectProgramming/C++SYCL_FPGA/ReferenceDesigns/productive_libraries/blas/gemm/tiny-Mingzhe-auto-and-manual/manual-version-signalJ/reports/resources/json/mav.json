@@ -1,0 +1,4871 @@
+{
+  "nodes":
+  [
+    {
+      "type":"kernel"
+      , "id":2
+      , "name":"kernel_aLoader"
+      , "children":
+      [
+        {
+          "type":"bb"
+          , "id":3
+          , "name":"kernel_aLoader.B0"
+          , "details":
+          [
+            {
+              "type":"table"
+              , "Latency":"2"
+            }
+          ]
+        }
+        , {
+          "type":"bb"
+          , "id":4
+          , "name":"kernel_aLoader.B1"
+          , "details":
+          [
+            {
+              "type":"table"
+              , "Latency":"8"
+              , "II":"1"
+              , "Subloops":"Yes"
+              , "Pipelined":"Yes"
+              , "Fmax Bottlenecks":"No"
+              , "Loop Info":"Entry to loop. "
+              , "Loops To":"6"
+            }
+          ]
+        }
+        , {
+          "type":"bb"
+          , "id":5
+          , "name":"kernel_aLoader.B2"
+          , "details":
+          [
+            {
+              "type":"table"
+              , "Latency":"5"
+              , "II":"1"
+              , "Subloops":"Yes"
+              , "Pipelined":"Yes"
+              , "Fmax Bottlenecks":"No"
+              , "Loop Info":"Entry to loop. "
+              , "Loops To":"8"
+            }
+          ]
+        }
+        , {
+          "type":"bb"
+          , "id":6
+          , "name":"kernel_aLoader.B3"
+          , "details":
+          [
+            {
+              "type":"table"
+              , "Latency":"0"
+              , "II":"1"
+              , "Subloops":"Yes"
+              , "Pipelined":"Yes"
+              , "Fmax Bottlenecks":"No"
+              , "Loop Info":"Exit which branches back to loop. "
+            }
+          ]
+        }
+        , {
+          "type":"bb"
+          , "id":7
+          , "name":"kernel_aLoader.B4"
+          , "details":
+          [
+            {
+              "type":"table"
+              , "Latency":"5"
+              , "II":"1"
+              , "Subloops":"Yes"
+              , "Pipelined":"Yes"
+              , "Fmax Bottlenecks":"No"
+              , "Loop Info":"Entry to loop. "
+              , "Loops To":"9"
+            }
+          ]
+        }
+        , {
+          "type":"bb"
+          , "id":8
+          , "name":"kernel_aLoader.B5"
+          , "details":
+          [
+            {
+              "type":"table"
+              , "Latency":"0"
+              , "II":"1"
+              , "Subloops":"Yes"
+              , "Pipelined":"Yes"
+              , "Fmax Bottlenecks":"No"
+              , "Loop Info":"Exit which branches back to loop. "
+            }
+          ]
+        }
+        , {
+          "type":"bb"
+          , "id":9
+          , "name":"kernel_aLoader.B6"
+          , "details":
+          [
+            {
+              "type":"table"
+              , "Latency":"0"
+              , "II":"1"
+              , "Subloops":"Yes"
+              , "Pipelined":"Yes"
+              , "Fmax Bottlenecks":"No"
+              , "Loop Info":"Exit which branches back to loop. "
+            }
+          ]
+        }
+        , {
+          "type":"bb"
+          , "id":10
+          , "name":"kernel_aLoader.B7"
+          , "children":
+          [
+            {
+              "type":"inst"
+              , "id":12
+              , "name":"Load"
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalJ/./gemm.tiny.h"
+                    , "line":160
+                  }
+                ]
+              ]
+              , "details":
+              [
+                {
+                  "type":"table"
+                  , "Width":"128 bits"
+                  , "Type":"Burst-coalesced"
+                  , "Stall-free":"No"
+                  , "Start Cycle":"101"
+                  , "Latency":"156"
+                  , "Reference":
+                  [
+                    {
+                      "type":"text"
+                      , "text":"See %L for more information"
+                      , "links":
+                      [
+                        {
+                          "guide":"Best Practices Guide : Load-Store Units"
+                          , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/yeo1491314105959.html"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+            , {
+              "type":"inst"
+              , "id":13
+              , "name":"Pipe Write"
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/ext/intel/pipes.hpp"
+                    , "line":82
+                  }
+                ]
+              ]
+              , "details":
+              [
+                {
+                  "type":"table"
+                  , "Width":"128 bits"
+                  , "Depth":"256"
+                  , "Stall-free":"No"
+                  , "Start Cycle":"258"
+                  , "Latency":"0"
+                  , "Reference":
+                  [
+                    {
+                      "type":"text"
+                      , "text":"See %L for more information"
+                      , "links":
+                      [
+                        {
+                          "guide":"Best Practices Guide : Channels"
+                          , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/qah1476410829821.html"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+            , {
+              "type":"inst"
+              , "id":15
+              , "name":"Loop Input"
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalJ/./gemm.tiny.h"
+                    , "line":156
+                  }
+                ]
+              ]
+              , "details":
+              [
+                {
+                  "type":"table"
+                  , "Start Cycle":"0"
+                  , "Latency":"1"
+                  , "Loops To":"16"
+                }
+              ]
+            }
+            , {
+              "type":"inst"
+              , "id":16
+              , "name":"Loop End"
+              , "details":
+              [
+                {
+                  "type":"table"
+                  , "Start Cycle":"258"
+                  , "Latency":"1"
+                }
+              ]
+            }
+          ]
+          , "details":
+          [
+            {
+              "type":"table"
+              , "Latency":"258"
+              , "II":"1"
+              , "Subloops":"No"
+              , "Pipelined":"Yes"
+              , "Fmax Bottlenecks":"No"
+              , "Loop Info":""
+            }
+          ]
+        }
+        , {
+          "type":"bb"
+          , "id":11
+          , "name":"kernel_aLoader.B8"
+          , "details":
+          [
+            {
+              "type":"table"
+              , "Latency":"0"
+            }
+          ]
+        }
+        , {
+          "type":"csr"
+          , "id":17
+          , "name":"Register Map"
+          , "debug":
+          [
+            [
+              {
+                "filename":"gemm_report.prj/k0_ZTSZZ4gemmPfS_S_S_ffmRN4sycl3_V15queueEENKUlRNS1_7handlerEE_clES5_E14kernel_aLoader_csr.hpp"
+                , "line":1
+              }
+            ]
+          ]
+          , "children":
+          [
+            {
+              "type":"interface"
+              , "id":18
+              , "name":"start"
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalJ/./gemm.tiny.h"
+                    , "line":149
+                  }
+                ]
+              ]
+            }
+            , {
+              "type":"interface"
+              , "id":19
+              , "name":"done"
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalJ/./gemm.tiny.h"
+                    , "line":149
+                  }
+                ]
+              ]
+            }
+            , {
+              "type":"interface"
+              , "id":20
+              , "name":"busy"
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalJ/./gemm.tiny.h"
+                    , "line":149
+                  }
+                ]
+              ]
+            }
+            , {
+              "type":"interface"
+              , "id":21
+              , "name":"arg_serialized_A_device"
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalJ/./gemm.tiny.h"
+                    , "line":149
+                  }
+                ]
+              ]
+              , "details":
+              [
+                {
+                  "type":"table"
+                  , "Stable":"No"
+                  , "Width":"64 bits"
+                  , "Kernel":"k0_ZTSZZ4gemmPfS_S_S_ffmRN4sycl3_V15queueEENKUlRNS1_7handlerEE_clES5_E14kernel_aLoader"
+                  , "Alignment":"1024"
+                }
+              ]
+            }
+            , {
+              "type":"interface"
+              , "id":22
+              , "name":"arg_TOTAL_J"
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalJ/./gemm.tiny.h"
+                    , "line":149
+                  }
+                ]
+              ]
+              , "details":
+              [
+                {
+                  "type":"table"
+                  , "Stable":"No"
+                  , "Width":"64 bits"
+                  , "Kernel":"k0_ZTSZZ4gemmPfS_S_S_ffmRN4sycl3_V15queueEENKUlRNS1_7handlerEE_clES5_E14kernel_aLoader"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+    , {
+      "type":"kernel"
+      , "id":24
+      , "name":"kernel_aFeeder"
+      , "children":
+      [
+        {
+          "type":"bb"
+          , "id":25
+          , "name":"kernel_aFeeder.B0"
+          , "details":
+          [
+            {
+              "type":"table"
+              , "Latency":"2"
+            }
+          ]
+        }
+        , {
+          "type":"bb"
+          , "id":26
+          , "name":"kernel_aFeeder.B1"
+          , "children":
+          [
+            {
+              "type":"inst"
+              , "id":27
+              , "name":"Pipe Read"
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/ext/intel/pipes.hpp"
+                    , "line":67
+                  }
+                ]
+              ]
+              , "details":
+              [
+                {
+                  "type":"table"
+                  , "Width":"128 bits"
+                  , "Depth":"256"
+                  , "Stall-free":"No"
+                  , "Start Cycle":"4"
+                  , "Latency":"0"
+                  , "Reference":
+                  [
+                    {
+                      "type":"text"
+                      , "text":"See %L for more information"
+                      , "links":
+                      [
+                        {
+                          "guide":"Best Practices Guide : Channels"
+                          , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/qah1476410829821.html"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+            , {
+              "type":"inst"
+              , "id":28
+              , "name":"Store"
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalJ/./gemm.tiny.h"
+                    , "line":209
+                  }
+                ]
+              ]
+              , "details":
+              [
+                {
+                  "type":"table"
+                  , "Width":"128 bits"
+                  , "Type":"Pipelined never-stall"
+                  , "Stall-free":"Yes"
+                  , "Stores to":"DB"
+                  , "Start Cycle":"9"
+                  , "Latency":"1"
+                  , "Reference":
+                  [
+                    {
+                      "type":"text"
+                      , "text":"See %L for more information"
+                      , "links":
+                      [
+                        {
+                          "guide":"Best Practices Guide : Load-Store Units"
+                          , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/yeo1491314105959.html"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+            , {
+              "type":"inst"
+              , "id":29
+              , "name":"Load"
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalJ/./gemm.tiny.h"
+                    , "line":212
+                  }
+                ]
+              ]
+              , "details":
+              [
+                {
+                  "type":"table"
+                  , "Width":"128 bits"
+                  , "Type":"Pipelined never-stall"
+                  , "Stall-free":"Yes"
+                  , "Loads from":"DB"
+                  , "Start Cycle":"10"
+                  , "Latency":"3"
+                  , "Reference":
+                  [
+                    {
+                      "type":"text"
+                      , "text":"See %L for more information"
+                      , "links":
+                      [
+                        {
+                          "guide":"Best Practices Guide : Load-Store Units"
+                          , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/yeo1491314105959.html"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+            , {
+              "type":"inst"
+              , "id":30
+              , "name":"Store"
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalJ/./gemm.tiny.h"
+                    , "line":209
+                  }
+                ]
+              ]
+              , "details":
+              [
+                {
+                  "type":"table"
+                  , "Width":"128 bits"
+                  , "Type":"Pipelined never-stall"
+                  , "Stall-free":"Yes"
+                  , "Stores to":"DB"
+                  , "Start Cycle":"11"
+                  , "Latency":"1"
+                  , "Reference":
+                  [
+                    {
+                      "type":"text"
+                      , "text":"See %L for more information"
+                      , "links":
+                      [
+                        {
+                          "guide":"Best Practices Guide : Load-Store Units"
+                          , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/yeo1491314105959.html"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+            , {
+              "type":"inst"
+              , "id":31
+              , "name":"Load"
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalJ/./gemm.tiny.h"
+                    , "line":212
+                  }
+                ]
+              ]
+              , "details":
+              [
+                {
+                  "type":"table"
+                  , "Width":"128 bits"
+                  , "Type":"Pipelined never-stall"
+                  , "Stall-free":"Yes"
+                  , "Loads from":"DB"
+                  , "Start Cycle":"12"
+                  , "Latency":"3"
+                  , "Reference":
+                  [
+                    {
+                      "type":"text"
+                      , "text":"See %L for more information"
+                      , "links":
+                      [
+                        {
+                          "guide":"Best Practices Guide : Load-Store Units"
+                          , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/yeo1491314105959.html"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+            , {
+              "type":"inst"
+              , "id":32
+              , "name":"Store"
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalJ/./gemm.tiny.h"
+                    , "line":209
+                  }
+                ]
+              ]
+              , "details":
+              [
+                {
+                  "type":"table"
+                  , "Width":"128 bits"
+                  , "Type":"Pipelined never-stall"
+                  , "Stall-free":"Yes"
+                  , "Stores to":"DB"
+                  , "Start Cycle":"13"
+                  , "Latency":"1"
+                  , "Reference":
+                  [
+                    {
+                      "type":"text"
+                      , "text":"See %L for more information"
+                      , "links":
+                      [
+                        {
+                          "guide":"Best Practices Guide : Load-Store Units"
+                          , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/yeo1491314105959.html"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+            , {
+              "type":"inst"
+              , "id":33
+              , "name":"Load"
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalJ/./gemm.tiny.h"
+                    , "line":212
+                  }
+                ]
+              ]
+              , "details":
+              [
+                {
+                  "type":"table"
+                  , "Width":"128 bits"
+                  , "Type":"Pipelined never-stall"
+                  , "Stall-free":"Yes"
+                  , "Loads from":"DB"
+                  , "Start Cycle":"14"
+                  , "Latency":"3"
+                  , "Reference":
+                  [
+                    {
+                      "type":"text"
+                      , "text":"See %L for more information"
+                      , "links":
+                      [
+                        {
+                          "guide":"Best Practices Guide : Load-Store Units"
+                          , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/yeo1491314105959.html"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+            , {
+              "type":"inst"
+              , "id":34
+              , "name":"Store"
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalJ/./gemm.tiny.h"
+                    , "line":209
+                  }
+                ]
+              ]
+              , "details":
+              [
+                {
+                  "type":"table"
+                  , "Width":"128 bits"
+                  , "Type":"Pipelined never-stall"
+                  , "Stall-free":"Yes"
+                  , "Stores to":"DB"
+                  , "Start Cycle":"15"
+                  , "Latency":"1"
+                  , "Reference":
+                  [
+                    {
+                      "type":"text"
+                      , "text":"See %L for more information"
+                      , "links":
+                      [
+                        {
+                          "guide":"Best Practices Guide : Load-Store Units"
+                          , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/yeo1491314105959.html"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+            , {
+              "type":"inst"
+              , "id":35
+              , "name":"Load"
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalJ/./gemm.tiny.h"
+                    , "line":212
+                  }
+                ]
+              ]
+              , "details":
+              [
+                {
+                  "type":"table"
+                  , "Width":"128 bits"
+                  , "Type":"Pipelined never-stall"
+                  , "Stall-free":"Yes"
+                  , "Loads from":"DB"
+                  , "Start Cycle":"16"
+                  , "Latency":"3"
+                  , "Reference":
+                  [
+                    {
+                      "type":"text"
+                      , "text":"See %L for more information"
+                      , "links":
+                      [
+                        {
+                          "guide":"Best Practices Guide : Load-Store Units"
+                          , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/yeo1491314105959.html"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+            , {
+              "type":"inst"
+              , "id":36
+              , "name":"Pipe Write"
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/ext/intel/pipes.hpp"
+                    , "line":82
+                  }
+                ]
+              ]
+              , "details":
+              [
+                {
+                  "type":"table"
+                  , "Width":"512 bits"
+                  , "Depth":"256"
+                  , "Stall-free":"No"
+                  , "Start Cycle":"23"
+                  , "Latency":"0"
+                  , "Reference":
+                  [
+                    {
+                      "type":"text"
+                      , "text":"See %L for more information"
+                      , "links":
+                      [
+                        {
+                          "guide":"Best Practices Guide : Channels"
+                          , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/qah1476410829821.html"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+            , {
+              "type":"inst"
+              , "id":38
+              , "name":"Loop Input"
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalJ/./gemm.tiny.h"
+                    , "line":191
+                  }
+                ]
+              ]
+              , "details":
+              [
+                {
+                  "type":"table"
+                  , "Start Cycle":"0"
+                  , "Latency":"1"
+                  , "Loops To":"39"
+                }
+              ]
+            }
+            , {
+              "type":"inst"
+              , "id":39
+              , "name":"Loop End"
+              , "details":
+              [
+                {
+                  "type":"table"
+                  , "Start Cycle":"23"
+                  , "Latency":"1"
+                }
+              ]
+            }
+          ]
+          , "details":
+          [
+            {
+              "type":"table"
+              , "Latency":"23"
+              , "II":"1"
+              , "Subloops":"No"
+              , "Pipelined":"Yes"
+              , "Fmax Bottlenecks":"No"
+              , "Loop Info":""
+            }
+          ]
+        }
+        , {
+          "type":"csr"
+          , "id":40
+          , "name":"Register Map"
+          , "debug":
+          [
+            [
+              {
+                "filename":"gemm_report.prj/k1_ZTSZZ4gemmPfS_S_S_ffmRN4sycl3_V15queueEENKUlRNS1_7handlerEE0_clES5_E14kernel_aFeeder_csr.hpp"
+                , "line":1
+              }
+            ]
+          ]
+          , "children":
+          [
+            {
+              "type":"interface"
+              , "id":41
+              , "name":"start"
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalJ/./gemm.tiny.h"
+                    , "line":177
+                  }
+                ]
+              ]
+            }
+            , {
+              "type":"interface"
+              , "id":42
+              , "name":"done"
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalJ/./gemm.tiny.h"
+                    , "line":177
+                  }
+                ]
+              ]
+            }
+            , {
+              "type":"interface"
+              , "id":43
+              , "name":"busy"
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalJ/./gemm.tiny.h"
+                    , "line":177
+                  }
+                ]
+              ]
+            }
+          ]
+        }
+        , {
+          "type":"memtype"
+          , "id":44
+          , "name":"On-chip Memory"
+          , "children":
+          [
+            {
+              "type":"memsys"
+              , "id":45
+              , "name":"DB"
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"gemm.tiny.h"
+                    , "line":184
+                  }
+                ]
+              ]
+              , "details":
+              [
+                {
+                  "type":"table"
+                  , "Requested size":"2048 bytes"
+                  , "Implemented size":"2048 bytes"
+                  , "Number of banks":"4"
+                  , "Bank width":"128 bits"
+                  , "Bank depth":"32 words"
+                  , "Number of replicates":"1"
+                  , "Number of private copies":"1"
+                  , "Reference":
+                  [
+                    {
+                      "type":"text"
+                      , "text":"See %L for more information"
+                      , "links":
+                      [
+                        {
+                          "guide":"Best Practices Guide : Local Memory"
+                          , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/chn1469549457114.html"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+    , {
+      "type":"kernel"
+      , "id":58
+      , "name":"kernel_bLoader"
+      , "children":
+      [
+        {
+          "type":"bb"
+          , "id":59
+          , "name":"kernel_bLoader.B0"
+          , "details":
+          [
+            {
+              "type":"table"
+              , "Latency":"2"
+            }
+          ]
+        }
+        , {
+          "type":"bb"
+          , "id":60
+          , "name":"kernel_bLoader.B1"
+          , "details":
+          [
+            {
+              "type":"table"
+              , "Latency":"8"
+              , "II":"1"
+              , "Subloops":"Yes"
+              , "Pipelined":"Yes"
+              , "Fmax Bottlenecks":"No"
+              , "Loop Info":"Entry to loop. "
+              , "Loops To":"62"
+            }
+          ]
+        }
+        , {
+          "type":"bb"
+          , "id":61
+          , "name":"kernel_bLoader.B2"
+          , "details":
+          [
+            {
+              "type":"table"
+              , "Latency":"5"
+              , "II":"1"
+              , "Subloops":"Yes"
+              , "Pipelined":"Yes"
+              , "Fmax Bottlenecks":"No"
+              , "Loop Info":"Entry to loop. "
+              , "Loops To":"64"
+            }
+          ]
+        }
+        , {
+          "type":"bb"
+          , "id":62
+          , "name":"kernel_bLoader.B3"
+          , "details":
+          [
+            {
+              "type":"table"
+              , "Latency":"0"
+              , "II":"1"
+              , "Subloops":"Yes"
+              , "Pipelined":"Yes"
+              , "Fmax Bottlenecks":"No"
+              , "Loop Info":"Exit which branches back to loop. "
+            }
+          ]
+        }
+        , {
+          "type":"bb"
+          , "id":63
+          , "name":"kernel_bLoader.B4"
+          , "details":
+          [
+            {
+              "type":"table"
+              , "Latency":"5"
+              , "II":"1"
+              , "Subloops":"Yes"
+              , "Pipelined":"Yes"
+              , "Fmax Bottlenecks":"No"
+              , "Loop Info":"Entry to loop. "
+              , "Loops To":"65"
+            }
+          ]
+        }
+        , {
+          "type":"bb"
+          , "id":64
+          , "name":"kernel_bLoader.B5"
+          , "details":
+          [
+            {
+              "type":"table"
+              , "Latency":"0"
+              , "II":"1"
+              , "Subloops":"Yes"
+              , "Pipelined":"Yes"
+              , "Fmax Bottlenecks":"No"
+              , "Loop Info":"Exit which branches back to loop. "
+            }
+          ]
+        }
+        , {
+          "type":"bb"
+          , "id":65
+          , "name":"kernel_bLoader.B6"
+          , "details":
+          [
+            {
+              "type":"table"
+              , "Latency":"0"
+              , "II":"1"
+              , "Subloops":"Yes"
+              , "Pipelined":"Yes"
+              , "Fmax Bottlenecks":"No"
+              , "Loop Info":"Exit which branches back to loop. "
+            }
+          ]
+        }
+        , {
+          "type":"bb"
+          , "id":66
+          , "name":"kernel_bLoader.B7"
+          , "children":
+          [
+            {
+              "type":"inst"
+              , "id":68
+              , "name":"Load"
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalJ/./gemm.tiny.h"
+                    , "line":241
+                  }
+                ]
+              ]
+              , "details":
+              [
+                {
+                  "type":"table"
+                  , "Width":"128 bits"
+                  , "Type":"Burst-coalesced"
+                  , "Stall-free":"No"
+                  , "Start Cycle":"133"
+                  , "Latency":"156"
+                  , "Reference":
+                  [
+                    {
+                      "type":"text"
+                      , "text":"See %L for more information"
+                      , "links":
+                      [
+                        {
+                          "guide":"Best Practices Guide : Load-Store Units"
+                          , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/yeo1491314105959.html"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+            , {
+              "type":"inst"
+              , "id":69
+              , "name":"Pipe Write"
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/ext/intel/pipes.hpp"
+                    , "line":82
+                  }
+                ]
+              ]
+              , "details":
+              [
+                {
+                  "type":"table"
+                  , "Width":"128 bits"
+                  , "Depth":"256"
+                  , "Stall-free":"No"
+                  , "Start Cycle":"290"
+                  , "Latency":"0"
+                  , "Reference":
+                  [
+                    {
+                      "type":"text"
+                      , "text":"See %L for more information"
+                      , "links":
+                      [
+                        {
+                          "guide":"Best Practices Guide : Channels"
+                          , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/qah1476410829821.html"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+            , {
+              "type":"inst"
+              , "id":71
+              , "name":"Loop Input"
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalJ/./gemm.tiny.h"
+                    , "line":237
+                  }
+                ]
+              ]
+              , "details":
+              [
+                {
+                  "type":"table"
+                  , "Start Cycle":"0"
+                  , "Latency":"1"
+                  , "Loops To":"72"
+                }
+              ]
+            }
+            , {
+              "type":"inst"
+              , "id":72
+              , "name":"Loop End"
+              , "details":
+              [
+                {
+                  "type":"table"
+                  , "Start Cycle":"290"
+                  , "Latency":"1"
+                }
+              ]
+            }
+          ]
+          , "details":
+          [
+            {
+              "type":"table"
+              , "Latency":"290"
+              , "II":"1"
+              , "Subloops":"No"
+              , "Pipelined":"Yes"
+              , "Fmax Bottlenecks":"No"
+              , "Loop Info":""
+            }
+          ]
+        }
+        , {
+          "type":"bb"
+          , "id":67
+          , "name":"kernel_bLoader.B8"
+          , "details":
+          [
+            {
+              "type":"table"
+              , "Latency":"0"
+            }
+          ]
+        }
+        , {
+          "type":"csr"
+          , "id":73
+          , "name":"Register Map"
+          , "debug":
+          [
+            [
+              {
+                "filename":"gemm_report.prj/k2_ZTSZZ4gemmPfS_S_S_ffmRN4sycl3_V15queueEENKUlRNS1_7handlerEE1_clES5_E14kernel_bLoader_csr.hpp"
+                , "line":1
+              }
+            ]
+          ]
+          , "children":
+          [
+            {
+              "type":"interface"
+              , "id":74
+              , "name":"start"
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalJ/./gemm.tiny.h"
+                    , "line":230
+                  }
+                ]
+              ]
+            }
+            , {
+              "type":"interface"
+              , "id":75
+              , "name":"done"
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalJ/./gemm.tiny.h"
+                    , "line":230
+                  }
+                ]
+              ]
+            }
+            , {
+              "type":"interface"
+              , "id":76
+              , "name":"busy"
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalJ/./gemm.tiny.h"
+                    , "line":230
+                  }
+                ]
+              ]
+            }
+            , {
+              "type":"interface"
+              , "id":77
+              , "name":"arg_serialized_B_device"
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalJ/./gemm.tiny.h"
+                    , "line":230
+                  }
+                ]
+              ]
+              , "details":
+              [
+                {
+                  "type":"table"
+                  , "Stable":"No"
+                  , "Width":"64 bits"
+                  , "Kernel":"k2_ZTSZZ4gemmPfS_S_S_ffmRN4sycl3_V15queueEENKUlRNS1_7handlerEE1_clES5_E14kernel_bLoader"
+                  , "Alignment":"1024"
+                }
+              ]
+            }
+            , {
+              "type":"interface"
+              , "id":78
+              , "name":"arg_TOTAL_J"
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalJ/./gemm.tiny.h"
+                    , "line":230
+                  }
+                ]
+              ]
+              , "details":
+              [
+                {
+                  "type":"table"
+                  , "Stable":"No"
+                  , "Width":"64 bits"
+                  , "Kernel":"k2_ZTSZZ4gemmPfS_S_S_ffmRN4sycl3_V15queueEENKUlRNS1_7handlerEE1_clES5_E14kernel_bLoader"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+    , {
+      "type":"kernel"
+      , "id":79
+      , "name":"kernel_bFeeder"
+      , "children":
+      [
+        {
+          "type":"bb"
+          , "id":80
+          , "name":"kernel_bFeeder.B0"
+          , "details":
+          [
+            {
+              "type":"table"
+              , "Latency":"2"
+            }
+          ]
+        }
+        , {
+          "type":"bb"
+          , "id":81
+          , "name":"kernel_bFeeder.B1"
+          , "children":
+          [
+            {
+              "type":"inst"
+              , "id":82
+              , "name":"Pipe Read"
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/ext/intel/pipes.hpp"
+                    , "line":67
+                  }
+                ]
+              ]
+              , "details":
+              [
+                {
+                  "type":"table"
+                  , "Width":"128 bits"
+                  , "Depth":"256"
+                  , "Stall-free":"No"
+                  , "Start Cycle":"4"
+                  , "Latency":"0"
+                  , "Reference":
+                  [
+                    {
+                      "type":"text"
+                      , "text":"See %L for more information"
+                      , "links":
+                      [
+                        {
+                          "guide":"Best Practices Guide : Channels"
+                          , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/qah1476410829821.html"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+            , {
+              "type":"inst"
+              , "id":83
+              , "name":"Store"
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalJ/./gemm.tiny.h"
+                    , "line":290
+                  }
+                ]
+              ]
+              , "details":
+              [
+                {
+                  "type":"table"
+                  , "Width":"128 bits"
+                  , "Type":"Pipelined never-stall"
+                  , "Stall-free":"Yes"
+                  , "Stores to":"DB"
+                  , "Start Cycle":"9"
+                  , "Latency":"1"
+                  , "Reference":
+                  [
+                    {
+                      "type":"text"
+                      , "text":"See %L for more information"
+                      , "links":
+                      [
+                        {
+                          "guide":"Best Practices Guide : Load-Store Units"
+                          , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/yeo1491314105959.html"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+            , {
+              "type":"inst"
+              , "id":84
+              , "name":"Load"
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalJ/./gemm.tiny.h"
+                    , "line":293
+                  }
+                ]
+              ]
+              , "details":
+              [
+                {
+                  "type":"table"
+                  , "Width":"128 bits"
+                  , "Type":"Pipelined never-stall"
+                  , "Stall-free":"Yes"
+                  , "Loads from":"DB"
+                  , "Start Cycle":"10"
+                  , "Latency":"3"
+                  , "Reference":
+                  [
+                    {
+                      "type":"text"
+                      , "text":"See %L for more information"
+                      , "links":
+                      [
+                        {
+                          "guide":"Best Practices Guide : Load-Store Units"
+                          , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/yeo1491314105959.html"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+            , {
+              "type":"inst"
+              , "id":85
+              , "name":"Store"
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalJ/./gemm.tiny.h"
+                    , "line":290
+                  }
+                ]
+              ]
+              , "details":
+              [
+                {
+                  "type":"table"
+                  , "Width":"128 bits"
+                  , "Type":"Pipelined never-stall"
+                  , "Stall-free":"Yes"
+                  , "Stores to":"DB"
+                  , "Start Cycle":"11"
+                  , "Latency":"1"
+                  , "Reference":
+                  [
+                    {
+                      "type":"text"
+                      , "text":"See %L for more information"
+                      , "links":
+                      [
+                        {
+                          "guide":"Best Practices Guide : Load-Store Units"
+                          , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/yeo1491314105959.html"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+            , {
+              "type":"inst"
+              , "id":86
+              , "name":"Load"
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalJ/./gemm.tiny.h"
+                    , "line":293
+                  }
+                ]
+              ]
+              , "details":
+              [
+                {
+                  "type":"table"
+                  , "Width":"128 bits"
+                  , "Type":"Pipelined never-stall"
+                  , "Stall-free":"Yes"
+                  , "Loads from":"DB"
+                  , "Start Cycle":"12"
+                  , "Latency":"3"
+                  , "Reference":
+                  [
+                    {
+                      "type":"text"
+                      , "text":"See %L for more information"
+                      , "links":
+                      [
+                        {
+                          "guide":"Best Practices Guide : Load-Store Units"
+                          , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/yeo1491314105959.html"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+            , {
+              "type":"inst"
+              , "id":87
+              , "name":"Store"
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalJ/./gemm.tiny.h"
+                    , "line":290
+                  }
+                ]
+              ]
+              , "details":
+              [
+                {
+                  "type":"table"
+                  , "Width":"128 bits"
+                  , "Type":"Pipelined never-stall"
+                  , "Stall-free":"Yes"
+                  , "Stores to":"DB"
+                  , "Start Cycle":"13"
+                  , "Latency":"1"
+                  , "Reference":
+                  [
+                    {
+                      "type":"text"
+                      , "text":"See %L for more information"
+                      , "links":
+                      [
+                        {
+                          "guide":"Best Practices Guide : Load-Store Units"
+                          , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/yeo1491314105959.html"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+            , {
+              "type":"inst"
+              , "id":88
+              , "name":"Load"
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalJ/./gemm.tiny.h"
+                    , "line":293
+                  }
+                ]
+              ]
+              , "details":
+              [
+                {
+                  "type":"table"
+                  , "Width":"128 bits"
+                  , "Type":"Pipelined never-stall"
+                  , "Stall-free":"Yes"
+                  , "Loads from":"DB"
+                  , "Start Cycle":"14"
+                  , "Latency":"3"
+                  , "Reference":
+                  [
+                    {
+                      "type":"text"
+                      , "text":"See %L for more information"
+                      , "links":
+                      [
+                        {
+                          "guide":"Best Practices Guide : Load-Store Units"
+                          , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/yeo1491314105959.html"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+            , {
+              "type":"inst"
+              , "id":89
+              , "name":"Store"
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalJ/./gemm.tiny.h"
+                    , "line":290
+                  }
+                ]
+              ]
+              , "details":
+              [
+                {
+                  "type":"table"
+                  , "Width":"128 bits"
+                  , "Type":"Pipelined never-stall"
+                  , "Stall-free":"Yes"
+                  , "Stores to":"DB"
+                  , "Start Cycle":"15"
+                  , "Latency":"1"
+                  , "Reference":
+                  [
+                    {
+                      "type":"text"
+                      , "text":"See %L for more information"
+                      , "links":
+                      [
+                        {
+                          "guide":"Best Practices Guide : Load-Store Units"
+                          , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/yeo1491314105959.html"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+            , {
+              "type":"inst"
+              , "id":90
+              , "name":"Load"
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalJ/./gemm.tiny.h"
+                    , "line":293
+                  }
+                ]
+              ]
+              , "details":
+              [
+                {
+                  "type":"table"
+                  , "Width":"128 bits"
+                  , "Type":"Pipelined never-stall"
+                  , "Stall-free":"Yes"
+                  , "Loads from":"DB"
+                  , "Start Cycle":"16"
+                  , "Latency":"3"
+                  , "Reference":
+                  [
+                    {
+                      "type":"text"
+                      , "text":"See %L for more information"
+                      , "links":
+                      [
+                        {
+                          "guide":"Best Practices Guide : Load-Store Units"
+                          , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/yeo1491314105959.html"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+            , {
+              "type":"inst"
+              , "id":91
+              , "name":"Pipe Write"
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/ext/intel/pipes.hpp"
+                    , "line":82
+                  }
+                ]
+              ]
+              , "details":
+              [
+                {
+                  "type":"table"
+                  , "Width":"512 bits"
+                  , "Depth":"256"
+                  , "Stall-free":"No"
+                  , "Start Cycle":"23"
+                  , "Latency":"0"
+                  , "Reference":
+                  [
+                    {
+                      "type":"text"
+                      , "text":"See %L for more information"
+                      , "links":
+                      [
+                        {
+                          "guide":"Best Practices Guide : Channels"
+                          , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/qah1476410829821.html"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+            , {
+              "type":"inst"
+              , "id":93
+              , "name":"Loop Input"
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalJ/./gemm.tiny.h"
+                    , "line":272
+                  }
+                ]
+              ]
+              , "details":
+              [
+                {
+                  "type":"table"
+                  , "Start Cycle":"0"
+                  , "Latency":"1"
+                  , "Loops To":"94"
+                }
+              ]
+            }
+            , {
+              "type":"inst"
+              , "id":94
+              , "name":"Loop End"
+              , "details":
+              [
+                {
+                  "type":"table"
+                  , "Start Cycle":"23"
+                  , "Latency":"1"
+                }
+              ]
+            }
+          ]
+          , "details":
+          [
+            {
+              "type":"table"
+              , "Latency":"23"
+              , "II":"1"
+              , "Subloops":"No"
+              , "Pipelined":"Yes"
+              , "Fmax Bottlenecks":"No"
+              , "Loop Info":""
+            }
+          ]
+        }
+        , {
+          "type":"csr"
+          , "id":95
+          , "name":"Register Map"
+          , "debug":
+          [
+            [
+              {
+                "filename":"gemm_report.prj/k3_ZTSZZ4gemmPfS_S_S_ffmRN4sycl3_V15queueEENKUlRNS1_7handlerEE2_clES5_E14kernel_bFeeder_csr.hpp"
+                , "line":1
+              }
+            ]
+          ]
+          , "children":
+          [
+            {
+              "type":"interface"
+              , "id":96
+              , "name":"start"
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalJ/./gemm.tiny.h"
+                    , "line":258
+                  }
+                ]
+              ]
+            }
+            , {
+              "type":"interface"
+              , "id":97
+              , "name":"done"
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalJ/./gemm.tiny.h"
+                    , "line":258
+                  }
+                ]
+              ]
+            }
+            , {
+              "type":"interface"
+              , "id":98
+              , "name":"busy"
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalJ/./gemm.tiny.h"
+                    , "line":258
+                  }
+                ]
+              ]
+            }
+          ]
+        }
+        , {
+          "type":"memtype"
+          , "id":99
+          , "name":"On-chip Memory"
+          , "children":
+          [
+            {
+              "type":"memsys"
+              , "id":100
+              , "name":"DB"
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"gemm.tiny.h"
+                    , "line":265
+                  }
+                ]
+              ]
+              , "details":
+              [
+                {
+                  "type":"table"
+                  , "Requested size":"2048 bytes"
+                  , "Implemented size":"2048 bytes"
+                  , "Number of banks":"4"
+                  , "Bank width":"128 bits"
+                  , "Bank depth":"32 words"
+                  , "Number of replicates":"1"
+                  , "Number of private copies":"1"
+                  , "Reference":
+                  [
+                    {
+                      "type":"text"
+                      , "text":"See %L for more information"
+                      , "links":
+                      [
+                        {
+                          "guide":"Best Practices Guide : Local Memory"
+                          , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/chn1469549457114.html"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+    , {
+      "type":"kernel"
+      , "id":113
+      , "name":"kernel_SignalGenerator"
+      , "children":
+      [
+        {
+          "type":"bb"
+          , "id":114
+          , "name":"kernel_SignalGenerator.B0"
+          , "details":
+          [
+            {
+              "type":"table"
+              , "Latency":"2"
+            }
+          ]
+        }
+        , {
+          "type":"bb"
+          , "id":115
+          , "name":"kernel_SignalGenerator.B1"
+          , "details":
+          [
+            {
+              "type":"table"
+              , "Latency":"4"
+              , "II":"1"
+              , "Subloops":"Yes"
+              , "Pipelined":"Yes"
+              , "Fmax Bottlenecks":"No"
+              , "Loop Info":"Entry to loop. "
+              , "Loops To":"117"
+            }
+          ]
+        }
+        , {
+          "type":"bb"
+          , "id":116
+          , "name":"kernel_SignalGenerator.B2"
+          , "children":
+          [
+            {
+              "type":"inst"
+              , "id":119
+              , "name":"Pipe Write"
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/ext/intel/pipes.hpp"
+                    , "line":82
+                  }
+                ]
+              ]
+              , "details":
+              [
+                {
+                  "type":"table"
+                  , "Width":"8 bits"
+                  , "Depth":"256"
+                  , "Stall-free":"No"
+                  , "Start Cycle":"5"
+                  , "Latency":"0"
+                  , "Reference":
+                  [
+                    {
+                      "type":"text"
+                      , "text":"See %L for more information"
+                      , "links":
+                      [
+                        {
+                          "guide":"Best Practices Guide : Channels"
+                          , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/qah1476410829821.html"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+            , {
+              "type":"inst"
+              , "id":121
+              , "name":"Loop Input"
+              , "debug":
+              [
+                [
+                  {
+                    "filename":""
+                    , "line":0
+                  }
+                ]
+              ]
+              , "details":
+              [
+                {
+                  "type":"table"
+                  , "Start Cycle":"0"
+                  , "Latency":"1"
+                  , "Loops To":"122"
+                }
+              ]
+            }
+            , {
+              "type":"inst"
+              , "id":122
+              , "name":"Loop End"
+              , "details":
+              [
+                {
+                  "type":"table"
+                  , "Start Cycle":"5"
+                  , "Latency":"1"
+                }
+              ]
+            }
+          ]
+          , "details":
+          [
+            {
+              "type":"table"
+              , "Latency":"5"
+              , "II":"2"
+              , "Subloops":"No"
+              , "Pipelined":"Yes"
+              , "Fmax Bottlenecks":"No"
+              , "Loop Info":"Loop is pipelined with II of 2. See Loops Analysis for more information."
+            }
+          ]
+        }
+        , {
+          "type":"bb"
+          , "id":117
+          , "name":"kernel_SignalGenerator.B3"
+          , "details":
+          [
+            {
+              "type":"table"
+              , "Latency":"0"
+              , "II":"1"
+              , "Subloops":"Yes"
+              , "Pipelined":"Yes"
+              , "Fmax Bottlenecks":"No"
+              , "Loop Info":"Exit which branches back to loop. "
+            }
+          ]
+        }
+        , {
+          "type":"bb"
+          , "id":118
+          , "name":"kernel_SignalGenerator.B4"
+          , "details":
+          [
+            {
+              "type":"table"
+              , "Latency":"0"
+            }
+          ]
+        }
+        , {
+          "type":"csr"
+          , "id":123
+          , "name":"Register Map"
+          , "debug":
+          [
+            [
+              {
+                "filename":"gemm_report.prj/k4_ZTSZZ4gemmPfS_S_S_ffmRN4sycl3_V15queueEENKUlRNS1_7handlerEE3_clES5_E22kernel_SignalGenerator_csr.hpp"
+                , "line":1
+              }
+            ]
+          ]
+          , "children":
+          [
+            {
+              "type":"interface"
+              , "id":124
+              , "name":"start"
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalJ/./gemm.tiny.h"
+                    , "line":307
+                  }
+                ]
+              ]
+            }
+            , {
+              "type":"interface"
+              , "id":125
+              , "name":"done"
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalJ/./gemm.tiny.h"
+                    , "line":307
+                  }
+                ]
+              ]
+            }
+            , {
+              "type":"interface"
+              , "id":126
+              , "name":"busy"
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalJ/./gemm.tiny.h"
+                    , "line":307
+                  }
+                ]
+              ]
+            }
+            , {
+              "type":"interface"
+              , "id":127
+              , "name":"arg_TOTAL_J"
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalJ/./gemm.tiny.h"
+                    , "line":307
+                  }
+                ]
+              ]
+              , "details":
+              [
+                {
+                  "type":"table"
+                  , "Stable":"No"
+                  , "Width":"64 bits"
+                  , "Kernel":"k4_ZTSZZ4gemmPfS_S_S_ffmRN4sycl3_V15queueEENKUlRNS1_7handlerEE3_clES5_E22kernel_SignalGenerator"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+    , {
+      "type":"kernel"
+      , "id":128
+      , "name":"kernel_Product"
+      , "children":
+      [
+        {
+          "type":"bb"
+          , "id":129
+          , "name":"kernel_Product.B0"
+          , "details":
+          [
+            {
+              "type":"table"
+              , "Latency":"2"
+            }
+          ]
+        }
+        , {
+          "type":"bb"
+          , "id":130
+          , "name":"kernel_Product.B1"
+          , "details":
+          [
+            {
+              "type":"table"
+              , "Latency":"7"
+              , "II":"1"
+              , "Subloops":"Yes"
+              , "Pipelined":"Yes"
+              , "Fmax Bottlenecks":"No"
+              , "Loop Info":"Entry to loop. "
+              , "Loops To":"137"
+            }
+          ]
+        }
+        , {
+          "type":"bb"
+          , "id":131
+          , "name":"kernel_Product.B2"
+          , "details":
+          [
+            {
+              "type":"table"
+              , "Latency":"0"
+              , "II":"1"
+              , "Subloops":"Yes"
+              , "Pipelined":"Yes"
+              , "Fmax Bottlenecks":"No"
+              , "Loop Info":"Exit which branches back to loop. "
+            }
+          ]
+        }
+        , {
+          "type":"bb"
+          , "id":132
+          , "name":"kernel_Product.B3"
+          , "children":
+          [
+            {
+              "type":"inst"
+              , "id":138
+              , "name":"Pipe Read"
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/ext/intel/pipes.hpp"
+                    , "line":67
+                  }
+                ]
+              ]
+              , "details":
+              [
+                {
+                  "type":"table"
+                  , "Width":"8 bits"
+                  , "Depth":"256"
+                  , "Stall-free":"No"
+                  , "Start Cycle":"1"
+                  , "Latency":"0"
+                  , "Reference":
+                  [
+                    {
+                      "type":"text"
+                      , "text":"See %L for more information"
+                      , "links":
+                      [
+                        {
+                          "guide":"Best Practices Guide : Channels"
+                          , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/qah1476410829821.html"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+            , {
+              "type":"inst"
+              , "id":143
+              , "name":"Loop Input"
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalJ/./gemm.tiny.h"
+                    , "line":340
+                  }
+                ]
+              ]
+              , "details":
+              [
+                {
+                  "type":"table"
+                  , "Start Cycle":"0"
+                  , "Latency":"1"
+                  , "Loops To":"131"
+                }
+              ]
+            }
+            , {
+              "type":"inst"
+              , "id":144
+              , "name":"End"
+              , "details":
+              [
+                {
+                  "type":"table"
+                  , "Start Cycle":"3"
+                  , "Latency":"1"
+                }
+              ]
+            }
+          ]
+          , "details":
+          [
+            {
+              "type":"table"
+              , "Latency":"3"
+              , "II":"1"
+              , "Subloops":"Yes"
+              , "Pipelined":"Yes"
+              , "Fmax Bottlenecks":"No"
+              , "Loop Info":"Entry to loop. "
+            }
+          ]
+        }
+        , {
+          "type":"bb"
+          , "id":133
+          , "name":"kernel_Product.B4"
+          , "details":
+          [
+            {
+              "type":"table"
+              , "Latency":"5"
+              , "II":"1"
+              , "Subloops":"Yes"
+              , "Pipelined":"Yes"
+              , "Fmax Bottlenecks":"No"
+              , "Loop Info":"Entry to loop. "
+              , "Loops To":"135"
+            }
+          ]
+        }
+        , {
+          "type":"bb"
+          , "id":134
+          , "name":"kernel_Product.B5"
+          , "children":
+          [
+            {
+              "type":"inst"
+              , "id":139
+              , "name":"Pipe Read"
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/ext/intel/pipes.hpp"
+                    , "line":67
+                  }
+                ]
+              ]
+              , "details":
+              [
+                {
+                  "type":"table"
+                  , "Width":"512 bits"
+                  , "Depth":"256"
+                  , "Stall-free":"No"
+                  , "Start Cycle":"7"
+                  , "Latency":"0"
+                  , "Reference":
+                  [
+                    {
+                      "type":"text"
+                      , "text":"See %L for more information"
+                      , "links":
+                      [
+                        {
+                          "guide":"Best Practices Guide : Channels"
+                          , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/qah1476410829821.html"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+            , {
+              "type":"inst"
+              , "id":140
+              , "name":"Pipe Read"
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/ext/intel/pipes.hpp"
+                    , "line":67
+                  }
+                ]
+              ]
+              , "details":
+              [
+                {
+                  "type":"table"
+                  , "Width":"512 bits"
+                  , "Depth":"256"
+                  , "Stall-free":"No"
+                  , "Start Cycle":"7"
+                  , "Latency":"0"
+                  , "Reference":
+                  [
+                    {
+                      "type":"text"
+                      , "text":"See %L for more information"
+                      , "links":
+                      [
+                        {
+                          "guide":"Best Practices Guide : Channels"
+                          , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/qah1476410829821.html"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+            , {
+              "type":"inst"
+              , "id":141
+              , "name":"Pipe Write"
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/ext/intel/pipes.hpp"
+                    , "line":82
+                  }
+                ]
+              ]
+              , "details":
+              [
+                {
+                  "type":"table"
+                  , "Width":"128 bits"
+                  , "Depth":"256"
+                  , "Stall-free":"No"
+                  , "Start Cycle":"33"
+                  , "Latency":"0"
+                  , "Reference":
+                  [
+                    {
+                      "type":"text"
+                      , "text":"See %L for more information"
+                      , "links":
+                      [
+                        {
+                          "guide":"Best Practices Guide : Channels"
+                          , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/qah1476410829821.html"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+            , {
+              "type":"inst"
+              , "id":145
+              , "name":"Loop Input"
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalJ/./gemm.tiny.h"
+                    , "line":342
+                  }
+                ]
+              ]
+              , "details":
+              [
+                {
+                  "type":"table"
+                  , "Start Cycle":"0"
+                  , "Latency":"1"
+                  , "Loops To":"146"
+                }
+              ]
+            }
+            , {
+              "type":"inst"
+              , "id":146
+              , "name":"Loop End"
+              , "details":
+              [
+                {
+                  "type":"table"
+                  , "Start Cycle":"33"
+                  , "Latency":"1"
+                }
+              ]
+            }
+          ]
+          , "details":
+          [
+            {
+              "type":"table"
+              , "Latency":"33"
+              , "II":"1"
+              , "Subloops":"No"
+              , "Pipelined":"Yes"
+              , "Fmax Bottlenecks":"No"
+              , "Loop Info":""
+            }
+          ]
+        }
+        , {
+          "type":"bb"
+          , "id":135
+          , "name":"kernel_Product.B6"
+          , "details":
+          [
+            {
+              "type":"table"
+              , "Latency":"0"
+              , "II":"1"
+              , "Subloops":"Yes"
+              , "Pipelined":"Yes"
+              , "Fmax Bottlenecks":"No"
+              , "Loop Info":"Exit which branches back to loop. "
+            }
+          ]
+        }
+        , {
+          "type":"bb"
+          , "id":136
+          , "name":"kernel_Product.B7"
+          , "details":
+          [
+            {
+              "type":"table"
+              , "Latency":"0"
+            }
+          ]
+        }
+        , {
+          "type":"bb"
+          , "id":137
+          , "name":"kernel_Product.B8"
+          , "details":
+          [
+            {
+              "type":"table"
+              , "Latency":"0"
+              , "II":"1"
+              , "Subloops":"Yes"
+              , "Pipelined":"Yes"
+              , "Fmax Bottlenecks":"No"
+              , "Loop Info":"Exit which branches back to loop. "
+            }
+          ]
+        }
+        , {
+          "type":"csr"
+          , "id":147
+          , "name":"Register Map"
+          , "debug":
+          [
+            [
+              {
+                "filename":"gemm_report.prj/k5_ZTSZZ4gemmPfS_S_S_ffmRN4sycl3_V15queueEENKUlRNS1_7handlerEE4_clES5_E14kernel_Product_csr.hpp"
+                , "line":1
+              }
+            ]
+          ]
+          , "children":
+          [
+            {
+              "type":"interface"
+              , "id":148
+              , "name":"start"
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalJ/./gemm.tiny.h"
+                    , "line":325
+                  }
+                ]
+              ]
+            }
+            , {
+              "type":"interface"
+              , "id":149
+              , "name":"done"
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalJ/./gemm.tiny.h"
+                    , "line":325
+                  }
+                ]
+              ]
+            }
+            , {
+              "type":"interface"
+              , "id":150
+              , "name":"busy"
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalJ/./gemm.tiny.h"
+                    , "line":325
+                  }
+                ]
+              ]
+            }
+          ]
+        }
+      ]
+    }
+    , {
+      "type":"kernel"
+      , "id":151
+      , "name":"kernel_cLoader"
+      , "children":
+      [
+        {
+          "type":"bb"
+          , "id":152
+          , "name":"kernel_cLoader.B0"
+          , "details":
+          [
+            {
+              "type":"table"
+              , "Latency":"6"
+            }
+          ]
+        }
+        , {
+          "type":"bb"
+          , "id":153
+          , "name":"kernel_cLoader.B1"
+          , "details":
+          [
+            {
+              "type":"table"
+              , "Latency":"8"
+              , "II":"1"
+              , "Subloops":"Yes"
+              , "Pipelined":"Yes"
+              , "Fmax Bottlenecks":"No"
+              , "Loop Info":"Entry to loop. "
+              , "Loops To":"155"
+            }
+          ]
+        }
+        , {
+          "type":"bb"
+          , "id":154
+          , "name":"kernel_cLoader.B2"
+          , "details":
+          [
+            {
+              "type":"table"
+              , "Latency":"5"
+              , "II":"1"
+              , "Subloops":"Yes"
+              , "Pipelined":"Yes"
+              , "Fmax Bottlenecks":"No"
+              , "Loop Info":"Entry to loop. "
+              , "Loops To":"156"
+            }
+          ]
+        }
+        , {
+          "type":"bb"
+          , "id":155
+          , "name":"kernel_cLoader.B3"
+          , "details":
+          [
+            {
+              "type":"table"
+              , "Latency":"0"
+              , "II":"1"
+              , "Subloops":"Yes"
+              , "Pipelined":"Yes"
+              , "Fmax Bottlenecks":"No"
+              , "Loop Info":"Exit which branches back to loop. "
+            }
+          ]
+        }
+        , {
+          "type":"bb"
+          , "id":156
+          , "name":"kernel_cLoader.B4"
+          , "details":
+          [
+            {
+              "type":"table"
+              , "Latency":"0"
+              , "II":"1"
+              , "Subloops":"Yes"
+              , "Pipelined":"Yes"
+              , "Fmax Bottlenecks":"No"
+              , "Loop Info":"Exit which branches back to loop. "
+            }
+          ]
+        }
+        , {
+          "type":"bb"
+          , "id":157
+          , "name":"kernel_cLoader.B5"
+          , "children":
+          [
+            {
+              "type":"inst"
+              , "id":159
+              , "name":"Load"
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalJ/./gemm.tiny.h"
+                    , "line":441
+                  }
+                ]
+              ]
+              , "details":
+              [
+                {
+                  "type":"table"
+                  , "Width":"128 bits"
+                  , "Type":"Burst-coalesced"
+                  , "Stall-free":"No"
+                  , "Start Cycle":"5"
+                  , "Latency":"156"
+                  , "Reference":
+                  [
+                    {
+                      "type":"text"
+                      , "text":"See %L for more information"
+                      , "links":
+                      [
+                        {
+                          "guide":"Best Practices Guide : Load-Store Units"
+                          , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/yeo1491314105959.html"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+            , {
+              "type":"inst"
+              , "id":160
+              , "name":"Pipe Write"
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/ext/intel/pipes.hpp"
+                    , "line":82
+                  }
+                ]
+              ]
+              , "details":
+              [
+                {
+                  "type":"table"
+                  , "Width":"128 bits"
+                  , "Depth":"256"
+                  , "Stall-free":"No"
+                  , "Start Cycle":"162"
+                  , "Latency":"0"
+                  , "Reference":
+                  [
+                    {
+                      "type":"text"
+                      , "text":"See %L for more information"
+                      , "links":
+                      [
+                        {
+                          "guide":"Best Practices Guide : Channels"
+                          , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/qah1476410829821.html"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+            , {
+              "type":"inst"
+              , "id":162
+              , "name":"Loop Input"
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalJ/./gemm.tiny.h"
+                    , "line":438
+                  }
+                ]
+              ]
+              , "details":
+              [
+                {
+                  "type":"table"
+                  , "Start Cycle":"0"
+                  , "Latency":"1"
+                  , "Loops To":"163"
+                }
+              ]
+            }
+            , {
+              "type":"inst"
+              , "id":163
+              , "name":"Loop End"
+              , "details":
+              [
+                {
+                  "type":"table"
+                  , "Start Cycle":"162"
+                  , "Latency":"1"
+                }
+              ]
+            }
+          ]
+          , "details":
+          [
+            {
+              "type":"table"
+              , "Latency":"162"
+              , "II":"1"
+              , "Subloops":"No"
+              , "Pipelined":"Yes"
+              , "Fmax Bottlenecks":"No"
+              , "Loop Info":""
+            }
+          ]
+        }
+        , {
+          "type":"bb"
+          , "id":158
+          , "name":"kernel_cLoader.B6"
+          , "details":
+          [
+            {
+              "type":"table"
+              , "Latency":"0"
+            }
+          ]
+        }
+        , {
+          "type":"csr"
+          , "id":164
+          , "name":"Register Map"
+          , "debug":
+          [
+            [
+              {
+                "filename":"gemm_report.prj/k6_ZTSZZ4gemmPfS_S_S_ffmRN4sycl3_V15queueEENKUlRNS1_7handlerEE5_clES5_E14kernel_cLoader_csr.hpp"
+                , "line":1
+              }
+            ]
+          ]
+          , "children":
+          [
+            {
+              "type":"interface"
+              , "id":165
+              , "name":"start"
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalJ/./gemm.tiny.h"
+                    , "line":432
+                  }
+                ]
+              ]
+            }
+            , {
+              "type":"interface"
+              , "id":166
+              , "name":"done"
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalJ/./gemm.tiny.h"
+                    , "line":432
+                  }
+                ]
+              ]
+            }
+            , {
+              "type":"interface"
+              , "id":167
+              , "name":"busy"
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalJ/./gemm.tiny.h"
+                    , "line":432
+                  }
+                ]
+              ]
+            }
+            , {
+              "type":"interface"
+              , "id":168
+              , "name":"arg_serialized_C_device"
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalJ/./gemm.tiny.h"
+                    , "line":432
+                  }
+                ]
+              ]
+              , "details":
+              [
+                {
+                  "type":"table"
+                  , "Stable":"No"
+                  , "Width":"64 bits"
+                  , "Kernel":"k6_ZTSZZ4gemmPfS_S_S_ffmRN4sycl3_V15queueEENKUlRNS1_7handlerEE5_clES5_E14kernel_cLoader"
+                  , "Alignment":"1024"
+                }
+              ]
+            }
+            , {
+              "type":"interface"
+              , "id":169
+              , "name":"arg_TOTAL_J"
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalJ/./gemm.tiny.h"
+                    , "line":432
+                  }
+                ]
+              ]
+              , "details":
+              [
+                {
+                  "type":"table"
+                  , "Stable":"No"
+                  , "Width":"64 bits"
+                  , "Kernel":"k6_ZTSZZ4gemmPfS_S_S_ffmRN4sycl3_V15queueEENKUlRNS1_7handlerEE5_clES5_E14kernel_cLoader"
+                }
+              ]
+            }
+            , {
+              "type":"interface"
+              , "id":170
+              , "name":"arg_p3"
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalJ/./gemm.tiny.h"
+                    , "line":432
+                  }
+                ]
+              ]
+              , "details":
+              [
+                {
+                  "type":"table"
+                  , "Stable":"No"
+                  , "Width":"32 bits"
+                  , "Kernel":"k6_ZTSZZ4gemmPfS_S_S_ffmRN4sycl3_V15queueEENKUlRNS1_7handlerEE5_clES5_E14kernel_cLoader"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+    , {
+      "type":"kernel"
+      , "id":171
+      , "name":"kernel_Out"
+      , "children":
+      [
+        {
+          "type":"bb"
+          , "id":172
+          , "name":"kernel_Out.B0"
+          , "details":
+          [
+            {
+              "type":"table"
+              , "Latency":"8"
+            }
+          ]
+        }
+        , {
+          "type":"bb"
+          , "id":173
+          , "name":"kernel_Out.B1"
+          , "details":
+          [
+            {
+              "type":"table"
+              , "Latency":"4"
+              , "II":"1"
+              , "Subloops":"Yes"
+              , "Pipelined":"Yes"
+              , "Fmax Bottlenecks":"No"
+              , "Loop Info":"Entry to loop. "
+              , "Loops To":"175"
+            }
+          ]
+        }
+        , {
+          "type":"bb"
+          , "id":174
+          , "name":"kernel_Out.B2"
+          , "details":
+          [
+            {
+              "type":"table"
+              , "Latency":"5"
+              , "II":"2"
+              , "Subloops":"Yes"
+              , "Pipelined":"Yes"
+              , "Fmax Bottlenecks":"No"
+              , "Loop Info":"Entry to loop. "
+              , "Loops To":"176"
+            }
+          ]
+        }
+        , {
+          "type":"bb"
+          , "id":175
+          , "name":"kernel_Out.B3"
+          , "details":
+          [
+            {
+              "type":"table"
+              , "Latency":"0"
+              , "II":"1"
+              , "Subloops":"Yes"
+              , "Pipelined":"Yes"
+              , "Fmax Bottlenecks":"No"
+              , "Loop Info":"Exit which branches back to loop. "
+            }
+          ]
+        }
+        , {
+          "type":"bb"
+          , "id":176
+          , "name":"kernel_Out.B4"
+          , "details":
+          [
+            {
+              "type":"table"
+              , "Latency":"0"
+              , "II":"2"
+              , "Subloops":"Yes"
+              , "Pipelined":"Yes"
+              , "Fmax Bottlenecks":"No"
+              , "Loop Info":"Exit which branches back to loop. "
+            }
+          ]
+        }
+        , {
+          "type":"bb"
+          , "id":177
+          , "name":"kernel_Out.B5"
+          , "children":
+          [
+            {
+              "type":"inst"
+              , "id":179
+              , "name":"Pipe Read"
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/ext/intel/pipes.hpp"
+                    , "line":67
+                  }
+                ]
+              ]
+              , "details":
+              [
+                {
+                  "type":"table"
+                  , "Width":"128 bits"
+                  , "Depth":"256"
+                  , "Stall-free":"No"
+                  , "Start Cycle":"5"
+                  , "Latency":"0"
+                  , "Reference":
+                  [
+                    {
+                      "type":"text"
+                      , "text":"See %L for more information"
+                      , "links":
+                      [
+                        {
+                          "guide":"Best Practices Guide : Channels"
+                          , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/qah1476410829821.html"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+            , {
+              "type":"inst"
+              , "id":180
+              , "name":"Pipe Read"
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/ext/intel/pipes.hpp"
+                    , "line":67
+                  }
+                ]
+              ]
+              , "details":
+              [
+                {
+                  "type":"table"
+                  , "Width":"128 bits"
+                  , "Depth":"256"
+                  , "Stall-free":"No"
+                  , "Start Cycle":"5"
+                  , "Latency":"0"
+                  , "Reference":
+                  [
+                    {
+                      "type":"text"
+                      , "text":"See %L for more information"
+                      , "links":
+                      [
+                        {
+                          "guide":"Best Practices Guide : Channels"
+                          , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/qah1476410829821.html"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+            , {
+              "type":"inst"
+              , "id":181
+              , "name":"Pipe Write"
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/ext/intel/pipes.hpp"
+                    , "line":82
+                  }
+                ]
+              ]
+              , "details":
+              [
+                {
+                  "type":"table"
+                  , "Width":"128 bits"
+                  , "Depth":"256"
+                  , "Stall-free":"No"
+                  , "Start Cycle":"17"
+                  , "Latency":"0"
+                  , "Reference":
+                  [
+                    {
+                      "type":"text"
+                      , "text":"See %L for more information"
+                      , "links":
+                      [
+                        {
+                          "guide":"Best Practices Guide : Channels"
+                          , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/qah1476410829821.html"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+            , {
+              "type":"inst"
+              , "id":183
+              , "name":"Loop Input"
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalJ/./gemm.tiny.h"
+                    , "line":461
+                  }
+                ]
+              ]
+              , "details":
+              [
+                {
+                  "type":"table"
+                  , "Start Cycle":"0"
+                  , "Latency":"1"
+                  , "Loops To":"184"
+                }
+              ]
+            }
+            , {
+              "type":"inst"
+              , "id":184
+              , "name":"Loop End"
+              , "details":
+              [
+                {
+                  "type":"table"
+                  , "Start Cycle":"17"
+                  , "Latency":"1"
+                }
+              ]
+            }
+          ]
+          , "details":
+          [
+            {
+              "type":"table"
+              , "Latency":"17"
+              , "II":"1"
+              , "Subloops":"No"
+              , "Pipelined":"Yes"
+              , "Fmax Bottlenecks":"No"
+              , "Loop Info":""
+            }
+          ]
+        }
+        , {
+          "type":"bb"
+          , "id":178
+          , "name":"kernel_Out.B6"
+          , "details":
+          [
+            {
+              "type":"table"
+              , "Latency":"0"
+            }
+          ]
+        }
+        , {
+          "type":"csr"
+          , "id":185
+          , "name":"Register Map"
+          , "debug":
+          [
+            [
+              {
+                "filename":"gemm_report.prj/k7_ZTSZZ4gemmPfS_S_S_ffmRN4sycl3_V15queueEENKUlRNS1_7handlerEE6_clES5_E10kernel_Out_csr.hpp"
+                , "line":1
+              }
+            ]
+          ]
+          , "children":
+          [
+            {
+              "type":"interface"
+              , "id":186
+              , "name":"start"
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalJ/./gemm.tiny.h"
+                    , "line":456
+                  }
+                ]
+              ]
+            }
+            , {
+              "type":"interface"
+              , "id":187
+              , "name":"done"
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalJ/./gemm.tiny.h"
+                    , "line":456
+                  }
+                ]
+              ]
+            }
+            , {
+              "type":"interface"
+              , "id":188
+              , "name":"busy"
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalJ/./gemm.tiny.h"
+                    , "line":456
+                  }
+                ]
+              ]
+            }
+            , {
+              "type":"interface"
+              , "id":189
+              , "name":"arg_TOTAL_J"
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalJ/./gemm.tiny.h"
+                    , "line":456
+                  }
+                ]
+              ]
+              , "details":
+              [
+                {
+                  "type":"table"
+                  , "Stable":"No"
+                  , "Width":"64 bits"
+                  , "Kernel":"k7_ZTSZZ4gemmPfS_S_S_ffmRN4sycl3_V15queueEENKUlRNS1_7handlerEE6_clES5_E10kernel_Out"
+                }
+              ]
+            }
+            , {
+              "type":"interface"
+              , "id":190
+              , "name":"arg_p3"
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalJ/./gemm.tiny.h"
+                    , "line":456
+                  }
+                ]
+              ]
+              , "details":
+              [
+                {
+                  "type":"table"
+                  , "Stable":"No"
+                  , "Width":"32 bits"
+                  , "Kernel":"k7_ZTSZZ4gemmPfS_S_S_ffmRN4sycl3_V15queueEENKUlRNS1_7handlerEE6_clES5_E10kernel_Out"
+                }
+              ]
+            }
+            , {
+              "type":"interface"
+              , "id":191
+              , "name":"arg_p2"
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalJ/./gemm.tiny.h"
+                    , "line":456
+                  }
+                ]
+              ]
+              , "details":
+              [
+                {
+                  "type":"table"
+                  , "Stable":"No"
+                  , "Width":"32 bits"
+                  , "Kernel":"k7_ZTSZZ4gemmPfS_S_S_ffmRN4sycl3_V15queueEENKUlRNS1_7handlerEE6_clES5_E10kernel_Out"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+    , {
+      "type":"kernel"
+      , "id":192
+      , "name":"kernel_unloader"
+      , "children":
+      [
+        {
+          "type":"bb"
+          , "id":193
+          , "name":"kernel_unloader.B0"
+          , "details":
+          [
+            {
+              "type":"table"
+              , "Latency":"2"
+            }
+          ]
+        }
+        , {
+          "type":"bb"
+          , "id":194
+          , "name":"kernel_unloader.B1"
+          , "details":
+          [
+            {
+              "type":"table"
+              , "Latency":"8"
+              , "II":"1"
+              , "Subloops":"Yes"
+              , "Pipelined":"Yes"
+              , "Fmax Bottlenecks":"No"
+              , "Loop Info":"Entry to loop. "
+              , "Loops To":"196"
+            }
+          ]
+        }
+        , {
+          "type":"bb"
+          , "id":195
+          , "name":"kernel_unloader.B2"
+          , "details":
+          [
+            {
+              "type":"table"
+              , "Latency":"5"
+              , "II":"1"
+              , "Subloops":"Yes"
+              , "Pipelined":"Yes"
+              , "Fmax Bottlenecks":"No"
+              , "Loop Info":"Entry to loop. "
+              , "Loops To":"197"
+            }
+          ]
+        }
+        , {
+          "type":"bb"
+          , "id":196
+          , "name":"kernel_unloader.B3"
+          , "details":
+          [
+            {
+              "type":"table"
+              , "Latency":"0"
+              , "II":"1"
+              , "Subloops":"Yes"
+              , "Pipelined":"Yes"
+              , "Fmax Bottlenecks":"No"
+              , "Loop Info":"Exit which branches back to loop. "
+            }
+          ]
+        }
+        , {
+          "type":"bb"
+          , "id":197
+          , "name":"kernel_unloader.B4"
+          , "details":
+          [
+            {
+              "type":"table"
+              , "Latency":"0"
+              , "II":"1"
+              , "Subloops":"Yes"
+              , "Pipelined":"Yes"
+              , "Fmax Bottlenecks":"No"
+              , "Loop Info":"Exit which branches back to loop. "
+            }
+          ]
+        }
+        , {
+          "type":"bb"
+          , "id":198
+          , "name":"kernel_unloader.B5"
+          , "children":
+          [
+            {
+              "type":"inst"
+              , "id":200
+              , "name":"Pipe Read"
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/ext/intel/pipes.hpp"
+                    , "line":67
+                  }
+                ]
+              ]
+              , "details":
+              [
+                {
+                  "type":"table"
+                  , "Width":"128 bits"
+                  , "Depth":"256"
+                  , "Stall-free":"No"
+                  , "Start Cycle":"9"
+                  , "Latency":"0"
+                  , "Reference":
+                  [
+                    {
+                      "type":"text"
+                      , "text":"See %L for more information"
+                      , "links":
+                      [
+                        {
+                          "guide":"Best Practices Guide : Channels"
+                          , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/qah1476410829821.html"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+            , {
+              "type":"inst"
+              , "id":201
+              , "name":"Store"
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalJ/./gemm.tiny.h"
+                    , "line":482
+                  }
+                ]
+              ]
+              , "details":
+              [
+                {
+                  "type":"table"
+                  , "Width":"128 bits"
+                  , "Type":"Burst-coalesced"
+                  , "Stall-free":"No"
+                  , "Start Cycle":"9"
+                  , "Latency":"2"
+                  , "Reference":
+                  [
+                    {
+                      "type":"text"
+                      , "text":"See %L for more information"
+                      , "links":
+                      [
+                        {
+                          "guide":"Best Practices Guide : Load-Store Units"
+                          , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/yeo1491314105959.html"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+            , {
+              "type":"inst"
+              , "id":202
+              , "name":"Loop Input"
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalJ/./gemm.tiny.h"
+                    , "line":480
+                  }
+                ]
+              ]
+              , "details":
+              [
+                {
+                  "type":"table"
+                  , "Start Cycle":"0"
+                  , "Latency":"1"
+                  , "Loops To":"203"
+                }
+              ]
+            }
+            , {
+              "type":"inst"
+              , "id":203
+              , "name":"Loop End"
+              , "details":
+              [
+                {
+                  "type":"table"
+                  , "Start Cycle":"11"
+                  , "Latency":"1"
+                }
+              ]
+            }
+          ]
+          , "details":
+          [
+            {
+              "type":"table"
+              , "Latency":"11"
+              , "II":"1"
+              , "Subloops":"No"
+              , "Pipelined":"Yes"
+              , "Fmax Bottlenecks":"No"
+              , "Loop Info":""
+            }
+          ]
+        }
+        , {
+          "type":"bb"
+          , "id":199
+          , "name":"kernel_unloader.B6"
+          , "details":
+          [
+            {
+              "type":"table"
+              , "Latency":"0"
+            }
+          ]
+        }
+        , {
+          "type":"csr"
+          , "id":204
+          , "name":"Register Map"
+          , "debug":
+          [
+            [
+              {
+                "filename":"gemm_report.prj/k8_ZTSZZ4gemmPfS_S_S_ffmRN4sycl3_V15queueEENKUlRNS1_7handlerEE7_clES5_E15kernel_unloader_csr.hpp"
+                , "line":1
+              }
+            ]
+          ]
+          , "children":
+          [
+            {
+              "type":"interface"
+              , "id":205
+              , "name":"start"
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalJ/./gemm.tiny.h"
+                    , "line":474
+                  }
+                ]
+              ]
+            }
+            , {
+              "type":"interface"
+              , "id":206
+              , "name":"done"
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalJ/./gemm.tiny.h"
+                    , "line":474
+                  }
+                ]
+              ]
+            }
+            , {
+              "type":"interface"
+              , "id":207
+              , "name":"busy"
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalJ/./gemm.tiny.h"
+                    , "line":474
+                  }
+                ]
+              ]
+            }
+            , {
+              "type":"interface"
+              , "id":208
+              , "name":"arg_serialized_reuslt_device"
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalJ/./gemm.tiny.h"
+                    , "line":474
+                  }
+                ]
+              ]
+              , "details":
+              [
+                {
+                  "type":"table"
+                  , "Stable":"No"
+                  , "Width":"64 bits"
+                  , "Kernel":"k8_ZTSZZ4gemmPfS_S_S_ffmRN4sycl3_V15queueEENKUlRNS1_7handlerEE7_clES5_E15kernel_unloader"
+                  , "Alignment":"1024"
+                }
+              ]
+            }
+            , {
+              "type":"interface"
+              , "id":209
+              , "name":"arg_TOTAL_J"
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalJ/./gemm.tiny.h"
+                    , "line":474
+                  }
+                ]
+              ]
+              , "details":
+              [
+                {
+                  "type":"table"
+                  , "Stable":"No"
+                  , "Width":"64 bits"
+                  , "Kernel":"k8_ZTSZZ4gemmPfS_S_S_ffmRN4sycl3_V15queueEENKUlRNS1_7handlerEE7_clES5_E15kernel_unloader"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+    , {
+      "type":"memtype"
+      , "id":1
+      , "name":"Global Memory"
+      , "children":
+      [
+        {
+          "type":"memsys"
+          , "id":23
+          , "name":"DDR"
+          , "details":
+          [
+            {
+              "type":"table"
+              , "Number of banks":"2"
+            }
+          ]
+        }
+      ]
+    }
+    , {
+      "type":"pipe"
+      , "id":182
+      , "name":"sycl::_V1::ext::intel::pipe<Out_channel_pipe, sycl::_V1::vec<float, 4>"
+      , "debug":
+      [
+        [
+          {
+            "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalJ/./gemm.tiny.h"
+            , "line":456
+          }
+        ]
+      ]
+      , "details":
+      [
+        {
+          "type":"table"
+          , "Width":"128 bits"
+          , "Depth":"256"
+        }
+      ]
+    }
+    , {
+      "type":"pipe"
+      , "id":142
+      , "name":"sycl::_V1::ext::intel::pipe<Product_channel_pipe, sycl::_V1::vec<float, 4>"
+      , "debug":
+      [
+        [
+          {
+            "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalJ/./gemm.tiny.h"
+            , "line":325
+          }
+        ]
+      ]
+      , "details":
+      [
+        {
+          "type":"table"
+          , "Width":"128 bits"
+          , "Depth":"256"
+        }
+      ]
+    }
+    , {
+      "type":"pipe"
+      , "id":161
+      , "name":"sycl::_V1::ext::intel::pipe<cLoader_channel_pipe, sycl::_V1::vec<float, 4>"
+      , "debug":
+      [
+        [
+          {
+            "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalJ/./gemm.tiny.h"
+            , "line":432
+          }
+        ]
+      ]
+      , "details":
+      [
+        {
+          "type":"table"
+          , "Width":"128 bits"
+          , "Depth":"256"
+        }
+      ]
+    }
+    , {
+      "type":"pipe"
+      , "id":37
+      , "name":"sycl::_V1::ext::intel::pipe<_aFeeder_channel_pipe, aFeeder_channel_array_t, 256>"
+      , "debug":
+      [
+        [
+          {
+            "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalJ/./gemm.tiny.h"
+            , "line":177
+          }
+        ]
+      ]
+      , "details":
+      [
+        {
+          "type":"table"
+          , "Width":"512 bits"
+          , "Depth":"256"
+        }
+      ]
+    }
+    , {
+      "type":"pipe"
+      , "id":14
+      , "name":"sycl::_V1::ext::intel::pipe<_aLoader_channel_pipe, sycl::_V1::vec<float, 4>"
+      , "debug":
+      [
+        [
+          {
+            "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalJ/./gemm.tiny.h"
+            , "line":149
+          }
+        ]
+      ]
+      , "details":
+      [
+        {
+          "type":"table"
+          , "Width":"128 bits"
+          , "Depth":"256"
+        }
+      ]
+    }
+    , {
+      "type":"pipe"
+      , "id":92
+      , "name":"sycl::_V1::ext::intel::pipe<_bFeeder_channel_pipe, bFeeder_channel_array_t, 256>"
+      , "debug":
+      [
+        [
+          {
+            "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalJ/./gemm.tiny.h"
+            , "line":258
+          }
+        ]
+      ]
+      , "details":
+      [
+        {
+          "type":"table"
+          , "Width":"512 bits"
+          , "Depth":"256"
+        }
+      ]
+    }
+    , {
+      "type":"pipe"
+      , "id":70
+      , "name":"sycl::_V1::ext::intel::pipe<_bLoader_channel_pipe, sycl::_V1::vec<float, 4>"
+      , "debug":
+      [
+        [
+          {
+            "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalJ/./gemm.tiny.h"
+            , "line":230
+          }
+        ]
+      ]
+      , "details":
+      [
+        {
+          "type":"table"
+          , "Width":"128 bits"
+          , "Depth":"256"
+        }
+      ]
+    }
+    , {
+      "type":"pipe"
+      , "id":120
+      , "name":"sycl::_V1::ext::intel::pipe<_SignalGenerator_channel_pipe, bool, 256>"
+      , "debug":
+      [
+        [
+          {
+            "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalJ/./gemm.tiny.h"
+            , "line":307
+          }
+        ]
+      ]
+      , "details":
+      [
+        {
+          "type":"table"
+          , "Width":"8 bits"
+          , "Depth":"256"
+        }
+      ]
+    }
+  ]
+  , "links":
+  [
+    {
+      "from":13
+      , "to":14
+    }
+    , {
+      "from":18
+      , "to":3
+    }
+    , {
+      "from":11
+      , "to":19
+    }
+    , {
+      "from":3
+      , "to":20
+      , "reverse":2
+    }
+    , {
+      "from":21
+      , "to":15
+    }
+    , {
+      "from":22
+      , "to":3
+    }
+    , {
+      "from":6
+      , "to":4
+    }
+    , {
+      "from":3
+      , "to":4
+    }
+    , {
+      "from":8
+      , "to":5
+    }
+    , {
+      "from":4
+      , "to":5
+    }
+    , {
+      "from":8
+      , "to":6
+    }
+    , {
+      "from":9
+      , "to":7
+    }
+    , {
+      "from":5
+      , "to":7
+    }
+    , {
+      "from":9
+      , "to":8
+    }
+    , {
+      "from":16
+      , "to":9
+    }
+    , {
+      "from":16
+      , "to":15
+    }
+    , {
+      "from":7
+      , "to":15
+    }
+    , {
+      "from":12
+      , "to":16
+    }
+    , {
+      "from":13
+      , "to":16
+    }
+    , {
+      "from":6
+      , "to":11
+    }
+    , {
+      "from":15
+      , "to":12
+    }
+    , {
+      "from":12
+      , "to":13
+    }
+    , {
+      "from":23
+      , "to":12
+    }
+    , {
+      "from":14
+      , "to":27
+    }
+    , {
+      "from":36
+      , "to":37
+    }
+    , {
+      "from":41
+      , "to":25
+    }
+    , {
+      "from":25
+      , "to":43
+      , "reverse":2
+    }
+    , {
+      "from":45
+      , "to":29
+    }
+    , {
+      "from":45
+      , "to":31
+    }
+    , {
+      "from":45
+      , "to":33
+    }
+    , {
+      "from":45
+      , "to":35
+    }
+    , {
+      "from":28
+      , "to":45
+    }
+    , {
+      "from":30
+      , "to":45
+    }
+    , {
+      "from":32
+      , "to":45
+    }
+    , {
+      "from":34
+      , "to":45
+    }
+    , {
+      "from":39
+      , "to":38
+    }
+    , {
+      "from":25
+      , "to":38
+    }
+    , {
+      "from":27
+      , "to":39
+    }
+    , {
+      "from":28
+      , "to":39
+    }
+    , {
+      "from":29
+      , "to":39
+    }
+    , {
+      "from":30
+      , "to":39
+    }
+    , {
+      "from":31
+      , "to":39
+    }
+    , {
+      "from":32
+      , "to":39
+    }
+    , {
+      "from":33
+      , "to":39
+    }
+    , {
+      "from":34
+      , "to":39
+    }
+    , {
+      "from":35
+      , "to":39
+    }
+    , {
+      "from":36
+      , "to":39
+    }
+    , {
+      "from":38
+      , "to":27
+    }
+    , {
+      "from":27
+      , "to":28
+    }
+    , {
+      "from":27
+      , "to":29
+    }
+    , {
+      "from":27
+      , "to":30
+    }
+    , {
+      "from":27
+      , "to":31
+    }
+    , {
+      "from":27
+      , "to":32
+    }
+    , {
+      "from":27
+      , "to":33
+    }
+    , {
+      "from":27
+      , "to":34
+    }
+    , {
+      "from":27
+      , "to":35
+    }
+    , {
+      "from":28
+      , "to":36
+    }
+    , {
+      "from":29
+      , "to":36
+    }
+    , {
+      "from":30
+      , "to":36
+    }
+    , {
+      "from":31
+      , "to":36
+    }
+    , {
+      "from":32
+      , "to":36
+    }
+    , {
+      "from":33
+      , "to":36
+    }
+    , {
+      "from":34
+      , "to":36
+    }
+    , {
+      "from":35
+      , "to":36
+    }
+    , {
+      "from":69
+      , "to":70
+    }
+    , {
+      "from":74
+      , "to":59
+    }
+    , {
+      "from":67
+      , "to":75
+    }
+    , {
+      "from":59
+      , "to":76
+      , "reverse":2
+    }
+    , {
+      "from":77
+      , "to":71
+    }
+    , {
+      "from":78
+      , "to":71
+    }
+    , {
+      "from":62
+      , "to":60
+    }
+    , {
+      "from":59
+      , "to":60
+    }
+    , {
+      "from":64
+      , "to":61
+    }
+    , {
+      "from":60
+      , "to":61
+    }
+    , {
+      "from":64
+      , "to":62
+    }
+    , {
+      "from":65
+      , "to":63
+    }
+    , {
+      "from":61
+      , "to":63
+    }
+    , {
+      "from":65
+      , "to":64
+    }
+    , {
+      "from":72
+      , "to":65
+    }
+    , {
+      "from":72
+      , "to":71
+    }
+    , {
+      "from":63
+      , "to":71
+    }
+    , {
+      "from":68
+      , "to":72
+    }
+    , {
+      "from":69
+      , "to":72
+    }
+    , {
+      "from":62
+      , "to":67
+    }
+    , {
+      "from":71
+      , "to":68
+    }
+    , {
+      "from":68
+      , "to":69
+    }
+    , {
+      "from":23
+      , "to":68
+    }
+    , {
+      "from":70
+      , "to":82
+    }
+    , {
+      "from":91
+      , "to":92
+    }
+    , {
+      "from":96
+      , "to":80
+    }
+    , {
+      "from":80
+      , "to":98
+      , "reverse":2
+    }
+    , {
+      "from":100
+      , "to":84
+    }
+    , {
+      "from":100
+      , "to":86
+    }
+    , {
+      "from":100
+      , "to":88
+    }
+    , {
+      "from":100
+      , "to":90
+    }
+    , {
+      "from":83
+      , "to":100
+    }
+    , {
+      "from":85
+      , "to":100
+    }
+    , {
+      "from":87
+      , "to":100
+    }
+    , {
+      "from":89
+      , "to":100
+    }
+    , {
+      "from":94
+      , "to":93
+    }
+    , {
+      "from":80
+      , "to":93
+    }
+    , {
+      "from":82
+      , "to":94
+    }
+    , {
+      "from":83
+      , "to":94
+    }
+    , {
+      "from":84
+      , "to":94
+    }
+    , {
+      "from":85
+      , "to":94
+    }
+    , {
+      "from":86
+      , "to":94
+    }
+    , {
+      "from":87
+      , "to":94
+    }
+    , {
+      "from":88
+      , "to":94
+    }
+    , {
+      "from":89
+      , "to":94
+    }
+    , {
+      "from":90
+      , "to":94
+    }
+    , {
+      "from":91
+      , "to":94
+    }
+    , {
+      "from":93
+      , "to":82
+    }
+    , {
+      "from":82
+      , "to":83
+    }
+    , {
+      "from":82
+      , "to":84
+    }
+    , {
+      "from":82
+      , "to":85
+    }
+    , {
+      "from":82
+      , "to":86
+    }
+    , {
+      "from":82
+      , "to":87
+    }
+    , {
+      "from":82
+      , "to":88
+    }
+    , {
+      "from":82
+      , "to":89
+    }
+    , {
+      "from":82
+      , "to":90
+    }
+    , {
+      "from":83
+      , "to":91
+    }
+    , {
+      "from":84
+      , "to":91
+    }
+    , {
+      "from":85
+      , "to":91
+    }
+    , {
+      "from":86
+      , "to":91
+    }
+    , {
+      "from":87
+      , "to":91
+    }
+    , {
+      "from":88
+      , "to":91
+    }
+    , {
+      "from":89
+      , "to":91
+    }
+    , {
+      "from":90
+      , "to":91
+    }
+    , {
+      "from":119
+      , "to":120
+    }
+    , {
+      "from":124
+      , "to":114
+    }
+    , {
+      "from":118
+      , "to":125
+    }
+    , {
+      "from":114
+      , "to":126
+      , "reverse":2
+    }
+    , {
+      "from":127
+      , "to":114
+    }
+    , {
+      "from":117
+      , "to":115
+    }
+    , {
+      "from":114
+      , "to":115
+    }
+    , {
+      "from":122
+      , "to":121
+    }
+    , {
+      "from":115
+      , "to":121
+    }
+    , {
+      "from":119
+      , "to":122
+    }
+    , {
+      "from":122
+      , "to":117
+    }
+    , {
+      "from":117
+      , "to":118
+    }
+    , {
+      "from":121
+      , "to":119
+    }
+    , {
+      "from":120
+      , "to":138
+    }
+    , {
+      "from":92
+      , "to":139
+    }
+    , {
+      "from":37
+      , "to":140
+    }
+    , {
+      "from":141
+      , "to":142
+    }
+    , {
+      "from":148
+      , "to":129
+    }
+    , {
+      "from":136
+      , "to":149
+    }
+    , {
+      "from":129
+      , "to":150
+      , "reverse":2
+    }
+    , {
+      "from":137
+      , "to":130
+    }
+    , {
+      "from":129
+      , "to":130
+    }
+    , {
+      "from":135
+      , "to":131
+    }
+    , {
+      "from":131
+      , "to":143
+    }
+    , {
+      "from":130
+      , "to":143
+    }
+    , {
+      "from":138
+      , "to":144
+    }
+    , {
+      "from":135
+      , "to":133
+    }
+    , {
+      "from":144
+      , "to":133
+    }
+    , {
+      "from":146
+      , "to":145
+    }
+    , {
+      "from":133
+      , "to":145
+    }
+    , {
+      "from":139
+      , "to":146
+    }
+    , {
+      "from":140
+      , "to":146
+    }
+    , {
+      "from":141
+      , "to":146
+    }
+    , {
+      "from":146
+      , "to":135
+    }
+    , {
+      "from":137
+      , "to":136
+    }
+    , {
+      "from":131
+      , "to":137
+    }
+    , {
+      "from":143
+      , "to":138
+    }
+    , {
+      "from":145
+      , "to":139
+    }
+    , {
+      "from":145
+      , "to":140
+    }
+    , {
+      "from":139
+      , "to":141
+    }
+    , {
+      "from":140
+      , "to":141
+    }
+    , {
+      "from":160
+      , "to":161
+    }
+    , {
+      "from":165
+      , "to":152
+    }
+    , {
+      "from":158
+      , "to":166
+    }
+    , {
+      "from":152
+      , "to":167
+      , "reverse":2
+    }
+    , {
+      "from":168
+      , "to":162
+    }
+    , {
+      "from":169
+      , "to":152
+    }
+    , {
+      "from":170
+      , "to":152
+    }
+    , {
+      "from":155
+      , "to":153
+    }
+    , {
+      "from":152
+      , "to":153
+    }
+    , {
+      "from":156
+      , "to":154
+    }
+    , {
+      "from":153
+      , "to":154
+    }
+    , {
+      "from":156
+      , "to":155
+    }
+    , {
+      "from":163
+      , "to":156
+    }
+    , {
+      "from":163
+      , "to":162
+    }
+    , {
+      "from":154
+      , "to":162
+    }
+    , {
+      "from":159
+      , "to":163
+    }
+    , {
+      "from":160
+      , "to":163
+    }
+    , {
+      "from":155
+      , "to":158
+    }
+    , {
+      "from":162
+      , "to":159
+    }
+    , {
+      "from":159
+      , "to":160
+    }
+    , {
+      "from":23
+      , "to":159
+    }
+    , {
+      "from":161
+      , "to":179
+    }
+    , {
+      "from":142
+      , "to":180
+    }
+    , {
+      "from":181
+      , "to":182
+    }
+    , {
+      "from":186
+      , "to":172
+    }
+    , {
+      "from":178
+      , "to":187
+    }
+    , {
+      "from":172
+      , "to":188
+      , "reverse":2
+    }
+    , {
+      "from":189
+      , "to":172
+    }
+    , {
+      "from":190
+      , "to":183
+    }
+    , {
+      "from":191
+      , "to":183
+    }
+    , {
+      "from":175
+      , "to":173
+    }
+    , {
+      "from":172
+      , "to":173
+    }
+    , {
+      "from":176
+      , "to":174
+    }
+    , {
+      "from":173
+      , "to":174
+    }
+    , {
+      "from":176
+      , "to":175
+    }
+    , {
+      "from":184
+      , "to":176
+    }
+    , {
+      "from":184
+      , "to":183
+    }
+    , {
+      "from":174
+      , "to":183
+    }
+    , {
+      "from":179
+      , "to":184
+    }
+    , {
+      "from":180
+      , "to":184
+    }
+    , {
+      "from":181
+      , "to":184
+    }
+    , {
+      "from":175
+      , "to":178
+    }
+    , {
+      "from":183
+      , "to":179
+    }
+    , {
+      "from":183
+      , "to":180
+    }
+    , {
+      "from":179
+      , "to":181
+    }
+    , {
+      "from":180
+      , "to":181
+    }
+    , {
+      "from":182
+      , "to":200
+    }
+    , {
+      "from":205
+      , "to":193
+    }
+    , {
+      "from":199
+      , "to":206
+    }
+    , {
+      "from":193
+      , "to":207
+      , "reverse":2
+    }
+    , {
+      "from":208
+      , "to":202
+    }
+    , {
+      "from":209
+      , "to":193
+    }
+    , {
+      "from":196
+      , "to":194
+    }
+    , {
+      "from":193
+      , "to":194
+    }
+    , {
+      "from":197
+      , "to":195
+    }
+    , {
+      "from":194
+      , "to":195
+    }
+    , {
+      "from":197
+      , "to":196
+    }
+    , {
+      "from":203
+      , "to":197
+    }
+    , {
+      "from":203
+      , "to":202
+    }
+    , {
+      "from":195
+      , "to":202
+    }
+    , {
+      "from":200
+      , "to":203
+    }
+    , {
+      "from":201
+      , "to":203
+    }
+    , {
+      "from":196
+      , "to":199
+    }
+    , {
+      "from":202
+      , "to":200
+    }
+    , {
+      "from":200
+      , "to":201
+    }
+    , {
+      "from":201
+      , "to":23
+    }
+  ]
+}

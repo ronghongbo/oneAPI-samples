@@ -1,0 +1,2336 @@
+{
+  "nodes":
+  [
+    {
+      "name":"kernel_aFeeder"
+      , "id":1768
+      , "type":"kernel"
+      , "children":
+      [
+        {
+          "name":"On-chip Memory"
+          , "id":1769
+          , "type":"memtype"
+          , "children":
+          [
+            {
+              "name":"DB"
+              , "id":1770
+              , "brief":"Implemented size:2048 bytes = (4 banks) x (32 words per bank) x (16 bytes per word) | Memory Usage:28 MLABs | Number of banks:4 | Bank width (word size):16 bytes | Bank depth:32 words | Number of replicates:1 | Number of private copies:1 | RAM Mode:Simple dual-port | Pump configuration:Single-pumped | User defined attributes:memory, singlepump, numbanks(4), simple_dual_port"
+              , "details":
+              [
+                {
+                  "type":"table"
+                  , "Declared at":
+                  [
+                    {
+                      "type":"text"
+                      , "text":"%L"
+                      , "links":
+                      [
+                        {
+                          "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicI/./gemm.tiny.h"
+                          , "line":"183"
+                        }
+                      ]
+                    }
+                  ]
+                  , "Requested size":"2048 bytes"
+                  , "Implemented size":"2048 bytes = (4 banks) x (32 words per bank) x (16 bytes per word)"
+                  , "Memory Usage":"28 MLABs"
+                  , "Number of banks":"4"
+                  , "Bank width (word size)":"16 bytes"
+                  , "Bank depth":"32 words"
+                  , "Number of replicates":"1"
+                  , "Number of private copies":"1"
+                  , "RAM Mode":"Simple dual-port"
+                  , "Pump configuration":"Single-pumped"
+                  , "Additional information":"In each private copy:</br>  Variable 'DB' occupies memory words [0-127] and has 1 array element per memory word."
+                  , "Address bit information":"<table><tr><td>Byte address</td><td>b<sub>10</sub></td><td>b<sub>9</sub></td><td>b<sub>8</sub></td><td>b<sub>7</sub></td><td>b<sub>6</sub></td><td>b<sub>5</sub></td><td>b<sub>4</sub></td><td>b<sub>3</sub></td><td>b<sub>2</sub></td><td>b<sub>1</sub></td><td>b<sub>0</sub></td></tr><tr><td>Sub-word bits</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr><td>Word address bits</td><td>b<sub>10</sub></td><td>b<sub>9</sub></td><td>b<sub>8</sub></td><td>b<sub>7</sub></td><td>b<sub>6</sub></td><td>b<sub>5</sub></td><td>b<sub>4</sub></td><td></td><td></td><td></td><td></td></tr><tr><td>Bank bits</td><td></td><td></td><td></td><td></td><td></td><td>b<sub>5</sub></td><td>b<sub>4</sub></td><td></td><td></td><td></td><td></td></tr></table>"
+                  , "User defined attributes":"memory, singlepump, numbanks(4), simple_dual_port"
+                  , "Reference":
+                  [
+                    {
+                      "type":"text"
+                      , "text":"See %L for more information"
+                      , "links":
+                      [
+                        {
+                          "guide":"Best Practices Guide : Local Memory"
+                          , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/chn1469549457114.html"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicI/./gemm.tiny.h"
+                    , "line":183
+                  }
+                ]
+              ]
+              , "type":"memsys"
+              , "children":
+              [
+                {
+                  "name":"Bank 0"
+                  , "id":1779
+                  , "brief":"Memory Usage:7 MLABs | Bank width:16 bytes | Bank depth:32 words | Implemented bank size:512 bytes = (32 words) x (16 bytes per word)"
+                  , "details":
+                  [
+                    {
+                      "type":"table"
+                      , "Memory Usage":"7 MLABs"
+                      , "Bank width":"16 bytes"
+                      , "Bank depth":"32 words"
+                      , "Implemented bank size":"512 bytes = (32 words) x (16 bytes per word)"
+                      , "Number of active ports":"2"
+                      , "Number of read ports":"1"
+                      , "Number of write ports":"1"
+                      , "Additional information":"In each private copy:</br>  Variable 'DB' occupies memory words [0-127] and has 1 array element per memory word."
+                      , "Address bit information":"<table><tr><td>Byte address</td><td>b<sub>10</sub></td><td>b<sub>9</sub></td><td>b<sub>8</sub></td><td>b<sub>7</sub></td><td>b<sub>6</sub></td><td>b<sub>5</sub></td><td>b<sub>4</sub></td><td>b<sub>3</sub></td><td>b<sub>2</sub></td><td>b<sub>1</sub></td><td>b<sub>0</sub></td></tr><tr><td>Sub-word bits</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr><td>Word address bits</td><td>b<sub>10</sub></td><td>b<sub>9</sub></td><td>b<sub>8</sub></td><td>b<sub>7</sub></td><td>b<sub>6</sub></td><td><b>0</b></td><td><b>0</b></td><td></td><td></td><td></td><td></td></tr><tr><td>Bank bits</td><td></td><td></td><td></td><td></td><td></td><td><b>0</b></td><td><b>0</b></td><td></td><td></td><td></td><td></td></tr></table>"
+                    }
+                  ]
+                  , "debug":
+                  [
+                    [
+                      {
+                        "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicI/./gemm.tiny.h"
+                        , "line":183
+                      }
+                    ]
+                  ]
+                  , "type":"bank"
+                  , "children":
+                  [
+                    {
+                      "name":"Replicate 0"
+                      , "id":1780
+                      , "padding":"0"
+                      , "depth":"32"
+                      , "brief":"Implemented size:512 bytes = (32 words) x (16 bytes per word) | Memory Usage:7 MLABs"
+                      , "details":
+                      [
+                        {
+                          "type":"table"
+                          , "Implemented size":"512 bytes = (32 words) x (16 bytes per word)"
+                          , "Memory Usage":"7 MLABs"
+                          , "Number of physical ports":"2"
+                          , "Number of read ports":"1"
+                          , "Number of write ports":"1"
+                          , "Additional information":"In each private copy:</br>  Variable 'DB' occupies memory words [0-127] and has 1 array element per memory word."
+                          , "Address bit information":"<table><tr><td>Byte address</td><td>b<sub>10</sub></td><td>b<sub>9</sub></td><td>b<sub>8</sub></td><td>b<sub>7</sub></td><td>b<sub>6</sub></td><td>b<sub>5</sub></td><td>b<sub>4</sub></td><td>b<sub>3</sub></td><td>b<sub>2</sub></td><td>b<sub>1</sub></td><td>b<sub>0</sub></td></tr><tr><td>Sub-word bits</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr><td>Word address bits</td><td>b<sub>10</sub></td><td>b<sub>9</sub></td><td>b<sub>8</sub></td><td>b<sub>7</sub></td><td>b<sub>6</sub></td><td><b>0</b></td><td><b>0</b></td><td></td><td></td><td></td><td></td></tr><tr><td>Bank bits</td><td></td><td></td><td></td><td></td><td></td><td><b>0</b></td><td><b>0</b></td><td></td><td></td><td></td><td></td></tr></table>"
+                        }
+                      ]
+                      , "debug":
+                      [
+                        [
+                          {
+                            "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicI/./gemm.tiny.h"
+                            , "line":183
+                          }
+                        ]
+                      ]
+                      , "type":"replicate"
+                      , "children":
+                      [
+                        {
+                          "name":"R"
+                          , "id":1781
+                          , "type":"port"
+                        }
+                        , {
+                          "name":"W"
+                          , "id":1782
+                          , "type":"port"
+                        }
+                      ]
+                      , "copies":
+                      {
+                        "num":1
+                        , "details":
+                        [
+                          {
+                            "type":"table"
+                            , "Width":"16 bytes"
+                            , "Depth per copy (including padding)":"32 words"
+                            , "Number of private copies":"1"
+                            , "Additional information":"In each private copy:</br>  Variable 'DB' occupies memory words [0-127] and has 1 array element per memory word."
+                            , "Address bit information":"<table><tr><td>Byte address</td><td>b<sub>10</sub></td><td>b<sub>9</sub></td><td>b<sub>8</sub></td><td>b<sub>7</sub></td><td>b<sub>6</sub></td><td>b<sub>5</sub></td><td>b<sub>4</sub></td><td>b<sub>3</sub></td><td>b<sub>2</sub></td><td>b<sub>1</sub></td><td>b<sub>0</sub></td></tr><tr><td>Sub-word bits</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr><td>Word address bits</td><td>b<sub>10</sub></td><td>b<sub>9</sub></td><td>b<sub>8</sub></td><td>b<sub>7</sub></td><td>b<sub>6</sub></td><td><b>0</b></td><td><b>0</b></td><td></td><td></td><td></td><td></td></tr><tr><td>Bank bits</td><td></td><td></td><td></td><td></td><td></td><td><b>0</b></td><td><b>0</b></td><td></td><td></td><td></td><td></td></tr></table>"
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+                , {
+                  "name":"Bank 1"
+                  , "id":1783
+                  , "brief":"Memory Usage:7 MLABs | Bank width:16 bytes | Bank depth:32 words | Implemented bank size:512 bytes = (32 words) x (16 bytes per word)"
+                  , "details":
+                  [
+                    {
+                      "type":"table"
+                      , "Memory Usage":"7 MLABs"
+                      , "Bank width":"16 bytes"
+                      , "Bank depth":"32 words"
+                      , "Implemented bank size":"512 bytes = (32 words) x (16 bytes per word)"
+                      , "Number of active ports":"2"
+                      , "Number of read ports":"1"
+                      , "Number of write ports":"1"
+                      , "Additional information":"In each private copy:</br>  Variable 'DB' occupies memory words [0-127] and has 1 array element per memory word."
+                      , "Address bit information":"<table><tr><td>Byte address</td><td>b<sub>10</sub></td><td>b<sub>9</sub></td><td>b<sub>8</sub></td><td>b<sub>7</sub></td><td>b<sub>6</sub></td><td>b<sub>5</sub></td><td>b<sub>4</sub></td><td>b<sub>3</sub></td><td>b<sub>2</sub></td><td>b<sub>1</sub></td><td>b<sub>0</sub></td></tr><tr><td>Sub-word bits</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr><td>Word address bits</td><td>b<sub>10</sub></td><td>b<sub>9</sub></td><td>b<sub>8</sub></td><td>b<sub>7</sub></td><td>b<sub>6</sub></td><td><b>0</b></td><td><b>1</b></td><td></td><td></td><td></td><td></td></tr><tr><td>Bank bits</td><td></td><td></td><td></td><td></td><td></td><td><b>0</b></td><td><b>1</b></td><td></td><td></td><td></td><td></td></tr></table>"
+                    }
+                  ]
+                  , "debug":
+                  [
+                    [
+                      {
+                        "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicI/./gemm.tiny.h"
+                        , "line":183
+                      }
+                    ]
+                  ]
+                  , "type":"bank"
+                  , "children":
+                  [
+                    {
+                      "name":"Replicate 0"
+                      , "id":1784
+                      , "padding":"0"
+                      , "depth":"32"
+                      , "brief":"Implemented size:512 bytes = (32 words) x (16 bytes per word) | Memory Usage:7 MLABs"
+                      , "details":
+                      [
+                        {
+                          "type":"table"
+                          , "Implemented size":"512 bytes = (32 words) x (16 bytes per word)"
+                          , "Memory Usage":"7 MLABs"
+                          , "Number of physical ports":"2"
+                          , "Number of read ports":"1"
+                          , "Number of write ports":"1"
+                          , "Additional information":"In each private copy:</br>  Variable 'DB' occupies memory words [0-127] and has 1 array element per memory word."
+                          , "Address bit information":"<table><tr><td>Byte address</td><td>b<sub>10</sub></td><td>b<sub>9</sub></td><td>b<sub>8</sub></td><td>b<sub>7</sub></td><td>b<sub>6</sub></td><td>b<sub>5</sub></td><td>b<sub>4</sub></td><td>b<sub>3</sub></td><td>b<sub>2</sub></td><td>b<sub>1</sub></td><td>b<sub>0</sub></td></tr><tr><td>Sub-word bits</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr><td>Word address bits</td><td>b<sub>10</sub></td><td>b<sub>9</sub></td><td>b<sub>8</sub></td><td>b<sub>7</sub></td><td>b<sub>6</sub></td><td><b>0</b></td><td><b>1</b></td><td></td><td></td><td></td><td></td></tr><tr><td>Bank bits</td><td></td><td></td><td></td><td></td><td></td><td><b>0</b></td><td><b>1</b></td><td></td><td></td><td></td><td></td></tr></table>"
+                        }
+                      ]
+                      , "debug":
+                      [
+                        [
+                          {
+                            "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicI/./gemm.tiny.h"
+                            , "line":183
+                          }
+                        ]
+                      ]
+                      , "type":"replicate"
+                      , "children":
+                      [
+                        {
+                          "name":"R"
+                          , "id":1785
+                          , "type":"port"
+                        }
+                        , {
+                          "name":"W"
+                          , "id":1786
+                          , "type":"port"
+                        }
+                      ]
+                      , "copies":
+                      {
+                        "num":1
+                        , "details":
+                        [
+                          {
+                            "type":"table"
+                            , "Width":"16 bytes"
+                            , "Depth per copy (including padding)":"32 words"
+                            , "Number of private copies":"1"
+                            , "Additional information":"In each private copy:</br>  Variable 'DB' occupies memory words [0-127] and has 1 array element per memory word."
+                            , "Address bit information":"<table><tr><td>Byte address</td><td>b<sub>10</sub></td><td>b<sub>9</sub></td><td>b<sub>8</sub></td><td>b<sub>7</sub></td><td>b<sub>6</sub></td><td>b<sub>5</sub></td><td>b<sub>4</sub></td><td>b<sub>3</sub></td><td>b<sub>2</sub></td><td>b<sub>1</sub></td><td>b<sub>0</sub></td></tr><tr><td>Sub-word bits</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr><td>Word address bits</td><td>b<sub>10</sub></td><td>b<sub>9</sub></td><td>b<sub>8</sub></td><td>b<sub>7</sub></td><td>b<sub>6</sub></td><td><b>0</b></td><td><b>1</b></td><td></td><td></td><td></td><td></td></tr><tr><td>Bank bits</td><td></td><td></td><td></td><td></td><td></td><td><b>0</b></td><td><b>1</b></td><td></td><td></td><td></td><td></td></tr></table>"
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+                , {
+                  "name":"Bank 2"
+                  , "id":1787
+                  , "brief":"Memory Usage:7 MLABs | Bank width:16 bytes | Bank depth:32 words | Implemented bank size:512 bytes = (32 words) x (16 bytes per word)"
+                  , "details":
+                  [
+                    {
+                      "type":"table"
+                      , "Memory Usage":"7 MLABs"
+                      , "Bank width":"16 bytes"
+                      , "Bank depth":"32 words"
+                      , "Implemented bank size":"512 bytes = (32 words) x (16 bytes per word)"
+                      , "Number of active ports":"2"
+                      , "Number of read ports":"1"
+                      , "Number of write ports":"1"
+                      , "Additional information":"In each private copy:</br>  Variable 'DB' occupies memory words [0-127] and has 1 array element per memory word."
+                      , "Address bit information":"<table><tr><td>Byte address</td><td>b<sub>10</sub></td><td>b<sub>9</sub></td><td>b<sub>8</sub></td><td>b<sub>7</sub></td><td>b<sub>6</sub></td><td>b<sub>5</sub></td><td>b<sub>4</sub></td><td>b<sub>3</sub></td><td>b<sub>2</sub></td><td>b<sub>1</sub></td><td>b<sub>0</sub></td></tr><tr><td>Sub-word bits</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr><td>Word address bits</td><td>b<sub>10</sub></td><td>b<sub>9</sub></td><td>b<sub>8</sub></td><td>b<sub>7</sub></td><td>b<sub>6</sub></td><td><b>1</b></td><td><b>0</b></td><td></td><td></td><td></td><td></td></tr><tr><td>Bank bits</td><td></td><td></td><td></td><td></td><td></td><td><b>1</b></td><td><b>0</b></td><td></td><td></td><td></td><td></td></tr></table>"
+                    }
+                  ]
+                  , "debug":
+                  [
+                    [
+                      {
+                        "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicI/./gemm.tiny.h"
+                        , "line":183
+                      }
+                    ]
+                  ]
+                  , "type":"bank"
+                  , "children":
+                  [
+                    {
+                      "name":"Replicate 0"
+                      , "id":1788
+                      , "padding":"0"
+                      , "depth":"32"
+                      , "brief":"Implemented size:512 bytes = (32 words) x (16 bytes per word) | Memory Usage:7 MLABs"
+                      , "details":
+                      [
+                        {
+                          "type":"table"
+                          , "Implemented size":"512 bytes = (32 words) x (16 bytes per word)"
+                          , "Memory Usage":"7 MLABs"
+                          , "Number of physical ports":"2"
+                          , "Number of read ports":"1"
+                          , "Number of write ports":"1"
+                          , "Additional information":"In each private copy:</br>  Variable 'DB' occupies memory words [0-127] and has 1 array element per memory word."
+                          , "Address bit information":"<table><tr><td>Byte address</td><td>b<sub>10</sub></td><td>b<sub>9</sub></td><td>b<sub>8</sub></td><td>b<sub>7</sub></td><td>b<sub>6</sub></td><td>b<sub>5</sub></td><td>b<sub>4</sub></td><td>b<sub>3</sub></td><td>b<sub>2</sub></td><td>b<sub>1</sub></td><td>b<sub>0</sub></td></tr><tr><td>Sub-word bits</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr><td>Word address bits</td><td>b<sub>10</sub></td><td>b<sub>9</sub></td><td>b<sub>8</sub></td><td>b<sub>7</sub></td><td>b<sub>6</sub></td><td><b>1</b></td><td><b>0</b></td><td></td><td></td><td></td><td></td></tr><tr><td>Bank bits</td><td></td><td></td><td></td><td></td><td></td><td><b>1</b></td><td><b>0</b></td><td></td><td></td><td></td><td></td></tr></table>"
+                        }
+                      ]
+                      , "debug":
+                      [
+                        [
+                          {
+                            "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicI/./gemm.tiny.h"
+                            , "line":183
+                          }
+                        ]
+                      ]
+                      , "type":"replicate"
+                      , "children":
+                      [
+                        {
+                          "name":"R"
+                          , "id":1789
+                          , "type":"port"
+                        }
+                        , {
+                          "name":"W"
+                          , "id":1790
+                          , "type":"port"
+                        }
+                      ]
+                      , "copies":
+                      {
+                        "num":1
+                        , "details":
+                        [
+                          {
+                            "type":"table"
+                            , "Width":"16 bytes"
+                            , "Depth per copy (including padding)":"32 words"
+                            , "Number of private copies":"1"
+                            , "Additional information":"In each private copy:</br>  Variable 'DB' occupies memory words [0-127] and has 1 array element per memory word."
+                            , "Address bit information":"<table><tr><td>Byte address</td><td>b<sub>10</sub></td><td>b<sub>9</sub></td><td>b<sub>8</sub></td><td>b<sub>7</sub></td><td>b<sub>6</sub></td><td>b<sub>5</sub></td><td>b<sub>4</sub></td><td>b<sub>3</sub></td><td>b<sub>2</sub></td><td>b<sub>1</sub></td><td>b<sub>0</sub></td></tr><tr><td>Sub-word bits</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr><td>Word address bits</td><td>b<sub>10</sub></td><td>b<sub>9</sub></td><td>b<sub>8</sub></td><td>b<sub>7</sub></td><td>b<sub>6</sub></td><td><b>1</b></td><td><b>0</b></td><td></td><td></td><td></td><td></td></tr><tr><td>Bank bits</td><td></td><td></td><td></td><td></td><td></td><td><b>1</b></td><td><b>0</b></td><td></td><td></td><td></td><td></td></tr></table>"
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+                , {
+                  "name":"Bank 3"
+                  , "id":1791
+                  , "brief":"Memory Usage:7 MLABs | Bank width:16 bytes | Bank depth:32 words | Implemented bank size:512 bytes = (32 words) x (16 bytes per word)"
+                  , "details":
+                  [
+                    {
+                      "type":"table"
+                      , "Memory Usage":"7 MLABs"
+                      , "Bank width":"16 bytes"
+                      , "Bank depth":"32 words"
+                      , "Implemented bank size":"512 bytes = (32 words) x (16 bytes per word)"
+                      , "Number of active ports":"2"
+                      , "Number of read ports":"1"
+                      , "Number of write ports":"1"
+                      , "Additional information":"In each private copy:</br>  Variable 'DB' occupies memory words [0-127] and has 1 array element per memory word."
+                      , "Address bit information":"<table><tr><td>Byte address</td><td>b<sub>10</sub></td><td>b<sub>9</sub></td><td>b<sub>8</sub></td><td>b<sub>7</sub></td><td>b<sub>6</sub></td><td>b<sub>5</sub></td><td>b<sub>4</sub></td><td>b<sub>3</sub></td><td>b<sub>2</sub></td><td>b<sub>1</sub></td><td>b<sub>0</sub></td></tr><tr><td>Sub-word bits</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr><td>Word address bits</td><td>b<sub>10</sub></td><td>b<sub>9</sub></td><td>b<sub>8</sub></td><td>b<sub>7</sub></td><td>b<sub>6</sub></td><td><b>1</b></td><td><b>1</b></td><td></td><td></td><td></td><td></td></tr><tr><td>Bank bits</td><td></td><td></td><td></td><td></td><td></td><td><b>1</b></td><td><b>1</b></td><td></td><td></td><td></td><td></td></tr></table>"
+                    }
+                  ]
+                  , "debug":
+                  [
+                    [
+                      {
+                        "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicI/./gemm.tiny.h"
+                        , "line":183
+                      }
+                    ]
+                  ]
+                  , "type":"bank"
+                  , "children":
+                  [
+                    {
+                      "name":"Replicate 0"
+                      , "id":1792
+                      , "padding":"0"
+                      , "depth":"32"
+                      , "brief":"Implemented size:512 bytes = (32 words) x (16 bytes per word) | Memory Usage:7 MLABs"
+                      , "details":
+                      [
+                        {
+                          "type":"table"
+                          , "Implemented size":"512 bytes = (32 words) x (16 bytes per word)"
+                          , "Memory Usage":"7 MLABs"
+                          , "Number of physical ports":"2"
+                          , "Number of read ports":"1"
+                          , "Number of write ports":"1"
+                          , "Additional information":"In each private copy:</br>  Variable 'DB' occupies memory words [0-127] and has 1 array element per memory word."
+                          , "Address bit information":"<table><tr><td>Byte address</td><td>b<sub>10</sub></td><td>b<sub>9</sub></td><td>b<sub>8</sub></td><td>b<sub>7</sub></td><td>b<sub>6</sub></td><td>b<sub>5</sub></td><td>b<sub>4</sub></td><td>b<sub>3</sub></td><td>b<sub>2</sub></td><td>b<sub>1</sub></td><td>b<sub>0</sub></td></tr><tr><td>Sub-word bits</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr><td>Word address bits</td><td>b<sub>10</sub></td><td>b<sub>9</sub></td><td>b<sub>8</sub></td><td>b<sub>7</sub></td><td>b<sub>6</sub></td><td><b>1</b></td><td><b>1</b></td><td></td><td></td><td></td><td></td></tr><tr><td>Bank bits</td><td></td><td></td><td></td><td></td><td></td><td><b>1</b></td><td><b>1</b></td><td></td><td></td><td></td><td></td></tr></table>"
+                        }
+                      ]
+                      , "debug":
+                      [
+                        [
+                          {
+                            "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicI/./gemm.tiny.h"
+                            , "line":183
+                          }
+                        ]
+                      ]
+                      , "type":"replicate"
+                      , "children":
+                      [
+                        {
+                          "name":"R"
+                          , "id":1793
+                          , "type":"port"
+                        }
+                        , {
+                          "name":"W"
+                          , "id":1794
+                          , "type":"port"
+                        }
+                      ]
+                      , "copies":
+                      {
+                        "num":1
+                        , "details":
+                        [
+                          {
+                            "type":"table"
+                            , "Width":"16 bytes"
+                            , "Depth per copy (including padding)":"32 words"
+                            , "Number of private copies":"1"
+                            , "Additional information":"In each private copy:</br>  Variable 'DB' occupies memory words [0-127] and has 1 array element per memory word."
+                            , "Address bit information":"<table><tr><td>Byte address</td><td>b<sub>10</sub></td><td>b<sub>9</sub></td><td>b<sub>8</sub></td><td>b<sub>7</sub></td><td>b<sub>6</sub></td><td>b<sub>5</sub></td><td>b<sub>4</sub></td><td>b<sub>3</sub></td><td>b<sub>2</sub></td><td>b<sub>1</sub></td><td>b<sub>0</sub></td></tr><tr><td>Sub-word bits</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr><td>Word address bits</td><td>b<sub>10</sub></td><td>b<sub>9</sub></td><td>b<sub>8</sub></td><td>b<sub>7</sub></td><td>b<sub>6</sub></td><td><b>1</b></td><td><b>1</b></td><td></td><td></td><td></td><td></td></tr><tr><td>Bank bits</td><td></td><td></td><td></td><td></td><td></td><td><b>1</b></td><td><b>1</b></td><td></td><td></td><td></td><td></td></tr></table>"
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+            , {
+              "name":"aFeeder_channel_array"
+              , "id":1795
+              , "details":
+              [
+                {
+                  "type":"table"
+                  , "Declared at":
+                  [
+                    {
+                      "type":"text"
+                      , "text":"%L"
+                      , "links":
+                      [
+                        {
+                          "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicI/./gemm.tiny.h"
+                          , "line":"177"
+                        }
+                      ]
+                    }
+                  ]
+                  , "Additional information":"This variable is carried through the pipeline in registers (rather than being stored in RAM)"
+                }
+              ]
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicI/./gemm.tiny.h"
+                    , "line":177
+                  }
+                ]
+              ]
+              , "type":"reg"
+            }
+          ]
+        }
+        , {
+          "name":"Load"
+          , "id":1771
+          , "brief":"Width:128 bits | Stall-free:Yes | Type:Pipelined never-stall | Loads from:DB | Start cycle:10 | Latency:3"
+          , "details":
+          [
+            {
+              "type":"table"
+              , "Width":"128 bits"
+              , "Stall-free":"Yes"
+              , "Type":"Pipelined never-stall"
+              , "Loads from":"DB"
+              , "Start cycle":"10"
+              , "Latency":"3"
+              , "Inlined Debug Locations":
+              [
+                {
+                  "type":"text"
+                  , "text":"%L > %L"
+                  , "links":
+                  [
+                    {
+                      "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicI/./gemm.tiny.h"
+                      , "line":"211"
+                    }
+                    , {
+                      "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/handler.hpp"
+                      , "line":"1166"
+                    }
+                  ]
+                }
+              ]
+              , "Reference":
+              [
+                {
+                  "type":"text"
+                  , "text":"See %L for more information"
+                  , "links":
+                  [
+                    {
+                      "guide":"Best Practices Guide : Load-Store Units"
+                      , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/yeo1491314105959.html"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicI/./gemm.tiny.h"
+                , "line":211
+              }
+            ]
+          ]
+          , "type":"inst"
+        }
+        , {
+          "name":"Load"
+          , "id":1772
+          , "brief":"Width:128 bits | Stall-free:Yes | Type:Pipelined never-stall | Loads from:DB | Start cycle:12 | Latency:3"
+          , "details":
+          [
+            {
+              "type":"table"
+              , "Width":"128 bits"
+              , "Stall-free":"Yes"
+              , "Type":"Pipelined never-stall"
+              , "Loads from":"DB"
+              , "Start cycle":"12"
+              , "Latency":"3"
+              , "Inlined Debug Locations":
+              [
+                {
+                  "type":"text"
+                  , "text":"%L > %L"
+                  , "links":
+                  [
+                    {
+                      "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicI/./gemm.tiny.h"
+                      , "line":"211"
+                    }
+                    , {
+                      "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/handler.hpp"
+                      , "line":"1166"
+                    }
+                  ]
+                }
+              ]
+              , "Reference":
+              [
+                {
+                  "type":"text"
+                  , "text":"See %L for more information"
+                  , "links":
+                  [
+                    {
+                      "guide":"Best Practices Guide : Load-Store Units"
+                      , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/yeo1491314105959.html"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicI/./gemm.tiny.h"
+                , "line":211
+              }
+            ]
+          ]
+          , "type":"inst"
+        }
+        , {
+          "name":"Load"
+          , "id":1773
+          , "brief":"Width:128 bits | Stall-free:Yes | Type:Pipelined never-stall | Loads from:DB | Start cycle:14 | Latency:3"
+          , "details":
+          [
+            {
+              "type":"table"
+              , "Width":"128 bits"
+              , "Stall-free":"Yes"
+              , "Type":"Pipelined never-stall"
+              , "Loads from":"DB"
+              , "Start cycle":"14"
+              , "Latency":"3"
+              , "Inlined Debug Locations":
+              [
+                {
+                  "type":"text"
+                  , "text":"%L > %L"
+                  , "links":
+                  [
+                    {
+                      "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicI/./gemm.tiny.h"
+                      , "line":"211"
+                    }
+                    , {
+                      "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/handler.hpp"
+                      , "line":"1166"
+                    }
+                  ]
+                }
+              ]
+              , "Reference":
+              [
+                {
+                  "type":"text"
+                  , "text":"See %L for more information"
+                  , "links":
+                  [
+                    {
+                      "guide":"Best Practices Guide : Load-Store Units"
+                      , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/yeo1491314105959.html"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicI/./gemm.tiny.h"
+                , "line":211
+              }
+            ]
+          ]
+          , "type":"inst"
+        }
+        , {
+          "name":"Load"
+          , "id":1774
+          , "brief":"Width:128 bits | Stall-free:Yes | Type:Pipelined never-stall | Loads from:DB | Start cycle:16 | Latency:3"
+          , "details":
+          [
+            {
+              "type":"table"
+              , "Width":"128 bits"
+              , "Stall-free":"Yes"
+              , "Type":"Pipelined never-stall"
+              , "Loads from":"DB"
+              , "Start cycle":"16"
+              , "Latency":"3"
+              , "Inlined Debug Locations":
+              [
+                {
+                  "type":"text"
+                  , "text":"%L > %L"
+                  , "links":
+                  [
+                    {
+                      "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicI/./gemm.tiny.h"
+                      , "line":"211"
+                    }
+                    , {
+                      "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/handler.hpp"
+                      , "line":"1166"
+                    }
+                  ]
+                }
+              ]
+              , "Reference":
+              [
+                {
+                  "type":"text"
+                  , "text":"See %L for more information"
+                  , "links":
+                  [
+                    {
+                      "guide":"Best Practices Guide : Load-Store Units"
+                      , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/yeo1491314105959.html"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicI/./gemm.tiny.h"
+                , "line":211
+              }
+            ]
+          ]
+          , "type":"inst"
+        }
+        , {
+          "name":"Store"
+          , "id":1775
+          , "brief":"Width:128 bits | Stall-free:Yes | Type:Pipelined never-stall | Stores to:DB | Start cycle:9 | Latency:1"
+          , "details":
+          [
+            {
+              "type":"table"
+              , "Width":"128 bits"
+              , "Stall-free":"Yes"
+              , "Type":"Pipelined never-stall"
+              , "Stores to":"DB"
+              , "Start cycle":"9"
+              , "Latency":"1"
+              , "Inlined Debug Locations":
+              [
+                {
+                  "type":"text"
+                  , "text":"%L > %L"
+                  , "links":
+                  [
+                    {
+                      "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicI/./gemm.tiny.h"
+                      , "line":"208"
+                    }
+                    , {
+                      "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/handler.hpp"
+                      , "line":"1166"
+                    }
+                  ]
+                }
+              ]
+              , "Reference":
+              [
+                {
+                  "type":"text"
+                  , "text":"See %L for more information"
+                  , "links":
+                  [
+                    {
+                      "guide":"Best Practices Guide : Load-Store Units"
+                      , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/yeo1491314105959.html"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicI/./gemm.tiny.h"
+                , "line":208
+              }
+            ]
+          ]
+          , "type":"inst"
+        }
+        , {
+          "name":"Store"
+          , "id":1776
+          , "brief":"Width:128 bits | Stall-free:Yes | Type:Pipelined never-stall | Stores to:DB | Start cycle:11 | Latency:1"
+          , "details":
+          [
+            {
+              "type":"table"
+              , "Width":"128 bits"
+              , "Stall-free":"Yes"
+              , "Type":"Pipelined never-stall"
+              , "Stores to":"DB"
+              , "Start cycle":"11"
+              , "Latency":"1"
+              , "Inlined Debug Locations":
+              [
+                {
+                  "type":"text"
+                  , "text":"%L > %L"
+                  , "links":
+                  [
+                    {
+                      "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicI/./gemm.tiny.h"
+                      , "line":"208"
+                    }
+                    , {
+                      "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/handler.hpp"
+                      , "line":"1166"
+                    }
+                  ]
+                }
+              ]
+              , "Reference":
+              [
+                {
+                  "type":"text"
+                  , "text":"See %L for more information"
+                  , "links":
+                  [
+                    {
+                      "guide":"Best Practices Guide : Load-Store Units"
+                      , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/yeo1491314105959.html"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicI/./gemm.tiny.h"
+                , "line":208
+              }
+            ]
+          ]
+          , "type":"inst"
+        }
+        , {
+          "name":"Store"
+          , "id":1777
+          , "brief":"Width:128 bits | Stall-free:Yes | Type:Pipelined never-stall | Stores to:DB | Start cycle:13 | Latency:1"
+          , "details":
+          [
+            {
+              "type":"table"
+              , "Width":"128 bits"
+              , "Stall-free":"Yes"
+              , "Type":"Pipelined never-stall"
+              , "Stores to":"DB"
+              , "Start cycle":"13"
+              , "Latency":"1"
+              , "Inlined Debug Locations":
+              [
+                {
+                  "type":"text"
+                  , "text":"%L > %L"
+                  , "links":
+                  [
+                    {
+                      "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicI/./gemm.tiny.h"
+                      , "line":"208"
+                    }
+                    , {
+                      "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/handler.hpp"
+                      , "line":"1166"
+                    }
+                  ]
+                }
+              ]
+              , "Reference":
+              [
+                {
+                  "type":"text"
+                  , "text":"See %L for more information"
+                  , "links":
+                  [
+                    {
+                      "guide":"Best Practices Guide : Load-Store Units"
+                      , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/yeo1491314105959.html"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicI/./gemm.tiny.h"
+                , "line":208
+              }
+            ]
+          ]
+          , "type":"inst"
+        }
+        , {
+          "name":"Store"
+          , "id":1778
+          , "brief":"Width:128 bits | Stall-free:Yes | Type:Pipelined never-stall | Stores to:DB | Start cycle:15 | Latency:1"
+          , "details":
+          [
+            {
+              "type":"table"
+              , "Width":"128 bits"
+              , "Stall-free":"Yes"
+              , "Type":"Pipelined never-stall"
+              , "Stores to":"DB"
+              , "Start cycle":"15"
+              , "Latency":"1"
+              , "Inlined Debug Locations":
+              [
+                {
+                  "type":"text"
+                  , "text":"%L > %L"
+                  , "links":
+                  [
+                    {
+                      "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicI/./gemm.tiny.h"
+                      , "line":"208"
+                    }
+                    , {
+                      "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/handler.hpp"
+                      , "line":"1166"
+                    }
+                  ]
+                }
+              ]
+              , "Reference":
+              [
+                {
+                  "type":"text"
+                  , "text":"See %L for more information"
+                  , "links":
+                  [
+                    {
+                      "guide":"Best Practices Guide : Load-Store Units"
+                      , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/yeo1491314105959.html"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicI/./gemm.tiny.h"
+                , "line":208
+              }
+            ]
+          ]
+          , "type":"inst"
+        }
+      ]
+    }
+    , {
+      "name":"kernel_bFeeder"
+      , "id":1796
+      , "type":"kernel"
+      , "children":
+      [
+        {
+          "name":"On-chip Memory"
+          , "id":1797
+          , "type":"memtype"
+          , "children":
+          [
+            {
+              "name":"DB"
+              , "id":1798
+              , "brief":"Implemented size:2048 bytes = (4 banks) x (32 words per bank) x (16 bytes per word) | Memory Usage:28 MLABs | Number of banks:4 | Bank width (word size):16 bytes | Bank depth:32 words | Number of replicates:1 | Number of private copies:1 | RAM Mode:Simple dual-port | Pump configuration:Single-pumped | User defined attributes:memory, singlepump, numbanks(4), simple_dual_port"
+              , "details":
+              [
+                {
+                  "type":"table"
+                  , "Declared at":
+                  [
+                    {
+                      "type":"text"
+                      , "text":"%L"
+                      , "links":
+                      [
+                        {
+                          "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicI/./gemm.tiny.h"
+                          , "line":"264"
+                        }
+                      ]
+                    }
+                  ]
+                  , "Requested size":"2048 bytes"
+                  , "Implemented size":"2048 bytes = (4 banks) x (32 words per bank) x (16 bytes per word)"
+                  , "Memory Usage":"28 MLABs"
+                  , "Number of banks":"4"
+                  , "Bank width (word size)":"16 bytes"
+                  , "Bank depth":"32 words"
+                  , "Number of replicates":"1"
+                  , "Number of private copies":"1"
+                  , "RAM Mode":"Simple dual-port"
+                  , "Pump configuration":"Single-pumped"
+                  , "Additional information":"In each private copy:</br>  Variable 'DB' occupies memory words [0-127] and has 1 array element per memory word."
+                  , "Address bit information":"<table><tr><td>Byte address</td><td>b<sub>10</sub></td><td>b<sub>9</sub></td><td>b<sub>8</sub></td><td>b<sub>7</sub></td><td>b<sub>6</sub></td><td>b<sub>5</sub></td><td>b<sub>4</sub></td><td>b<sub>3</sub></td><td>b<sub>2</sub></td><td>b<sub>1</sub></td><td>b<sub>0</sub></td></tr><tr><td>Sub-word bits</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr><td>Word address bits</td><td>b<sub>10</sub></td><td>b<sub>9</sub></td><td>b<sub>8</sub></td><td>b<sub>7</sub></td><td>b<sub>6</sub></td><td>b<sub>5</sub></td><td>b<sub>4</sub></td><td></td><td></td><td></td><td></td></tr><tr><td>Bank bits</td><td></td><td></td><td></td><td></td><td></td><td>b<sub>5</sub></td><td>b<sub>4</sub></td><td></td><td></td><td></td><td></td></tr></table>"
+                  , "User defined attributes":"memory, singlepump, numbanks(4), simple_dual_port"
+                  , "Reference":
+                  [
+                    {
+                      "type":"text"
+                      , "text":"See %L for more information"
+                      , "links":
+                      [
+                        {
+                          "guide":"Best Practices Guide : Local Memory"
+                          , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/chn1469549457114.html"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicI/./gemm.tiny.h"
+                    , "line":264
+                  }
+                ]
+              ]
+              , "type":"memsys"
+              , "children":
+              [
+                {
+                  "name":"Bank 0"
+                  , "id":1807
+                  , "brief":"Memory Usage:7 MLABs | Bank width:16 bytes | Bank depth:32 words | Implemented bank size:512 bytes = (32 words) x (16 bytes per word)"
+                  , "details":
+                  [
+                    {
+                      "type":"table"
+                      , "Memory Usage":"7 MLABs"
+                      , "Bank width":"16 bytes"
+                      , "Bank depth":"32 words"
+                      , "Implemented bank size":"512 bytes = (32 words) x (16 bytes per word)"
+                      , "Number of active ports":"2"
+                      , "Number of read ports":"1"
+                      , "Number of write ports":"1"
+                      , "Additional information":"In each private copy:</br>  Variable 'DB' occupies memory words [0-127] and has 1 array element per memory word."
+                      , "Address bit information":"<table><tr><td>Byte address</td><td>b<sub>10</sub></td><td>b<sub>9</sub></td><td>b<sub>8</sub></td><td>b<sub>7</sub></td><td>b<sub>6</sub></td><td>b<sub>5</sub></td><td>b<sub>4</sub></td><td>b<sub>3</sub></td><td>b<sub>2</sub></td><td>b<sub>1</sub></td><td>b<sub>0</sub></td></tr><tr><td>Sub-word bits</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr><td>Word address bits</td><td>b<sub>10</sub></td><td>b<sub>9</sub></td><td>b<sub>8</sub></td><td>b<sub>7</sub></td><td>b<sub>6</sub></td><td><b>0</b></td><td><b>0</b></td><td></td><td></td><td></td><td></td></tr><tr><td>Bank bits</td><td></td><td></td><td></td><td></td><td></td><td><b>0</b></td><td><b>0</b></td><td></td><td></td><td></td><td></td></tr></table>"
+                    }
+                  ]
+                  , "debug":
+                  [
+                    [
+                      {
+                        "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicI/./gemm.tiny.h"
+                        , "line":264
+                      }
+                    ]
+                  ]
+                  , "type":"bank"
+                  , "children":
+                  [
+                    {
+                      "name":"Replicate 0"
+                      , "id":1808
+                      , "padding":"0"
+                      , "depth":"32"
+                      , "brief":"Implemented size:512 bytes = (32 words) x (16 bytes per word) | Memory Usage:7 MLABs"
+                      , "details":
+                      [
+                        {
+                          "type":"table"
+                          , "Implemented size":"512 bytes = (32 words) x (16 bytes per word)"
+                          , "Memory Usage":"7 MLABs"
+                          , "Number of physical ports":"2"
+                          , "Number of read ports":"1"
+                          , "Number of write ports":"1"
+                          , "Additional information":"In each private copy:</br>  Variable 'DB' occupies memory words [0-127] and has 1 array element per memory word."
+                          , "Address bit information":"<table><tr><td>Byte address</td><td>b<sub>10</sub></td><td>b<sub>9</sub></td><td>b<sub>8</sub></td><td>b<sub>7</sub></td><td>b<sub>6</sub></td><td>b<sub>5</sub></td><td>b<sub>4</sub></td><td>b<sub>3</sub></td><td>b<sub>2</sub></td><td>b<sub>1</sub></td><td>b<sub>0</sub></td></tr><tr><td>Sub-word bits</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr><td>Word address bits</td><td>b<sub>10</sub></td><td>b<sub>9</sub></td><td>b<sub>8</sub></td><td>b<sub>7</sub></td><td>b<sub>6</sub></td><td><b>0</b></td><td><b>0</b></td><td></td><td></td><td></td><td></td></tr><tr><td>Bank bits</td><td></td><td></td><td></td><td></td><td></td><td><b>0</b></td><td><b>0</b></td><td></td><td></td><td></td><td></td></tr></table>"
+                        }
+                      ]
+                      , "debug":
+                      [
+                        [
+                          {
+                            "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicI/./gemm.tiny.h"
+                            , "line":264
+                          }
+                        ]
+                      ]
+                      , "type":"replicate"
+                      , "children":
+                      [
+                        {
+                          "name":"R"
+                          , "id":1809
+                          , "type":"port"
+                        }
+                        , {
+                          "name":"W"
+                          , "id":1810
+                          , "type":"port"
+                        }
+                      ]
+                      , "copies":
+                      {
+                        "num":1
+                        , "details":
+                        [
+                          {
+                            "type":"table"
+                            , "Width":"16 bytes"
+                            , "Depth per copy (including padding)":"32 words"
+                            , "Number of private copies":"1"
+                            , "Additional information":"In each private copy:</br>  Variable 'DB' occupies memory words [0-127] and has 1 array element per memory word."
+                            , "Address bit information":"<table><tr><td>Byte address</td><td>b<sub>10</sub></td><td>b<sub>9</sub></td><td>b<sub>8</sub></td><td>b<sub>7</sub></td><td>b<sub>6</sub></td><td>b<sub>5</sub></td><td>b<sub>4</sub></td><td>b<sub>3</sub></td><td>b<sub>2</sub></td><td>b<sub>1</sub></td><td>b<sub>0</sub></td></tr><tr><td>Sub-word bits</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr><td>Word address bits</td><td>b<sub>10</sub></td><td>b<sub>9</sub></td><td>b<sub>8</sub></td><td>b<sub>7</sub></td><td>b<sub>6</sub></td><td><b>0</b></td><td><b>0</b></td><td></td><td></td><td></td><td></td></tr><tr><td>Bank bits</td><td></td><td></td><td></td><td></td><td></td><td><b>0</b></td><td><b>0</b></td><td></td><td></td><td></td><td></td></tr></table>"
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+                , {
+                  "name":"Bank 1"
+                  , "id":1811
+                  , "brief":"Memory Usage:7 MLABs | Bank width:16 bytes | Bank depth:32 words | Implemented bank size:512 bytes = (32 words) x (16 bytes per word)"
+                  , "details":
+                  [
+                    {
+                      "type":"table"
+                      , "Memory Usage":"7 MLABs"
+                      , "Bank width":"16 bytes"
+                      , "Bank depth":"32 words"
+                      , "Implemented bank size":"512 bytes = (32 words) x (16 bytes per word)"
+                      , "Number of active ports":"2"
+                      , "Number of read ports":"1"
+                      , "Number of write ports":"1"
+                      , "Additional information":"In each private copy:</br>  Variable 'DB' occupies memory words [0-127] and has 1 array element per memory word."
+                      , "Address bit information":"<table><tr><td>Byte address</td><td>b<sub>10</sub></td><td>b<sub>9</sub></td><td>b<sub>8</sub></td><td>b<sub>7</sub></td><td>b<sub>6</sub></td><td>b<sub>5</sub></td><td>b<sub>4</sub></td><td>b<sub>3</sub></td><td>b<sub>2</sub></td><td>b<sub>1</sub></td><td>b<sub>0</sub></td></tr><tr><td>Sub-word bits</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr><td>Word address bits</td><td>b<sub>10</sub></td><td>b<sub>9</sub></td><td>b<sub>8</sub></td><td>b<sub>7</sub></td><td>b<sub>6</sub></td><td><b>0</b></td><td><b>1</b></td><td></td><td></td><td></td><td></td></tr><tr><td>Bank bits</td><td></td><td></td><td></td><td></td><td></td><td><b>0</b></td><td><b>1</b></td><td></td><td></td><td></td><td></td></tr></table>"
+                    }
+                  ]
+                  , "debug":
+                  [
+                    [
+                      {
+                        "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicI/./gemm.tiny.h"
+                        , "line":264
+                      }
+                    ]
+                  ]
+                  , "type":"bank"
+                  , "children":
+                  [
+                    {
+                      "name":"Replicate 0"
+                      , "id":1812
+                      , "padding":"0"
+                      , "depth":"32"
+                      , "brief":"Implemented size:512 bytes = (32 words) x (16 bytes per word) | Memory Usage:7 MLABs"
+                      , "details":
+                      [
+                        {
+                          "type":"table"
+                          , "Implemented size":"512 bytes = (32 words) x (16 bytes per word)"
+                          , "Memory Usage":"7 MLABs"
+                          , "Number of physical ports":"2"
+                          , "Number of read ports":"1"
+                          , "Number of write ports":"1"
+                          , "Additional information":"In each private copy:</br>  Variable 'DB' occupies memory words [0-127] and has 1 array element per memory word."
+                          , "Address bit information":"<table><tr><td>Byte address</td><td>b<sub>10</sub></td><td>b<sub>9</sub></td><td>b<sub>8</sub></td><td>b<sub>7</sub></td><td>b<sub>6</sub></td><td>b<sub>5</sub></td><td>b<sub>4</sub></td><td>b<sub>3</sub></td><td>b<sub>2</sub></td><td>b<sub>1</sub></td><td>b<sub>0</sub></td></tr><tr><td>Sub-word bits</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr><td>Word address bits</td><td>b<sub>10</sub></td><td>b<sub>9</sub></td><td>b<sub>8</sub></td><td>b<sub>7</sub></td><td>b<sub>6</sub></td><td><b>0</b></td><td><b>1</b></td><td></td><td></td><td></td><td></td></tr><tr><td>Bank bits</td><td></td><td></td><td></td><td></td><td></td><td><b>0</b></td><td><b>1</b></td><td></td><td></td><td></td><td></td></tr></table>"
+                        }
+                      ]
+                      , "debug":
+                      [
+                        [
+                          {
+                            "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicI/./gemm.tiny.h"
+                            , "line":264
+                          }
+                        ]
+                      ]
+                      , "type":"replicate"
+                      , "children":
+                      [
+                        {
+                          "name":"R"
+                          , "id":1813
+                          , "type":"port"
+                        }
+                        , {
+                          "name":"W"
+                          , "id":1814
+                          , "type":"port"
+                        }
+                      ]
+                      , "copies":
+                      {
+                        "num":1
+                        , "details":
+                        [
+                          {
+                            "type":"table"
+                            , "Width":"16 bytes"
+                            , "Depth per copy (including padding)":"32 words"
+                            , "Number of private copies":"1"
+                            , "Additional information":"In each private copy:</br>  Variable 'DB' occupies memory words [0-127] and has 1 array element per memory word."
+                            , "Address bit information":"<table><tr><td>Byte address</td><td>b<sub>10</sub></td><td>b<sub>9</sub></td><td>b<sub>8</sub></td><td>b<sub>7</sub></td><td>b<sub>6</sub></td><td>b<sub>5</sub></td><td>b<sub>4</sub></td><td>b<sub>3</sub></td><td>b<sub>2</sub></td><td>b<sub>1</sub></td><td>b<sub>0</sub></td></tr><tr><td>Sub-word bits</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr><td>Word address bits</td><td>b<sub>10</sub></td><td>b<sub>9</sub></td><td>b<sub>8</sub></td><td>b<sub>7</sub></td><td>b<sub>6</sub></td><td><b>0</b></td><td><b>1</b></td><td></td><td></td><td></td><td></td></tr><tr><td>Bank bits</td><td></td><td></td><td></td><td></td><td></td><td><b>0</b></td><td><b>1</b></td><td></td><td></td><td></td><td></td></tr></table>"
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+                , {
+                  "name":"Bank 2"
+                  , "id":1815
+                  , "brief":"Memory Usage:7 MLABs | Bank width:16 bytes | Bank depth:32 words | Implemented bank size:512 bytes = (32 words) x (16 bytes per word)"
+                  , "details":
+                  [
+                    {
+                      "type":"table"
+                      , "Memory Usage":"7 MLABs"
+                      , "Bank width":"16 bytes"
+                      , "Bank depth":"32 words"
+                      , "Implemented bank size":"512 bytes = (32 words) x (16 bytes per word)"
+                      , "Number of active ports":"2"
+                      , "Number of read ports":"1"
+                      , "Number of write ports":"1"
+                      , "Additional information":"In each private copy:</br>  Variable 'DB' occupies memory words [0-127] and has 1 array element per memory word."
+                      , "Address bit information":"<table><tr><td>Byte address</td><td>b<sub>10</sub></td><td>b<sub>9</sub></td><td>b<sub>8</sub></td><td>b<sub>7</sub></td><td>b<sub>6</sub></td><td>b<sub>5</sub></td><td>b<sub>4</sub></td><td>b<sub>3</sub></td><td>b<sub>2</sub></td><td>b<sub>1</sub></td><td>b<sub>0</sub></td></tr><tr><td>Sub-word bits</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr><td>Word address bits</td><td>b<sub>10</sub></td><td>b<sub>9</sub></td><td>b<sub>8</sub></td><td>b<sub>7</sub></td><td>b<sub>6</sub></td><td><b>1</b></td><td><b>0</b></td><td></td><td></td><td></td><td></td></tr><tr><td>Bank bits</td><td></td><td></td><td></td><td></td><td></td><td><b>1</b></td><td><b>0</b></td><td></td><td></td><td></td><td></td></tr></table>"
+                    }
+                  ]
+                  , "debug":
+                  [
+                    [
+                      {
+                        "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicI/./gemm.tiny.h"
+                        , "line":264
+                      }
+                    ]
+                  ]
+                  , "type":"bank"
+                  , "children":
+                  [
+                    {
+                      "name":"Replicate 0"
+                      , "id":1816
+                      , "padding":"0"
+                      , "depth":"32"
+                      , "brief":"Implemented size:512 bytes = (32 words) x (16 bytes per word) | Memory Usage:7 MLABs"
+                      , "details":
+                      [
+                        {
+                          "type":"table"
+                          , "Implemented size":"512 bytes = (32 words) x (16 bytes per word)"
+                          , "Memory Usage":"7 MLABs"
+                          , "Number of physical ports":"2"
+                          , "Number of read ports":"1"
+                          , "Number of write ports":"1"
+                          , "Additional information":"In each private copy:</br>  Variable 'DB' occupies memory words [0-127] and has 1 array element per memory word."
+                          , "Address bit information":"<table><tr><td>Byte address</td><td>b<sub>10</sub></td><td>b<sub>9</sub></td><td>b<sub>8</sub></td><td>b<sub>7</sub></td><td>b<sub>6</sub></td><td>b<sub>5</sub></td><td>b<sub>4</sub></td><td>b<sub>3</sub></td><td>b<sub>2</sub></td><td>b<sub>1</sub></td><td>b<sub>0</sub></td></tr><tr><td>Sub-word bits</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr><td>Word address bits</td><td>b<sub>10</sub></td><td>b<sub>9</sub></td><td>b<sub>8</sub></td><td>b<sub>7</sub></td><td>b<sub>6</sub></td><td><b>1</b></td><td><b>0</b></td><td></td><td></td><td></td><td></td></tr><tr><td>Bank bits</td><td></td><td></td><td></td><td></td><td></td><td><b>1</b></td><td><b>0</b></td><td></td><td></td><td></td><td></td></tr></table>"
+                        }
+                      ]
+                      , "debug":
+                      [
+                        [
+                          {
+                            "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicI/./gemm.tiny.h"
+                            , "line":264
+                          }
+                        ]
+                      ]
+                      , "type":"replicate"
+                      , "children":
+                      [
+                        {
+                          "name":"R"
+                          , "id":1817
+                          , "type":"port"
+                        }
+                        , {
+                          "name":"W"
+                          , "id":1818
+                          , "type":"port"
+                        }
+                      ]
+                      , "copies":
+                      {
+                        "num":1
+                        , "details":
+                        [
+                          {
+                            "type":"table"
+                            , "Width":"16 bytes"
+                            , "Depth per copy (including padding)":"32 words"
+                            , "Number of private copies":"1"
+                            , "Additional information":"In each private copy:</br>  Variable 'DB' occupies memory words [0-127] and has 1 array element per memory word."
+                            , "Address bit information":"<table><tr><td>Byte address</td><td>b<sub>10</sub></td><td>b<sub>9</sub></td><td>b<sub>8</sub></td><td>b<sub>7</sub></td><td>b<sub>6</sub></td><td>b<sub>5</sub></td><td>b<sub>4</sub></td><td>b<sub>3</sub></td><td>b<sub>2</sub></td><td>b<sub>1</sub></td><td>b<sub>0</sub></td></tr><tr><td>Sub-word bits</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr><td>Word address bits</td><td>b<sub>10</sub></td><td>b<sub>9</sub></td><td>b<sub>8</sub></td><td>b<sub>7</sub></td><td>b<sub>6</sub></td><td><b>1</b></td><td><b>0</b></td><td></td><td></td><td></td><td></td></tr><tr><td>Bank bits</td><td></td><td></td><td></td><td></td><td></td><td><b>1</b></td><td><b>0</b></td><td></td><td></td><td></td><td></td></tr></table>"
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+                , {
+                  "name":"Bank 3"
+                  , "id":1819
+                  , "brief":"Memory Usage:7 MLABs | Bank width:16 bytes | Bank depth:32 words | Implemented bank size:512 bytes = (32 words) x (16 bytes per word)"
+                  , "details":
+                  [
+                    {
+                      "type":"table"
+                      , "Memory Usage":"7 MLABs"
+                      , "Bank width":"16 bytes"
+                      , "Bank depth":"32 words"
+                      , "Implemented bank size":"512 bytes = (32 words) x (16 bytes per word)"
+                      , "Number of active ports":"2"
+                      , "Number of read ports":"1"
+                      , "Number of write ports":"1"
+                      , "Additional information":"In each private copy:</br>  Variable 'DB' occupies memory words [0-127] and has 1 array element per memory word."
+                      , "Address bit information":"<table><tr><td>Byte address</td><td>b<sub>10</sub></td><td>b<sub>9</sub></td><td>b<sub>8</sub></td><td>b<sub>7</sub></td><td>b<sub>6</sub></td><td>b<sub>5</sub></td><td>b<sub>4</sub></td><td>b<sub>3</sub></td><td>b<sub>2</sub></td><td>b<sub>1</sub></td><td>b<sub>0</sub></td></tr><tr><td>Sub-word bits</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr><td>Word address bits</td><td>b<sub>10</sub></td><td>b<sub>9</sub></td><td>b<sub>8</sub></td><td>b<sub>7</sub></td><td>b<sub>6</sub></td><td><b>1</b></td><td><b>1</b></td><td></td><td></td><td></td><td></td></tr><tr><td>Bank bits</td><td></td><td></td><td></td><td></td><td></td><td><b>1</b></td><td><b>1</b></td><td></td><td></td><td></td><td></td></tr></table>"
+                    }
+                  ]
+                  , "debug":
+                  [
+                    [
+                      {
+                        "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicI/./gemm.tiny.h"
+                        , "line":264
+                      }
+                    ]
+                  ]
+                  , "type":"bank"
+                  , "children":
+                  [
+                    {
+                      "name":"Replicate 0"
+                      , "id":1820
+                      , "padding":"0"
+                      , "depth":"32"
+                      , "brief":"Implemented size:512 bytes = (32 words) x (16 bytes per word) | Memory Usage:7 MLABs"
+                      , "details":
+                      [
+                        {
+                          "type":"table"
+                          , "Implemented size":"512 bytes = (32 words) x (16 bytes per word)"
+                          , "Memory Usage":"7 MLABs"
+                          , "Number of physical ports":"2"
+                          , "Number of read ports":"1"
+                          , "Number of write ports":"1"
+                          , "Additional information":"In each private copy:</br>  Variable 'DB' occupies memory words [0-127] and has 1 array element per memory word."
+                          , "Address bit information":"<table><tr><td>Byte address</td><td>b<sub>10</sub></td><td>b<sub>9</sub></td><td>b<sub>8</sub></td><td>b<sub>7</sub></td><td>b<sub>6</sub></td><td>b<sub>5</sub></td><td>b<sub>4</sub></td><td>b<sub>3</sub></td><td>b<sub>2</sub></td><td>b<sub>1</sub></td><td>b<sub>0</sub></td></tr><tr><td>Sub-word bits</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr><td>Word address bits</td><td>b<sub>10</sub></td><td>b<sub>9</sub></td><td>b<sub>8</sub></td><td>b<sub>7</sub></td><td>b<sub>6</sub></td><td><b>1</b></td><td><b>1</b></td><td></td><td></td><td></td><td></td></tr><tr><td>Bank bits</td><td></td><td></td><td></td><td></td><td></td><td><b>1</b></td><td><b>1</b></td><td></td><td></td><td></td><td></td></tr></table>"
+                        }
+                      ]
+                      , "debug":
+                      [
+                        [
+                          {
+                            "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicI/./gemm.tiny.h"
+                            , "line":264
+                          }
+                        ]
+                      ]
+                      , "type":"replicate"
+                      , "children":
+                      [
+                        {
+                          "name":"R"
+                          , "id":1821
+                          , "type":"port"
+                        }
+                        , {
+                          "name":"W"
+                          , "id":1822
+                          , "type":"port"
+                        }
+                      ]
+                      , "copies":
+                      {
+                        "num":1
+                        , "details":
+                        [
+                          {
+                            "type":"table"
+                            , "Width":"16 bytes"
+                            , "Depth per copy (including padding)":"32 words"
+                            , "Number of private copies":"1"
+                            , "Additional information":"In each private copy:</br>  Variable 'DB' occupies memory words [0-127] and has 1 array element per memory word."
+                            , "Address bit information":"<table><tr><td>Byte address</td><td>b<sub>10</sub></td><td>b<sub>9</sub></td><td>b<sub>8</sub></td><td>b<sub>7</sub></td><td>b<sub>6</sub></td><td>b<sub>5</sub></td><td>b<sub>4</sub></td><td>b<sub>3</sub></td><td>b<sub>2</sub></td><td>b<sub>1</sub></td><td>b<sub>0</sub></td></tr><tr><td>Sub-word bits</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr><td>Word address bits</td><td>b<sub>10</sub></td><td>b<sub>9</sub></td><td>b<sub>8</sub></td><td>b<sub>7</sub></td><td>b<sub>6</sub></td><td><b>1</b></td><td><b>1</b></td><td></td><td></td><td></td><td></td></tr><tr><td>Bank bits</td><td></td><td></td><td></td><td></td><td></td><td><b>1</b></td><td><b>1</b></td><td></td><td></td><td></td><td></td></tr></table>"
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+            , {
+              "name":"bFeeder_channel_array"
+              , "id":1823
+              , "details":
+              [
+                {
+                  "type":"table"
+                  , "Declared at":
+                  [
+                    {
+                      "type":"text"
+                      , "text":"%L"
+                      , "links":
+                      [
+                        {
+                          "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicI/./gemm.tiny.h"
+                          , "line":"258"
+                        }
+                      ]
+                    }
+                  ]
+                  , "Additional information":"This variable is carried through the pipeline in registers (rather than being stored in RAM)"
+                }
+              ]
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicI/./gemm.tiny.h"
+                    , "line":258
+                  }
+                ]
+              ]
+              , "type":"reg"
+            }
+          ]
+        }
+        , {
+          "name":"Load"
+          , "id":1799
+          , "brief":"Width:128 bits | Stall-free:Yes | Type:Pipelined never-stall | Loads from:DB | Start cycle:10 | Latency:3"
+          , "details":
+          [
+            {
+              "type":"table"
+              , "Width":"128 bits"
+              , "Stall-free":"Yes"
+              , "Type":"Pipelined never-stall"
+              , "Loads from":"DB"
+              , "Start cycle":"10"
+              , "Latency":"3"
+              , "Inlined Debug Locations":
+              [
+                {
+                  "type":"text"
+                  , "text":"%L > %L"
+                  , "links":
+                  [
+                    {
+                      "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicI/./gemm.tiny.h"
+                      , "line":"292"
+                    }
+                    , {
+                      "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/handler.hpp"
+                      , "line":"1166"
+                    }
+                  ]
+                }
+              ]
+              , "Reference":
+              [
+                {
+                  "type":"text"
+                  , "text":"See %L for more information"
+                  , "links":
+                  [
+                    {
+                      "guide":"Best Practices Guide : Load-Store Units"
+                      , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/yeo1491314105959.html"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicI/./gemm.tiny.h"
+                , "line":292
+              }
+            ]
+          ]
+          , "type":"inst"
+        }
+        , {
+          "name":"Load"
+          , "id":1800
+          , "brief":"Width:128 bits | Stall-free:Yes | Type:Pipelined never-stall | Loads from:DB | Start cycle:12 | Latency:3"
+          , "details":
+          [
+            {
+              "type":"table"
+              , "Width":"128 bits"
+              , "Stall-free":"Yes"
+              , "Type":"Pipelined never-stall"
+              , "Loads from":"DB"
+              , "Start cycle":"12"
+              , "Latency":"3"
+              , "Inlined Debug Locations":
+              [
+                {
+                  "type":"text"
+                  , "text":"%L > %L"
+                  , "links":
+                  [
+                    {
+                      "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicI/./gemm.tiny.h"
+                      , "line":"292"
+                    }
+                    , {
+                      "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/handler.hpp"
+                      , "line":"1166"
+                    }
+                  ]
+                }
+              ]
+              , "Reference":
+              [
+                {
+                  "type":"text"
+                  , "text":"See %L for more information"
+                  , "links":
+                  [
+                    {
+                      "guide":"Best Practices Guide : Load-Store Units"
+                      , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/yeo1491314105959.html"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicI/./gemm.tiny.h"
+                , "line":292
+              }
+            ]
+          ]
+          , "type":"inst"
+        }
+        , {
+          "name":"Load"
+          , "id":1801
+          , "brief":"Width:128 bits | Stall-free:Yes | Type:Pipelined never-stall | Loads from:DB | Start cycle:14 | Latency:3"
+          , "details":
+          [
+            {
+              "type":"table"
+              , "Width":"128 bits"
+              , "Stall-free":"Yes"
+              , "Type":"Pipelined never-stall"
+              , "Loads from":"DB"
+              , "Start cycle":"14"
+              , "Latency":"3"
+              , "Inlined Debug Locations":
+              [
+                {
+                  "type":"text"
+                  , "text":"%L > %L"
+                  , "links":
+                  [
+                    {
+                      "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicI/./gemm.tiny.h"
+                      , "line":"292"
+                    }
+                    , {
+                      "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/handler.hpp"
+                      , "line":"1166"
+                    }
+                  ]
+                }
+              ]
+              , "Reference":
+              [
+                {
+                  "type":"text"
+                  , "text":"See %L for more information"
+                  , "links":
+                  [
+                    {
+                      "guide":"Best Practices Guide : Load-Store Units"
+                      , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/yeo1491314105959.html"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicI/./gemm.tiny.h"
+                , "line":292
+              }
+            ]
+          ]
+          , "type":"inst"
+        }
+        , {
+          "name":"Load"
+          , "id":1802
+          , "brief":"Width:128 bits | Stall-free:Yes | Type:Pipelined never-stall | Loads from:DB | Start cycle:16 | Latency:3"
+          , "details":
+          [
+            {
+              "type":"table"
+              , "Width":"128 bits"
+              , "Stall-free":"Yes"
+              , "Type":"Pipelined never-stall"
+              , "Loads from":"DB"
+              , "Start cycle":"16"
+              , "Latency":"3"
+              , "Inlined Debug Locations":
+              [
+                {
+                  "type":"text"
+                  , "text":"%L > %L"
+                  , "links":
+                  [
+                    {
+                      "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicI/./gemm.tiny.h"
+                      , "line":"292"
+                    }
+                    , {
+                      "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/handler.hpp"
+                      , "line":"1166"
+                    }
+                  ]
+                }
+              ]
+              , "Reference":
+              [
+                {
+                  "type":"text"
+                  , "text":"See %L for more information"
+                  , "links":
+                  [
+                    {
+                      "guide":"Best Practices Guide : Load-Store Units"
+                      , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/yeo1491314105959.html"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicI/./gemm.tiny.h"
+                , "line":292
+              }
+            ]
+          ]
+          , "type":"inst"
+        }
+        , {
+          "name":"Store"
+          , "id":1803
+          , "brief":"Width:128 bits | Stall-free:Yes | Type:Pipelined never-stall | Stores to:DB | Start cycle:9 | Latency:1"
+          , "details":
+          [
+            {
+              "type":"table"
+              , "Width":"128 bits"
+              , "Stall-free":"Yes"
+              , "Type":"Pipelined never-stall"
+              , "Stores to":"DB"
+              , "Start cycle":"9"
+              , "Latency":"1"
+              , "Inlined Debug Locations":
+              [
+                {
+                  "type":"text"
+                  , "text":"%L > %L"
+                  , "links":
+                  [
+                    {
+                      "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicI/./gemm.tiny.h"
+                      , "line":"289"
+                    }
+                    , {
+                      "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/handler.hpp"
+                      , "line":"1166"
+                    }
+                  ]
+                }
+              ]
+              , "Reference":
+              [
+                {
+                  "type":"text"
+                  , "text":"See %L for more information"
+                  , "links":
+                  [
+                    {
+                      "guide":"Best Practices Guide : Load-Store Units"
+                      , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/yeo1491314105959.html"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicI/./gemm.tiny.h"
+                , "line":289
+              }
+            ]
+          ]
+          , "type":"inst"
+        }
+        , {
+          "name":"Store"
+          , "id":1804
+          , "brief":"Width:128 bits | Stall-free:Yes | Type:Pipelined never-stall | Stores to:DB | Start cycle:11 | Latency:1"
+          , "details":
+          [
+            {
+              "type":"table"
+              , "Width":"128 bits"
+              , "Stall-free":"Yes"
+              , "Type":"Pipelined never-stall"
+              , "Stores to":"DB"
+              , "Start cycle":"11"
+              , "Latency":"1"
+              , "Inlined Debug Locations":
+              [
+                {
+                  "type":"text"
+                  , "text":"%L > %L"
+                  , "links":
+                  [
+                    {
+                      "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicI/./gemm.tiny.h"
+                      , "line":"289"
+                    }
+                    , {
+                      "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/handler.hpp"
+                      , "line":"1166"
+                    }
+                  ]
+                }
+              ]
+              , "Reference":
+              [
+                {
+                  "type":"text"
+                  , "text":"See %L for more information"
+                  , "links":
+                  [
+                    {
+                      "guide":"Best Practices Guide : Load-Store Units"
+                      , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/yeo1491314105959.html"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicI/./gemm.tiny.h"
+                , "line":289
+              }
+            ]
+          ]
+          , "type":"inst"
+        }
+        , {
+          "name":"Store"
+          , "id":1805
+          , "brief":"Width:128 bits | Stall-free:Yes | Type:Pipelined never-stall | Stores to:DB | Start cycle:13 | Latency:1"
+          , "details":
+          [
+            {
+              "type":"table"
+              , "Width":"128 bits"
+              , "Stall-free":"Yes"
+              , "Type":"Pipelined never-stall"
+              , "Stores to":"DB"
+              , "Start cycle":"13"
+              , "Latency":"1"
+              , "Inlined Debug Locations":
+              [
+                {
+                  "type":"text"
+                  , "text":"%L > %L"
+                  , "links":
+                  [
+                    {
+                      "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicI/./gemm.tiny.h"
+                      , "line":"289"
+                    }
+                    , {
+                      "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/handler.hpp"
+                      , "line":"1166"
+                    }
+                  ]
+                }
+              ]
+              , "Reference":
+              [
+                {
+                  "type":"text"
+                  , "text":"See %L for more information"
+                  , "links":
+                  [
+                    {
+                      "guide":"Best Practices Guide : Load-Store Units"
+                      , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/yeo1491314105959.html"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicI/./gemm.tiny.h"
+                , "line":289
+              }
+            ]
+          ]
+          , "type":"inst"
+        }
+        , {
+          "name":"Store"
+          , "id":1806
+          , "brief":"Width:128 bits | Stall-free:Yes | Type:Pipelined never-stall | Stores to:DB | Start cycle:15 | Latency:1"
+          , "details":
+          [
+            {
+              "type":"table"
+              , "Width":"128 bits"
+              , "Stall-free":"Yes"
+              , "Type":"Pipelined never-stall"
+              , "Stores to":"DB"
+              , "Start cycle":"15"
+              , "Latency":"1"
+              , "Inlined Debug Locations":
+              [
+                {
+                  "type":"text"
+                  , "text":"%L > %L"
+                  , "links":
+                  [
+                    {
+                      "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicI/./gemm.tiny.h"
+                      , "line":"289"
+                    }
+                    , {
+                      "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/handler.hpp"
+                      , "line":"1166"
+                    }
+                  ]
+                }
+              ]
+              , "Reference":
+              [
+                {
+                  "type":"text"
+                  , "text":"See %L for more information"
+                  , "links":
+                  [
+                    {
+                      "guide":"Best Practices Guide : Load-Store Units"
+                      , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/yeo1491314105959.html"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicI/./gemm.tiny.h"
+                , "line":289
+              }
+            ]
+          ]
+          , "type":"inst"
+        }
+      ]
+    }
+    , {
+      "name":"kernel_Product"
+      , "id":1824
+      , "type":"kernel"
+      , "children":
+      [
+        {
+          "name":"On-chip Memory"
+          , "id":1825
+          , "type":"memtype"
+          , "children":
+          [
+            {
+              "name":"bFeeder_channel_array"
+              , "id":1826
+              , "details":
+              [
+                {
+                  "type":"table"
+                  , "Declared at":
+                  [
+                    {
+                      "type":"text"
+                      , "text":"%L"
+                      , "links":
+                      [
+                        {
+                          "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicI/./gemm.tiny.h"
+                          , "line":"307"
+                        }
+                      ]
+                    }
+                  ]
+                  , "Additional information":"This variable is carried through the pipeline in registers (rather than being stored in RAM)"
+                }
+              ]
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicI/./gemm.tiny.h"
+                    , "line":307
+                  }
+                ]
+              ]
+              , "type":"reg"
+            }
+            , {
+              "name":"aFeeder_channel_array"
+              , "id":1827
+              , "details":
+              [
+                {
+                  "type":"table"
+                  , "Declared at":
+                  [
+                    {
+                      "type":"text"
+                      , "text":"%L"
+                      , "links":
+                      [
+                        {
+                          "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicI/./gemm.tiny.h"
+                          , "line":"308"
+                        }
+                      ]
+                    }
+                  ]
+                  , "Additional information":"This variable is carried through the pipeline in registers (rather than being stored in RAM)"
+                }
+              ]
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicI/./gemm.tiny.h"
+                    , "line":308
+                  }
+                ]
+              ]
+              , "type":"reg"
+            }
+            , {
+              "name":"Z_shreg"
+              , "id":1828
+              , "details":
+              [
+                {
+                  "type":"table"
+                  , "Declared at":
+                  [
+                    {
+                      "type":"text"
+                      , "text":"%L"
+                      , "links":
+                      [
+                        {
+                          "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicI/./gemm.tiny.h"
+                          , "line":"309"
+                        }
+                      ]
+                    }
+                  ]
+                  , "Additional information":"This variable is carried through the pipeline in registers (rather than being stored in RAM)"
+                }
+              ]
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicI/./gemm.tiny.h"
+                    , "line":309
+                  }
+                ]
+              ]
+              , "type":"reg"
+            }
+            , {
+              "name":"Z_pipe_shreg"
+              , "id":1829
+              , "details":
+              [
+                {
+                  "type":"table"
+                  , "Declared at":
+                  [
+                    {
+                      "type":"text"
+                      , "text":"%L"
+                      , "links":
+                      [
+                        {
+                          "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicI/./gemm.tiny.h"
+                          , "line":"310"
+                        }
+                      ]
+                    }
+                  ]
+                  , "Additional information":"This variable is carried through the pipeline in registers (rather than being stored in RAM)"
+                }
+              ]
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicI/./gemm.tiny.h"
+                    , "line":310
+                  }
+                ]
+              ]
+              , "type":"reg"
+            }
+            , {
+              "name":"Y_shreg"
+              , "id":1830
+              , "details":
+              [
+                {
+                  "type":"table"
+                  , "Declared at":
+                  [
+                    {
+                      "type":"text"
+                      , "text":"%L"
+                      , "links":
+                      [
+                        {
+                          "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicI/./gemm.tiny.h"
+                          , "line":"311"
+                        }
+                      ]
+                    }
+                  ]
+                  , "Additional information":"This variable is carried through the pipeline in registers (rather than being stored in RAM)"
+                }
+              ]
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicI/./gemm.tiny.h"
+                    , "line":311
+                  }
+                ]
+              ]
+              , "type":"reg"
+            }
+            , {
+              "name":"Z"
+              , "id":1831
+              , "details":
+              [
+                {
+                  "type":"table"
+                  , "Declared at":
+                  [
+                    {
+                      "type":"text"
+                      , "text":"%L"
+                      , "links":
+                      [
+                        {
+                          "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicI/./gemm.tiny.h"
+                          , "line":"312"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicI/./gemm.tiny.h"
+                    , "line":312
+                  }
+                ]
+              ]
+              , "type":"unsynth"
+            }
+            , {
+              "name":"X_shreg"
+              , "id":1832
+              , "details":
+              [
+                {
+                  "type":"table"
+                  , "Declared at":
+                  [
+                    {
+                      "type":"text"
+                      , "text":"%L"
+                      , "links":
+                      [
+                        {
+                          "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicI/./gemm.tiny.h"
+                          , "line":"313"
+                        }
+                      ]
+                    }
+                  ]
+                  , "Additional information":"This variable is carried through the pipeline in registers (rather than being stored in RAM)"
+                }
+              ]
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicI/./gemm.tiny.h"
+                    , "line":313
+                  }
+                ]
+              ]
+              , "type":"reg"
+            }
+          ]
+        }
+      ]
+    }
+    , {
+      "name":"kernel_cLoader"
+      , "id":1833
+      , "type":"kernel"
+      , "children":
+      [
+        {
+          "name":"On-chip Memory"
+          , "id":1834
+          , "type":"memtype"
+          , "children":
+          [
+            {
+              "name":"__SYCLKernel"
+              , "id":1835
+              , "details":
+              [
+                {
+                  "type":"table"
+                  , "Declared at":
+                  [
+                    {
+                      "type":"text"
+                      , "text":"%L"
+                      , "links":
+                      [
+                        {
+                          "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicI/./gemm.tiny.h"
+                          , "line":"412"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicI/./gemm.tiny.h"
+                    , "line":412
+                  }
+                ]
+              ]
+              , "type":"unsynth"
+            }
+          ]
+        }
+      ]
+    }
+    , {
+      "name":"kernel_Out"
+      , "id":1836
+      , "type":"kernel"
+      , "children":
+      [
+        {
+          "name":"On-chip Memory"
+          , "id":1837
+          , "type":"memtype"
+          , "children":
+          [
+            {
+              "name":"Z"
+              , "id":1838
+              , "details":
+              [
+                {
+                  "type":"table"
+                  , "Declared at":
+                  [
+                    {
+                      "type":"text"
+                      , "text":"%L"
+                      , "links":
+                      [
+                        {
+                          "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicI/./gemm.tiny.h"
+                          , "line":"437"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicI/./gemm.tiny.h"
+                    , "line":437
+                  }
+                ]
+              ]
+              , "type":"unsynth"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+  , "links":
+  [
+    {
+      "from":1781
+      , "to":1771
+    }
+    , {
+      "from":1775
+      , "to":1782
+    }
+    , {
+      "from":1785
+      , "to":1772
+    }
+    , {
+      "from":1776
+      , "to":1786
+    }
+    , {
+      "from":1789
+      , "to":1773
+    }
+    , {
+      "from":1777
+      , "to":1790
+    }
+    , {
+      "from":1793
+      , "to":1774
+    }
+    , {
+      "from":1778
+      , "to":1794
+    }
+    , {
+      "from":1809
+      , "to":1799
+    }
+    , {
+      "from":1803
+      , "to":1810
+    }
+    , {
+      "from":1813
+      , "to":1800
+    }
+    , {
+      "from":1804
+      , "to":1814
+    }
+    , {
+      "from":1817
+      , "to":1801
+    }
+    , {
+      "from":1805
+      , "to":1818
+    }
+    , {
+      "from":1821
+      , "to":1802
+    }
+    , {
+      "from":1806
+      , "to":1822
+    }
+  ]
+}

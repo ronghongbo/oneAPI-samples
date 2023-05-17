@@ -1,0 +1,3373 @@
+{
+  "columns":
+  ["", "Pipelined", "II", "Speculated iterations", "Details"]
+  , "children":
+  [
+    {
+      "name":"Kernel: kernel_aLoader"
+      , "data":
+      ["", "", ""]
+      , "debug":
+      [
+        [
+          {
+            "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicJ/./gemm.tiny.h"
+            , "line":148
+          }
+        ]
+      ]
+      , "details":
+      [
+        {
+          "type":"brief"
+          , "text":"Single work-item execution"
+        }
+        , {
+          "type":"text"
+          , "text":"Single work-item execution"
+        }
+        , {
+          "type":"text"
+          , "text":"fMAX bottleneck block: None"
+        }
+        , {
+          "type":"text"
+          , "text":"See %L for more information"
+          , "links":
+          [
+            {
+              "guide":"Best Practices Guide : Kernels"
+              , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/ipp1476408832230.html"
+            }
+          ]
+        }
+      ]
+      , "children":
+      [
+        {
+          "name":"kernel_aLoader.B1"
+          , "data":
+          ["Yes", ">=1", "0"]
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicJ/./gemm.tiny.h"
+                , "line":152
+              }
+            ]
+          ]
+          , "details":
+          [
+            {
+              "type":"text"
+              , "text":"Stallable instruction: n/a"
+            }
+            , {
+              "type":"text"
+              , "text":"Maximum concurrent iterations: Capacity of loop"
+              , "details":
+              [
+                {
+                  "type":"text"
+                  , "text":"Use the %L viewer to estimate capacity"
+                  , "links":
+                  [
+                    {
+                      "view":"Fmax II Report"
+                    }
+                  ]
+                }
+              ]
+            }
+            , {
+              "type":"text"
+              , "text":"Average Trip count: 5 (exact)"
+            }
+            , {
+              "type":"text"
+              , "text":"See %L for more information"
+              , "links":
+              [
+                {
+                  "guide":"Best Practices Guide : Nested Loops"
+                  , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/rfr1469543500580.html"
+                }
+              ]
+            }
+          ]
+          , "children":
+          [
+            {
+              "name":"kernel_aLoader.B2"
+              , "data":
+              ["Yes", ">=1", "0"]
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicJ/./gemm.tiny.h"
+                    , "line":153
+                  }
+                ]
+              ]
+              , "details":
+              [
+                {
+                  "type":"text"
+                  , "text":"Stallable instruction: n/a"
+                }
+                , {
+                  "type":"text"
+                  , "text":"Maximum concurrent iterations: Capacity of loop"
+                  , "details":
+                  [
+                    {
+                      "type":"text"
+                      , "text":"Use the %L viewer to estimate capacity"
+                      , "links":
+                      [
+                        {
+                          "view":"Fmax II Report"
+                        }
+                      ]
+                    }
+                  ]
+                }
+                , {
+                  "type":"text"
+                  , "text":"See %L for more information"
+                  , "links":
+                  [
+                    {
+                      "guide":"Best Practices Guide : Nested Loops"
+                      , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/rfr1469543500580.html"
+                    }
+                  ]
+                }
+              ]
+              , "children":
+              [
+                {
+                  "name":"kernel_aLoader.B4"
+                  , "data":
+                  ["Yes", ">=1", "0"]
+                  , "debug":
+                  [
+                    [
+                      {
+                        "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicJ/./gemm.tiny.h"
+                        , "line":154
+                      }
+                    ]
+                  ]
+                  , "details":
+                  [
+                    {
+                      "type":"text"
+                      , "text":"Stallable instruction: n/a"
+                    }
+                    , {
+                      "type":"text"
+                      , "text":"Maximum concurrent iterations: Capacity of loop"
+                      , "details":
+                      [
+                        {
+                          "type":"text"
+                          , "text":"Use the %L viewer to estimate capacity"
+                          , "links":
+                          [
+                            {
+                              "view":"Fmax II Report"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                    , {
+                      "type":"text"
+                      , "text":"Average Trip count: 4 (exact)"
+                    }
+                    , {
+                      "type":"text"
+                      , "text":"See %L for more information"
+                      , "links":
+                      [
+                        {
+                          "guide":"Best Practices Guide : Nested Loops"
+                          , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/rfr1469543500580.html"
+                        }
+                      ]
+                    }
+                  ]
+                  , "children":
+                  [
+                    {
+                      "name":"kernel_aLoader.B7"
+                      , "data":
+                      ["Yes", "~1", "0"]
+                      , "debug":
+                      [
+                        [
+                          {
+                            "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicJ/./gemm.tiny.h"
+                            , "line":155
+                          }
+                        ]
+                      ]
+                      , "details":
+                      [
+                        {
+                          "type":"text"
+                          , "text":"II is an approximation due to the following stallable instructions:"
+                          , "details":
+                          [
+                            {
+                              "type":"text"
+                              , "text":"Load Operation (%L > %L, %L, %L, %L)"
+                              , "links":
+                              [
+                                {
+                                  "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/handler.hpp"
+                                  , "line":"1166"
+                                }
+                                , {
+                                  "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicJ/./gemm.tiny.h"
+                                  , "line":"159"
+                                }
+                                , {
+                                  "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicJ/./gemm.tiny.h"
+                                  , "line":"160"
+                                }
+                                , {
+                                  "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicJ/./gemm.tiny.h"
+                                  , "line":"161"
+                                }
+                                , {
+                                  "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicJ/./gemm.tiny.h"
+                                  , "line":"162"
+                                }
+                              ]
+                            }
+                            , {
+                              "type":"text"
+                              , "text":"Pipe Write Operation (%L > %L > %L)"
+                              , "links":
+                              [
+                                {
+                                  "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/handler.hpp"
+                                  , "line":"1166"
+                                }
+                                , {
+                                  "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicJ/./gemm.tiny.h"
+                                  , "line":"158"
+                                }
+                                , {
+                                  "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/ext/intel/pipes.hpp"
+                                  , "line":"82"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                        , {
+                          "type":"text"
+                          , "text":"Maximum concurrent iterations: Capacity of loop"
+                          , "details":
+                          [
+                            {
+                              "type":"text"
+                              , "text":"Use the %L viewer to estimate capacity"
+                              , "links":
+                              [
+                                {
+                                  "view":"Fmax II Report"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                        , {
+                          "type":"text"
+                          , "text":"Average Trip count: 64 (exact)"
+                        }
+                        , {
+                          "type":"text"
+                          , "text":"See %L for more information"
+                          , "links":
+                          [
+                            {
+                              "guide":"Best Practices Guide : Loops in a Single Work-Item Kernel"
+                              , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/wfa1476380079940.html"
+                            }
+                          ]
+                        }
+                      ]
+                      , "children":
+                      [
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+    , {
+      "name":"Kernel: kernel_aFeeder"
+      , "data":
+      ["", "", ""]
+      , "debug":
+      [
+        [
+          {
+            "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicJ/./gemm.tiny.h"
+            , "line":176
+          }
+        ]
+      ]
+      , "details":
+      [
+        {
+          "type":"brief"
+          , "text":"Single work-item execution"
+        }
+        , {
+          "type":"text"
+          , "text":"Single work-item execution"
+        }
+        , {
+          "type":"text"
+          , "text":"fMAX bottleneck block: None"
+        }
+        , {
+          "type":"text"
+          , "text":"See %L for more information"
+          , "links":
+          [
+            {
+              "guide":"Best Practices Guide : Kernels"
+              , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/ipp1476408832230.html"
+            }
+          ]
+        }
+      ]
+      , "children":
+      [
+        {
+          "name":"kernel_aFeeder.B1"
+          , "data":
+          ["Yes", "~1", "n/a"]
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicJ/./gemm.tiny.h"
+                , "line":190
+              }
+            ]
+          ]
+          , "details":
+          [
+            {
+              "type":"text"
+              , "text":"II is an approximation due to the following stallable instructions:"
+              , "details":
+              [
+                {
+                  "type":"text"
+                  , "text":"Pipe Read Operation (%L > %L > %L)"
+                  , "links":
+                  [
+                    {
+                      "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/handler.hpp"
+                      , "line":"1166"
+                    }
+                    , {
+                      "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicJ/./gemm.tiny.h"
+                      , "line":"191"
+                    }
+                    , {
+                      "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/ext/intel/pipes.hpp"
+                      , "line":"67"
+                    }
+                  ]
+                }
+                , {
+                  "type":"text"
+                  , "text":"Pipe Write Operation (%L > %L > %L)"
+                  , "links":
+                  [
+                    {
+                      "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/handler.hpp"
+                      , "line":"1166"
+                    }
+                    , {
+                      "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicJ/./gemm.tiny.h"
+                      , "line":"215"
+                    }
+                    , {
+                      "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/ext/intel/pipes.hpp"
+                      , "line":"82"
+                    }
+                  ]
+                }
+              ]
+            }
+            , {
+              "type":"text"
+              , "text":"Maximum concurrent iterations: Capacity of loop"
+              , "details":
+              [
+                {
+                  "type":"text"
+                  , "text":"Use the %L viewer to estimate capacity"
+                  , "links":
+                  [
+                    {
+                      "view":"Fmax II Report"
+                    }
+                  ]
+                }
+              ]
+            }
+            , {
+              "type":"text"
+              , "text":"See %L for more information"
+              , "links":
+              [
+                {
+                  "guide":"Best Practices Guide : Loops in a Single Work-Item Kernel"
+                  , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/wfa1476380079940.html"
+                }
+              ]
+            }
+          ]
+          , "children":
+          [
+            {
+              "name":"Fully unrolled loop"
+              , "data":
+              ["n/a", "n/a", "n/a"]
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"gemm.tiny.h"
+                    , "line":193
+                  }
+                ]
+              ]
+              , "details":
+              [
+                {
+                  "type":"brief"
+                  , "text":"Unrolled by #pragma unroll"
+                }
+                , {
+                  "type":"text"
+                  , "text":"Unrolled by #pragma unroll"
+                }
+              ]
+              , "children":
+              [
+              ]
+            }
+          ]
+        }
+      ]
+    }
+    , {
+      "name":"Kernel: kernel_bLoader"
+      , "data":
+      ["", "", ""]
+      , "debug":
+      [
+        [
+          {
+            "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicJ/./gemm.tiny.h"
+            , "line":229
+          }
+        ]
+      ]
+      , "details":
+      [
+        {
+          "type":"brief"
+          , "text":"Single work-item execution"
+        }
+        , {
+          "type":"text"
+          , "text":"Single work-item execution"
+        }
+        , {
+          "type":"text"
+          , "text":"fMAX bottleneck block: None"
+        }
+        , {
+          "type":"text"
+          , "text":"See %L for more information"
+          , "links":
+          [
+            {
+              "guide":"Best Practices Guide : Kernels"
+              , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/ipp1476408832230.html"
+            }
+          ]
+        }
+      ]
+      , "children":
+      [
+        {
+          "name":"kernel_bLoader.B1"
+          , "data":
+          ["Yes", ">=1", "0"]
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicJ/./gemm.tiny.h"
+                , "line":233
+              }
+            ]
+          ]
+          , "details":
+          [
+            {
+              "type":"text"
+              , "text":"Stallable instruction: n/a"
+            }
+            , {
+              "type":"text"
+              , "text":"Maximum concurrent iterations: Capacity of loop"
+              , "details":
+              [
+                {
+                  "type":"text"
+                  , "text":"Use the %L viewer to estimate capacity"
+                  , "links":
+                  [
+                    {
+                      "view":"Fmax II Report"
+                    }
+                  ]
+                }
+              ]
+            }
+            , {
+              "type":"text"
+              , "text":"Average Trip count: 5 (exact)"
+            }
+            , {
+              "type":"text"
+              , "text":"See %L for more information"
+              , "links":
+              [
+                {
+                  "guide":"Best Practices Guide : Nested Loops"
+                  , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/rfr1469543500580.html"
+                }
+              ]
+            }
+          ]
+          , "children":
+          [
+            {
+              "name":"kernel_bLoader.B2"
+              , "data":
+              ["Yes", ">=1", "0"]
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicJ/./gemm.tiny.h"
+                    , "line":234
+                  }
+                ]
+              ]
+              , "details":
+              [
+                {
+                  "type":"text"
+                  , "text":"Stallable instruction: n/a"
+                }
+                , {
+                  "type":"text"
+                  , "text":"Maximum concurrent iterations: Capacity of loop"
+                  , "details":
+                  [
+                    {
+                      "type":"text"
+                      , "text":"Use the %L viewer to estimate capacity"
+                      , "links":
+                      [
+                        {
+                          "view":"Fmax II Report"
+                        }
+                      ]
+                    }
+                  ]
+                }
+                , {
+                  "type":"text"
+                  , "text":"See %L for more information"
+                  , "links":
+                  [
+                    {
+                      "guide":"Best Practices Guide : Nested Loops"
+                      , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/rfr1469543500580.html"
+                    }
+                  ]
+                }
+              ]
+              , "children":
+              [
+                {
+                  "name":"kernel_bLoader.B4"
+                  , "data":
+                  ["Yes", ">=1", "0"]
+                  , "debug":
+                  [
+                    [
+                      {
+                        "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicJ/./gemm.tiny.h"
+                        , "line":235
+                      }
+                    ]
+                  ]
+                  , "details":
+                  [
+                    {
+                      "type":"text"
+                      , "text":"Stallable instruction: n/a"
+                    }
+                    , {
+                      "type":"text"
+                      , "text":"Maximum concurrent iterations: Capacity of loop"
+                      , "details":
+                      [
+                        {
+                          "type":"text"
+                          , "text":"Use the %L viewer to estimate capacity"
+                          , "links":
+                          [
+                            {
+                              "view":"Fmax II Report"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                    , {
+                      "type":"text"
+                      , "text":"Average Trip count: 4 (exact)"
+                    }
+                    , {
+                      "type":"text"
+                      , "text":"See %L for more information"
+                      , "links":
+                      [
+                        {
+                          "guide":"Best Practices Guide : Nested Loops"
+                          , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/rfr1469543500580.html"
+                        }
+                      ]
+                    }
+                  ]
+                  , "children":
+                  [
+                    {
+                      "name":"kernel_bLoader.B7"
+                      , "data":
+                      ["Yes", "~1", "0"]
+                      , "debug":
+                      [
+                        [
+                          {
+                            "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicJ/./gemm.tiny.h"
+                            , "line":236
+                          }
+                        ]
+                      ]
+                      , "details":
+                      [
+                        {
+                          "type":"text"
+                          , "text":"II is an approximation due to the following stallable instructions:"
+                          , "details":
+                          [
+                            {
+                              "type":"text"
+                              , "text":"Load Operation (%L > %L, %L, %L, %L)"
+                              , "links":
+                              [
+                                {
+                                  "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/handler.hpp"
+                                  , "line":"1166"
+                                }
+                                , {
+                                  "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicJ/./gemm.tiny.h"
+                                  , "line":"240"
+                                }
+                                , {
+                                  "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicJ/./gemm.tiny.h"
+                                  , "line":"241"
+                                }
+                                , {
+                                  "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicJ/./gemm.tiny.h"
+                                  , "line":"242"
+                                }
+                                , {
+                                  "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicJ/./gemm.tiny.h"
+                                  , "line":"243"
+                                }
+                              ]
+                            }
+                            , {
+                              "type":"text"
+                              , "text":"Pipe Write Operation (%L > %L > %L)"
+                              , "links":
+                              [
+                                {
+                                  "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/handler.hpp"
+                                  , "line":"1166"
+                                }
+                                , {
+                                  "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicJ/./gemm.tiny.h"
+                                  , "line":"239"
+                                }
+                                , {
+                                  "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/ext/intel/pipes.hpp"
+                                  , "line":"82"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                        , {
+                          "type":"text"
+                          , "text":"Maximum concurrent iterations: Capacity of loop"
+                          , "details":
+                          [
+                            {
+                              "type":"text"
+                              , "text":"Use the %L viewer to estimate capacity"
+                              , "links":
+                              [
+                                {
+                                  "view":"Fmax II Report"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                        , {
+                          "type":"text"
+                          , "text":"Average Trip count: 64 (exact)"
+                        }
+                        , {
+                          "type":"text"
+                          , "text":"See %L for more information"
+                          , "links":
+                          [
+                            {
+                              "guide":"Best Practices Guide : Loops in a Single Work-Item Kernel"
+                              , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/wfa1476380079940.html"
+                            }
+                          ]
+                        }
+                      ]
+                      , "children":
+                      [
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+    , {
+      "name":"Kernel: kernel_bFeeder"
+      , "data":
+      ["", "", ""]
+      , "debug":
+      [
+        [
+          {
+            "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicJ/./gemm.tiny.h"
+            , "line":257
+          }
+        ]
+      ]
+      , "details":
+      [
+        {
+          "type":"brief"
+          , "text":"Single work-item execution"
+        }
+        , {
+          "type":"text"
+          , "text":"Single work-item execution"
+        }
+        , {
+          "type":"text"
+          , "text":"fMAX bottleneck block: None"
+        }
+        , {
+          "type":"text"
+          , "text":"See %L for more information"
+          , "links":
+          [
+            {
+              "guide":"Best Practices Guide : Kernels"
+              , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/ipp1476408832230.html"
+            }
+          ]
+        }
+      ]
+      , "children":
+      [
+        {
+          "name":"kernel_bFeeder.B1"
+          , "data":
+          ["Yes", "~1", "n/a"]
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicJ/./gemm.tiny.h"
+                , "line":271
+              }
+            ]
+          ]
+          , "details":
+          [
+            {
+              "type":"text"
+              , "text":"II is an approximation due to the following stallable instructions:"
+              , "details":
+              [
+                {
+                  "type":"text"
+                  , "text":"Pipe Read Operation (%L > %L > %L)"
+                  , "links":
+                  [
+                    {
+                      "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/handler.hpp"
+                      , "line":"1166"
+                    }
+                    , {
+                      "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicJ/./gemm.tiny.h"
+                      , "line":"272"
+                    }
+                    , {
+                      "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/ext/intel/pipes.hpp"
+                      , "line":"67"
+                    }
+                  ]
+                }
+                , {
+                  "type":"text"
+                  , "text":"Pipe Write Operation (%L > %L > %L)"
+                  , "links":
+                  [
+                    {
+                      "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/handler.hpp"
+                      , "line":"1166"
+                    }
+                    , {
+                      "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicJ/./gemm.tiny.h"
+                      , "line":"296"
+                    }
+                    , {
+                      "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/ext/intel/pipes.hpp"
+                      , "line":"82"
+                    }
+                  ]
+                }
+              ]
+            }
+            , {
+              "type":"text"
+              , "text":"Maximum concurrent iterations: Capacity of loop"
+              , "details":
+              [
+                {
+                  "type":"text"
+                  , "text":"Use the %L viewer to estimate capacity"
+                  , "links":
+                  [
+                    {
+                      "view":"Fmax II Report"
+                    }
+                  ]
+                }
+              ]
+            }
+            , {
+              "type":"text"
+              , "text":"See %L for more information"
+              , "links":
+              [
+                {
+                  "guide":"Best Practices Guide : Loops in a Single Work-Item Kernel"
+                  , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/wfa1476380079940.html"
+                }
+              ]
+            }
+          ]
+          , "children":
+          [
+            {
+              "name":"Fully unrolled loop"
+              , "data":
+              ["n/a", "n/a", "n/a"]
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"gemm.tiny.h"
+                    , "line":274
+                  }
+                ]
+              ]
+              , "details":
+              [
+                {
+                  "type":"brief"
+                  , "text":"Unrolled by #pragma unroll"
+                }
+                , {
+                  "type":"text"
+                  , "text":"Unrolled by #pragma unroll"
+                }
+              ]
+              , "children":
+              [
+              ]
+            }
+          ]
+        }
+      ]
+    }
+    , {
+      "name":"Kernel: kernel_Product"
+      , "data":
+      ["", "", ""]
+      , "debug":
+      [
+        [
+          {
+            "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicJ/./gemm.tiny.h"
+            , "line":306
+          }
+        ]
+      ]
+      , "details":
+      [
+        {
+          "type":"brief"
+          , "text":"Single work-item execution"
+        }
+        , {
+          "type":"text"
+          , "text":"Single work-item execution"
+        }
+        , {
+          "type":"text"
+          , "text":"fMAX bottleneck block: None"
+        }
+        , {
+          "type":"text"
+          , "text":"See %L for more information"
+          , "links":
+          [
+            {
+              "guide":"Best Practices Guide : Kernels"
+              , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/ipp1476408832230.html"
+            }
+          ]
+        }
+      ]
+      , "children":
+      [
+        {
+          "name":"kernel_Product.B1"
+          , "data":
+          ["Yes", ">=1", "0"]
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicJ/./gemm.tiny.h"
+                , "line":319
+              }
+            ]
+          ]
+          , "details":
+          [
+            {
+              "type":"brief"
+              , "text":"Serial exe: Data dependency"
+            }
+            , {
+              "type":"text"
+              , "text":"Iteration executed serially across kernel_Product.B2. Only a single loop iteration will execute inside this region due to data dependency on variable(s):"
+              , "details":
+              [
+                {
+                  "type":"text"
+                  , "text":"Z_pipe_base (%L)"
+                  , "links":
+                  [
+                    {
+                      "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicJ/./gemm.tiny.h"
+                      , "line":"316"
+                    }
+                  ]
+                }
+              ]
+            }
+            , {
+              "type":"text"
+              , "text":"Iteration executed serially across kernel_Product.B2. Only a single loop iteration will execute inside this region due to data dependency on variable(s):"
+            }
+            , {
+              "type":"text"
+              , "text":"Iteration executed serially across kernel_Product.B2. Only a single loop iteration will execute inside this region due to data dependency on variable(s):"
+              , "details":
+              [
+                {
+                  "type":"text"
+                  , "text":"aFeeder_channel_array (%L)"
+                  , "links":
+                  [
+                    {
+                      "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicJ/./gemm.tiny.h"
+                      , "line":"308"
+                    }
+                  ]
+                }
+              ]
+            }
+            , {
+              "type":"text"
+              , "text":"Iteration executed serially across kernel_Product.B2. Only a single loop iteration will execute inside this region due to data dependency on variable(s):"
+              , "details":
+              [
+                {
+                  "type":"text"
+                  , "text":"bFeeder_channel_array (%L)"
+                  , "links":
+                  [
+                    {
+                      "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicJ/./gemm.tiny.h"
+                      , "line":"307"
+                    }
+                  ]
+                }
+              ]
+            }
+            , {
+              "type":"text"
+              , "text":"Stallable instruction: n/a"
+            }
+            , {
+              "type":"text"
+              , "text":"Maximum concurrent iterations: Capacity of loop"
+              , "details":
+              [
+                {
+                  "type":"text"
+                  , "text":"Use the %L viewer to estimate capacity"
+                  , "links":
+                  [
+                    {
+                      "view":"Fmax II Report"
+                    }
+                  ]
+                }
+              ]
+            }
+            , {
+              "type":"text"
+              , "text":"Average Trip count: 5 (exact)"
+            }
+            , {
+              "type":"text"
+              , "text":"See %L for more information"
+              , "links":
+              [
+                {
+                  "guide":"Best Practices Guide : Nested Loops"
+                  , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/rfr1469543500580.html"
+                }
+              ]
+            }
+          ]
+          , "children":
+          [
+            {
+              "name":"kernel_Product.B2"
+              , "data":
+              ["Yes", ">=1", "0"]
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicJ/./gemm.tiny.h"
+                    , "line":320
+                  }
+                ]
+              ]
+              , "details":
+              [
+                {
+                  "type":"text"
+                  , "text":"Stallable instruction: n/a"
+                }
+                , {
+                  "type":"text"
+                  , "text":"Maximum concurrent iterations: Capacity of loop"
+                  , "details":
+                  [
+                    {
+                      "type":"text"
+                      , "text":"Use the %L viewer to estimate capacity"
+                      , "links":
+                      [
+                        {
+                          "view":"Fmax II Report"
+                        }
+                      ]
+                    }
+                  ]
+                }
+                , {
+                  "type":"text"
+                  , "text":"See %L for more information"
+                  , "links":
+                  [
+                    {
+                      "guide":"Best Practices Guide : Nested Loops"
+                      , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/rfr1469543500580.html"
+                    }
+                  ]
+                }
+              ]
+              , "children":
+              [
+                {
+                  "name":"kernel_Product.B4"
+                  , "data":
+                  ["Yes", ">=1", "0"]
+                  , "debug":
+                  [
+                    [
+                      {
+                        "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicJ/./gemm.tiny.h"
+                        , "line":321
+                      }
+                    ]
+                  ]
+                  , "details":
+                  [
+                    {
+                      "type":"text"
+                      , "text":"Stallable instruction: n/a"
+                    }
+                    , {
+                      "type":"text"
+                      , "text":"Maximum concurrent iterations: Capacity of loop"
+                      , "details":
+                      [
+                        {
+                          "type":"text"
+                          , "text":"Use the %L viewer to estimate capacity"
+                          , "links":
+                          [
+                            {
+                              "view":"Fmax II Report"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                    , {
+                      "type":"text"
+                      , "text":"Average Trip count: 4 (exact)"
+                    }
+                    , {
+                      "type":"text"
+                      , "text":"See %L for more information"
+                      , "links":
+                      [
+                        {
+                          "guide":"Best Practices Guide : Nested Loops"
+                          , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/rfr1469543500580.html"
+                        }
+                      ]
+                    }
+                  ]
+                  , "children":
+                  [
+                    {
+                      "name":"kernel_Product.B6"
+                      , "data":
+                      ["Yes", "~11", "0"]
+                      , "debug":
+                      [
+                        [
+                          {
+                            "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicJ/./gemm.tiny.h"
+                            , "line":322
+                          }
+                        ]
+                      ]
+                      , "details":
+                      [
+                        {
+                          "type":"brief"
+                          , "text":"Data dependency"
+                        }
+                        , {
+                          "type":"text"
+                          , "text":"Most critical loop feedback path during scheduling:"
+                          , "details":
+                          [
+                            {
+                              "type":"text"
+                              , "text":"Number of nodes in critical path exceeded what the compiler has captured. Only the top 20 failing nodes are listed."
+                              , "details":
+                              [
+                                {
+                                  "type":"text"
+                                  , "text":"10.00 clock cycles 32-bit Floating-point Dot Product of Size 4 Operation (%L > %L)"
+                                  , "links":
+                                  [
+                                    {
+                                      "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/handler.hpp"
+                                      , "line":"1166"
+                                    }
+                                    , {
+                                      "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicJ/./gemm.tiny.h"
+                                      , "line":"358"
+                                    }
+                                  ]
+                                }
+                                , {
+                                  "type":"text"
+                                  , "text":"10.00 clock cycles 32-bit Floating-point Dot Product of Size 4 Operation (%L > %L)"
+                                  , "links":
+                                  [
+                                    {
+                                      "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/handler.hpp"
+                                      , "line":"1166"
+                                    }
+                                    , {
+                                      "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicJ/./gemm.tiny.h"
+                                      , "line":"358"
+                                    }
+                                  ]
+                                }
+                                , {
+                                  "type":"text"
+                                  , "text":"10.00 clock cycles 32-bit Floating-point Dot Product of Size 4 Operation (%L > %L)"
+                                  , "links":
+                                  [
+                                    {
+                                      "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/handler.hpp"
+                                      , "line":"1166"
+                                    }
+                                    , {
+                                      "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicJ/./gemm.tiny.h"
+                                      , "line":"358"
+                                    }
+                                  ]
+                                }
+                                , {
+                                  "type":"text"
+                                  , "text":"10.00 clock cycles 32-bit Floating-point Dot Product of Size 4 Operation (%L > %L)"
+                                  , "links":
+                                  [
+                                    {
+                                      "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/handler.hpp"
+                                      , "line":"1166"
+                                    }
+                                    , {
+                                      "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicJ/./gemm.tiny.h"
+                                      , "line":"358"
+                                    }
+                                  ]
+                                }
+                                , {
+                                  "type":"text"
+                                  , "text":"10.00 clock cycles 32-bit Floating-point Dot Product of Size 4 Operation (%L > %L)"
+                                  , "links":
+                                  [
+                                    {
+                                      "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/handler.hpp"
+                                      , "line":"1166"
+                                    }
+                                    , {
+                                      "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicJ/./gemm.tiny.h"
+                                      , "line":"358"
+                                    }
+                                  ]
+                                }
+                                , {
+                                  "type":"text"
+                                  , "text":"10.00 clock cycles 32-bit Floating-point Dot Product of Size 4 Operation (%L > %L)"
+                                  , "links":
+                                  [
+                                    {
+                                      "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/handler.hpp"
+                                      , "line":"1166"
+                                    }
+                                    , {
+                                      "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicJ/./gemm.tiny.h"
+                                      , "line":"358"
+                                    }
+                                  ]
+                                }
+                                , {
+                                  "type":"text"
+                                  , "text":"10.00 clock cycles 32-bit Floating-point Dot Product of Size 4 Operation (%L > %L)"
+                                  , "links":
+                                  [
+                                    {
+                                      "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/handler.hpp"
+                                      , "line":"1166"
+                                    }
+                                    , {
+                                      "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicJ/./gemm.tiny.h"
+                                      , "line":"358"
+                                    }
+                                  ]
+                                }
+                                , {
+                                  "type":"text"
+                                  , "text":"10.00 clock cycles 32-bit Floating-point Dot Product of Size 4 Operation (%L > %L)"
+                                  , "links":
+                                  [
+                                    {
+                                      "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/handler.hpp"
+                                      , "line":"1166"
+                                    }
+                                    , {
+                                      "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicJ/./gemm.tiny.h"
+                                      , "line":"358"
+                                    }
+                                  ]
+                                }
+                                , {
+                                  "type":"text"
+                                  , "text":"10.00 clock cycles 32-bit Floating-point Dot Product of Size 4 Operation (%L > %L)"
+                                  , "links":
+                                  [
+                                    {
+                                      "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/handler.hpp"
+                                      , "line":"1166"
+                                    }
+                                    , {
+                                      "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicJ/./gemm.tiny.h"
+                                      , "line":"358"
+                                    }
+                                  ]
+                                }
+                                , {
+                                  "type":"text"
+                                  , "text":"10.00 clock cycles 32-bit Floating-point Dot Product of Size 4 Operation (%L > %L)"
+                                  , "links":
+                                  [
+                                    {
+                                      "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/handler.hpp"
+                                      , "line":"1166"
+                                    }
+                                    , {
+                                      "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicJ/./gemm.tiny.h"
+                                      , "line":"358"
+                                    }
+                                  ]
+                                }
+                                , {
+                                  "type":"text"
+                                  , "text":"10.00 clock cycles 32-bit Floating-point Dot Product of Size 4 Operation (%L > %L)"
+                                  , "links":
+                                  [
+                                    {
+                                      "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/handler.hpp"
+                                      , "line":"1166"
+                                    }
+                                    , {
+                                      "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicJ/./gemm.tiny.h"
+                                      , "line":"358"
+                                    }
+                                  ]
+                                }
+                                , {
+                                  "type":"text"
+                                  , "text":"10.00 clock cycles 32-bit Floating-point Dot Product of Size 4 Operation (%L > %L)"
+                                  , "links":
+                                  [
+                                    {
+                                      "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/handler.hpp"
+                                      , "line":"1166"
+                                    }
+                                    , {
+                                      "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicJ/./gemm.tiny.h"
+                                      , "line":"358"
+                                    }
+                                  ]
+                                }
+                                , {
+                                  "type":"text"
+                                  , "text":"10.00 clock cycles 32-bit Floating-point Dot Product of Size 4 Operation (%L > %L)"
+                                  , "links":
+                                  [
+                                    {
+                                      "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/handler.hpp"
+                                      , "line":"1166"
+                                    }
+                                    , {
+                                      "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicJ/./gemm.tiny.h"
+                                      , "line":"358"
+                                    }
+                                  ]
+                                }
+                                , {
+                                  "type":"text"
+                                  , "text":"10.00 clock cycles 32-bit Floating-point Dot Product of Size 4 Operation (%L > %L)"
+                                  , "links":
+                                  [
+                                    {
+                                      "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/handler.hpp"
+                                      , "line":"1166"
+                                    }
+                                    , {
+                                      "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicJ/./gemm.tiny.h"
+                                      , "line":"358"
+                                    }
+                                  ]
+                                }
+                                , {
+                                  "type":"text"
+                                  , "text":"10.00 clock cycles 32-bit Floating-point Dot Product of Size 4 Operation (%L > %L)"
+                                  , "links":
+                                  [
+                                    {
+                                      "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/handler.hpp"
+                                      , "line":"1166"
+                                    }
+                                    , {
+                                      "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicJ/./gemm.tiny.h"
+                                      , "line":"358"
+                                    }
+                                  ]
+                                }
+                                , {
+                                  "type":"text"
+                                  , "text":"10.00 clock cycles 32-bit Floating-point Dot Product of Size 4 Operation (%L > %L)"
+                                  , "links":
+                                  [
+                                    {
+                                      "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/handler.hpp"
+                                      , "line":"1166"
+                                    }
+                                    , {
+                                      "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicJ/./gemm.tiny.h"
+                                      , "line":"358"
+                                    }
+                                  ]
+                                }
+                                , {
+                                  "type":"text"
+                                  , "text":"1.00 clock cycle 32-bit Select Operation (%L > %L > %L)"
+                                  , "links":
+                                  [
+                                    {
+                                      "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/handler.hpp"
+                                      , "line":"1166"
+                                    }
+                                    , {
+                                      "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicJ/./gemm.tiny.h"
+                                      , "line":"355"
+                                    }
+                                    , {
+                                      "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/ext/intel/fpga_reg.hpp"
+                                      , "line":"25"
+                                    }
+                                  ]
+                                }
+                                , {
+                                  "type":"text"
+                                  , "text":"1.00 clock cycle llvm.fpga.reg Operation (%L)"
+                                  , "links":
+                                  [
+                                    {
+                                      "filename":"Unknown location"
+                                      , "line":"0"
+                                    }
+                                  ]
+                                }
+                                , {
+                                  "type":"text"
+                                  , "text":"1.00 clock cycle 32-bit Select Operation (%L > %L > %L)"
+                                  , "links":
+                                  [
+                                    {
+                                      "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/handler.hpp"
+                                      , "line":"1166"
+                                    }
+                                    , {
+                                      "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicJ/./gemm.tiny.h"
+                                      , "line":"355"
+                                    }
+                                    , {
+                                      "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/ext/intel/fpga_reg.hpp"
+                                      , "line":"25"
+                                    }
+                                  ]
+                                }
+                                , {
+                                  "type":"text"
+                                  , "text":"1.00 clock cycle 32-bit Select Operation (%L > %L > %L)"
+                                  , "links":
+                                  [
+                                    {
+                                      "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/handler.hpp"
+                                      , "line":"1166"
+                                    }
+                                    , {
+                                      "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicJ/./gemm.tiny.h"
+                                      , "line":"355"
+                                    }
+                                    , {
+                                      "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/ext/intel/fpga_reg.hpp"
+                                      , "line":"25"
+                                    }
+                                  ]
+                                }
+                                , {
+                                  "type":"text"
+                                  , "text":"1.00 clock cycle llvm.fpga.reg Operation (%L)"
+                                  , "links":
+                                  [
+                                    {
+                                      "filename":"Unknown location"
+                                      , "line":"0"
+                                    }
+                                  ]
+                                }
+                                , {
+                                  "type":"text"
+                                  , "text":"1.00 clock cycle 32-bit Select Operation (%L > %L > %L)"
+                                  , "links":
+                                  [
+                                    {
+                                      "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/handler.hpp"
+                                      , "line":"1166"
+                                    }
+                                    , {
+                                      "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicJ/./gemm.tiny.h"
+                                      , "line":"355"
+                                    }
+                                    , {
+                                      "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/ext/intel/fpga_reg.hpp"
+                                      , "line":"25"
+                                    }
+                                  ]
+                                }
+                                , {
+                                  "type":"text"
+                                  , "text":"1.00 clock cycle llvm.fpga.reg Operation (%L)"
+                                  , "links":
+                                  [
+                                    {
+                                      "filename":"Unknown location"
+                                      , "line":"0"
+                                    }
+                                  ]
+                                }
+                                , {
+                                  "type":"text"
+                                  , "text":"1.00 clock cycle llvm.fpga.reg Operation (%L)"
+                                  , "links":
+                                  [
+                                    {
+                                      "filename":"Unknown location"
+                                      , "line":"0"
+                                    }
+                                  ]
+                                }
+                                , {
+                                  "type":"text"
+                                  , "text":"1.00 clock cycle llvm.fpga.reg Operation (%L)"
+                                  , "links":
+                                  [
+                                    {
+                                      "filename":"Unknown location"
+                                      , "line":"0"
+                                    }
+                                  ]
+                                }
+                                , {
+                                  "type":"text"
+                                  , "text":"1.00 clock cycle 32-bit Select Operation (%L > %L > %L)"
+                                  , "links":
+                                  [
+                                    {
+                                      "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/handler.hpp"
+                                      , "line":"1166"
+                                    }
+                                    , {
+                                      "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicJ/./gemm.tiny.h"
+                                      , "line":"355"
+                                    }
+                                    , {
+                                      "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/ext/intel/fpga_reg.hpp"
+                                      , "line":"25"
+                                    }
+                                  ]
+                                }
+                                , {
+                                  "type":"text"
+                                  , "text":"1.00 clock cycle llvm.fpga.reg Operation (%L)"
+                                  , "links":
+                                  [
+                                    {
+                                      "filename":"Unknown location"
+                                      , "line":"0"
+                                    }
+                                  ]
+                                }
+                                , {
+                                  "type":"text"
+                                  , "text":"1.00 clock cycle llvm.fpga.reg Operation (%L)"
+                                  , "links":
+                                  [
+                                    {
+                                      "filename":"Unknown location"
+                                      , "line":"0"
+                                    }
+                                  ]
+                                }
+                                , {
+                                  "type":"text"
+                                  , "text":"1.00 clock cycle 32-bit Select Operation (%L > %L > %L)"
+                                  , "links":
+                                  [
+                                    {
+                                      "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/handler.hpp"
+                                      , "line":"1166"
+                                    }
+                                    , {
+                                      "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicJ/./gemm.tiny.h"
+                                      , "line":"355"
+                                    }
+                                    , {
+                                      "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/ext/intel/fpga_reg.hpp"
+                                      , "line":"25"
+                                    }
+                                  ]
+                                }
+                                , {
+                                  "type":"text"
+                                  , "text":"1.00 clock cycle llvm.fpga.reg Operation (%L)"
+                                  , "links":
+                                  [
+                                    {
+                                      "filename":"Unknown location"
+                                      , "line":"0"
+                                    }
+                                  ]
+                                }
+                                , {
+                                  "type":"text"
+                                  , "text":"1.00 clock cycle llvm.fpga.reg Operation (%L)"
+                                  , "links":
+                                  [
+                                    {
+                                      "filename":"Unknown location"
+                                      , "line":"0"
+                                    }
+                                  ]
+                                }
+                                , {
+                                  "type":"text"
+                                  , "text":"1.00 clock cycle 32-bit Select Operation (%L > %L > %L)"
+                                  , "links":
+                                  [
+                                    {
+                                      "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/handler.hpp"
+                                      , "line":"1166"
+                                    }
+                                    , {
+                                      "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicJ/./gemm.tiny.h"
+                                      , "line":"355"
+                                    }
+                                    , {
+                                      "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/ext/intel/fpga_reg.hpp"
+                                      , "line":"25"
+                                    }
+                                  ]
+                                }
+                                , {
+                                  "type":"text"
+                                  , "text":"1.00 clock cycle llvm.fpga.reg Operation (%L)"
+                                  , "links":
+                                  [
+                                    {
+                                      "filename":"Unknown location"
+                                      , "line":"0"
+                                    }
+                                  ]
+                                }
+                                , {
+                                  "type":"text"
+                                  , "text":"1.00 clock cycle llvm.fpga.reg Operation (%L)"
+                                  , "links":
+                                  [
+                                    {
+                                      "filename":"Unknown location"
+                                      , "line":"0"
+                                    }
+                                  ]
+                                }
+                                , {
+                                  "type":"text"
+                                  , "text":"1.00 clock cycle 32-bit Select Operation (%L > %L > %L)"
+                                  , "links":
+                                  [
+                                    {
+                                      "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/handler.hpp"
+                                      , "line":"1166"
+                                    }
+                                    , {
+                                      "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicJ/./gemm.tiny.h"
+                                      , "line":"355"
+                                    }
+                                    , {
+                                      "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/ext/intel/fpga_reg.hpp"
+                                      , "line":"25"
+                                    }
+                                  ]
+                                }
+                                , {
+                                  "type":"text"
+                                  , "text":"1.00 clock cycle llvm.fpga.reg Operation (%L)"
+                                  , "links":
+                                  [
+                                    {
+                                      "filename":"Unknown location"
+                                      , "line":"0"
+                                    }
+                                  ]
+                                }
+                                , {
+                                  "type":"text"
+                                  , "text":"1.00 clock cycle llvm.fpga.reg Operation (%L)"
+                                  , "links":
+                                  [
+                                    {
+                                      "filename":"Unknown location"
+                                      , "line":"0"
+                                    }
+                                  ]
+                                }
+                                , {
+                                  "type":"text"
+                                  , "text":"1.00 clock cycle llvm.fpga.reg Operation (%L)"
+                                  , "links":
+                                  [
+                                    {
+                                      "filename":"Unknown location"
+                                      , "line":"0"
+                                    }
+                                  ]
+                                }
+                                , {
+                                  "type":"text"
+                                  , "text":"1.00 clock cycle llvm.fpga.reg Operation (%L)"
+                                  , "links":
+                                  [
+                                    {
+                                      "filename":"Unknown location"
+                                      , "line":"0"
+                                    }
+                                  ]
+                                }
+                                , {
+                                  "type":"text"
+                                  , "text":"1.00 clock cycle llvm.fpga.reg Operation (%L)"
+                                  , "links":
+                                  [
+                                    {
+                                      "filename":"Unknown location"
+                                      , "line":"0"
+                                    }
+                                  ]
+                                }
+                                , {
+                                  "type":"text"
+                                  , "text":"1.00 clock cycle 32-bit Select Operation (%L > %L > %L)"
+                                  , "links":
+                                  [
+                                    {
+                                      "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/handler.hpp"
+                                      , "line":"1166"
+                                    }
+                                    , {
+                                      "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicJ/./gemm.tiny.h"
+                                      , "line":"355"
+                                    }
+                                    , {
+                                      "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/ext/intel/fpga_reg.hpp"
+                                      , "line":"25"
+                                    }
+                                  ]
+                                }
+                                , {
+                                  "type":"text"
+                                  , "text":"1.00 clock cycle llvm.fpga.reg Operation (%L)"
+                                  , "links":
+                                  [
+                                    {
+                                      "filename":"Unknown location"
+                                      , "line":"0"
+                                    }
+                                  ]
+                                }
+                                , {
+                                  "type":"text"
+                                  , "text":"1.00 clock cycle llvm.fpga.reg Operation (%L)"
+                                  , "links":
+                                  [
+                                    {
+                                      "filename":"Unknown location"
+                                      , "line":"0"
+                                    }
+                                  ]
+                                }
+                                , {
+                                  "type":"text"
+                                  , "text":"1.00 clock cycle llvm.fpga.reg Operation (%L)"
+                                  , "links":
+                                  [
+                                    {
+                                      "filename":"Unknown location"
+                                      , "line":"0"
+                                    }
+                                  ]
+                                }
+                                , {
+                                  "type":"text"
+                                  , "text":"1.00 clock cycle 32-bit Select Operation (%L > %L > %L)"
+                                  , "links":
+                                  [
+                                    {
+                                      "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/handler.hpp"
+                                      , "line":"1166"
+                                    }
+                                    , {
+                                      "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicJ/./gemm.tiny.h"
+                                      , "line":"355"
+                                    }
+                                    , {
+                                      "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/ext/intel/fpga_reg.hpp"
+                                      , "line":"25"
+                                    }
+                                  ]
+                                }
+                                , {
+                                  "type":"text"
+                                  , "text":"1.00 clock cycle 32-bit Select Operation (%L > %L > %L)"
+                                  , "links":
+                                  [
+                                    {
+                                      "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/handler.hpp"
+                                      , "line":"1166"
+                                    }
+                                    , {
+                                      "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicJ/./gemm.tiny.h"
+                                      , "line":"355"
+                                    }
+                                    , {
+                                      "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/ext/intel/fpga_reg.hpp"
+                                      , "line":"25"
+                                    }
+                                  ]
+                                }
+                                , {
+                                  "type":"text"
+                                  , "text":"1.00 clock cycle 32-bit Select Operation (%L > %L > %L)"
+                                  , "links":
+                                  [
+                                    {
+                                      "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/handler.hpp"
+                                      , "line":"1166"
+                                    }
+                                    , {
+                                      "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicJ/./gemm.tiny.h"
+                                      , "line":"355"
+                                    }
+                                    , {
+                                      "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/ext/intel/fpga_reg.hpp"
+                                      , "line":"25"
+                                    }
+                                  ]
+                                }
+                                , {
+                                  "type":"text"
+                                  , "text":"1.00 clock cycle llvm.fpga.reg Operation (%L)"
+                                  , "links":
+                                  [
+                                    {
+                                      "filename":"Unknown location"
+                                      , "line":"0"
+                                    }
+                                  ]
+                                }
+                                , {
+                                  "type":"text"
+                                  , "text":"1.00 clock cycle llvm.fpga.reg Operation (%L)"
+                                  , "links":
+                                  [
+                                    {
+                                      "filename":"Unknown location"
+                                      , "line":"0"
+                                    }
+                                  ]
+                                }
+                                , {
+                                  "type":"text"
+                                  , "text":"1.00 clock cycle llvm.fpga.reg Operation (%L)"
+                                  , "links":
+                                  [
+                                    {
+                                      "filename":"Unknown location"
+                                      , "line":"0"
+                                    }
+                                  ]
+                                }
+                                , {
+                                  "type":"text"
+                                  , "text":"1.00 clock cycle 32-bit Select Operation (%L > %L > %L)"
+                                  , "links":
+                                  [
+                                    {
+                                      "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/handler.hpp"
+                                      , "line":"1166"
+                                    }
+                                    , {
+                                      "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicJ/./gemm.tiny.h"
+                                      , "line":"355"
+                                    }
+                                    , {
+                                      "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/ext/intel/fpga_reg.hpp"
+                                      , "line":"25"
+                                    }
+                                  ]
+                                }
+                                , {
+                                  "type":"text"
+                                  , "text":"1.00 clock cycle 32-bit Select Operation (%L > %L > %L)"
+                                  , "links":
+                                  [
+                                    {
+                                      "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/handler.hpp"
+                                      , "line":"1166"
+                                    }
+                                    , {
+                                      "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicJ/./gemm.tiny.h"
+                                      , "line":"355"
+                                    }
+                                    , {
+                                      "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/ext/intel/fpga_reg.hpp"
+                                      , "line":"25"
+                                    }
+                                  ]
+                                }
+                                , {
+                                  "type":"text"
+                                  , "text":"1.00 clock cycle llvm.fpga.reg Operation (%L)"
+                                  , "links":
+                                  [
+                                    {
+                                      "filename":"Unknown location"
+                                      , "line":"0"
+                                    }
+                                  ]
+                                }
+                                , {
+                                  "type":"text"
+                                  , "text":"1.00 clock cycle llvm.fpga.reg Operation (%L)"
+                                  , "links":
+                                  [
+                                    {
+                                      "filename":"Unknown location"
+                                      , "line":"0"
+                                    }
+                                  ]
+                                }
+                                , {
+                                  "type":"text"
+                                  , "text":"1.00 clock cycle llvm.fpga.reg Operation (%L)"
+                                  , "links":
+                                  [
+                                    {
+                                      "filename":"Unknown location"
+                                      , "line":"0"
+                                    }
+                                  ]
+                                }
+                                , {
+                                  "type":"text"
+                                  , "text":"1.00 clock cycle llvm.fpga.reg Operation (%L)"
+                                  , "links":
+                                  [
+                                    {
+                                      "filename":"Unknown location"
+                                      , "line":"0"
+                                    }
+                                  ]
+                                }
+                                , {
+                                  "type":"text"
+                                  , "text":"1.00 clock cycle llvm.fpga.reg Operation (%L)"
+                                  , "links":
+                                  [
+                                    {
+                                      "filename":"Unknown location"
+                                      , "line":"0"
+                                    }
+                                  ]
+                                }
+                                , {
+                                  "type":"text"
+                                  , "text":"1.00 clock cycle 32-bit Select Operation (%L > %L > %L)"
+                                  , "links":
+                                  [
+                                    {
+                                      "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/handler.hpp"
+                                      , "line":"1166"
+                                    }
+                                    , {
+                                      "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicJ/./gemm.tiny.h"
+                                      , "line":"355"
+                                    }
+                                    , {
+                                      "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/ext/intel/fpga_reg.hpp"
+                                      , "line":"25"
+                                    }
+                                  ]
+                                }
+                                , {
+                                  "type":"text"
+                                  , "text":"1.00 clock cycle llvm.fpga.reg Operation (%L)"
+                                  , "links":
+                                  [
+                                    {
+                                      "filename":"Unknown location"
+                                      , "line":"0"
+                                    }
+                                  ]
+                                }
+                                , {
+                                  "type":"text"
+                                  , "text":"1.00 clock cycle llvm.fpga.reg Operation (%L)"
+                                  , "links":
+                                  [
+                                    {
+                                      "filename":"Unknown location"
+                                      , "line":"0"
+                                    }
+                                  ]
+                                }
+                                , {
+                                  "type":"text"
+                                  , "text":"1.00 clock cycle llvm.fpga.reg Operation (%L)"
+                                  , "links":
+                                  [
+                                    {
+                                      "filename":"Unknown location"
+                                      , "line":"0"
+                                    }
+                                  ]
+                                }
+                                , {
+                                  "type":"text"
+                                  , "text":"1.00 clock cycle llvm.fpga.reg Operation (%L)"
+                                  , "links":
+                                  [
+                                    {
+                                      "filename":"Unknown location"
+                                      , "line":"0"
+                                    }
+                                  ]
+                                }
+                                , {
+                                  "type":"text"
+                                  , "text":"1.00 clock cycle 32-bit Select Operation (%L > %L > %L)"
+                                  , "links":
+                                  [
+                                    {
+                                      "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/handler.hpp"
+                                      , "line":"1166"
+                                    }
+                                    , {
+                                      "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicJ/./gemm.tiny.h"
+                                      , "line":"355"
+                                    }
+                                    , {
+                                      "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/ext/intel/fpga_reg.hpp"
+                                      , "line":"25"
+                                    }
+                                  ]
+                                }
+                                , {
+                                  "type":"text"
+                                  , "text":"1.00 clock cycle llvm.fpga.reg Operation (%L)"
+                                  , "links":
+                                  [
+                                    {
+                                      "filename":"Unknown location"
+                                      , "line":"0"
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                        , {
+                          "type":"text"
+                          , "text":"II is an approximation due to the following stallable instructions:"
+                          , "details":
+                          [
+                            {
+                              "type":"text"
+                              , "text":"Pipe Read Operation (%L > %L > %L)"
+                              , "links":
+                              [
+                                {
+                                  "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/handler.hpp"
+                                  , "line":"1166"
+                                }
+                                , {
+                                  "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicJ/./gemm.tiny.h"
+                                  , "line":"336"
+                                }
+                                , {
+                                  "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/ext/intel/pipes.hpp"
+                                  , "line":"67"
+                                }
+                              ]
+                            }
+                            , {
+                              "type":"text"
+                              , "text":"Pipe Read Operation (%L > %L > %L)"
+                              , "links":
+                              [
+                                {
+                                  "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/handler.hpp"
+                                  , "line":"1166"
+                                }
+                                , {
+                                  "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicJ/./gemm.tiny.h"
+                                  , "line":"337"
+                                }
+                                , {
+                                  "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/ext/intel/pipes.hpp"
+                                  , "line":"67"
+                                }
+                              ]
+                            }
+                            , {
+                              "type":"text"
+                              , "text":"Pipe Write Operation (%L > %L > %L)"
+                              , "links":
+                              [
+                                {
+                                  "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/handler.hpp"
+                                  , "line":"1166"
+                                }
+                                , {
+                                  "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicJ/./gemm.tiny.h"
+                                  , "line":"385"
+                                }
+                                , {
+                                  "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/ext/intel/pipes.hpp"
+                                  , "line":"82"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                        , {
+                          "type":"text"
+                          , "text":"Maximum concurrent iterations: Capacity of loop"
+                          , "details":
+                          [
+                            {
+                              "type":"text"
+                              , "text":"Use the %L viewer to estimate capacity"
+                              , "links":
+                              [
+                                {
+                                  "view":"Fmax II Report"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                        , {
+                          "type":"text"
+                          , "text":"Average Trip count: 64 (exact)"
+                        }
+                        , {
+                          "type":"text"
+                          , "text":"See %L for more information"
+                          , "links":
+                          [
+                            {
+                              "guide":"Best Practices Guide : Loops in a Single Work-Item Kernel"
+                              , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/wfa1476380079940.html"
+                            }
+                          ]
+                        }
+                      ]
+                      , "children":
+                      [
+                        {
+                          "name":"Fully unrolled loop"
+                          , "data":
+                          ["n/a", "n/a", "n/a"]
+                          , "debug":
+                          [
+                            [
+                              {
+                                "filename":"gemm.tiny.h"
+                                , "line":324
+                              }
+                            ]
+                          ]
+                          , "details":
+                          [
+                            {
+                              "type":"brief"
+                              , "text":"Unrolled by #pragma unroll"
+                            }
+                            , {
+                              "type":"text"
+                              , "text":"Unrolled by #pragma unroll"
+                            }
+                          ]
+                          , "children":
+                          [
+                            {
+                              "name":"Fully unrolled loop"
+                              , "data":
+                              ["n/a", "n/a", "n/a"]
+                              , "debug":
+                              [
+                                [
+                                  {
+                                    "filename":"gemm.tiny.h"
+                                    , "line":326
+                                  }
+                                ]
+                              ]
+                              , "details":
+                              [
+                                {
+                                  "type":"brief"
+                                  , "text":"Unrolled by #pragma unroll"
+                                }
+                                , {
+                                  "type":"text"
+                                  , "text":"Unrolled by #pragma unroll"
+                                }
+                              ]
+                              , "children":
+                              [
+                                {
+                                  "name":"Fully unrolled loop"
+                                  , "data":
+                                  ["n/a", "n/a", "n/a"]
+                                  , "debug":
+                                  [
+                                    [
+                                      {
+                                        "filename":"gemm.tiny.h"
+                                        , "line":329
+                                      }
+                                    ]
+                                  ]
+                                  , "details":
+                                  [
+                                    {
+                                      "type":"brief"
+                                      , "text":"Unrolled by #pragma unroll"
+                                    }
+                                    , {
+                                      "type":"text"
+                                      , "text":"Unrolled by #pragma unroll"
+                                    }
+                                  ]
+                                  , "children":
+                                  [
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                        , {
+                          "name":"Fully unrolled loop"
+                          , "data":
+                          ["n/a", "n/a", "n/a"]
+                          , "debug":
+                          [
+                            [
+                              {
+                                "filename":"gemm.tiny.h"
+                                , "line":340
+                              }
+                            ]
+                          ]
+                          , "details":
+                          [
+                            {
+                              "type":"brief"
+                              , "text":"Unrolled by #pragma unroll"
+                            }
+                            , {
+                              "type":"text"
+                              , "text":"Unrolled by #pragma unroll"
+                            }
+                          ]
+                          , "children":
+                          [
+                            {
+                              "name":"Fully unrolled loop"
+                              , "data":
+                              ["n/a", "n/a", "n/a"]
+                              , "debug":
+                              [
+                                [
+                                  {
+                                    "filename":"gemm.tiny.h"
+                                    , "line":342
+                                  }
+                                ]
+                              ]
+                              , "details":
+                              [
+                                {
+                                  "type":"brief"
+                                  , "text":"Unrolled by #pragma unroll"
+                                }
+                                , {
+                                  "type":"text"
+                                  , "text":"Unrolled by #pragma unroll"
+                                }
+                              ]
+                              , "children":
+                              [
+                                {
+                                  "name":"Fully unrolled loop"
+                                  , "data":
+                                  ["n/a", "n/a", "n/a"]
+                                  , "debug":
+                                  [
+                                    [
+                                      {
+                                        "filename":"gemm.tiny.h"
+                                        , "line":357
+                                      }
+                                    ]
+                                  ]
+                                  , "details":
+                                  [
+                                    {
+                                      "type":"brief"
+                                      , "text":"Unrolled by #pragma unroll"
+                                    }
+                                    , {
+                                      "type":"text"
+                                      , "text":"Unrolled by #pragma unroll"
+                                    }
+                                  ]
+                                  , "children":
+                                  [
+                                  ]
+                                }
+                                , {
+                                  "name":"Fully unrolled loop"
+                                  , "data":
+                                  ["n/a", "n/a", "n/a"]
+                                  , "debug":
+                                  [
+                                    [
+                                      {
+                                        "filename":"gemm.tiny.h"
+                                        , "line":365
+                                      }
+                                    ]
+                                  ]
+                                  , "details":
+                                  [
+                                    {
+                                      "type":"brief"
+                                      , "text":"Unrolled by #pragma unroll"
+                                    }
+                                    , {
+                                      "type":"text"
+                                      , "text":"Unrolled by #pragma unroll"
+                                    }
+                                  ]
+                                  , "children":
+                                  [
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                        , {
+                          "name":"Fully unrolled loop"
+                          , "data":
+                          ["n/a", "n/a", "n/a"]
+                          , "debug":
+                          [
+                            [
+                              {
+                                "filename":"gemm.tiny.h"
+                                , "line":377
+                              }
+                            ]
+                          ]
+                          , "details":
+                          [
+                            {
+                              "type":"brief"
+                              , "text":"Unrolled by #pragma unroll"
+                            }
+                            , {
+                              "type":"text"
+                              , "text":"Unrolled by #pragma unroll"
+                            }
+                          ]
+                          , "children":
+                          [
+                            {
+                              "name":"Fully unrolled loop"
+                              , "data":
+                              ["n/a", "n/a", "n/a"]
+                              , "debug":
+                              [
+                                [
+                                  {
+                                    "filename":"gemm.tiny.h"
+                                    , "line":380
+                                  }
+                                ]
+                              ]
+                              , "details":
+                              [
+                                {
+                                  "type":"brief"
+                                  , "text":"Unrolled by #pragma unroll"
+                                }
+                                , {
+                                  "type":"text"
+                                  , "text":"Unrolled by #pragma unroll"
+                                }
+                              ]
+                              , "children":
+                              [
+                              ]
+                            }
+                          ]
+                        }
+                        , {
+                          "name":"Fully unrolled loop"
+                          , "data":
+                          ["n/a", "n/a", "n/a"]
+                          , "debug":
+                          [
+                            [
+                              {
+                                "filename":"gemm.tiny.h"
+                                , "line":388
+                              }
+                            ]
+                          ]
+                          , "details":
+                          [
+                            {
+                              "type":"brief"
+                              , "text":"Unrolled by #pragma unroll"
+                            }
+                            , {
+                              "type":"text"
+                              , "text":"Unrolled by #pragma unroll"
+                            }
+                          ]
+                          , "children":
+                          [
+                            {
+                              "name":"Fully unrolled loop"
+                              , "data":
+                              ["n/a", "n/a", "n/a"]
+                              , "debug":
+                              [
+                                [
+                                  {
+                                    "filename":"gemm.tiny.h"
+                                    , "line":390
+                                  }
+                                ]
+                              ]
+                              , "details":
+                              [
+                                {
+                                  "type":"brief"
+                                  , "text":"Unrolled by #pragma unroll"
+                                }
+                                , {
+                                  "type":"text"
+                                  , "text":"Unrolled by #pragma unroll"
+                                }
+                              ]
+                              , "children":
+                              [
+                                {
+                                  "name":"Fully unrolled loop"
+                                  , "data":
+                                  ["n/a", "n/a", "n/a"]
+                                  , "debug":
+                                  [
+                                    [
+                                      {
+                                        "filename":"gemm.tiny.h"
+                                        , "line":392
+                                      }
+                                    ]
+                                  ]
+                                  , "details":
+                                  [
+                                    {
+                                      "type":"brief"
+                                      , "text":"Unrolled by #pragma unroll"
+                                    }
+                                    , {
+                                      "type":"text"
+                                      , "text":"Unrolled by #pragma unroll"
+                                    }
+                                  ]
+                                  , "children":
+                                  [
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+    , {
+      "name":"Kernel: kernel_cLoader"
+      , "data":
+      ["", "", ""]
+      , "debug":
+      [
+        [
+          {
+            "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicJ/./gemm.tiny.h"
+            , "line":412
+          }
+        ]
+      ]
+      , "details":
+      [
+        {
+          "type":"brief"
+          , "text":"Single work-item execution"
+        }
+        , {
+          "type":"text"
+          , "text":"Single work-item execution"
+        }
+        , {
+          "type":"text"
+          , "text":"fMAX bottleneck block: None"
+        }
+        , {
+          "type":"text"
+          , "text":"See %L for more information"
+          , "links":
+          [
+            {
+              "guide":"Best Practices Guide : Kernels"
+              , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/ipp1476408832230.html"
+            }
+          ]
+        }
+      ]
+      , "children":
+      [
+        {
+          "name":"kernel_cLoader.B1"
+          , "data":
+          ["Yes", ">=1", "0"]
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicJ/./gemm.tiny.h"
+                , "line":416
+              }
+            ]
+          ]
+          , "details":
+          [
+            {
+              "type":"text"
+              , "text":"Stallable instruction: n/a"
+            }
+            , {
+              "type":"text"
+              , "text":"Maximum concurrent iterations: Capacity of loop"
+              , "details":
+              [
+                {
+                  "type":"text"
+                  , "text":"Use the %L viewer to estimate capacity"
+                  , "links":
+                  [
+                    {
+                      "view":"Fmax II Report"
+                    }
+                  ]
+                }
+              ]
+            }
+            , {
+              "type":"text"
+              , "text":"Average Trip count: 4 (exact)"
+            }
+            , {
+              "type":"text"
+              , "text":"See %L for more information"
+              , "links":
+              [
+                {
+                  "guide":"Best Practices Guide : Nested Loops"
+                  , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/rfr1469543500580.html"
+                }
+              ]
+            }
+          ]
+          , "children":
+          [
+            {
+              "name":"kernel_cLoader.B2"
+              , "data":
+              ["Yes", ">=1", "0"]
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicJ/./gemm.tiny.h"
+                    , "line":417
+                  }
+                ]
+              ]
+              , "details":
+              [
+                {
+                  "type":"text"
+                  , "text":"Stallable instruction: n/a"
+                }
+                , {
+                  "type":"text"
+                  , "text":"Maximum concurrent iterations: Capacity of loop"
+                  , "details":
+                  [
+                    {
+                      "type":"text"
+                      , "text":"Use the %L viewer to estimate capacity"
+                      , "links":
+                      [
+                        {
+                          "view":"Fmax II Report"
+                        }
+                      ]
+                    }
+                  ]
+                }
+                , {
+                  "type":"text"
+                  , "text":"See %L for more information"
+                  , "links":
+                  [
+                    {
+                      "guide":"Best Practices Guide : Nested Loops"
+                      , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/rfr1469543500580.html"
+                    }
+                  ]
+                }
+              ]
+              , "children":
+              [
+                {
+                  "name":"kernel_cLoader.B5"
+                  , "data":
+                  ["Yes", "~1", "0"]
+                  , "debug":
+                  [
+                    [
+                      {
+                        "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicJ/./gemm.tiny.h"
+                        , "line":418
+                      }
+                    ]
+                  ]
+                  , "details":
+                  [
+                    {
+                      "type":"text"
+                      , "text":"II is an approximation due to the following stallable instructions:"
+                      , "details":
+                      [
+                        {
+                          "type":"text"
+                          , "text":"Load Operation (%L > %L, %L, %L, %L)"
+                          , "links":
+                          [
+                            {
+                              "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/handler.hpp"
+                              , "line":"1166"
+                            }
+                            , {
+                              "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicJ/./gemm.tiny.h"
+                              , "line":"421"
+                            }
+                            , {
+                              "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicJ/./gemm.tiny.h"
+                              , "line":"422"
+                            }
+                            , {
+                              "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicJ/./gemm.tiny.h"
+                              , "line":"423"
+                            }
+                            , {
+                              "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicJ/./gemm.tiny.h"
+                              , "line":"424"
+                            }
+                          ]
+                        }
+                        , {
+                          "type":"text"
+                          , "text":"Pipe Write Operation (%L > %L > %L)"
+                          , "links":
+                          [
+                            {
+                              "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/handler.hpp"
+                              , "line":"1166"
+                            }
+                            , {
+                              "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicJ/./gemm.tiny.h"
+                              , "line":"420"
+                            }
+                            , {
+                              "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/ext/intel/pipes.hpp"
+                              , "line":"82"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                    , {
+                      "type":"text"
+                      , "text":"Maximum concurrent iterations: Capacity of loop"
+                      , "details":
+                      [
+                        {
+                          "type":"text"
+                          , "text":"Use the %L viewer to estimate capacity"
+                          , "links":
+                          [
+                            {
+                              "view":"Fmax II Report"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                    , {
+                      "type":"text"
+                      , "text":"Average Trip count: 64 (exact)"
+                    }
+                    , {
+                      "type":"text"
+                      , "text":"See %L for more information"
+                      , "links":
+                      [
+                        {
+                          "guide":"Best Practices Guide : Loops in a Single Work-Item Kernel"
+                          , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/wfa1476380079940.html"
+                        }
+                      ]
+                    }
+                  ]
+                  , "children":
+                  [
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+    , {
+      "name":"Kernel: kernel_Out"
+      , "data":
+      ["", "", ""]
+      , "debug":
+      [
+        [
+          {
+            "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicJ/./gemm.tiny.h"
+            , "line":436
+          }
+        ]
+      ]
+      , "details":
+      [
+        {
+          "type":"brief"
+          , "text":"Single work-item execution"
+        }
+        , {
+          "type":"text"
+          , "text":"Single work-item execution"
+        }
+        , {
+          "type":"text"
+          , "text":"fMAX bottleneck block: None"
+        }
+        , {
+          "type":"text"
+          , "text":"See %L for more information"
+          , "links":
+          [
+            {
+              "guide":"Best Practices Guide : Kernels"
+              , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/ipp1476408832230.html"
+            }
+          ]
+        }
+      ]
+      , "children":
+      [
+        {
+          "name":"kernel_Out.B1"
+          , "data":
+          ["Yes", ">=1", "0"]
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicJ/./gemm.tiny.h"
+                , "line":439
+              }
+            ]
+          ]
+          , "details":
+          [
+            {
+              "type":"text"
+              , "text":"Stallable instruction: n/a"
+            }
+            , {
+              "type":"text"
+              , "text":"Maximum concurrent iterations: Capacity of loop"
+              , "details":
+              [
+                {
+                  "type":"text"
+                  , "text":"Use the %L viewer to estimate capacity"
+                  , "links":
+                  [
+                    {
+                      "view":"Fmax II Report"
+                    }
+                  ]
+                }
+              ]
+            }
+            , {
+              "type":"text"
+              , "text":"Average Trip count: 4 (exact)"
+            }
+            , {
+              "type":"text"
+              , "text":"See %L for more information"
+              , "links":
+              [
+                {
+                  "guide":"Best Practices Guide : Nested Loops"
+                  , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/rfr1469543500580.html"
+                }
+              ]
+            }
+          ]
+          , "children":
+          [
+            {
+              "name":"kernel_Out.B2"
+              , "data":
+              ["Yes", ">=2", "0"]
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicJ/./gemm.tiny.h"
+                    , "line":440
+                  }
+                ]
+              ]
+              , "details":
+              [
+                {
+                  "type":"text"
+                  , "text":"Stallable instruction: n/a"
+                }
+                , {
+                  "type":"text"
+                  , "text":"Maximum concurrent iterations: Capacity of loop"
+                  , "details":
+                  [
+                    {
+                      "type":"text"
+                      , "text":"Use the %L viewer to estimate capacity"
+                      , "links":
+                      [
+                        {
+                          "view":"Fmax II Report"
+                        }
+                      ]
+                    }
+                  ]
+                }
+                , {
+                  "type":"text"
+                  , "text":"See %L for more information"
+                  , "links":
+                  [
+                    {
+                      "guide":"Best Practices Guide : Nested Loops"
+                      , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/rfr1469543500580.html"
+                    }
+                  ]
+                }
+              ]
+              , "children":
+              [
+                {
+                  "name":"kernel_Out.B5"
+                  , "data":
+                  ["Yes", "~1", "0"]
+                  , "debug":
+                  [
+                    [
+                      {
+                        "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicJ/./gemm.tiny.h"
+                        , "line":441
+                      }
+                    ]
+                  ]
+                  , "details":
+                  [
+                    {
+                      "type":"text"
+                      , "text":"II is an approximation due to the following stallable instructions:"
+                      , "details":
+                      [
+                        {
+                          "type":"text"
+                          , "text":"Pipe Read Operation (%L > %L > %L)"
+                          , "links":
+                          [
+                            {
+                              "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/handler.hpp"
+                              , "line":"1166"
+                            }
+                            , {
+                              "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicJ/./gemm.tiny.h"
+                              , "line":"442"
+                            }
+                            , {
+                              "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/ext/intel/pipes.hpp"
+                              , "line":"67"
+                            }
+                          ]
+                        }
+                        , {
+                          "type":"text"
+                          , "text":"Pipe Read Operation (%L > %L > %L)"
+                          , "links":
+                          [
+                            {
+                              "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/handler.hpp"
+                              , "line":"1166"
+                            }
+                            , {
+                              "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicJ/./gemm.tiny.h"
+                              , "line":"442"
+                            }
+                            , {
+                              "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/ext/intel/pipes.hpp"
+                              , "line":"67"
+                            }
+                          ]
+                        }
+                        , {
+                          "type":"text"
+                          , "text":"Pipe Write Operation (%L > %L > %L)"
+                          , "links":
+                          [
+                            {
+                              "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/handler.hpp"
+                              , "line":"1166"
+                            }
+                            , {
+                              "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicJ/./gemm.tiny.h"
+                              , "line":"443"
+                            }
+                            , {
+                              "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/ext/intel/pipes.hpp"
+                              , "line":"82"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                    , {
+                      "type":"text"
+                      , "text":"Maximum concurrent iterations: Capacity of loop"
+                      , "details":
+                      [
+                        {
+                          "type":"text"
+                          , "text":"Use the %L viewer to estimate capacity"
+                          , "links":
+                          [
+                            {
+                              "view":"Fmax II Report"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                    , {
+                      "type":"text"
+                      , "text":"Average Trip count: 64 (exact)"
+                    }
+                    , {
+                      "type":"text"
+                      , "text":"See %L for more information"
+                      , "links":
+                      [
+                        {
+                          "guide":"Best Practices Guide : Loops in a Single Work-Item Kernel"
+                          , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/wfa1476380079940.html"
+                        }
+                      ]
+                    }
+                  ]
+                  , "children":
+                  [
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+    , {
+      "name":"Kernel: kernel_unloader"
+      , "data":
+      ["", "", ""]
+      , "debug":
+      [
+        [
+          {
+            "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicJ/./gemm.tiny.h"
+            , "line":454
+          }
+        ]
+      ]
+      , "details":
+      [
+        {
+          "type":"brief"
+          , "text":"Single work-item execution"
+        }
+        , {
+          "type":"text"
+          , "text":"Single work-item execution"
+        }
+        , {
+          "type":"text"
+          , "text":"fMAX bottleneck block: None"
+        }
+        , {
+          "type":"text"
+          , "text":"See %L for more information"
+          , "links":
+          [
+            {
+              "guide":"Best Practices Guide : Kernels"
+              , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/ipp1476408832230.html"
+            }
+          ]
+        }
+      ]
+      , "children":
+      [
+        {
+          "name":"kernel_unloader.B1"
+          , "data":
+          ["Yes", ">=1", "0"]
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicJ/./gemm.tiny.h"
+                , "line":458
+              }
+            ]
+          ]
+          , "details":
+          [
+            {
+              "type":"text"
+              , "text":"Stallable instruction: n/a"
+            }
+            , {
+              "type":"text"
+              , "text":"Maximum concurrent iterations: Capacity of loop"
+              , "details":
+              [
+                {
+                  "type":"text"
+                  , "text":"Use the %L viewer to estimate capacity"
+                  , "links":
+                  [
+                    {
+                      "view":"Fmax II Report"
+                    }
+                  ]
+                }
+              ]
+            }
+            , {
+              "type":"text"
+              , "text":"Average Trip count: 4 (exact)"
+            }
+            , {
+              "type":"text"
+              , "text":"See %L for more information"
+              , "links":
+              [
+                {
+                  "guide":"Best Practices Guide : Nested Loops"
+                  , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/rfr1469543500580.html"
+                }
+              ]
+            }
+          ]
+          , "children":
+          [
+            {
+              "name":"kernel_unloader.B2"
+              , "data":
+              ["Yes", ">=1", "0"]
+              , "debug":
+              [
+                [
+                  {
+                    "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicJ/./gemm.tiny.h"
+                    , "line":459
+                  }
+                ]
+              ]
+              , "details":
+              [
+                {
+                  "type":"text"
+                  , "text":"Stallable instruction: n/a"
+                }
+                , {
+                  "type":"text"
+                  , "text":"Maximum concurrent iterations: Capacity of loop"
+                  , "details":
+                  [
+                    {
+                      "type":"text"
+                      , "text":"Use the %L viewer to estimate capacity"
+                      , "links":
+                      [
+                        {
+                          "view":"Fmax II Report"
+                        }
+                      ]
+                    }
+                  ]
+                }
+                , {
+                  "type":"text"
+                  , "text":"See %L for more information"
+                  , "links":
+                  [
+                    {
+                      "guide":"Best Practices Guide : Nested Loops"
+                      , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/rfr1469543500580.html"
+                    }
+                  ]
+                }
+              ]
+              , "children":
+              [
+                {
+                  "name":"kernel_unloader.B5"
+                  , "data":
+                  ["Yes", "~1", "0"]
+                  , "debug":
+                  [
+                    [
+                      {
+                        "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicJ/./gemm.tiny.h"
+                        , "line":460
+                      }
+                    ]
+                  ]
+                  , "details":
+                  [
+                    {
+                      "type":"text"
+                      , "text":"II is an approximation due to the following stallable instructions:"
+                      , "details":
+                      [
+                        {
+                          "type":"text"
+                          , "text":"Pipe Read Operation (%L > %L > %L)"
+                          , "links":
+                          [
+                            {
+                              "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/handler.hpp"
+                              , "line":"1166"
+                            }
+                            , {
+                              "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicJ/./gemm.tiny.h"
+                              , "line":"461"
+                            }
+                            , {
+                              "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/ext/intel/pipes.hpp"
+                              , "line":"67"
+                            }
+                          ]
+                        }
+                        , {
+                          "type":"text"
+                          , "text":"Store Operation (%L > %L, %L, %L, %L)"
+                          , "links":
+                          [
+                            {
+                              "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/handler.hpp"
+                              , "line":"1166"
+                            }
+                            , {
+                              "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicJ/./gemm.tiny.h"
+                              , "line":"462"
+                            }
+                            , {
+                              "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicJ/./gemm.tiny.h"
+                              , "line":"463"
+                            }
+                            , {
+                              "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicJ/./gemm.tiny.h"
+                              , "line":"464"
+                            }
+                            , {
+                              "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-dynamicJ/./gemm.tiny.h"
+                              , "line":"465"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                    , {
+                      "type":"text"
+                      , "text":"Maximum concurrent iterations: Capacity of loop"
+                      , "details":
+                      [
+                        {
+                          "type":"text"
+                          , "text":"Use the %L viewer to estimate capacity"
+                          , "links":
+                          [
+                            {
+                              "view":"Fmax II Report"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                    , {
+                      "type":"text"
+                      , "text":"Average Trip count: 64 (exact)"
+                    }
+                    , {
+                      "type":"text"
+                      , "text":"See %L for more information"
+                      , "links":
+                      [
+                        {
+                          "guide":"Best Practices Guide : Loops in a Single Work-Item Kernel"
+                          , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/wfa1476380079940.html"
+                        }
+                      ]
+                    }
+                  ]
+                  , "children":
+                  [
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
