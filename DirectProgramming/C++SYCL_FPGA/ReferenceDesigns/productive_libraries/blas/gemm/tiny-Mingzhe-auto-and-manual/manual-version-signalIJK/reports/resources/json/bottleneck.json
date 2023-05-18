@@ -1003,6 +1003,20 @@
           , "type":"inst"
         }
         , {
+          "name":"Compare"
+          , "id":1056
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                , "line":237
+              }
+            ]
+          ]
+          , "type":"inst"
+        }
+        , {
           "name":"Loop Orch"
           , "id":1058
           , "debug":
@@ -1019,20 +1033,6 @@
         , {
           "name":"Loop Orch"
           , "id":1059
-          , "debug":
-          [
-            [
-              {
-                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
-                , "line":237
-              }
-            ]
-          ]
-          , "type":"inst"
-        }
-        , {
-          "name":"Compare"
-          , "id":1056
           , "debug":
           [
             [
@@ -1068,12 +1068,16 @@
           , "to":1034
         }
         , {
-          "from":1058
-          , "to":1059
-        }
-        , {
           "from":1034
           , "to":1056
+        }
+        , {
+          "from":1056
+          , "to":1058
+        }
+        , {
+          "from":1058
+          , "to":1059
         }
         , {
           "from":1059
@@ -1408,6 +1412,20 @@
           , "type":"inst"
         }
         , {
+          "name":"Compare"
+          , "id":1080
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                , "line":238
+              }
+            ]
+          ]
+          , "type":"inst"
+        }
+        , {
           "name":"Loop Orch"
           , "id":1082
           , "debug":
@@ -1424,20 +1442,6 @@
         , {
           "name":"Loop Orch"
           , "id":1083
-          , "debug":
-          [
-            [
-              {
-                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
-                , "line":238
-              }
-            ]
-          ]
-          , "type":"inst"
-        }
-        , {
-          "name":"Compare"
-          , "id":1080
           , "debug":
           [
             [
@@ -1469,12 +1473,16 @@
       , "links":
       [
         {
-          "from":1082
-          , "to":1083
-        }
-        , {
           "from":1079
           , "to":1080
+        }
+        , {
+          "from":1080
+          , "to":1082
+        }
+        , {
+          "from":1082
+          , "to":1083
         }
         , {
           "from":1083
@@ -1566,8 +1574,8 @@
           , "type":"inst"
         }
         , {
-          "name":"+"
-          , "id":1579
+          "name":"Select"
+          , "id":1572
           , "debug":
           [
             [
@@ -1580,8 +1588,8 @@
           , "type":"inst"
         }
         , {
-          "name":"Select"
-          , "id":1572
+          "name":"+"
+          , "id":1579
           , "debug":
           [
             [
@@ -1615,6 +1623,10 @@
         {
           "from":1571
           , "to":1572
+        }
+        , {
+          "from":1572
+          , "to":1579
         }
         , {
           "from":1579
@@ -2044,20 +2056,6 @@
           , "type":"inst"
         }
         , {
-          "name":"Select"
-          , "id":2264
-          , "debug":
-          [
-            [
-              {
-                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
-                , "line":437
-              }
-            ]
-          ]
-          , "type":"inst"
-        }
-        , {
           "name":"+"
           , "id":2278
           , "debug":
@@ -2066,6 +2064,20 @@
               {
                 "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
                 , "line":439
+              }
+            ]
+          ]
+          , "type":"inst"
+        }
+        , {
+          "name":"Select"
+          , "id":2264
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                , "line":437
               }
             ]
           ]
@@ -2093,10 +2105,6 @@
         {
           "from":2263
           , "to":2264
-        }
-        , {
-          "from":2264
-          , "to":2278
         }
         , {
           "from":2278

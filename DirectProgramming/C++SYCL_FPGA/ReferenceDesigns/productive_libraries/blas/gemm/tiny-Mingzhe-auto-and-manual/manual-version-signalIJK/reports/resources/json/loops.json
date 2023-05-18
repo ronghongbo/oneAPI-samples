@@ -37,7 +37,7 @@
           [
             {
               "guide":"Best Practices Guide : Kernels"
-              , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/ipp1476408832230.html"
+              , "link":"file:////glob/development-tools/versions/oneapi/2023.1.1/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/ipp1476408832230.html"
             }
           ]
         }
@@ -109,7 +109,7 @@
               [
                 {
                   "guide":"Best Practices Guide : Nested Loops"
-                  , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/rfr1469543500580.html"
+                  , "link":"file:////glob/development-tools/versions/oneapi/2023.1.1/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/rfr1469543500580.html"
                 }
               ]
             }
@@ -159,7 +159,7 @@
                   [
                     {
                       "guide":"Best Practices Guide : Nested Loops"
-                      , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/rfr1469543500580.html"
+                      , "link":"file:////glob/development-tools/versions/oneapi/2023.1.1/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/rfr1469543500580.html"
                     }
                   ]
                 }
@@ -209,7 +209,7 @@
                       [
                         {
                           "guide":"Best Practices Guide : Nested Loops"
-                          , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/rfr1469543500580.html"
+                          , "link":"file:////glob/development-tools/versions/oneapi/2023.1.1/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/rfr1469543500580.html"
                         }
                       ]
                     }
@@ -242,7 +242,7 @@
                               , "links":
                               [
                                 {
-                                  "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/handler.hpp"
+                                  "filename":"/glob/development-tools/versions/oneapi/2023.1.1/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/handler.hpp"
                                   , "line":"1166"
                                 }
                                 , {
@@ -269,7 +269,7 @@
                               , "links":
                               [
                                 {
-                                  "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/handler.hpp"
+                                  "filename":"/glob/development-tools/versions/oneapi/2023.1.1/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/handler.hpp"
                                   , "line":"1166"
                                 }
                                 , {
@@ -277,7 +277,7 @@
                                   , "line":"161"
                                 }
                                 , {
-                                  "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/ext/intel/pipes.hpp"
+                                  "filename":"/glob/development-tools/versions/oneapi/2023.1.1/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/ext/intel/pipes.hpp"
                                   , "line":"82"
                                 }
                               ]
@@ -312,7 +312,7 @@
                           [
                             {
                               "guide":"Best Practices Guide : Loops in a Single Work-Item Kernel"
-                              , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/wfa1476380079940.html"
+                              , "link":"file:////glob/development-tools/versions/oneapi/2023.1.1/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/wfa1476380079940.html"
                             }
                           ]
                         }
@@ -363,7 +363,7 @@
           [
             {
               "guide":"Best Practices Guide : Kernels"
-              , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/ipp1476408832230.html"
+              , "link":"file:////glob/development-tools/versions/oneapi/2023.1.1/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/ipp1476408832230.html"
             }
           ]
         }
@@ -396,7 +396,7 @@
                   , "links":
                   [
                     {
-                      "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/handler.hpp"
+                      "filename":"/glob/development-tools/versions/oneapi/2023.1.1/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/handler.hpp"
                       , "line":"1166"
                     }
                     , {
@@ -404,7 +404,7 @@
                       , "line":"194"
                     }
                     , {
-                      "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/ext/intel/pipes.hpp"
+                      "filename":"/glob/development-tools/versions/oneapi/2023.1.1/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/ext/intel/pipes.hpp"
                       , "line":"67"
                     }
                   ]
@@ -415,7 +415,7 @@
                   , "links":
                   [
                     {
-                      "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/handler.hpp"
+                      "filename":"/glob/development-tools/versions/oneapi/2023.1.1/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/handler.hpp"
                       , "line":"1166"
                     }
                     , {
@@ -423,7 +423,7 @@
                       , "line":"218"
                     }
                     , {
-                      "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/ext/intel/pipes.hpp"
+                      "filename":"/glob/development-tools/versions/oneapi/2023.1.1/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/ext/intel/pipes.hpp"
                       , "line":"82"
                     }
                   ]
@@ -454,7 +454,7 @@
               [
                 {
                   "guide":"Best Practices Guide : Loops in a Single Work-Item Kernel"
-                  , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/wfa1476380079940.html"
+                  , "link":"file:////glob/development-tools/versions/oneapi/2023.1.1/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/wfa1476380079940.html"
                 }
               ]
             }
@@ -527,7 +527,7 @@
           [
             {
               "guide":"Best Practices Guide : Kernels"
-              , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/ipp1476408832230.html"
+              , "link":"file:////glob/development-tools/versions/oneapi/2023.1.1/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/ipp1476408832230.html"
             }
           ]
         }
@@ -599,7 +599,7 @@
               [
                 {
                   "guide":"Best Practices Guide : Nested Loops"
-                  , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/rfr1469543500580.html"
+                  , "link":"file:////glob/development-tools/versions/oneapi/2023.1.1/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/rfr1469543500580.html"
                 }
               ]
             }
@@ -649,7 +649,7 @@
                   [
                     {
                       "guide":"Best Practices Guide : Nested Loops"
-                      , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/rfr1469543500580.html"
+                      , "link":"file:////glob/development-tools/versions/oneapi/2023.1.1/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/rfr1469543500580.html"
                     }
                   ]
                 }
@@ -699,7 +699,7 @@
                       [
                         {
                           "guide":"Best Practices Guide : Nested Loops"
-                          , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/rfr1469543500580.html"
+                          , "link":"file:////glob/development-tools/versions/oneapi/2023.1.1/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/rfr1469543500580.html"
                         }
                       ]
                     }
@@ -732,7 +732,7 @@
                               , "links":
                               [
                                 {
-                                  "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/handler.hpp"
+                                  "filename":"/glob/development-tools/versions/oneapi/2023.1.1/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/handler.hpp"
                                   , "line":"1166"
                                 }
                                 , {
@@ -759,7 +759,7 @@
                               , "links":
                               [
                                 {
-                                  "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/handler.hpp"
+                                  "filename":"/glob/development-tools/versions/oneapi/2023.1.1/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/handler.hpp"
                                   , "line":"1166"
                                 }
                                 , {
@@ -767,7 +767,7 @@
                                   , "line":"242"
                                 }
                                 , {
-                                  "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/ext/intel/pipes.hpp"
+                                  "filename":"/glob/development-tools/versions/oneapi/2023.1.1/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/ext/intel/pipes.hpp"
                                   , "line":"82"
                                 }
                               ]
@@ -802,7 +802,7 @@
                           [
                             {
                               "guide":"Best Practices Guide : Loops in a Single Work-Item Kernel"
-                              , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/wfa1476380079940.html"
+                              , "link":"file:////glob/development-tools/versions/oneapi/2023.1.1/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/wfa1476380079940.html"
                             }
                           ]
                         }
@@ -853,7 +853,7 @@
           [
             {
               "guide":"Best Practices Guide : Kernels"
-              , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/ipp1476408832230.html"
+              , "link":"file:////glob/development-tools/versions/oneapi/2023.1.1/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/ipp1476408832230.html"
             }
           ]
         }
@@ -886,7 +886,7 @@
                   , "links":
                   [
                     {
-                      "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/handler.hpp"
+                      "filename":"/glob/development-tools/versions/oneapi/2023.1.1/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/handler.hpp"
                       , "line":"1166"
                     }
                     , {
@@ -894,7 +894,7 @@
                       , "line":"275"
                     }
                     , {
-                      "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/ext/intel/pipes.hpp"
+                      "filename":"/glob/development-tools/versions/oneapi/2023.1.1/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/ext/intel/pipes.hpp"
                       , "line":"67"
                     }
                   ]
@@ -905,7 +905,7 @@
                   , "links":
                   [
                     {
-                      "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/handler.hpp"
+                      "filename":"/glob/development-tools/versions/oneapi/2023.1.1/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/handler.hpp"
                       , "line":"1166"
                     }
                     , {
@@ -913,7 +913,7 @@
                       , "line":"299"
                     }
                     , {
-                      "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/ext/intel/pipes.hpp"
+                      "filename":"/glob/development-tools/versions/oneapi/2023.1.1/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/ext/intel/pipes.hpp"
                       , "line":"82"
                     }
                   ]
@@ -944,7 +944,7 @@
               [
                 {
                   "guide":"Best Practices Guide : Loops in a Single Work-Item Kernel"
-                  , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/wfa1476380079940.html"
+                  , "link":"file:////glob/development-tools/versions/oneapi/2023.1.1/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/wfa1476380079940.html"
                 }
               ]
             }
@@ -1017,7 +1017,7 @@
           [
             {
               "guide":"Best Practices Guide : Kernels"
-              , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/ipp1476408832230.html"
+              , "link":"file:////glob/development-tools/versions/oneapi/2023.1.1/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/ipp1476408832230.html"
             }
           ]
         }
@@ -1067,7 +1067,7 @@
               [
                 {
                   "guide":"Best Practices Guide : Nested Loops"
-                  , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/rfr1469543500580.html"
+                  , "link":"file:////glob/development-tools/versions/oneapi/2023.1.1/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/rfr1469543500580.html"
                 }
               ]
             }
@@ -1117,7 +1117,7 @@
                   [
                     {
                       "guide":"Best Practices Guide : Nested Loops"
-                      , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/rfr1469543500580.html"
+                      , "link":"file:////glob/development-tools/versions/oneapi/2023.1.1/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/rfr1469543500580.html"
                     }
                   ]
                 }
@@ -1172,7 +1172,7 @@
                           , "links":
                           [
                             {
-                              "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/handler.hpp"
+                              "filename":"/glob/development-tools/versions/oneapi/2023.1.1/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/handler.hpp"
                               , "line":"1166"
                             }
                             , {
@@ -1187,7 +1187,7 @@
                           , "links":
                           [
                             {
-                              "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/handler.hpp"
+                              "filename":"/glob/development-tools/versions/oneapi/2023.1.1/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/handler.hpp"
                               , "line":"1166"
                             }
                             , {
@@ -1209,7 +1209,7 @@
                           , "links":
                           [
                             {
-                              "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/handler.hpp"
+                              "filename":"/glob/development-tools/versions/oneapi/2023.1.1/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/handler.hpp"
                               , "line":"1166"
                             }
                             , {
@@ -1217,7 +1217,7 @@
                               , "line":"318"
                             }
                             , {
-                              "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/ext/intel/pipes.hpp"
+                              "filename":"/glob/development-tools/versions/oneapi/2023.1.1/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/ext/intel/pipes.hpp"
                               , "line":"82"
                             }
                           ]
@@ -1248,7 +1248,7 @@
                       [
                         {
                           "guide":"Best Practices Guide : Loops in a Single Work-Item Kernel"
-                          , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/wfa1476380079940.html"
+                          , "link":"file:////glob/development-tools/versions/oneapi/2023.1.1/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/wfa1476380079940.html"
                         }
                       ]
                     }
@@ -1297,7 +1297,7 @@
           [
             {
               "guide":"Best Practices Guide : Kernels"
-              , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/ipp1476408832230.html"
+              , "link":"file:////glob/development-tools/versions/oneapi/2023.1.1/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/ipp1476408832230.html"
             }
           ]
         }
@@ -1347,7 +1347,7 @@
               [
                 {
                   "guide":"Best Practices Guide : Nested Loops"
-                  , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/rfr1469543500580.html"
+                  , "link":"file:////glob/development-tools/versions/oneapi/2023.1.1/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/rfr1469543500580.html"
                 }
               ]
             }
@@ -1380,7 +1380,7 @@
                       , "links":
                       [
                         {
-                          "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/handler.hpp"
+                          "filename":"/glob/development-tools/versions/oneapi/2023.1.1/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/handler.hpp"
                           , "line":"1166"
                         }
                         , {
@@ -1388,7 +1388,7 @@
                           , "line":"361"
                         }
                         , {
-                          "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/ext/intel/pipes.hpp"
+                          "filename":"/glob/development-tools/versions/oneapi/2023.1.1/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/ext/intel/pipes.hpp"
                           , "line":"67"
                         }
                       ]
@@ -1399,7 +1399,7 @@
                       , "links":
                       [
                         {
-                          "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/handler.hpp"
+                          "filename":"/glob/development-tools/versions/oneapi/2023.1.1/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/handler.hpp"
                           , "line":"1166"
                         }
                         , {
@@ -1407,7 +1407,7 @@
                           , "line":"362"
                         }
                         , {
-                          "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/ext/intel/pipes.hpp"
+                          "filename":"/glob/development-tools/versions/oneapi/2023.1.1/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/ext/intel/pipes.hpp"
                           , "line":"67"
                         }
                       ]
@@ -1418,7 +1418,7 @@
                       , "links":
                       [
                         {
-                          "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/handler.hpp"
+                          "filename":"/glob/development-tools/versions/oneapi/2023.1.1/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/handler.hpp"
                           , "line":"1166"
                         }
                         , {
@@ -1426,7 +1426,7 @@
                           , "line":"410"
                         }
                         , {
-                          "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/ext/intel/pipes.hpp"
+                          "filename":"/glob/development-tools/versions/oneapi/2023.1.1/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/ext/intel/pipes.hpp"
                           , "line":"82"
                         }
                       ]
@@ -1461,7 +1461,7 @@
                   [
                     {
                       "guide":"Best Practices Guide : Loops in a Single Work-Item Kernel"
-                      , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/wfa1476380079940.html"
+                      , "link":"file:////glob/development-tools/versions/oneapi/2023.1.1/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/wfa1476380079940.html"
                     }
                   ]
                 }
@@ -1844,7 +1844,7 @@
           [
             {
               "guide":"Best Practices Guide : Kernels"
-              , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/ipp1476408832230.html"
+              , "link":"file:////glob/development-tools/versions/oneapi/2023.1.1/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/ipp1476408832230.html"
             }
           ]
         }
@@ -1894,7 +1894,7 @@
               [
                 {
                   "guide":"Best Practices Guide : Nested Loops"
-                  , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/rfr1469543500580.html"
+                  , "link":"file:////glob/development-tools/versions/oneapi/2023.1.1/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/rfr1469543500580.html"
                 }
               ]
             }
@@ -1944,7 +1944,7 @@
                   [
                     {
                       "guide":"Best Practices Guide : Nested Loops"
-                      , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/rfr1469543500580.html"
+                      , "link":"file:////glob/development-tools/versions/oneapi/2023.1.1/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/rfr1469543500580.html"
                     }
                   ]
                 }
@@ -1977,7 +1977,7 @@
                           , "links":
                           [
                             {
-                              "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/handler.hpp"
+                              "filename":"/glob/development-tools/versions/oneapi/2023.1.1/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/handler.hpp"
                               , "line":"1166"
                             }
                             , {
@@ -2004,7 +2004,7 @@
                           , "links":
                           [
                             {
-                              "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/handler.hpp"
+                              "filename":"/glob/development-tools/versions/oneapi/2023.1.1/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/handler.hpp"
                               , "line":"1166"
                             }
                             , {
@@ -2012,7 +2012,7 @@
                               , "line":"443"
                             }
                             , {
-                              "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/ext/intel/pipes.hpp"
+                              "filename":"/glob/development-tools/versions/oneapi/2023.1.1/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/ext/intel/pipes.hpp"
                               , "line":"82"
                             }
                           ]
@@ -2047,7 +2047,7 @@
                       [
                         {
                           "guide":"Best Practices Guide : Loops in a Single Work-Item Kernel"
-                          , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/wfa1476380079940.html"
+                          , "link":"file:////glob/development-tools/versions/oneapi/2023.1.1/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/wfa1476380079940.html"
                         }
                       ]
                     }
@@ -2096,7 +2096,7 @@
           [
             {
               "guide":"Best Practices Guide : Kernels"
-              , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/ipp1476408832230.html"
+              , "link":"file:////glob/development-tools/versions/oneapi/2023.1.1/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/ipp1476408832230.html"
             }
           ]
         }
@@ -2146,7 +2146,7 @@
               [
                 {
                   "guide":"Best Practices Guide : Nested Loops"
-                  , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/rfr1469543500580.html"
+                  , "link":"file:////glob/development-tools/versions/oneapi/2023.1.1/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/rfr1469543500580.html"
                 }
               ]
             }
@@ -2196,7 +2196,7 @@
                   [
                     {
                       "guide":"Best Practices Guide : Nested Loops"
-                      , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/rfr1469543500580.html"
+                      , "link":"file:////glob/development-tools/versions/oneapi/2023.1.1/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/rfr1469543500580.html"
                     }
                   ]
                 }
@@ -2229,7 +2229,7 @@
                           , "links":
                           [
                             {
-                              "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/handler.hpp"
+                              "filename":"/glob/development-tools/versions/oneapi/2023.1.1/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/handler.hpp"
                               , "line":"1166"
                             }
                             , {
@@ -2237,7 +2237,7 @@
                               , "line":"465"
                             }
                             , {
-                              "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/ext/intel/pipes.hpp"
+                              "filename":"/glob/development-tools/versions/oneapi/2023.1.1/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/ext/intel/pipes.hpp"
                               , "line":"67"
                             }
                           ]
@@ -2248,7 +2248,7 @@
                           , "links":
                           [
                             {
-                              "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/handler.hpp"
+                              "filename":"/glob/development-tools/versions/oneapi/2023.1.1/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/handler.hpp"
                               , "line":"1166"
                             }
                             , {
@@ -2256,7 +2256,7 @@
                               , "line":"465"
                             }
                             , {
-                              "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/ext/intel/pipes.hpp"
+                              "filename":"/glob/development-tools/versions/oneapi/2023.1.1/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/ext/intel/pipes.hpp"
                               , "line":"67"
                             }
                           ]
@@ -2267,7 +2267,7 @@
                           , "links":
                           [
                             {
-                              "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/handler.hpp"
+                              "filename":"/glob/development-tools/versions/oneapi/2023.1.1/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/handler.hpp"
                               , "line":"1166"
                             }
                             , {
@@ -2275,7 +2275,7 @@
                               , "line":"466"
                             }
                             , {
-                              "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/ext/intel/pipes.hpp"
+                              "filename":"/glob/development-tools/versions/oneapi/2023.1.1/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/ext/intel/pipes.hpp"
                               , "line":"82"
                             }
                           ]
@@ -2310,7 +2310,7 @@
                       [
                         {
                           "guide":"Best Practices Guide : Loops in a Single Work-Item Kernel"
-                          , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/wfa1476380079940.html"
+                          , "link":"file:////glob/development-tools/versions/oneapi/2023.1.1/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/wfa1476380079940.html"
                         }
                       ]
                     }
@@ -2359,7 +2359,7 @@
           [
             {
               "guide":"Best Practices Guide : Kernels"
-              , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/ipp1476408832230.html"
+              , "link":"file:////glob/development-tools/versions/oneapi/2023.1.1/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/ipp1476408832230.html"
             }
           ]
         }
@@ -2409,7 +2409,7 @@
               [
                 {
                   "guide":"Best Practices Guide : Nested Loops"
-                  , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/rfr1469543500580.html"
+                  , "link":"file:////glob/development-tools/versions/oneapi/2023.1.1/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/rfr1469543500580.html"
                 }
               ]
             }
@@ -2459,7 +2459,7 @@
                   [
                     {
                       "guide":"Best Practices Guide : Nested Loops"
-                      , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/rfr1469543500580.html"
+                      , "link":"file:////glob/development-tools/versions/oneapi/2023.1.1/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/rfr1469543500580.html"
                     }
                   ]
                 }
@@ -2492,7 +2492,7 @@
                           , "links":
                           [
                             {
-                              "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/handler.hpp"
+                              "filename":"/glob/development-tools/versions/oneapi/2023.1.1/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/handler.hpp"
                               , "line":"1166"
                             }
                             , {
@@ -2500,7 +2500,7 @@
                               , "line":"484"
                             }
                             , {
-                              "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/ext/intel/pipes.hpp"
+                              "filename":"/glob/development-tools/versions/oneapi/2023.1.1/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/ext/intel/pipes.hpp"
                               , "line":"67"
                             }
                           ]
@@ -2511,7 +2511,7 @@
                           , "links":
                           [
                             {
-                              "filename":"/glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/handler.hpp"
+                              "filename":"/glob/development-tools/versions/oneapi/2023.1.1/oneapi/compiler/2023.1.0/linux/bin-llvm/../include/sycl/handler.hpp"
                               , "line":"1166"
                             }
                             , {
@@ -2562,7 +2562,7 @@
                       [
                         {
                           "guide":"Best Practices Guide : Loops in a Single Work-Item Kernel"
-                          , "link":"file:////glob/development-tools/versions/oneapi/2023.1.2/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/wfa1476380079940.html"
+                          , "link":"file:////glob/development-tools/versions/oneapi/2023.1.1/oneapi/compiler/2023.1.0/linux/lib/oclfpga/aoc_help_pages/wfa1476380079940.html"
                         }
                       ]
                     }
