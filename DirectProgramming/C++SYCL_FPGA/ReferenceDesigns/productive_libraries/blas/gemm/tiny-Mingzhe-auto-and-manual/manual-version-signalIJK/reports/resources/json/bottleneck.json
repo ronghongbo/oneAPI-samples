@@ -1,0 +1,2949 @@
+{
+  "bottlenecks":
+  [
+    {
+      "name":"'i'"
+      , "id":2532
+      , "src":"449"
+      , "dst":"460"
+      , "type":"fMAX/II"
+      , "brief":"Data dependency"
+      , "loop":"kernel_aLoader.B1"
+      , "details":
+      [
+        {
+          "type":"table"
+          , "Variable on critical loop carried feedback path: ":"'i'"
+          , "Declared at: ":
+          [
+            {
+              "type":"text"
+              , "text":"%L"
+              , "links":
+              [
+                {
+                  "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                  , "line":"155"
+                }
+              ]
+            }
+          ]
+          , "Dependency: ":"Data dependency"
+          , "Estimated fmax reduced to: ":"360.0"
+          , "Loop feedback path that raised II and/or lowered fMAX: ":
+          [
+            {
+              "type":"text"
+              , "text":"+(%L)"
+              , "links":
+              [
+                {
+                  "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                  , "line":"155"
+                }
+              ]
+            }
+            , {
+              "type":"text"
+              , "text":"Select(%L)"
+              , "links":
+              [
+                {
+                  "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                  , "line":"155"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+      , "nodes":
+      [
+        {
+          "name":"'i'"
+          , "id":449
+          , "start":"1.00"
+          , "parent":"_ZTSZZ4gemmPfS_S_S_ffmmmRN4sycl3_V15queueEENKUlRNS1_7handlerEE_clES5_E14kernel_aLoader.B1"
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                , "line":155
+              }
+            ]
+          ]
+          , "type":"inst"
+        }
+        , {
+          "name":"Select"
+          , "id":450
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                , "line":155
+              }
+            ]
+          ]
+          , "type":"inst"
+        }
+        , {
+          "name":"+"
+          , "id":459
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                , "line":155
+              }
+            ]
+          ]
+          , "type":"inst"
+        }
+        , {
+          "name":"Feedback"
+          , "id":460
+          , "end":"2.00"
+          , "parent":"_ZTSZZ4gemmPfS_S_S_ffmmmRN4sycl3_V15queueEENKUlRNS1_7handlerEE_clES5_E14kernel_aLoader.B1"
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                , "line":155
+              }
+            ]
+          ]
+          , "type":"inst"
+        }
+      ]
+      , "links":
+      [
+        {
+          "from":449
+          , "to":450
+        }
+        , {
+          "from":450
+          , "to":459
+        }
+        , {
+          "from":459
+          , "to":460
+        }
+        , {
+          "from":450
+          , "to":460
+        }
+        , {
+          "from":449
+          , "to":460
+          , "reverse":1
+        }
+      ]
+    }
+    , {
+      "name":"'j'"
+      , "id":2533
+      , "src":"467"
+      , "dst":"493"
+      , "type":"fMAX/II"
+      , "brief":"Data dependency"
+      , "loop":"kernel_aLoader.B2"
+      , "details":
+      [
+        {
+          "type":"table"
+          , "Variable on critical loop carried feedback path: ":"'j'"
+          , "Declared at: ":
+          [
+            {
+              "type":"text"
+              , "text":"%L"
+              , "links":
+              [
+                {
+                  "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                  , "line":"156"
+                }
+              ]
+            }
+          ]
+          , "Dependency: ":"Data dependency"
+          , "Estimated fmax reduced to: ":"360.0"
+          , "Loop feedback path that raised II and/or lowered fMAX: ":
+          [
+            {
+              "type":"text"
+              , "text":"Compare(%L)"
+              , "links":
+              [
+                {
+                  "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                  , "line":"156"
+                }
+              ]
+            }
+            , {
+              "type":"text"
+              , "text":"Loop Orch(%L)"
+              , "links":
+              [
+                {
+                  "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                  , "line":"156"
+                }
+              ]
+            }
+            , {
+              "type":"text"
+              , "text":"Loop Orch(%L)"
+              , "links":
+              [
+                {
+                  "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                  , "line":"156"
+                }
+              ]
+            }
+            , {
+              "type":"text"
+              , "text":"Select(%L)"
+              , "links":
+              [
+                {
+                  "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                  , "line":"153"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+      , "nodes":
+      [
+        {
+          "name":"'j'"
+          , "id":467
+          , "start":"1.00"
+          , "parent":"_ZTSZZ4gemmPfS_S_S_ffmmmRN4sycl3_V15queueEENKUlRNS1_7handlerEE_clES5_E14kernel_aLoader.B2"
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                , "line":153
+              }
+            ]
+          ]
+          , "type":"inst"
+        }
+        , {
+          "name":"Select"
+          , "id":468
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                , "line":153
+              }
+            ]
+          ]
+          , "type":"inst"
+        }
+        , {
+          "name":"Compare"
+          , "id":489
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                , "line":156
+              }
+            ]
+          ]
+          , "type":"inst"
+        }
+        , {
+          "name":"Loop Orch"
+          , "id":491
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                , "line":156
+              }
+            ]
+          ]
+          , "type":"inst"
+        }
+        , {
+          "name":"Loop Orch"
+          , "id":492
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                , "line":156
+              }
+            ]
+          ]
+          , "type":"inst"
+        }
+        , {
+          "name":"Feedback"
+          , "id":493
+          , "end":"2.00"
+          , "parent":"_ZTSZZ4gemmPfS_S_S_ffmmmRN4sycl3_V15queueEENKUlRNS1_7handlerEE_clES5_E14kernel_aLoader.B2"
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                , "line":156
+              }
+            ]
+          ]
+          , "type":"inst"
+        }
+      ]
+      , "links":
+      [
+        {
+          "from":467
+          , "to":468
+        }
+        , {
+          "from":468
+          , "to":489
+        }
+        , {
+          "from":489
+          , "to":491
+        }
+        , {
+          "from":491
+          , "to":492
+        }
+        , {
+          "from":492
+          , "to":493
+        }
+        , {
+          "from":468
+          , "to":493
+        }
+        , {
+          "from":467
+          , "to":493
+          , "reverse":1
+        }
+      ]
+    }
+    , {
+      "name":"'addr_temp'"
+      , "id":2534
+      , "src":"88"
+      , "dst":"99"
+      , "concurrency":"1"
+      , "type":"Occupancy limiter"
+      , "brief":"Data dependency"
+      , "loop":"kernel_aLoader.B1"
+      , "details":
+      [
+        {
+          "type":"table"
+          , "Variable on critical loop carried feedback path: ":"'addr_temp'"
+          , "Declared at: ":
+          [
+            {
+              "type":"text"
+              , "text":"%L"
+              , "links":
+              [
+                {
+                  "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                  , "line":"153"
+                }
+              ]
+            }
+          ]
+          , "Dependency: ":"Data dependency"
+          , "Concurrency value: ":"1"
+          , "Loop feedback path that lowered occupancy: ":
+          [
+            {
+              "type":"text"
+              , "text":"Basic block: kernel_aLoader.B5(%L)"
+              , "links":
+              [
+                {
+                  "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                  , "line":"156"
+                }
+              ]
+            }
+            , {
+              "type":"text"
+              , "text":"Basic block: kernel_aLoader.B6(%L)"
+              , "links":
+              [
+                {
+                  "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                  , "line":"157"
+                }
+              ]
+            }
+            , {
+              "type":"text"
+              , "text":"Loop: kernel_aLoader.B2(%L)"
+              , "links":
+              [
+                {
+                  "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                  , "line":"156"
+                }
+              ]
+            }
+            , {
+              "type":"text"
+              , "text":"Loop: kernel_aLoader.B4(%L)"
+              , "links":
+              [
+                {
+                  "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                  , "line":"157"
+                }
+              ]
+            }
+            , {
+              "type":"text"
+              , "text":"Loop: kernel_aLoader.B7(%L)"
+              , "links":
+              [
+                {
+                  "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                  , "line":"158"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+      , "nodes":
+      [
+        {
+          "name":"'addr_temp'"
+          , "id":88
+          , "start":"6.00"
+          , "parent":"_ZTSZZ4gemmPfS_S_S_ffmmmRN4sycl3_V15queueEENKUlRNS1_7handlerEE_clES5_E14kernel_aLoader.B1"
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                , "line":153
+              }
+            ]
+          ]
+          , "type":"inst"
+        }
+        , {
+          "name":"kernel_aLoader.B2"
+          , "id":12
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                , "line":156
+              }
+            ]
+          ]
+          , "type":"loop"
+        }
+        , {
+          "name":"kernel_aLoader.B4"
+          , "id":14
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                , "line":157
+              }
+            ]
+          ]
+          , "type":"loop"
+        }
+        , {
+          "name":"kernel_aLoader.B7"
+          , "id":17
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                , "line":158
+              }
+            ]
+          ]
+          , "type":"loop"
+        }
+        , {
+          "name":"kernel_aLoader.B6"
+          , "id":16
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                , "line":157
+              }
+            ]
+          ]
+          , "type":"bb"
+        }
+        , {
+          "name":"kernel_aLoader.B5"
+          , "id":15
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                , "line":156
+              }
+            ]
+          ]
+          , "type":"bb"
+        }
+        , {
+          "name":"Feedback"
+          , "id":99
+          , "end":"1.00"
+          , "parent":"_ZTSZZ4gemmPfS_S_S_ffmmmRN4sycl3_V15queueEENKUlRNS1_7handlerEE_clES5_E14kernel_aLoader.B3"
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                , "line":153
+              }
+            ]
+          ]
+          , "type":"inst"
+        }
+      ]
+      , "links":
+      [
+        {
+          "from":12
+          , "to":14
+        }
+        , {
+          "from":14
+          , "to":17
+        }
+        , {
+          "from":17
+          , "to":17
+        }
+        , {
+          "from":17
+          , "to":16
+        }
+        , {
+          "from":16
+          , "to":15
+        }
+        , {
+          "from":88
+          , "to":12
+        }
+        , {
+          "from":15
+          , "to":99
+        }
+        , {
+          "from":88
+          , "to":99
+          , "reverse":1
+        }
+      ]
+    }
+    , {
+      "name":"'k'"
+      , "id":2535
+      , "src":"514"
+      , "dst":"521"
+      , "type":"fMAX/II"
+      , "brief":"Data dependency"
+      , "loop":"kernel_aLoader.B4"
+      , "details":
+      [
+        {
+          "type":"table"
+          , "Variable on critical loop carried feedback path: ":"'k'"
+          , "Declared at: ":
+          [
+            {
+              "type":"text"
+              , "text":"%L"
+              , "links":
+              [
+                {
+                  "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                  , "line":"157"
+                }
+              ]
+            }
+          ]
+          , "Dependency: ":"Data dependency"
+          , "Estimated fmax reduced to: ":"360.0"
+          , "Loop feedback path that raised II and/or lowered fMAX: ":
+          [
+            {
+              "type":"text"
+              , "text":"Compare(%L)"
+              , "links":
+              [
+                {
+                  "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                  , "line":"157"
+                }
+              ]
+            }
+            , {
+              "type":"text"
+              , "text":"Loop Orch(%L)"
+              , "links":
+              [
+                {
+                  "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                  , "line":"157"
+                }
+              ]
+            }
+            , {
+              "type":"text"
+              , "text":"Loop Orch(%L)"
+              , "links":
+              [
+                {
+                  "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                  , "line":"157"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+      , "nodes":
+      [
+        {
+          "name":"'k'"
+          , "id":514
+          , "start":"1.00"
+          , "parent":"_ZTSZZ4gemmPfS_S_S_ffmmmRN4sycl3_V15queueEENKUlRNS1_7handlerEE_clES5_E14kernel_aLoader.B4"
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                , "line":153
+              }
+            ]
+          ]
+          , "type":"inst"
+        }
+        , {
+          "name":"Compare"
+          , "id":515
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                , "line":157
+              }
+            ]
+          ]
+          , "type":"inst"
+        }
+        , {
+          "name":"Loop Orch"
+          , "id":517
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                , "line":157
+              }
+            ]
+          ]
+          , "type":"inst"
+        }
+        , {
+          "name":"Loop Orch"
+          , "id":518
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                , "line":157
+              }
+            ]
+          ]
+          , "type":"inst"
+        }
+        , {
+          "name":"Feedback"
+          , "id":521
+          , "end":"2.00"
+          , "parent":"_ZTSZZ4gemmPfS_S_S_ffmmmRN4sycl3_V15queueEENKUlRNS1_7handlerEE_clES5_E14kernel_aLoader.B4"
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                , "line":157
+              }
+            ]
+          ]
+          , "type":"inst"
+        }
+      ]
+      , "links":
+      [
+        {
+          "from":514
+          , "to":515
+        }
+        , {
+          "from":515
+          , "to":517
+        }
+        , {
+          "from":517
+          , "to":518
+        }
+        , {
+          "from":518
+          , "to":521
+        }
+        , {
+          "from":514
+          , "to":521
+        }
+        , {
+          "from":514
+          , "to":521
+          , "reverse":1
+        }
+      ]
+    }
+    , {
+      "name":"'i'"
+      , "id":2536
+      , "src":"1016"
+      , "dst":"1025"
+      , "type":"fMAX/II"
+      , "brief":"Data dependency"
+      , "loop":"kernel_bLoader.B1"
+      , "details":
+      [
+        {
+          "type":"table"
+          , "Variable on critical loop carried feedback path: ":"'i'"
+          , "Declared at: ":
+          [
+            {
+              "type":"text"
+              , "text":"%L"
+              , "links":
+              [
+                {
+                  "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                  , "line":"236"
+                }
+              ]
+            }
+          ]
+          , "Dependency: ":"Data dependency"
+          , "Estimated fmax reduced to: ":"360.0"
+          , "Loop feedback path that raised II and/or lowered fMAX: ":
+          [
+            {
+              "type":"text"
+              , "text":"+(%L)"
+              , "links":
+              [
+                {
+                  "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                  , "line":"236"
+                }
+              ]
+            }
+            , {
+              "type":"text"
+              , "text":"Select(%L)"
+              , "links":
+              [
+                {
+                  "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                  , "line":"236"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+      , "nodes":
+      [
+        {
+          "name":"'i'"
+          , "id":1016
+          , "start":"1.00"
+          , "parent":"_ZTSZZ4gemmPfS_S_S_ffmmmRN4sycl3_V15queueEENKUlRNS1_7handlerEE1_clES5_E14kernel_bLoader.B1"
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                , "line":236
+              }
+            ]
+          ]
+          , "type":"inst"
+        }
+        , {
+          "name":"+"
+          , "id":1024
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                , "line":236
+              }
+            ]
+          ]
+          , "type":"inst"
+        }
+        , {
+          "name":"Select"
+          , "id":1017
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                , "line":236
+              }
+            ]
+          ]
+          , "type":"inst"
+        }
+        , {
+          "name":"Feedback"
+          , "id":1025
+          , "end":"2.00"
+          , "parent":"_ZTSZZ4gemmPfS_S_S_ffmmmRN4sycl3_V15queueEENKUlRNS1_7handlerEE1_clES5_E14kernel_bLoader.B1"
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                , "line":236
+              }
+            ]
+          ]
+          , "type":"inst"
+        }
+      ]
+      , "links":
+      [
+        {
+          "from":1016
+          , "to":1017
+        }
+        , {
+          "from":1024
+          , "to":1025
+        }
+        , {
+          "from":1017
+          , "to":1025
+        }
+        , {
+          "from":1016
+          , "to":1025
+          , "reverse":1
+        }
+      ]
+    }
+    , {
+      "name":"'j'"
+      , "id":2537
+      , "src":"1033"
+      , "dst":"1060"
+      , "type":"fMAX/II"
+      , "brief":"Data dependency"
+      , "loop":"kernel_bLoader.B2"
+      , "details":
+      [
+        {
+          "type":"table"
+          , "Variable on critical loop carried feedback path: ":"'j'"
+          , "Declared at: ":
+          [
+            {
+              "type":"text"
+              , "text":"%L"
+              , "links":
+              [
+                {
+                  "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                  , "line":"237"
+                }
+              ]
+            }
+          ]
+          , "Dependency: ":"Data dependency"
+          , "Estimated fmax reduced to: ":"360.0"
+          , "Loop feedback path that raised II and/or lowered fMAX: ":
+          [
+            {
+              "type":"text"
+              , "text":"Compare(%L)"
+              , "links":
+              [
+                {
+                  "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                  , "line":"237"
+                }
+              ]
+            }
+            , {
+              "type":"text"
+              , "text":"Loop Orch(%L)"
+              , "links":
+              [
+                {
+                  "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                  , "line":"237"
+                }
+              ]
+            }
+            , {
+              "type":"text"
+              , "text":"Loop Orch(%L)"
+              , "links":
+              [
+                {
+                  "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                  , "line":"237"
+                }
+              ]
+            }
+            , {
+              "type":"text"
+              , "text":"Select(%L)"
+              , "links":
+              [
+                {
+                  "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                  , "line":"234"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+      , "nodes":
+      [
+        {
+          "name":"'j'"
+          , "id":1033
+          , "start":"1.00"
+          , "parent":"_ZTSZZ4gemmPfS_S_S_ffmmmRN4sycl3_V15queueEENKUlRNS1_7handlerEE1_clES5_E14kernel_bLoader.B2"
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                , "line":234
+              }
+            ]
+          ]
+          , "type":"inst"
+        }
+        , {
+          "name":"Select"
+          , "id":1034
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                , "line":234
+              }
+            ]
+          ]
+          , "type":"inst"
+        }
+        , {
+          "name":"Loop Orch"
+          , "id":1058
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                , "line":237
+              }
+            ]
+          ]
+          , "type":"inst"
+        }
+        , {
+          "name":"Loop Orch"
+          , "id":1059
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                , "line":237
+              }
+            ]
+          ]
+          , "type":"inst"
+        }
+        , {
+          "name":"Compare"
+          , "id":1056
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                , "line":237
+              }
+            ]
+          ]
+          , "type":"inst"
+        }
+        , {
+          "name":"Feedback"
+          , "id":1060
+          , "end":"2.00"
+          , "parent":"_ZTSZZ4gemmPfS_S_S_ffmmmRN4sycl3_V15queueEENKUlRNS1_7handlerEE1_clES5_E14kernel_bLoader.B2"
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                , "line":237
+              }
+            ]
+          ]
+          , "type":"inst"
+        }
+      ]
+      , "links":
+      [
+        {
+          "from":1033
+          , "to":1034
+        }
+        , {
+          "from":1058
+          , "to":1059
+        }
+        , {
+          "from":1034
+          , "to":1056
+        }
+        , {
+          "from":1059
+          , "to":1060
+        }
+        , {
+          "from":1034
+          , "to":1060
+        }
+        , {
+          "from":1033
+          , "to":1060
+          , "reverse":1
+        }
+      ]
+    }
+    , {
+      "name":"'addr_temp'"
+      , "id":2538
+      , "src":"206"
+      , "dst":"216"
+      , "concurrency":"1"
+      , "type":"Occupancy limiter"
+      , "brief":"Data dependency"
+      , "loop":"kernel_bLoader.B1"
+      , "details":
+      [
+        {
+          "type":"table"
+          , "Variable on critical loop carried feedback path: ":"'addr_temp'"
+          , "Declared at: ":
+          [
+            {
+              "type":"text"
+              , "text":"%L"
+              , "links":
+              [
+                {
+                  "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                  , "line":"234"
+                }
+              ]
+            }
+          ]
+          , "Dependency: ":"Data dependency"
+          , "Concurrency value: ":"1"
+          , "Loop feedback path that lowered occupancy: ":
+          [
+            {
+              "type":"text"
+              , "text":"Basic block: kernel_bLoader.B5(%L)"
+              , "links":
+              [
+                {
+                  "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                  , "line":"237"
+                }
+              ]
+            }
+            , {
+              "type":"text"
+              , "text":"Basic block: kernel_bLoader.B6(%L)"
+              , "links":
+              [
+                {
+                  "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                  , "line":"238"
+                }
+              ]
+            }
+            , {
+              "type":"text"
+              , "text":"Loop: kernel_bLoader.B2(%L)"
+              , "links":
+              [
+                {
+                  "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                  , "line":"237"
+                }
+              ]
+            }
+            , {
+              "type":"text"
+              , "text":"Loop: kernel_bLoader.B4(%L)"
+              , "links":
+              [
+                {
+                  "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                  , "line":"238"
+                }
+              ]
+            }
+            , {
+              "type":"text"
+              , "text":"Loop: kernel_bLoader.B7(%L)"
+              , "links":
+              [
+                {
+                  "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                  , "line":"239"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+      , "nodes":
+      [
+        {
+          "name":"'addr_temp'"
+          , "id":206
+          , "start":"6.00"
+          , "parent":"_ZTSZZ4gemmPfS_S_S_ffmmmRN4sycl3_V15queueEENKUlRNS1_7handlerEE1_clES5_E14kernel_bLoader.B1"
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                , "line":234
+              }
+            ]
+          ]
+          , "type":"inst"
+        }
+        , {
+          "name":"kernel_bLoader.B2"
+          , "id":23
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                , "line":237
+              }
+            ]
+          ]
+          , "type":"loop"
+        }
+        , {
+          "name":"kernel_bLoader.B4"
+          , "id":25
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                , "line":238
+              }
+            ]
+          ]
+          , "type":"loop"
+        }
+        , {
+          "name":"kernel_bLoader.B7"
+          , "id":28
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                , "line":239
+              }
+            ]
+          ]
+          , "type":"loop"
+        }
+        , {
+          "name":"kernel_bLoader.B6"
+          , "id":27
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                , "line":238
+              }
+            ]
+          ]
+          , "type":"bb"
+        }
+        , {
+          "name":"kernel_bLoader.B5"
+          , "id":26
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                , "line":237
+              }
+            ]
+          ]
+          , "type":"bb"
+        }
+        , {
+          "name":"Feedback"
+          , "id":216
+          , "end":"1.00"
+          , "parent":"_ZTSZZ4gemmPfS_S_S_ffmmmRN4sycl3_V15queueEENKUlRNS1_7handlerEE1_clES5_E14kernel_bLoader.B3"
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                , "line":234
+              }
+            ]
+          ]
+          , "type":"inst"
+        }
+      ]
+      , "links":
+      [
+        {
+          "from":23
+          , "to":25
+        }
+        , {
+          "from":25
+          , "to":28
+        }
+        , {
+          "from":28
+          , "to":28
+        }
+        , {
+          "from":28
+          , "to":27
+        }
+        , {
+          "from":27
+          , "to":26
+        }
+        , {
+          "from":206
+          , "to":23
+        }
+        , {
+          "from":26
+          , "to":216
+        }
+        , {
+          "from":206
+          , "to":216
+          , "reverse":1
+        }
+      ]
+    }
+    , {
+      "name":"'k'"
+      , "id":2539
+      , "src":"1079"
+      , "dst":"1086"
+      , "type":"fMAX/II"
+      , "brief":"Data dependency"
+      , "loop":"kernel_bLoader.B4"
+      , "details":
+      [
+        {
+          "type":"table"
+          , "Variable on critical loop carried feedback path: ":"'k'"
+          , "Declared at: ":
+          [
+            {
+              "type":"text"
+              , "text":"%L"
+              , "links":
+              [
+                {
+                  "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                  , "line":"238"
+                }
+              ]
+            }
+          ]
+          , "Dependency: ":"Data dependency"
+          , "Estimated fmax reduced to: ":"360.0"
+          , "Loop feedback path that raised II and/or lowered fMAX: ":
+          [
+            {
+              "type":"text"
+              , "text":"Compare(%L)"
+              , "links":
+              [
+                {
+                  "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                  , "line":"238"
+                }
+              ]
+            }
+            , {
+              "type":"text"
+              , "text":"Loop Orch(%L)"
+              , "links":
+              [
+                {
+                  "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                  , "line":"238"
+                }
+              ]
+            }
+            , {
+              "type":"text"
+              , "text":"Loop Orch(%L)"
+              , "links":
+              [
+                {
+                  "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                  , "line":"238"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+      , "nodes":
+      [
+        {
+          "name":"'k'"
+          , "id":1079
+          , "start":"1.00"
+          , "parent":"_ZTSZZ4gemmPfS_S_S_ffmmmRN4sycl3_V15queueEENKUlRNS1_7handlerEE1_clES5_E14kernel_bLoader.B4"
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                , "line":234
+              }
+            ]
+          ]
+          , "type":"inst"
+        }
+        , {
+          "name":"Loop Orch"
+          , "id":1082
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                , "line":238
+              }
+            ]
+          ]
+          , "type":"inst"
+        }
+        , {
+          "name":"Loop Orch"
+          , "id":1083
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                , "line":238
+              }
+            ]
+          ]
+          , "type":"inst"
+        }
+        , {
+          "name":"Compare"
+          , "id":1080
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                , "line":238
+              }
+            ]
+          ]
+          , "type":"inst"
+        }
+        , {
+          "name":"Feedback"
+          , "id":1086
+          , "end":"2.00"
+          , "parent":"_ZTSZZ4gemmPfS_S_S_ffmmmRN4sycl3_V15queueEENKUlRNS1_7handlerEE1_clES5_E14kernel_bLoader.B4"
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                , "line":238
+              }
+            ]
+          ]
+          , "type":"inst"
+        }
+      ]
+      , "links":
+      [
+        {
+          "from":1082
+          , "to":1083
+        }
+        , {
+          "from":1079
+          , "to":1080
+        }
+        , {
+          "from":1083
+          , "to":1086
+        }
+        , {
+          "from":1079
+          , "to":1086
+        }
+        , {
+          "from":1079
+          , "to":1086
+          , "reverse":1
+        }
+      ]
+    }
+    , {
+      "name":"'i'"
+      , "id":2540
+      , "src":"1571"
+      , "dst":"1580"
+      , "type":"fMAX/II"
+      , "brief":"Data dependency"
+      , "loop":"kernel_SignalGenerator.B1"
+      , "details":
+      [
+        {
+          "type":"table"
+          , "Variable on critical loop carried feedback path: ":"'i'"
+          , "Declared at: ":
+          [
+            {
+              "type":"text"
+              , "text":"%L"
+              , "links":
+              [
+                {
+                  "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                  , "line":"310"
+                }
+              ]
+            }
+          ]
+          , "Dependency: ":"Data dependency"
+          , "Estimated fmax reduced to: ":"360.0"
+          , "Loop feedback path that raised II and/or lowered fMAX: ":
+          [
+            {
+              "type":"text"
+              , "text":"+(%L)"
+              , "links":
+              [
+                {
+                  "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                  , "line":"310"
+                }
+              ]
+            }
+            , {
+              "type":"text"
+              , "text":"Select(%L)"
+              , "links":
+              [
+                {
+                  "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                  , "line":"310"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+      , "nodes":
+      [
+        {
+          "name":"'i'"
+          , "id":1571
+          , "start":"1.00"
+          , "parent":"_ZTSZZ4gemmPfS_S_S_ffmmmRN4sycl3_V15queueEENKUlRNS1_7handlerEE3_clES5_E22kernel_SignalGenerator.B1"
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                , "line":310
+              }
+            ]
+          ]
+          , "type":"inst"
+        }
+        , {
+          "name":"+"
+          , "id":1579
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                , "line":310
+              }
+            ]
+          ]
+          , "type":"inst"
+        }
+        , {
+          "name":"Select"
+          , "id":1572
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                , "line":310
+              }
+            ]
+          ]
+          , "type":"inst"
+        }
+        , {
+          "name":"Feedback"
+          , "id":1580
+          , "end":"2.00"
+          , "parent":"_ZTSZZ4gemmPfS_S_S_ffmmmRN4sycl3_V15queueEENKUlRNS1_7handlerEE3_clES5_E22kernel_SignalGenerator.B1"
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                , "line":310
+              }
+            ]
+          ]
+          , "type":"inst"
+        }
+      ]
+      , "links":
+      [
+        {
+          "from":1571
+          , "to":1572
+        }
+        , {
+          "from":1579
+          , "to":1580
+        }
+        , {
+          "from":1572
+          , "to":1580
+        }
+        , {
+          "from":1571
+          , "to":1580
+          , "reverse":1
+        }
+      ]
+    }
+    , {
+      "name":"'j'"
+      , "id":2541
+      , "src":"1588"
+      , "dst":"1594"
+      , "type":"fMAX/II"
+      , "brief":"Data dependency"
+      , "loop":"kernel_SignalGenerator.B2"
+      , "details":
+      [
+        {
+          "type":"table"
+          , "Variable on critical loop carried feedback path: ":"'j'"
+          , "Declared at: ":
+          [
+            {
+              "type":"text"
+              , "text":"%L"
+              , "links":
+              [
+                {
+                  "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                  , "line":"311"
+                }
+              ]
+            }
+          ]
+          , "Dependency: ":"Data dependency"
+          , "Estimated fmax reduced to: ":"360.0"
+          , "Loop feedback path that raised II and/or lowered fMAX: ":
+          [
+            {
+              "type":"text"
+              , "text":"Compare(%L)"
+              , "links":
+              [
+                {
+                  "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                  , "line":"311"
+                }
+              ]
+            }
+            , {
+              "type":"text"
+              , "text":"Loop Orch(%L)"
+              , "links":
+              [
+                {
+                  "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                  , "line":"311"
+                }
+              ]
+            }
+            , {
+              "type":"text"
+              , "text":"Loop Orch(%L)"
+              , "links":
+              [
+                {
+                  "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                  , "line":"311"
+                }
+              ]
+            }
+            , {
+              "type":"text"
+              , "text":"Select(%L)"
+              , "links":
+              [
+                {
+                  "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                  , "line":"311"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+      , "nodes":
+      [
+        {
+          "name":"'j'"
+          , "id":1588
+          , "start":"1.00"
+          , "parent":"_ZTSZZ4gemmPfS_S_S_ffmmmRN4sycl3_V15queueEENKUlRNS1_7handlerEE3_clES5_E22kernel_SignalGenerator.B2"
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                , "line":311
+              }
+            ]
+          ]
+          , "type":"inst"
+        }
+        , {
+          "name":"Loop Orch"
+          , "id":1592
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                , "line":311
+              }
+            ]
+          ]
+          , "type":"inst"
+        }
+        , {
+          "name":"Loop Orch"
+          , "id":1593
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                , "line":311
+              }
+            ]
+          ]
+          , "type":"inst"
+        }
+        , {
+          "name":"Select"
+          , "id":1589
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                , "line":311
+              }
+            ]
+          ]
+          , "type":"inst"
+        }
+        , {
+          "name":"Compare"
+          , "id":1590
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                , "line":311
+              }
+            ]
+          ]
+          , "type":"inst"
+        }
+        , {
+          "name":"Feedback"
+          , "id":1594
+          , "end":"2.00"
+          , "parent":"_ZTSZZ4gemmPfS_S_S_ffmmmRN4sycl3_V15queueEENKUlRNS1_7handlerEE3_clES5_E22kernel_SignalGenerator.B2"
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                , "line":311
+              }
+            ]
+          ]
+          , "type":"inst"
+        }
+      ]
+      , "links":
+      [
+        {
+          "from":1592
+          , "to":1593
+        }
+        , {
+          "from":1588
+          , "to":1589
+        }
+        , {
+          "from":1589
+          , "to":1590
+        }
+        , {
+          "from":1593
+          , "to":1594
+        }
+        , {
+          "from":1589
+          , "to":1594
+        }
+        , {
+          "from":1588
+          , "to":1594
+          , "reverse":1
+        }
+      ]
+    }
+    , {
+      "name":"'k'"
+      , "id":2542
+      , "src":"1608"
+      , "dst":"1625"
+      , "type":"fMAX/II"
+      , "brief":"Data dependency"
+      , "loop":"kernel_SignalGenerator.B5"
+      , "details":
+      [
+        {
+          "type":"table"
+          , "Variable on critical loop carried feedback path: ":"'k'"
+          , "Declared at: ":
+          [
+            {
+              "type":"text"
+              , "text":"%L"
+              , "links":
+              [
+                {
+                  "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                  , "line":"312"
+                }
+              ]
+            }
+          ]
+          , "Dependency: ":"Data dependency"
+          , "Estimated fmax reduced to: ":"360.0"
+          , "Loop feedback path that raised II and/or lowered fMAX: ":
+          [
+            {
+              "type":"text"
+              , "text":"+(%L)"
+              , "links":
+              [
+                {
+                  "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                  , "line":"312"
+                }
+              ]
+            }
+            , {
+              "type":"text"
+              , "text":"Select(%L)"
+              , "links":
+              [
+                {
+                  "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                  , "line":"312"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+      , "nodes":
+      [
+        {
+          "name":"'k'"
+          , "id":1608
+          , "start":"1.00"
+          , "parent":"_ZTSZZ4gemmPfS_S_S_ffmmmRN4sycl3_V15queueEENKUlRNS1_7handlerEE3_clES5_E22kernel_SignalGenerator.B5"
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                , "line":312
+              }
+            ]
+          ]
+          , "type":"inst"
+        }
+        , {
+          "name":"Select"
+          , "id":1609
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                , "line":312
+              }
+            ]
+          ]
+          , "type":"inst"
+        }
+        , {
+          "name":"+"
+          , "id":1624
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                , "line":312
+              }
+            ]
+          ]
+          , "type":"inst"
+        }
+        , {
+          "name":"Feedback"
+          , "id":1625
+          , "end":"2.00"
+          , "parent":"_ZTSZZ4gemmPfS_S_S_ffmmmRN4sycl3_V15queueEENKUlRNS1_7handlerEE3_clES5_E22kernel_SignalGenerator.B5"
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                , "line":312
+              }
+            ]
+          ]
+          , "type":"inst"
+        }
+      ]
+      , "links":
+      [
+        {
+          "from":1608
+          , "to":1609
+        }
+        , {
+          "from":1609
+          , "to":1624
+        }
+        , {
+          "from":1624
+          , "to":1625
+        }
+        , {
+          "from":1608
+          , "to":1625
+          , "reverse":1
+        }
+      ]
+    }
+    , {
+      "name":"'i'"
+      , "id":2543
+      , "src":"2263"
+      , "dst":"2279"
+      , "type":"fMAX/II"
+      , "brief":"Data dependency"
+      , "loop":"kernel_cLoader.B1"
+      , "details":
+      [
+        {
+          "type":"table"
+          , "Variable on critical loop carried feedback path: ":"'i'"
+          , "Declared at: ":
+          [
+            {
+              "type":"text"
+              , "text":"%L"
+              , "links":
+              [
+                {
+                  "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                  , "line":"439"
+                }
+              ]
+            }
+          ]
+          , "Dependency: ":"Data dependency"
+          , "Estimated fmax reduced to: ":"360.0"
+          , "Loop feedback path that raised II and/or lowered fMAX: ":
+          [
+            {
+              "type":"text"
+              , "text":"+(%L)"
+              , "links":
+              [
+                {
+                  "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                  , "line":"439"
+                }
+              ]
+            }
+            , {
+              "type":"text"
+              , "text":"Select(%L)"
+              , "links":
+              [
+                {
+                  "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                  , "line":"437"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+      , "nodes":
+      [
+        {
+          "name":"'i'"
+          , "id":2263
+          , "start":"1.00"
+          , "parent":"_ZTSZZ4gemmPfS_S_S_ffmmmRN4sycl3_V15queueEENKUlRNS1_7handlerEE5_clES5_E14kernel_cLoader.B1"
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                , "line":437
+              }
+            ]
+          ]
+          , "type":"inst"
+        }
+        , {
+          "name":"Select"
+          , "id":2264
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                , "line":437
+              }
+            ]
+          ]
+          , "type":"inst"
+        }
+        , {
+          "name":"+"
+          , "id":2278
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                , "line":439
+              }
+            ]
+          ]
+          , "type":"inst"
+        }
+        , {
+          "name":"Feedback"
+          , "id":2279
+          , "end":"2.00"
+          , "parent":"_ZTSZZ4gemmPfS_S_S_ffmmmRN4sycl3_V15queueEENKUlRNS1_7handlerEE5_clES5_E14kernel_cLoader.B1"
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                , "line":439
+              }
+            ]
+          ]
+          , "type":"inst"
+        }
+      ]
+      , "links":
+      [
+        {
+          "from":2263
+          , "to":2264
+        }
+        , {
+          "from":2264
+          , "to":2278
+        }
+        , {
+          "from":2278
+          , "to":2279
+        }
+        , {
+          "from":2264
+          , "to":2279
+        }
+        , {
+          "from":2263
+          , "to":2279
+          , "reverse":1
+        }
+      ]
+    }
+    , {
+      "name":"'j'"
+      , "id":2544
+      , "src":"2285"
+      , "dst":"2290"
+      , "type":"fMAX/II"
+      , "brief":"Data dependency"
+      , "loop":"kernel_cLoader.B2"
+      , "details":
+      [
+        {
+          "type":"table"
+          , "Variable on critical loop carried feedback path: ":"'j'"
+          , "Declared at: ":
+          [
+            {
+              "type":"text"
+              , "text":"%L"
+              , "links":
+              [
+                {
+                  "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                  , "line":"440"
+                }
+              ]
+            }
+          ]
+          , "Dependency: ":"Data dependency"
+          , "Estimated fmax reduced to: ":"360.0"
+          , "Loop feedback path that raised II and/or lowered fMAX: ":
+          [
+            {
+              "type":"text"
+              , "text":"Compare(%L)"
+              , "links":
+              [
+                {
+                  "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                  , "line":"440"
+                }
+              ]
+            }
+            , {
+              "type":"text"
+              , "text":"Loop Orch(%L)"
+              , "links":
+              [
+                {
+                  "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                  , "line":"440"
+                }
+              ]
+            }
+            , {
+              "type":"text"
+              , "text":"Loop Orch(%L)"
+              , "links":
+              [
+                {
+                  "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                  , "line":"440"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+      , "nodes":
+      [
+        {
+          "name":"'j'"
+          , "id":2285
+          , "start":"1.00"
+          , "parent":"_ZTSZZ4gemmPfS_S_S_ffmmmRN4sycl3_V15queueEENKUlRNS1_7handlerEE5_clES5_E14kernel_cLoader.B2"
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                , "line":437
+              }
+            ]
+          ]
+          , "type":"inst"
+        }
+        , {
+          "name":"Loop Orch"
+          , "id":2288
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                , "line":440
+              }
+            ]
+          ]
+          , "type":"inst"
+        }
+        , {
+          "name":"Loop Orch"
+          , "id":2289
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                , "line":440
+              }
+            ]
+          ]
+          , "type":"inst"
+        }
+        , {
+          "name":"Compare"
+          , "id":2286
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                , "line":440
+              }
+            ]
+          ]
+          , "type":"inst"
+        }
+        , {
+          "name":"Feedback"
+          , "id":2290
+          , "end":"2.00"
+          , "parent":"_ZTSZZ4gemmPfS_S_S_ffmmmRN4sycl3_V15queueEENKUlRNS1_7handlerEE5_clES5_E14kernel_cLoader.B2"
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                , "line":440
+              }
+            ]
+          ]
+          , "type":"inst"
+        }
+      ]
+      , "links":
+      [
+        {
+          "from":2288
+          , "to":2289
+        }
+        , {
+          "from":2285
+          , "to":2286
+        }
+        , {
+          "from":2289
+          , "to":2290
+        }
+        , {
+          "from":2285
+          , "to":2290
+        }
+        , {
+          "from":2285
+          , "to":2290
+          , "reverse":1
+        }
+      ]
+    }
+    , {
+      "name":"'i'"
+      , "id":2545
+      , "src":"2346"
+      , "dst":"2350"
+      , "type":"fMAX/II"
+      , "brief":"Data dependency"
+      , "loop":"kernel_Out.B1"
+      , "details":
+      [
+        {
+          "type":"table"
+          , "Variable on critical loop carried feedback path: ":"'i'"
+          , "Declared at: ":
+          [
+            {
+              "type":"text"
+              , "text":"%L"
+              , "links":
+              [
+                {
+                  "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                  , "line":"462"
+                }
+              ]
+            }
+          ]
+          , "Dependency: ":"Data dependency"
+          , "Estimated fmax reduced to: ":"360.0"
+          , "Loop feedback path that raised II and/or lowered fMAX: ":
+          [
+            {
+              "type":"text"
+              , "text":"+(%L)"
+              , "links":
+              [
+                {
+                  "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                  , "line":"462"
+                }
+              ]
+            }
+            , {
+              "type":"text"
+              , "text":"Select(%L)"
+              , "links":
+              [
+                {
+                  "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                  , "line":"462"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+      , "nodes":
+      [
+        {
+          "name":"'i'"
+          , "id":2346
+          , "start":"1.00"
+          , "parent":"_ZTSZZ4gemmPfS_S_S_ffmmmRN4sycl3_V15queueEENKUlRNS1_7handlerEE6_clES5_E10kernel_Out.B1"
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                , "line":462
+              }
+            ]
+          ]
+          , "type":"inst"
+        }
+        , {
+          "name":"Select"
+          , "id":2347
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                , "line":462
+              }
+            ]
+          ]
+          , "type":"inst"
+        }
+        , {
+          "name":"+"
+          , "id":2349
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                , "line":462
+              }
+            ]
+          ]
+          , "type":"inst"
+        }
+        , {
+          "name":"Feedback"
+          , "id":2350
+          , "end":"2.00"
+          , "parent":"_ZTSZZ4gemmPfS_S_S_ffmmmRN4sycl3_V15queueEENKUlRNS1_7handlerEE6_clES5_E10kernel_Out.B1"
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                , "line":462
+              }
+            ]
+          ]
+          , "type":"inst"
+        }
+      ]
+      , "links":
+      [
+        {
+          "from":2346
+          , "to":2347
+        }
+        , {
+          "from":2347
+          , "to":2349
+        }
+        , {
+          "from":2349
+          , "to":2350
+        }
+        , {
+          "from":2347
+          , "to":2350
+        }
+        , {
+          "from":2346
+          , "to":2350
+          , "reverse":1
+        }
+      ]
+    }
+    , {
+      "name":"'j'"
+      , "id":2546
+      , "src":"2354"
+      , "dst":"2360"
+      , "type":"fMAX/II"
+      , "brief":"Data dependency"
+      , "loop":"kernel_Out.B2"
+      , "details":
+      [
+        {
+          "type":"table"
+          , "Variable on critical loop carried feedback path: ":"'j'"
+          , "Declared at: ":
+          [
+            {
+              "type":"text"
+              , "text":"%L"
+              , "links":
+              [
+                {
+                  "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                  , "line":"463"
+                }
+              ]
+            }
+          ]
+          , "Dependency: ":"Data dependency"
+          , "Estimated fmax reduced to: ":"360.0"
+          , "Loop feedback path that raised II and/or lowered fMAX: ":
+          [
+            {
+              "type":"text"
+              , "text":"Compare(%L)"
+              , "links":
+              [
+                {
+                  "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                  , "line":"463"
+                }
+              ]
+            }
+            , {
+              "type":"text"
+              , "text":"Loop Orch(%L)"
+              , "links":
+              [
+                {
+                  "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                  , "line":"463"
+                }
+              ]
+            }
+            , {
+              "type":"text"
+              , "text":"Loop Orch(%L)"
+              , "links":
+              [
+                {
+                  "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                  , "line":"463"
+                }
+              ]
+            }
+            , {
+              "type":"text"
+              , "text":"Select(%L)"
+              , "links":
+              [
+                {
+                  "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                  , "line":"463"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+      , "nodes":
+      [
+        {
+          "name":"'j'"
+          , "id":2354
+          , "start":"1.00"
+          , "parent":"_ZTSZZ4gemmPfS_S_S_ffmmmRN4sycl3_V15queueEENKUlRNS1_7handlerEE6_clES5_E10kernel_Out.B2"
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                , "line":463
+              }
+            ]
+          ]
+          , "type":"inst"
+        }
+        , {
+          "name":"Select"
+          , "id":2355
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                , "line":463
+              }
+            ]
+          ]
+          , "type":"inst"
+        }
+        , {
+          "name":"Compare"
+          , "id":2356
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                , "line":463
+              }
+            ]
+          ]
+          , "type":"inst"
+        }
+        , {
+          "name":"Loop Orch"
+          , "id":2358
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                , "line":463
+              }
+            ]
+          ]
+          , "type":"inst"
+        }
+        , {
+          "name":"Loop Orch"
+          , "id":2359
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                , "line":463
+              }
+            ]
+          ]
+          , "type":"inst"
+        }
+        , {
+          "name":"Feedback"
+          , "id":2360
+          , "end":"2.00"
+          , "parent":"_ZTSZZ4gemmPfS_S_S_ffmmmRN4sycl3_V15queueEENKUlRNS1_7handlerEE6_clES5_E10kernel_Out.B2"
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                , "line":463
+              }
+            ]
+          ]
+          , "type":"inst"
+        }
+      ]
+      , "links":
+      [
+        {
+          "from":2354
+          , "to":2355
+        }
+        , {
+          "from":2355
+          , "to":2356
+        }
+        , {
+          "from":2356
+          , "to":2358
+        }
+        , {
+          "from":2358
+          , "to":2359
+        }
+        , {
+          "from":2359
+          , "to":2360
+        }
+        , {
+          "from":2355
+          , "to":2360
+        }
+        , {
+          "from":2354
+          , "to":2360
+          , "reverse":1
+        }
+      ]
+    }
+    , {
+      "name":"Global variable"
+      , "id":2547
+      , "src":"2408"
+      , "dst":"2424"
+      , "type":"fMAX/II"
+      , "brief":"Data dependency"
+      , "loop":"kernel_unloader.B1"
+      , "details":
+      [
+        {
+          "type":"table"
+          , "Variable on critical loop carried feedback path: ":"Global variable"
+          , "Declared at: ":
+          [
+            {
+              "type":"text"
+              , "text":"%L"
+              , "links":
+              [
+                {
+                  "filename":"Unknown location"
+                  , "line":"0"
+                }
+              ]
+            }
+          ]
+          , "Dependency: ":"Data dependency"
+          , "Estimated fmax reduced to: ":"360.0"
+          , "Loop feedback path that raised II and/or lowered fMAX: ":
+          [
+            {
+              "type":"text"
+              , "text":"+(%L)"
+              , "links":
+              [
+                {
+                  "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                  , "line":"481"
+                }
+              ]
+            }
+            , {
+              "type":"text"
+              , "text":"Select(%L)"
+              , "links":
+              [
+                {
+                  "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                  , "line":"479"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+      , "nodes":
+      [
+        {
+          "name":"Global variable"
+          , "id":2408
+          , "start":"1.00"
+          , "parent":"_ZTSZZ4gemmPfS_S_S_ffmmmRN4sycl3_V15queueEENKUlRNS1_7handlerEE7_clES5_E15kernel_unloader.B1"
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                , "line":479
+              }
+            ]
+          ]
+          , "type":"inst"
+        }
+        , {
+          "name":"Select"
+          , "id":2409
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                , "line":479
+              }
+            ]
+          ]
+          , "type":"inst"
+        }
+        , {
+          "name":"+"
+          , "id":2423
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                , "line":481
+              }
+            ]
+          ]
+          , "type":"inst"
+        }
+        , {
+          "name":"Feedback"
+          , "id":2424
+          , "end":"2.00"
+          , "parent":"_ZTSZZ4gemmPfS_S_S_ffmmmRN4sycl3_V15queueEENKUlRNS1_7handlerEE7_clES5_E15kernel_unloader.B1"
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                , "line":481
+              }
+            ]
+          ]
+          , "type":"inst"
+        }
+      ]
+      , "links":
+      [
+        {
+          "from":2408
+          , "to":2409
+        }
+        , {
+          "from":2409
+          , "to":2423
+        }
+        , {
+          "from":2423
+          , "to":2424
+        }
+        , {
+          "from":2409
+          , "to":2424
+        }
+        , {
+          "from":2408
+          , "to":2424
+          , "reverse":1
+        }
+      ]
+    }
+    , {
+      "name":"'j'"
+      , "id":2548
+      , "src":"2430"
+      , "dst":"2435"
+      , "type":"fMAX/II"
+      , "brief":"Data dependency"
+      , "loop":"kernel_unloader.B2"
+      , "details":
+      [
+        {
+          "type":"table"
+          , "Variable on critical loop carried feedback path: ":"'j'"
+          , "Declared at: ":
+          [
+            {
+              "type":"text"
+              , "text":"%L"
+              , "links":
+              [
+                {
+                  "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                  , "line":"482"
+                }
+              ]
+            }
+          ]
+          , "Dependency: ":"Data dependency"
+          , "Estimated fmax reduced to: ":"360.0"
+          , "Loop feedback path that raised II and/or lowered fMAX: ":
+          [
+            {
+              "type":"text"
+              , "text":"Compare(%L)"
+              , "links":
+              [
+                {
+                  "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                  , "line":"482"
+                }
+              ]
+            }
+            , {
+              "type":"text"
+              , "text":"Loop Orch(%L)"
+              , "links":
+              [
+                {
+                  "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                  , "line":"482"
+                }
+              ]
+            }
+            , {
+              "type":"text"
+              , "text":"Loop Orch(%L)"
+              , "links":
+              [
+                {
+                  "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                  , "line":"482"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+      , "nodes":
+      [
+        {
+          "name":"'j'"
+          , "id":2430
+          , "start":"1.00"
+          , "parent":"_ZTSZZ4gemmPfS_S_S_ffmmmRN4sycl3_V15queueEENKUlRNS1_7handlerEE7_clES5_E15kernel_unloader.B2"
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                , "line":479
+              }
+            ]
+          ]
+          , "type":"inst"
+        }
+        , {
+          "name":"Compare"
+          , "id":2431
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                , "line":482
+              }
+            ]
+          ]
+          , "type":"inst"
+        }
+        , {
+          "name":"Loop Orch"
+          , "id":2433
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                , "line":482
+              }
+            ]
+          ]
+          , "type":"inst"
+        }
+        , {
+          "name":"Loop Orch"
+          , "id":2434
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                , "line":482
+              }
+            ]
+          ]
+          , "type":"inst"
+        }
+        , {
+          "name":"Feedback"
+          , "id":2435
+          , "end":"2.00"
+          , "parent":"_ZTSZZ4gemmPfS_S_S_ffmmmRN4sycl3_V15queueEENKUlRNS1_7handlerEE7_clES5_E15kernel_unloader.B2"
+          , "debug":
+          [
+            [
+              {
+                "filename":"/home/u89062/oneAPI-samples-ronghongbo/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm/tiny-Mingzhe-auto-and-manual/manual-version-signalIJK/./gemm.tiny.h"
+                , "line":482
+              }
+            ]
+          ]
+          , "type":"inst"
+        }
+      ]
+      , "links":
+      [
+        {
+          "from":2430
+          , "to":2431
+        }
+        , {
+          "from":2431
+          , "to":2433
+        }
+        , {
+          "from":2433
+          , "to":2434
+        }
+        , {
+          "from":2434
+          , "to":2435
+        }
+        , {
+          "from":2430
+          , "to":2435
+        }
+        , {
+          "from":2430
+          , "to":2435
+          , "reverse":1
+        }
+      ]
+    }
+  ]
+}
