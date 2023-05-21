@@ -1,0 +1,116 @@
+{
+    "quartusFitClockSummary"         : {
+        "nodes" : [{
+            "name"              : "Quartus Fitter: Clock Frequency (MHz)",
+            "kernel clock"      : "246.00",
+            "kernel clock fmax" : "246.85",
+            "clock1x"           : "246.85",
+            "clock2x"           : "10000.00",
+            "details"           : [{
+                "text" : "The actual frequency of kernel clock is 246.00 MHz after platform PLL adjustment. The maximum frequency for kernel clock is 246.85 MHz. "
+            }],
+            "type"              : "system"
+        }]
+    },
+    "quartusFitResourceUsageSummary" : {
+        "nodes" : [{
+            "type" : "system",
+            "id"   : "1000",
+            "name" : "Quartus Fitter: Kernel System",
+            "alm"  : "140438.5",
+            "reg"  : "381185",
+            "dsp"  : "1056",
+            "ram"  : "1406",
+            "mlab" : "2082"
+        },{
+            "type" : "kernel",
+            "id"   : "1010",
+            "name" : "k0_ZTSZZN4t2sp5sgemm5sgemmEPFiRKN4sycl3_V16deviceEEbbffP15halide_buffer_tS9_S9_S9_ENKUlRNS2_7handler",
+            "alm"  : "6748.0",
+            "reg"  : "14918",
+            "dsp"  : "14",
+            "ram"  : "23",
+            "mlab" : "58"
+        },{
+            "type" : "kernel",
+            "id"   : "1010",
+            "name" : "k1_ZTSZZN4t2sp5sgemm5sgemmEPFiRKN4sycl3_V16deviceEEbbffP15halide_buffer_tS9_S9_S9_ENKUlRNS2_7handler",
+            "alm"  : "16359.6",
+            "reg"  : "40056",
+            "dsp"  : "0",
+            "ram"  : "416",
+            "mlab" : "384"
+        },{
+            "type" : "kernel",
+            "id"   : "1010",
+            "name" : "k2_ZTSZZN4t2sp5sgemm5sgemmEPFiRKN4sycl3_V16deviceEEbbffP15halide_buffer_tS9_S9_S9_ENKUlRNS2_7handler",
+            "alm"  : "6216.7",
+            "reg"  : "13949",
+            "dsp"  : "2",
+            "ram"  : "19",
+            "mlab" : "45"
+        },{
+            "type" : "kernel",
+            "id"   : "1010",
+            "name" : "k3_ZTSZZN4t2sp5sgemm5sgemmEPFiRKN4sycl3_V16deviceEEbbffP15halide_buffer_tS9_S9_S9_ENKUlRNS2_7handler",
+            "alm"  : "16335.4",
+            "reg"  : "39883",
+            "dsp"  : "0",
+            "ram"  : "416",
+            "mlab" : "384"
+        },{
+            "type" : "kernel",
+            "id"   : "1010",
+            "name" : "k4_ZTSZZN4t2sp5sgemm5sgemmEPFiRKN4sycl3_V16deviceEEbbffP15halide_buffer_tS9_S9_S9_ENKUlRNS2_7handler",
+            "alm"  : "1586.9",
+            "reg"  : "2994",
+            "dsp"  : "0",
+            "ram"  : "0",
+            "mlab" : "4"
+        },{
+            "type" : "kernel",
+            "id"   : "1010",
+            "name" : "k5_ZTSZZN4t2sp5sgemm5sgemmEPFiRKN4sycl3_V16deviceEEbbffP15halide_buffer_tS9_S9_S9_ENKUlRNS2_7handler",
+            "alm"  : "60537.7",
+            "reg"  : "204401",
+            "dsp"  : "1024",
+            "ram"  : "261",
+            "mlab" : "497"
+        },{
+            "type" : "kernel",
+            "id"   : "1010",
+            "name" : "k6_ZTSZZN4t2sp5sgemm5sgemmEPFiRKN4sycl3_V16deviceEEbbffP15halide_buffer_tS9_S9_S9_ENKUlRNS2_7handler",
+            "alm"  : "2653.0",
+            "reg"  : "5431",
+            "dsp"  : "0",
+            "ram"  : "15",
+            "mlab" : "14"
+        },{
+            "type" : "kernel",
+            "id"   : "1010",
+            "name" : "k7_ZTSZZN4t2sp5sgemm5sgemmEPFiRKN4sycl3_V16deviceEEbbffP15halide_buffer_tS9_S9_S9_ENKUlRNS2_7handler",
+            "alm"  : "2445.5",
+            "reg"  : "4834",
+            "dsp"  : "16",
+            "ram"  : "0",
+            "mlab" : "33"
+        },{
+            "type" : "kernel",
+            "id"   : "1010",
+            "name" : "k8_ZTSZZN4t2sp5sgemm5sgemmEPFiRKN4sycl3_V16deviceEEbbffP15halide_buffer_tS9_S9_S9_ENKUlRNS2_7handler",
+            "alm"  : "3388.6",
+            "reg"  : "7095",
+            "dsp"  : "0",
+            "ram"  : "0",
+            "mlab" : "39"
+        },{
+            "type" : "aclsystem",
+            "id"   : "1001",
+            "name" : "Quartus Fitter: Total Used (Entire System)",
+            "alm"  : "200,141",
+            "reg"  : "484,181",
+            "dsp"  : "1,052",
+            "ram"  : "1,763"
+        }]
+    }
+}
