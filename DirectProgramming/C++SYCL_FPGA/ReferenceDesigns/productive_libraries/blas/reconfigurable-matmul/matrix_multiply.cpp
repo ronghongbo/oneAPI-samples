@@ -1,6 +1,6 @@
 #include "Halide.h"
 
-// Constant parameters and data types of the kernel (dimensions of the systolic array) 
+// Constant parameters and data types of the kernel (dimensions of the systolic array)
 #include "parameters.h"
 using namespace Halide;
 
@@ -48,7 +48,7 @@ int main()
 
     Expr Check_Load_A = select(addr_A_in_range, A(select(!TransA, total_k, total_i), select(!TransA, total_i, total_k)), ZERO);
     Expr Check_Load_B = select(addr_B_in_range, B(select(!TransB, total_j, total_k), select(!TransB, total_k, total_j)), ZERO);
-    
+
     X(P) = select(jjj == 0, Check_Load_A, X(P_jjj_minus_1));
     Y(P) = select(iii == 0, Check_Load_B, Y(P_iii_minus_1));
     Z(P) = select(kkk == 0 && kk == 0 && k == 0, ZERO,
@@ -86,11 +86,11 @@ int main()
     B   >> DB.out(kkk).apply_transform(Check_Load_B)              >> FIFO(256) >> SB.scope(k).out(kkk, jjj) >> FIFO(256);
     C   >> DC.out(jjj)              >> FIFO(256);
     Product >> POut.scope(iii).out(jjj) >> FIFO(256)
-            >> PR >> FIFO(256); 
+            >> PR >> FIFO(256);
     Out >> FIFO(256) >> DOut >> Output(total_j, total_i);
 
     // Compile the kernel to an oneAPI impl, and expose a C interface for the host to invoke
-    Output.compile_to_oneapi({ TransA, TransB, alpha, beta, A, B, C }, KENREL_SIZE_HW, IntelFPGA);
+    Output.compile_to_oneapi({ TransA, TransB, alpha, beta, A, B, C }, OUTPUT_FILE, IntelFPGA);
 
     return 0;
 }

@@ -37,9 +37,9 @@ flowchart LR
    tier2("Tier 2: Explore the Fundamentals")
    tier3("Tier 3: Explore the Advanced Techniques")
    tier4("Tier 4: Explore the Reference Designs")
-   
+
    tier1 --> tier2 --> tier3 --> tier4
-   
+
    style tier1 fill:#0071c1,stroke:#0071c1,stroke-width:1px,color:#fff
    style tier2 fill:#0071c1,stroke:#0071c1,stroke-width:1px,color:#fff
    style tier3 fill:#0071c1,stroke:#0071c1,stroke-width:1px,color:#fff
@@ -79,21 +79,21 @@ Files:
 ** `JJJ` - Columns of the systolic array.
 ** `III` - Rows of the systolic array.
 ** `JJ ` - Columns of matrix `B` to process in a PE
-** `II ` - Rows of matrix `A` to process in a PE. There are `II*JJ` number of results to reduce in the PE. 
+** `II ` - Rows of matrix `A` to process in a PE. There are `II*JJ` number of results to reduce in the PE.
 ** `KK ` - `KKK * KK` is the columns of matrix A / rows of matrix B to reduce in a PE.
- 
+
 ## Build
 
 1. Configure the build system for **Intel® PAC with Intel Arria® 10 GX FPGA**, which is the default.
-   
+
    ```shell
    mkdir -p build
    cd build
    cmake ..
    ```
-   
+
    For **Intel Stratix® 10 SX**, enter the following:
-   
+
    ```shell
    mkdir -p build
    cd build
@@ -101,7 +101,7 @@ Files:
    ```
 
 2. Compile the design.
-   
+
    ```shell
    make (report|synthesize)_Kernel_SystolicArraySize_Hardware
    ```
@@ -110,18 +110,21 @@ Files:
 For example,
 
    ```shell
-   # Generate an HTML performance report for single-precision GEMM with a tiny systolic arrary on an A10 FPGA.
+   # Generate an HTML report of resource usage, frequencies, etc. for single-precision GEMM with a tiny systolic arrary on an A10 FPGA.
    make report_sgemm_tiny_a10
    # Generate a bitstream for complex double-precision SYRK with a large systolic arrary on an S10 FPGA.
    make synthesize_zsyrk_large_s10
    ```
 
-## Run
-After synthesis, 
+The generated files are located in
+** `generated_src`: the OneAPI files generated
+** `generated-bin`: the bitstream generated
+** `generated_reports`: the HTML file generated
+
+## Clean
+
+To clean up files generated during making a target, use the generated `cmake_clean.cmake` file. For example,
    ```shell
-   ./Kernel_SystolicArraySize_Hardware
+   cmake -P  CMakeFiles/synthesize_sgemm_tiny_a10.dir/cmake_clean.cmake
    ```
-For example,
-```shell
-./zsyrk_large_s10
-```
+This command cleans up all the files generated during making the target `synthesize_sgemm_tiny_a10`.

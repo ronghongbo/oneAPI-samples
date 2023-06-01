@@ -70,7 +70,7 @@
             #define III         4
             #define JJ          32
             #define II          32
-            #define KK          32        
+            #define KK          32
         #else
             #error Precision is undefined. Define one of the following macros: T2SP_SMATMUL, T2SP_DMATMUL, T2SP_CMATMUL, and T2SP_ZMATMUL.
         #endif
@@ -83,24 +83,20 @@
     #define ZERO       0
     #define CONST_TYPE float
     #define TTYPE      Float(32)
-    #define KERNEL     "smatmul"
 #elif defined(T2SP_DMATMUL)
     #define ZERO       0
     #define CONST_TYPE double
     #define TTYPE      Float(64)
-    #define KERNEL     "dmatmul"
 #elif defined(T2SP_CMATMUL)
     #define ZERO       complex32_t(0.0f, 0.0f)
     #define CONST_TYPE complex32_t
     #define TTYPE      Complex(32)
-    #define KERNEL     "cmatmul"
 #elif defined(T2SP_ZMATMUL)
     #define ZERO       complex64_t(0.0, 0.0)
     #define CONST_TYPE complex64_t
     #define TTYPE      Complex(64)
-    #define KERNEL     "zmatmul"
 #else
     #error Precision is undefined. Define one of the following macros: T2SP_SMATMUL, T2SP_DMATMUL, T2SP_CMATMUL, and T2SP_ZMATMUL.
 #endif
 
-#endif 
+#endif
