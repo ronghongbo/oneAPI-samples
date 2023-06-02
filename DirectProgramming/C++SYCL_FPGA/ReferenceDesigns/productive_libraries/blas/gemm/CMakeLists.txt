@@ -1,103 +1,71 @@
-project(gemm_oneapi)
+project(gemm)
+set(KERNELS "sgemm" "dgemm" "cgemm" "zgemm")
 set(CMAKE_CXX_COMPILER icpx)
-
-# Due to restrictions of file size, we have split libHalide.a into parts. Join them into the original binary
-if(NOT EXISTS "${CMAKE_CURRENT_LIST_DIR}/../../tools/Halide/lib/libHalide.a")
-    execute_process(COMMAND cat libHalide.part.aa libHalide.part.ab libHalide.part.ac libHalide.part.ad libHalide.part.ae libHalide.part.af libHalide.part.ag  
-                    OUTPUT_FILE libHalide.a
-                    WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/../../tools/Halide/lib)
-endif()
-set(TOOLS_PATH "${CMAKE_CURRENT_LIST_DIR}/../../tools")
+set(TOOLS_PATH "${CMAKE_SOURCE_DIR}/../../tools")
+set(CPP_SYCL_FPGA_PATH "${CMAKE_SOURCE_DIR}/../../../..")
 
 if(NOT DEFINED ENV{MKLROOT})
     message(FATAL_ERROR "MKLROOT is not set")
 endif()
 
-# FPGA board selection
-if(NOT DEFINED FPGA_DEVICE)
-    set(FPGA_DEVICE "intel_a10gx_pac:pac_a10")
-    set(DEVICE_DEFINE "A10")
-    message(STATUS "FPGA_DEVICE was not specified.\
-                    \nConfiguring the design to run on the default FPGA board ${FPGA_DEVICE} (Intel(R) PAC with Intel Arria(R) 10 GX FPGA). \
-                    \nPlease refer to the README for information on board selection.")
-else()
-    if("${FPGA_DEVICE}" STREQUAL "intel_s10sx_pac:pac_s10")
-        set(DEVICE_DEFINE "S10")
-    elseif("${FPGA_DEVICE}" STREQUAL "intel_a10gx_pac:pac_a10")
-        set(DEVICE_DEFINE "A10")
-    else()
-        message(FATAL_ERROR "Unsupported device ${FPGA_DEVICE}")
-    endif()
-    message(STATUS "Configuring the design to run on FPGA board ${FPGA_DEVICE}")
-endif()
+# Create custom targets for generating OneAPI files, reporting of resource usage, and synthesizing bitstreams.
+include(../erconfigurable_matmul/CMakeInterface.txt)
 
-link_directories("${TOOLS_PATH}/Halide/lib")
-link_directories("$ENV{MKLROOT}/lib/intel64")
+# Create custom targets for testing correctness of the kernels, and demonstrating performance running on real hardware.
+file(MAKE_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
+foreach(KERNEL ${KERNELS})
+    string(SUBSTRING ${KERNEL} 0 1 PRECISION)
+    foreach(SIZE "tiny" "large")
+        foreach(HW "a10" "s10")
+            string(TOUPPER ${PRECISION} UPPER_PRECISION)
+            string(TOUPPER ${KERNEL}    UPPER_KERNEL)
+            string(TOUPPER ${SIZE}      UPPER_SIZE)
+            string(TOUPPER ${HW}        UPPER_HW)
 
-###############################################################################
-### Generate header files
-###############################################################################
-foreach(SIZE "LARGE" "TINY")
-    string(TOLOWER ${SIZE} LOWER_SIZE)
-    add_custom_target(gemm_generate_${LOWER_SIZE})
-    foreach(GEMM_TYPE "SGEMM" "DGEMM" "CGEMM" "ZGEMM")
-        string(TOLOWER ${GEMM_TYPE} LOWER_GEMM_TYPE)
-        add_executable(gemm_generate_${LOWER_SIZE}_${LOWER_GEMM_TYPE} gemm.cpp)
-        target_include_directories(gemm_generate_${LOWER_SIZE}_${LOWER_GEMM_TYPE} PRIVATE "${TOOLS_PATH}/Halide/include")
-        target_include_directories(gemm_generate_${LOWER_SIZE}_${LOWER_GEMM_TYPE} PRIVATE "${CMAKE_SOURCE_DIR}/include")
-        target_include_directories(gemm_generate_${LOWER_SIZE}_${LOWER_GEMM_TYPE} PRIVATE "${CMAKE_SOURCE_DIR}/../../../../include/")
-        target_compile_definitions(gemm_generate_${LOWER_SIZE}_${LOWER_GEMM_TYPE} PRIVATE "T2SP_${GEMM_TYPE}" "${SIZE}" "${DEVICE_DEFINE}")
-        target_link_libraries(gemm_generate_${LOWER_SIZE}_${LOWER_GEMM_TYPE} PRIVATE pthread z dl Halide)
-        set_target_properties(gemm_generate_${LOWER_SIZE}_${LOWER_GEMM_TYPE} PROPERTIES CXX_STANDARD 11)
-        add_custom_command(TARGET gemm_generate_${LOWER_SIZE}_${LOWER_GEMM_TYPE}
-                           POST_BUILD
-                           COMMAND env CLEARCODE=1 ${CMAKE_BINARY_DIR}/gemm_generate_${LOWER_SIZE}_${LOWER_GEMM_TYPE}
-                           WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/include
-                           COMMENT "${LOWER_GEMM_TYPE} (${LOWER_SIZE} size): Start to generate ${LOWER_GEMM_TYPE}.sycl.h"
-                           VERBATIM)
-        add_dependencies(gemm_generate_${LOWER_SIZE} gemm_generate_${LOWER_SIZE}_${LOWER_GEMM_TYPE})
+            # Generate tests
+            foreach(N RANGE 0 4)
+                add_custom_command(OUTPUT  ${CMAKE_SOURCE_DIR}/bin/test_${N}
+                                   COMMAND ${CMAKE_CXX_COMPILER}
+                                           -I${TOOLS_PATH}/Halide/include -I$ENV{MKLROOT}/include -I${RECONFIGURABLE_MATMUL_DIR}
+                                           -I${RECONFIGURABLE_MATMUL_DIR}/generated_src -I${CPP_SYCL_FPGA_PATH}/include
+                                           -DTINY -DMKL_ILP64 -DT2SP_NDEBUG -DT2SP_TEST_${N} -DFPGA_EMULATOR
+                                           -fsycl -fintelfpga
+                                           ${CMAKE_SOURCE_DIR}/test.cpp
+                                           -L${TOOLS_PATH}/Halide/lib" -L$ENV{MKLROOT}/lib/intel64"
+                                           -lmkl_sycl -lmkl_intel_ilp64 -lmkl_sequential -lmkl_core sycl -lOpenCL -lpthread -lm -ldl
+                                           -o ${CMAKE_SOURCE_DIR}/bin/test_${N}
+                                   DEPENDS generate_${PRECISION}matmul_${SIZE}_${HW}
+                                           ${CMAKE_SOURCE_DIR}/test.cpp
+                                   WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+                                   COMMENT "Generate tests"
+                                   VERBATIM)
+            endforeach()
+            add_custom_target(test_${KERNEL}_${SIZE}_${HW} DEPENDS ${CMAKE_SOURCE_DIR}/bin/test_0
+                                                                   ${CMAKE_SOURCE_DIR}/bin/test_1
+                                                                   ${CMAKE_SOURCE_DIR}/bin/test_2
+                                                                   ${CMAKE_SOURCE_DIR}/bin/test_3
+                                                                   ${CMAKE_SOURCE_DIR}/bin/test_4)
+
+            # Generate a demo application that will run on real hardware
+            add_custom_command(OUTPUT  ${RECONFIGURABLE_MATMUL_DIR}/generated_bin/${KERNEL}_${SIZE}_${HW}.image
+                                       ${RECONFIGURABLE_MATMUL_DIR}/generated_reports/${KERNEL}_${SIZE}_${HW}/report.html
+                                       ${RECONFIGURABLE_MATMUL_DIR}/generated_reports/${KERNEL}_${SIZE}_${HW}/resources
+                                       ${CMAKE_SOURCE_DIR}/bin/demo
+                               COMMAND ${CMAKE_CXX_COMPILER}
+                                       -reuse-exe=${RECONFIGURABLE_MATMUL_DIR}/generated_bin/${KERNEL}_${SIZE}_${HW}.image
+                                       -I${TOOLS_PATH}/Halide/include -I$ENV{MKLROOT}/include -I${RECONFIGURABLE_MATMUL_DIR}
+                                       -I${RECONFIGURABLE_MATMUL_DIR}/generated_src -I${CPP_SYCL_FPGA_PATH}/include
+                                       -fsycl -fintelfpga
+                                       ${CMAKE_SOURCE_DIR}/hardware_demo.cpp
+                                       -o ${CMAKE_SOURCE_DIR}/bin/demo
+                               DEPENDS synthesize_${PRECISION}matmul_${SIZE}_${HW}
+                               WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+                               COMMENT "Start to generate a demo application using the image"
+                               VERBATIM)
+            add_custom_target(demo_${KERNEL}_${SIZE}_${HW} DEPENDS ${RECONFIGURABLE_MATMUL_DIR}/generated_bin/${PRECISION}matmul_${SIZE}_${HW}.image
+                                                                   ${CMAKE_SOURCE_DIR}/bin/demo)
+        endforeach()
     endforeach()
 endforeach()
 
-###############################################################################
-### FPGA Emulator
-###############################################################################
-add_custom_target(gemm_test)
-foreach(N RANGE 0 4)
-    add_executable(gemm_test_${N} test.cpp)
-    target_include_directories(gemm_test_${N} PRIVATE "${TOOLS_PATH}/Halide/include")
-    target_include_directories(gemm_test_${N} PRIVATE "${CMAKE_SOURCE_DIR}/include")
-    target_include_directories(gemm_test_${N} PRIVATE "$ENV{MKLROOT}/include")
-    target_include_directories(gemm_test_${N} PRIVATE "${CMAKE_SOURCE_DIR}/../../../../include/")
-    target_compile_definitions(gemm_test_${N} PRIVATE TINY MKL_ILP64 T2SP_NDEBUG "T2SP_TEST_${N}" FPGA_EMULATOR)
-    target_link_libraries(gemm_test_${N} mkl_sycl mkl_intel_ilp64 mkl_sequential mkl_core sycl OpenCL pthread m dl)
-    set_target_properties(gemm_test_${N} PROPERTIES COMPILE_FLAGS "-fsycl -fintelfpga")
-    set_target_properties(gemm_test_${N} PROPERTIES LINK_FLAGS "-fsycl -fintelfpga")
-    add_dependencies(gemm_test_${N} gemm_generate_tiny)
-    add_dependencies(gemm_test gemm_test_${N})
-endforeach()
 
-###############################################################################
-### Generate Report
-###############################################################################
-add_executable(gemm_report.a hardware_demo.cpp)
-add_dependencies(gemm_report.a gemm_generate_tiny_sgemm)
-add_custom_target(gemm_report DEPENDS gemm_report.a)
-target_include_directories(gemm_report.a PRIVATE "${TOOLS_PATH}/Halide/include")
-target_include_directories(gemm_report.a PRIVATE "${CMAKE_SOURCE_DIR}/include")
-target_include_directories(gemm_report.a PRIVATE "${CMAKE_SOURCE_DIR}/../../../../include/")
-target_compile_definitions(gemm_report.a PRIVATE "${DEVICE_DEFINE}" T2SP_SGEMM TINY)
-set_target_properties(gemm_report.a PROPERTIES COMPILE_FLAGS "-fsycl -fintelfpga")
-set_target_properties(gemm_report.a PROPERTIES LINK_FLAGS "-fsycl -fintelfpga -reuse-exe=${CMAKE_BINARY_DIR}/gemm_fpga -Xshardware -Xstarget=${FPGA_DEVICE} -Xsffp-reassociate -Xsprofile -Xsclock=360MHz -Xsseed=5 -fsycl-link=early")
-
-###############################################################################
-### FPGA Hardware
-###############################################################################
-add_executable(gemm_fpga hardware_demo.cpp)
-add_dependencies(gemm_fpga gemm_generate_tiny_sgemm)
-target_include_directories(gemm_fpga PRIVATE "${TOOLS_PATH}/Halide/include")
-target_include_directories(gemm_fpga PRIVATE "${CMAKE_SOURCE_DIR}/include")
-target_include_directories(gemm_fpga PRIVATE "${CMAKE_SOURCE_DIR}/../../../../include/")
-target_compile_definitions(gemm_fpga PRIVATE "${DEVICE_DEFINE}" T2SP_SGEMM TINY)
-set_target_properties(gemm_fpga PROPERTIES COMPILE_FLAGS "-fsycl -fintelfpga")
-set_target_properties(gemm_fpga PROPERTIES LINK_FLAGS "-fsycl -fintelfpga -reuse-exe=${CMAKE_BINARY_DIR}/gemm_fpga -Xshardware -Xstarget=${FPGA_DEVICE} -Xsffp-reassociate -Xsprofile -Xsclock=360MHz -Xsseed=5")

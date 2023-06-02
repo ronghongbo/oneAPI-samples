@@ -25,6 +25,7 @@ C := alpha*op(A)*op(B) + beta*C
 ```
 where `op(X)` is one of `op(X) = X`, or `op(X) = X<sup>T</sup>`, or `op(X) = X<sup>H</sup>`, `alpha` and `beta` are scalars, and `A`, `B` and `C` are matrices.
 
+By providing appropriate parameters, the above compute simulates various BLAS kernels: `sgemm`, `dgemm`, `cgemm`, `zgemm`, `ssymm`, `dsymm`, `csymm`, `zsymm`, `chemm`, `zhemm`, `ssyrk`, `dsyrk`, `csyrk`, `zsyrk`, `cherk` and `zherk`.
 
 ## Prerequisites
 
@@ -51,22 +52,6 @@ flowchart LR
 | Hardware             | Intel® Programmable Acceleration Card with Intel® Arria® 10 GX FPGA (Intel® PAC with Intel® Arria® 10 GX FPGA) <br> Intel® FPGA Programmable Acceleration Card (PAC) D5005 (with Intel Stratix® 10 SX)
 | Software             | Intel® oneAPI DPC++/C++ Compiler, T2SP compiler
 
-## Metrics
-
-
-Single precision:
-| Device | Logic utilization | DSP blocks | RAM blocks | Frequency | Throughput | Matrix Size |
-| ------ | --------- | ---------- | ----------------- | ---------- | ---------- | -----------|
-| Intel Arria 10 GX 1150   |  218,275 / 427,200 ( 51 % ) |  1,314 / 1,518 ( 87 % ) | 2,198 / 2,713 ( 81 % ) | 223 MHZ | 479 GFLOPS |
-| Intel Stratix 10 SX 2800 | | | | | | |
-
-Double precision:
-
-Complex single precision:
-
-Complex double precision:
-
-
 ## Key Implementation Details
 The algorithm employed by the reference design is a 2-dimensional systolic array  with a sophisticated I/O network.
 
@@ -81,6 +66,27 @@ Files:
 ** `JJ ` - Columns of matrix `B` to process in a PE
 ** `II ` - Rows of matrix `A` to process in a PE. There are `II*JJ` number of results to reduce in the PE.
 ** `KK ` - `KKK * KK` is the columns of matrix A / rows of matrix B to reduce in a PE.
+
+The parameters are defined for two configurations: tiny and large. The tiny configuration specifies a 4x4 systolic array, with each PE computing 16 results. The large configuration tries to maximize the utilization of resources, and varies with precision and hardware.
+
+* `CMakeLists.txt` - cmake targets
+* `CMakeInterface.txt` - a file shared by each kernel. Building a target of a kernel may, through this interface, invokes building a target of this reconfigurable matrix multiplication.
+
+## Metrics
+
+The data below are with a large configuration. See `parameters.h` for details.
+
+Single precision: on A10, 10x8 array, each PE computes 1024 results.
+| Device | Logic utilization | DSP blocks | RAM blocks | Frequency | Throughput | Matrix Size |
+| ------ | --------- | ---------- | ----------------- | ---------- | ---------- | -----------|
+| Intel Arria 10 GX 1150   |  218,275 / 427,200 ( 51 % ) |  1,314 / 1,518 ( 87 % ) | 2,198 / 2,713 ( 81 % ) | 223 MHZ | 479 GFLOPS |
+| Intel Stratix 10 SX 2800 | | | | | | |
+
+Double precision:
+
+Complex single precision:
+
+Complex double precision:
 
 ## Build
 
@@ -103,28 +109,33 @@ Files:
 2. Compile the design.
 
    ```shell
-   make (report|synthesize)_Kernel_SystolicArraySize_Hardware
+   make (report|synthesize)_Precision_Size_Hardware
    ```
-`Kernel` is specified with a precision and a kernel name, for example, `sgemm` (single-precision GEMM), `zsyrk` (complex double-precision SYRK), etc. `SystolicArraySize` is `tiny` or `large`, which determines the constant parameters in `parameters.h`. `Hardware` is either `a10` or `s10`.
+`Precision` is `s` (single precision), `d`(double-precision), `c`(complex single-precision) or `z`(complex double-precision).
+) kernel name, for example, `sgemm` (single-precision GEMM), `zsyrk` (complex double-precision SYRK), etc.
+`Size` is `tiny` or `large`. `Hardware` is either `a10` or `s10`.
 
 For example,
 
    ```shell
-   # Generate an HTML report of resource usage, frequencies, etc. for single-precision GEMM with a tiny systolic arrary on an A10 FPGA.
-   make report_sgemm_tiny_a10
-   # Generate a bitstream for complex double-precision SYRK with a large systolic arrary on an S10 FPGA.
-   make synthesize_zsyrk_large_s10
+   # Generate an HTML report of resource usage, frequencies, etc. for single-precision matrix multiplication with a tiny systolic arrary on an A10 FPGA.
+   make report_s_tiny_a10
+   # Generate a bitstream for complex double-precision matrix multiplication with a large systolic arrary on an S10 FPGA.
+   make synthesize_z_large_s10
    ```
 
 The generated files are located in
 ** `generated_src`: the OneAPI files generated
-** `generated-bin`: the bitstream generated
-** `generated_reports`: the HTML file generated
+** `generated-bin`: the bitstreams generated
+** `generated_reports`: the HTML files generated
+
+## Test
+Go to the directories for the kernels that this compute simulates, and follow the instructions there to test.
 
 ## Clean
 
 To clean up files generated during making a target, use the generated `cmake_clean.cmake` file. For example,
    ```shell
-   cmake -P  CMakeFiles/synthesize_sgemm_tiny_a10.dir/cmake_clean.cmake
+   cmake -P  CMakeFiles/synthesize_s_tiny_a10.dir/cmake_clean.cmake
    ```
-This command cleans up all the files generated during making the target `synthesize_sgemm_tiny_a10`.
+This command cleans up all the files generated during making the target `synthesize_s_tiny_a10`.

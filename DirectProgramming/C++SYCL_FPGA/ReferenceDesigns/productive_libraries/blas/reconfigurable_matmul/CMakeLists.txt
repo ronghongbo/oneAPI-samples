@@ -1,6 +1,6 @@
 project(reconfigurable_matmul)
 set(CMAKE_CXX_COMPILER icpx)
-set(KERNELS "sgemm" "dgemm" "cgemm" "zgemm" "ssymm" "dsymm" "csymm" "zsymm" "chemm" "zhemm" "ssyrk" "dsyrk" "csyrk" "zsyrk" "cherk" "zherk")
+set(KERNELS "smatmul" "dmatmul" "cmatmul" "zmatmul")
 set(OPENCL_1_2_1_BSP /opt/a10/inteldevstack/a10_gx_pac_ias_1_2_1_pv/opencl/opencl_bsp)
 
 # Due to restrictions of file size, we have split libHalide.a into parts. Join them into the original binary
@@ -10,10 +10,6 @@ if(NOT EXISTS "${CMAKE_CURRENT_LIST_DIR}/../../tools/Halide/lib/libHalide.a")
                     WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/../../tools/Halide/lib)
 endif()
 set(TOOLS_PATH "${CMAKE_CURRENT_LIST_DIR}/../../tools")
-
-if(NOT DEFINED ENV{MKLROOT})
-    message(FATAL_ERROR "MKLROOT is not set")
-endif()
 
 # FPGA board selection
 if(NOT DEFINED FPGA_DEVICE)
@@ -84,7 +80,7 @@ foreach(KERNEL ${KERNELS})
                                        -Xshardware -Xstarget=${FPGA_DEVICE}
                                        -Xsffp-reassociate -Xsffp-contract=fast -Xsdsp-mode=prefer-dsp -Xsprofile -Xsclock=360MHz
                                        ${CMAKE_SOURCE_DIR}/generated_src/${KERNEL}_${SIZE}_${HW}.sycl.h
-                                       -fsycl -fsycl-link=early -o ${KERNEL}_${SIZE}_${HW}.early
+                                       -fsycl -fintelfpga -fsycl-link=early -o ${KERNEL}_${SIZE}_${HW}.early
                                COMMAND cp -rf ${KERNEL}_${SIZE}_${HW}.early.prj/reports/report.html ${CMAKE_SOURCE_DIR}/generated_reports/${KERNEL}_${SIZE}_${HW}
                                COMMAND cp -rf ${KERNEL}_${SIZE}_${HW}.early.prj/reports/resources   ${CMAKE_SOURCE_DIR}/generated_reports/${KERNEL}_${SIZE}_${HW}
                                DEPENDS ${CMAKE_SOURCE_DIR}/generated_src/${KERNEL}_${SIZE}_${HW}.sycl.h # File-level dependency
@@ -104,7 +100,7 @@ foreach(KERNEL ${KERNELS})
                                        -Xshardware -Xstarget=${FPGA_DEVICE}
                                        -Xsffp-reassociate -Xsffp-contract=fast -Xsdsp-mode=prefer-dsp -Xsprofile -Xsclock=360MHz
                                        ${CMAKE_SOURCE_DIR}/generated_src/${KERNEL}_${SIZE}_${HW}.sycl.h
-                                       -fsycl -fsycl-link=image -o ${KERNEL}_${SIZE}_${HW}.image
+                                       -fsycl -fintelfpga -fsycl-link=image -o ${KERNEL}_${SIZE}_${HW}.image
                                COMMAND cp -rf ${KERNEL}_${SIZE}_${HW}.image ${CMAKE_SOURCE_DIR}/generated_bin
                                COMMAND cp -rf ${KERNEL}_${SIZE}_${HW}.image.prj/reports/report.html    ${CMAKE_SOURCE_DIR}/generated_reports/${KERNEL}_${SIZE}_${HW}
                                COMMAND cp -rf ${KERNEL}_${SIZE}_${HW}.image.prj/reports/resources      ${CMAKE_SOURCE_DIR}/generated_reports/${KERNEL}_${SIZE}_${HW}
