@@ -109,7 +109,7 @@ Complex double precision:
 2. Compile the design.
 
    ```shell
-   make (gen_oneapi|report|synthesize)_Kernel_Size_Hardware
+   make (oneapi|report|synthesize)_Kernel_Size_Hardware
    ```
 `Kernel` is precision (`s` for single precision, `d` for double-precision, `c` for complex single-precision, or `z` for complex double-precision) with a kernel name (here `matmul`).
 `Size` is `tiny` or `large`. `Hardware` is either `a10` or `s10`.
@@ -117,12 +117,14 @@ Complex double precision:
 For example,
 
    ```shell
+   # Generate OneAPI source file from the T2SP specification for single-precision matrix multiplication with a tiny systolic arrary on an A10 FPGA.
+   make oneapi_smatmul_tiny_a10
+
    # Generate an HTML report of resource usage, frequencies, etc. for single-precision matrix multiplication with a tiny systolic arrary on an A10 FPGA.
-   make report_s_tiny_a10
-   # Generate an HTML report of resource usage, frequencies, etc. for single-precision matrix multiplication with a tiny systolic arrary on an A10 FPGA.
-   make report_s_tiny_a10
+   make report_smatmul_tiny_a10
+
    # Generate a bitstream for complex double-precision matrix multiplication with a large systolic arrary on an S10 FPGA.
-   make synthesize_z_large_s10
+   make synthesize_zmatmul_large_s10
    ```
 
 The generated files are located in
@@ -137,6 +139,6 @@ Go to the directories for the kernels that this compute simulates, and follow th
 
 To clean up files generated during making a target, use the generated `cmake_clean.cmake` file. For example,
    ```shell
-   cmake -P  CMakeFiles/synthesize_s_tiny_a10.dir/cmake_clean.cmake
+   cmake -P  CMakeFiles/synthesize_zmatmul_large_s10.dir/cmake_clean.cmake
    ```
-This command cleans up all the files generated during making the target `synthesize_s_tiny_a10`.
+This command cleans up all the files generated during making the target `synthesize_zmatmul_large_s10`.

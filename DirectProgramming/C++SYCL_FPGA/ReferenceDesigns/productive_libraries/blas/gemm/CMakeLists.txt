@@ -33,7 +33,7 @@ foreach(KERNEL ${KERNELS})
                                            -lmkl_sycl -lmkl_intel_ilp64 -lmkl_sequential -lmkl_core sycl -lOpenCL -lpthread -lm -ldl
                                            ${CMAKE_SOURCE_DIR}/test.cpp
                                            -o ${CMAKE_SOURCE_DIR}/bin/test_${N}
-                                   DEPENDS gen_oneapi_${KERNEL}_${SIZE}_${HW}
+                                   DEPENDS oneapi_${KERNEL}_${SIZE}_${HW}
                                            ${CMAKE_SOURCE_DIR}/test.cpp
                                    WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
                                    COMMENT "Generate tests"

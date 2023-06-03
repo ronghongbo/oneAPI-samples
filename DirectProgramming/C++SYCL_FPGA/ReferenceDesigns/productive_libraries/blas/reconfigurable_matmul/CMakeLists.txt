@@ -57,8 +57,8 @@ foreach(KERNEL ${KERNELS})
                                        -I${TOOLS_PATH}/Halide/include -I${CMAKE_SOURCE_DIR}
                                        -std=gnu++11 ${CMAKE_SOURCE_DIR}/matrix_multiply.cpp
                                        -L${TOOLS_PATH}/Halide/lib -lpthread -lz -ldl -lHalide
-                                       -o ${CMAKE_BINARY_DIR}/gen_oneapi_${KERNEL}_${SIZE}_${HW}
-                               COMMAND env CLEARCODE=1 ${CMAKE_BINARY_DIR}/gen_oneapi_${KERNEL}_${SIZE}_${HW}
+                                       -o ${CMAKE_BINARY_DIR}/oneapi_${KERNEL}_${SIZE}_${HW}
+                               COMMAND env CLEARCODE=1 ${CMAKE_BINARY_DIR}/oneapi_${KERNEL}_${SIZE}_${HW}
                                COMMAND cp ${CMAKE_BINARY_DIR}/${KERNEL}_${SIZE}_${HW}.sycl.h ${CMAKE_SOURCE_DIR}/oneapi
                                COMMAND cp ${CMAKE_BINARY_DIR}/complex_helper.hpp             ${CMAKE_SOURCE_DIR}/oneapi
                                COMMAND cp ${CMAKE_BINARY_DIR}/halide_runtime_etc.h           ${CMAKE_SOURCE_DIR}/oneapi
@@ -68,7 +68,7 @@ foreach(KERNEL ${KERNELS})
                                WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
                                COMMENT "Start to generate OneAPI files"
                                VERBATIM)
-            add_custom_target(gen_oneapi_${KERNEL}_${SIZE}_${HW} DEPENDS ${CMAKE_SOURCE_DIR}/oneapi/${KERNEL}_${SIZE}_${HW}.sycl.h
+            add_custom_target(oneapi_${KERNEL}_${SIZE}_${HW} DEPENDS ${CMAKE_SOURCE_DIR}/oneapi/${KERNEL}_${SIZE}_${HW}.sycl.h
                                                                        ${CMAKE_SOURCE_DIR}/oneapi/complex_helper.hpp
                                                                        ${CMAKE_SOURCE_DIR}/oneapi/halide_runtime_etc.h
                                                                        ${CMAKE_SOURCE_DIR}/oneapi/pipe_wrapper.hpp)
@@ -86,7 +86,7 @@ foreach(KERNEL ${KERNELS})
                                COMMAND cp -rf ${KERNEL}_${SIZE}_${HW}.early.prj/reports/report.html ${CMAKE_SOURCE_DIR}/generated_reports/${KERNEL}_${SIZE}_${HW}
                                COMMAND cp -rf ${KERNEL}_${SIZE}_${HW}.early.prj/reports/resources   ${CMAKE_SOURCE_DIR}/generated_reports/${KERNEL}_${SIZE}_${HW}
                                DEPENDS ${CMAKE_SOURCE_DIR}/oneapi/${KERNEL}_${SIZE}_${HW}.sycl.h # File-level dependency
-                                       gen_oneapi_${KERNEL}_${SIZE}_${HW}                                 # Target-level dependency
+                                       oneapi_${KERNEL}_${SIZE}_${HW}                            # Target-level dependency
                                WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
                                COMMENT "Start to generate a report"
                                VERBATIM)
@@ -108,7 +108,7 @@ foreach(KERNEL ${KERNELS})
                                COMMAND cp -rf ${KERNEL}_${SIZE}_${HW}.image.prj/reports/resources      ${CMAKE_SOURCE_DIR}/generated_reports/${KERNEL}_${SIZE}_${HW}
                                COMMAND cp -rf ${KERNEL}_${SIZE}_${HW}.image.prj/acl_quartus_report.txt ${CMAKE_SOURCE_DIR}/generated_reports/${KERNEL}_${SIZE}_${HW}
                                DEPENDS ${CMAKE_SOURCE_DIR}/oneapi/${KERNEL}_${SIZE}_${HW}.sycl.h # File-level dependency
-                                       gen_oneapi_${KERNEL}_${SIZE}_${HW}                                 # Target-level dependency
+                                       oneapi_${KERNEL}_${SIZE}_${HW}                            # Target-level dependency
                                WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
                                COMMENT "Start to generate an image"
                                VERBATIM)

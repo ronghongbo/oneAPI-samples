@@ -13,16 +13,16 @@ foreach(PRECISION "s" "d" "c" "z")
                                        ${RECONFIGURABLE_MATMUL_DIR}/oneapi/complex_helper.hpp
                                        ${RECONFIGURABLE_MATMUL_DIR}/oneapi/halide_runtime_etc.h
                                        ${RECONFIGURABLE_MATMUL_DIR}/oneapi/pipe_wrapper.hpp
-                               COMMAND make gen_oneapi_${PRECISION}matmul_${SIZE}_${HW}
+                               COMMAND make oneapi_${PRECISION}matmul_${SIZE}_${HW}
                                WORKING_DIRECTORY ${RECONFIGURABLE_MATMUL_DIR}/build
                                DEPENDS ${RECONFIGURABLE_MATMUL_DIR}/matrix_multiply.cpp
                                        ${RECONFIGURABLE_MATMUL_DIR}/parameters.h
                                COMMENT "Invoke the make of reconfigurable matmul to generate OneAPI files"
                                VERBATIM)
-            add_custom_target(gen_oneapi_${PRECISION}${KERNEL}_${SIZE}_${HW} DEPENDS ${RECONFIGURABLE_MATMUL_DIR}/oneapi/${PRECISION}matmul_${SIZE}_${HW}.sycl.h
-                                                                                     ${RECONFIGURABLE_MATMUL_DIR}/oneapi/complex_helper.hpp
-                                                                                     ${RECONFIGURABLE_MATMUL_DIR}/oneapi/halide_runtime_etc.h
-                                                                                     ${RECONFIGURABLE_MATMUL_DIR}/oneapi/pipe_wrapper.hpp)
+            add_custom_target(oneapi_${PRECISION}${KERNEL}_${SIZE}_${HW} DEPENDS ${RECONFIGURABLE_MATMUL_DIR}/oneapi/${PRECISION}matmul_${SIZE}_${HW}.sycl.h
+                                                                                 ${RECONFIGURABLE_MATMUL_DIR}/oneapi/complex_helper.hpp
+                                                                                 ${RECONFIGURABLE_MATMUL_DIR}/oneapi/halide_runtime_etc.h
+                                                                                 ${RECONFIGURABLE_MATMUL_DIR}/oneapi/pipe_wrapper.hpp)
 
             # Generate a report
             add_custom_command(OUTPUT  ${RECONFIGURABLE_MATMUL_DIR}/reports/${PRECISION}matmul_${SIZE}_${HW}/report.html

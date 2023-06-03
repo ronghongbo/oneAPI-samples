@@ -42,7 +42,7 @@ The kernel is implemented by configuring the [reconfigurable matrix multiplicati
 For example, to build a single-precision sysotolic array for an A10 FPGA, a typical process is as follows:
    ```shell
    # Generate OneAPI source file from the T2SP specification
-   make gen_oneapi_sgemm_tiny_a10
+   make oneapi_sgemm_tiny_a10
 
    # Generate correctness tests
    make test_sgemm_tiny_a10
@@ -57,7 +57,7 @@ For example, to build a single-precision sysotolic array for an A10 FPGA, a typi
 Now that the correctness is verified, we can go with large size for performance:
    ```shell
    # Generate OneAPI source file from the T2SP specification
-   make gen_oneapi_sgemm_large_a10
+   make oneapi_sgemm_large_a10
 
    # Generate the HTML performance report.
    make report_sgemm_large_a10
