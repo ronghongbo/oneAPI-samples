@@ -1,54 +1,57 @@
 # This file is to be included into the CMakeLists.txt of a KERNEL supported by the reconfigurable matrix multiplication.
+# Before including this file, set the KERNEL variable as one of "gemm", "symm", "hemm", "syrk" and "herk".
 
 set(RECONFIGURABLE_MATMUL_DIR ${CMAKE_CURRENT_LIST_DIR})
 
-# Create Makefiles, etc. for the reconfigurable matrix multiplication, if not done yet.
-if(NOT EXISTS "${RECONFIGURABLE_MATMUL_DIR}/build/CMakeFiles")
-    execute_process(COMMAND mkdir -p ${RECONFIGURABLE_MATMUL_DIR}/build && cd ${RECONFIGURABLE_MATMUL_DIR}/build && cmake .. && cd -)
-endif()
-
-###############################################################################
-### Create results directories
-###############################################################################
+# Create targets, which are interfaces of the same targets of reconfigurable_matmul
 file(MAKE_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
-
-foreach(KERNEL "smatmul" "dmatmul" "cmatmul" "zmatmul")
+foreach(PRECISION "s" "d" "c" "z")
     foreach(SIZE "tiny" "large")
         foreach(HW "a10" "s10")
             # Generate OneAPI files
-            add_custom_command(OUTPUT  ${RECONFIGURABLE_MATMUL_DIR}/generated_src/${KERNEL}_${SIZE}_${HW}.sycl.h
-                                       ${RECONFIGURABLE_MATMUL_DIR}/generated_src/complex_helper.hpp
-                                       ${RECONFIGURABLE_MATMUL_DIR}/generated_src/halide_runtime_etc.h
-                                       ${RECONFIGURABLE_MATMUL_DIR}/generated_src/pipe_wrapper.hpp
-                               COMMAND cd ${RECONFIGURABLE_MATMUL_DIR}/build; make generate_${KERNEL}_${SIZE}_${HW}; cd -
+            add_custom_command(OUTPUT  ${RECONFIGURABLE_MATMUL_DIR}/oneapi/${PRECISION}matmul_${SIZE}_${HW}.sycl.h
+                                       ${RECONFIGURABLE_MATMUL_DIR}/oneapi/complex_helper.hpp
+                                       ${RECONFIGURABLE_MATMUL_DIR}/oneapi/halide_runtime_etc.h
+                                       ${RECONFIGURABLE_MATMUL_DIR}/oneapi/pipe_wrapper.hpp
+                               COMMAND make gen_oneapi_${PRECISION}matmul_${SIZE}_${HW}
+                               WORKING_DIRECTORY ${RECONFIGURABLE_MATMUL_DIR}/build
                                DEPENDS ${RECONFIGURABLE_MATMUL_DIR}/matrix_multiply.cpp
                                        ${RECONFIGURABLE_MATMUL_DIR}/parameters.h
                                COMMENT "Invoke the make of reconfigurable matmul to generate OneAPI files"
                                VERBATIM)
-            add_custom_target(generate_${KERNEL}_${SIZE}_${HW} DEPENDS ${RECONFIGURABLE_MATMUL_DIR}/generated_src/${KERNEL}_${SIZE}_${HW}.sycl.h
-                                                                          ${RECONFIGURABLE_MATMUL_DIR}/generated_src/complex_helper.hpp
-                                                                          ${RECONFIGURABLE_MATMUL_DIR}/generated_src/halide_runtime_etc.h
-                                                                          ${RECONFIGURABLE_MATMUL_DIR}/generated_src/pipe_wrapper.hpp)
+            add_custom_target(gen_oneapi_${PRECISION}${KERNEL}_${SIZE}_${HW} DEPENDS ${RECONFIGURABLE_MATMUL_DIR}/oneapi/${PRECISION}matmul_${SIZE}_${HW}.sycl.h
+                                                                                     ${RECONFIGURABLE_MATMUL_DIR}/oneapi/complex_helper.hpp
+                                                                                     ${RECONFIGURABLE_MATMUL_DIR}/oneapi/halide_runtime_etc.h
+                                                                                     ${RECONFIGURABLE_MATMUL_DIR}/oneapi/pipe_wrapper.hpp)
 
             # Generate a report
-            add_custom_command(OUTPUT  ${RECONFIGURABLE_MATMUL_DIR}/generated_reports/${KERNEL}_${SIZE}_${HW}/report.html
-                                       ${RECONFIGURABLE_MATMUL_DIR}/generated_reports/${KERNEL}_${SIZE}_${HW}/resources
-                               COMMAND cd ${RECONFIGURABLE_MATMUL_DIR}/build; make report_${KERNEL}_${SIZE}_${HW}; cd -
+            add_custom_command(OUTPUT  ${RECONFIGURABLE_MATMUL_DIR}/reports/${PRECISION}matmul_${SIZE}_${HW}/report.html
+                                       ${RECONFIGURABLE_MATMUL_DIR}/reports/${PRECISION}matmul_${SIZE}_${HW}/resources
+                               COMMAND make report_${PRECISION}matmul_${SIZE}_${HW}
+                               WORKING_DIRECTORY ${RECONFIGURABLE_MATMUL_DIR}/build
                                COMMENT "Invoke the make of reconfigurable matmul to generate a report"
                                VERBATIM)
-            add_custom_target(report_${KERNEL}_${SIZE}_${HW} DEPENDS ${RECONFIGURABLE_MATMUL_DIR}/generated_reports/${KERNEL}_${SIZE}_${HW}/report.html
-                                                                        ${RECONFIGURABLE_MATMUL_DIR}/generated_reports/${KERNEL}_${SIZE}_${HW}/resources)
+            add_custom_target(report_${PRECISION}${KERNEL}_${SIZE}_${HW} DEPENDS ${RECONFIGURABLE_MATMUL_DIR}/reports/${PRECISION}matmul_${SIZE}_${HW}/report.html
+                                                                                 ${RECONFIGURABLE_MATMUL_DIR}/reports/${PRECISION}matmul_${SIZE}_${HW}/resources)
 
             # Generate an image
-            add_custom_command(OUTPUT  ${RECONFIGURABLE_MATMUL_DIR}/generated_bin/${KERNEL}_${SIZE}_${HW}.image
-                                       ${RECONFIGURABLE_MATMUL_DIR}/generated_reports/${KERNEL}_${SIZE}_${HW}/report.html
-                                       ${RECONFIGURABLE_MATMUL_DIR}/generated_reports/${KERNEL}_${SIZE}_${HW}/resources
-                               COMMAND cd ${RECONFIGURABLE_MATMUL_DIR}/build; make synthesize_${KERNEL}_${SIZE}_${HW}; cd -
+            add_custom_command(OUTPUT  ${RECONFIGURABLE_MATMUL_DIR}/bin/${PRECISION}matmul_${SIZE}_${HW}.image
+                                       ${RECONFIGURABLE_MATMUL_DIR}/reports/${PRECISION}matmul_${SIZE}_${HW}/report.html
+                                       ${RECONFIGURABLE_MATMUL_DIR}/reports/${PRECISION}matmul_${SIZE}_${HW}/resources
+                               COMMAND make synthesize_${PRECISION}${KERNEL}_${SIZE}_${HW}
+                               WORKING_DIRECTORY ${RECONFIGURABLE_MATMUL_DIR}/build
                                COMMENT "Invoke the make of reconfigurable matmul to generate an image"
                                VERBATIM)
-            add_custom_target(synthesize_${KERNEL}_${SIZE}_${HW} DEPENDS ${RECONFIGURABLE_MATMUL_DIR}/generated_bin/${KERNEL}_${SIZE}_${HW}.image)
+            add_custom_target(synthesize_${PRECISION}${KERNEL}_${SIZE}_${HW} DEPENDS ${RECONFIGURABLE_MATMUL_DIR}/bin/${PRECISION}matmul_${SIZE}_${HW}.image)
         endforeach()
     endforeach()
 endforeach()
 
-
+# Create Makefiles, etc. for the reconfigurable matrix multiplication, if not done yet.
+if(NOT EXISTS "${RECONFIGURABLE_MATMUL_DIR}/build/CMakeFiles")
+    message(STATUS "\n\nConfiguring reconfigurable_matmul")
+    execute_process(COMMAND mkdir -p ${RECONFIGURABLE_MATMUL_DIR}/build)
+    execute_process(COMMAND cmake ..
+                    WORKING_DIRECTORY ${RECONFIGURABLE_MATMUL_DIR}/build)
+endif()
+message(STATUS "\n")

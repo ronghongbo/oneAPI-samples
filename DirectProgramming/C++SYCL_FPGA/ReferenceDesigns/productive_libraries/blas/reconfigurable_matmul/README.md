@@ -109,10 +109,9 @@ Complex double precision:
 2. Compile the design.
 
    ```shell
-   make (report|synthesize)_Precision_Size_Hardware
+   make (gen_oneapi|report|synthesize)_Kernel_Size_Hardware
    ```
-`Precision` is `s` (single precision), `d`(double-precision), `c`(complex single-precision) or `z`(complex double-precision).
-) kernel name, for example, `sgemm` (single-precision GEMM), `zsyrk` (complex double-precision SYRK), etc.
+`Kernel` is precision (`s` for single precision, `d` for double-precision, `c` for complex single-precision, or `z` for complex double-precision) with a kernel name (here `matmul`).
 `Size` is `tiny` or `large`. `Hardware` is either `a10` or `s10`.
 
 For example,
@@ -120,14 +119,16 @@ For example,
    ```shell
    # Generate an HTML report of resource usage, frequencies, etc. for single-precision matrix multiplication with a tiny systolic arrary on an A10 FPGA.
    make report_s_tiny_a10
+   # Generate an HTML report of resource usage, frequencies, etc. for single-precision matrix multiplication with a tiny systolic arrary on an A10 FPGA.
+   make report_s_tiny_a10
    # Generate a bitstream for complex double-precision matrix multiplication with a large systolic arrary on an S10 FPGA.
    make synthesize_z_large_s10
    ```
 
 The generated files are located in
-** `generated_src`: the OneAPI files generated
-** `generated-bin`: the bitstreams generated
-** `generated_reports`: the HTML files generated
+** `oneapi`: the OneAPI source files generated
+** `bin`: the bitstreams generated
+** `reports`: the HTML files generated
 
 ## Test
 Go to the directories for the kernels that this compute simulates, and follow the instructions there to test.
