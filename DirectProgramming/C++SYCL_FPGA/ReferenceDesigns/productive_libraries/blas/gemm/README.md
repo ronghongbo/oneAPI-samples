@@ -41,11 +41,11 @@ The kernel is implemented by configuring the [reconfigurable matrix multiplicati
 
 For example, to build a single-precision sysotolic array for an A10 FPGA, a typical process is as follows:
    ```shell
-   # Generate OneAPI source file from the T2SP specification
-   make oneapi_sgemm_tiny_a10
+   #
 
-   # Generate correctness tests
-   make test_sgemm_tiny_a10
+
+   # Generate correctness tests. This will generate OneAPI source file from the T2SP specification with tiny size on an FPGA emulator.
+   make tests
 
    # Test for correctness
    ../bin/test_0
@@ -54,6 +54,7 @@ For example, to build a single-precision sysotolic array for an A10 FPGA, a typi
    ../bin/test_3
    ../bin/test_4
    ```
+
 Now that the correctness is verified, we can go with large size for performance:
    ```shell
    # Generate OneAPI source file from the T2SP specification
@@ -64,10 +65,13 @@ Now that the correctness is verified, we can go with large size for performance:
 
    # Synthesize a bitstream for FPGA hardware (This takes ~5 hrs).
    make synthesize_sgemm_large_a10
+   ```
+   These commands invoke the corresponding commands in `reconfigurable_matmul` to do the actual job. The generated OneAPI source files, report, and bitstream are located under `reconfigurable_matmul/oneapi, reports, bin`, respectively.
 
+   ```shell
    # Generate a demo application, which is linked with the above generated bitstream.
    make demo_sgemm_large_a10
 
    # Demo on the hardware
-   ../bin/demo
+   ../bin/demo_sgemm_large_a10
    ```
