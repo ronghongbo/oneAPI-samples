@@ -51,10 +51,10 @@ int main()
 
     X(P) = select(jjj == 0, Check_Load_A, X(P_jjj_minus_1));
     Y(P) = select(iii == 0, Check_Load_B, Y(P_iii_minus_1));
-    Z(P) = select(kkk == 0 && kk == 0 && k == 0, ZERO,
+    Z(P) = select(k == 0 && kk == 0 && kkk == 0, ZERO,
                 select(kkk == 0, select(kk == 0, Z(P_k_minus_1), Z(P_kk_minus_1)), Z(P_kkk_minus_1)))
                 + X(P) * Y(P);
-    Product(P_Out) = select(kkk == KKK-1 && kk == KK-1 && k == K-1, Z(P));
+    Product(P_Out) = select(k == K-1 && kk == KK-1 && kkk == KKK-1, Z(P));
 
     // Output, which is actually connected to C. So we read C(i,j) and then overwrite it. There should be no worry of data race.
     // Note that in this URE, the select does not have a false branch. So only when address of matrix C is within range,
@@ -76,7 +76,7 @@ int main()
        .set_bounds(j,   0, J,   i,   0, I);
 
     // Create a systolic array
-    X.space_time_transform(jjj, iii);
+    X.space_time_transform(jjj, iii).run_forever();
     Add.vectorize(jjj);
 
     // I/O network

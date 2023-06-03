@@ -76,7 +76,7 @@ int main()
        .set_bounds(j,   0, J,   i,   0, I);
 
     // Create a systolic array
-    X.space_time_transform(jjj, iii);
+    X.space_time_transform(jjj, iii).run_forever();
     Add.vectorize(jjj);
 
     // I/O network
