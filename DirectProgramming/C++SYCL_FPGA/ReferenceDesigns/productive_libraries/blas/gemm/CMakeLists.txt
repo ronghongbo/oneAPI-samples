@@ -2,7 +2,6 @@
 
  project(gemm)
 set(CMAKE_CXX_COMPILER icpx)
-set(KERNEL             "gemm")
 set(PRECISIONS         "s" "d" "c" "z")
 set(TOOLS_PATH         ${CMAKE_SOURCE_DIR}/../../tools)
 set(CPP_SYCL_FPGA_PATH ${CMAKE_SOURCE_DIR}/../../../..)
@@ -12,6 +11,7 @@ if(NOT DEFINED ENV{MKLROOT})
 endif()
 
 # Create targets for generating OneAPI files, reporting of resource usage, and synthesizing bitstreams.
+set(ENV{KERNEL} "gemm")
 include(../reconfigurable_matmul/CMakeInterface.txt)
 
 # Generate correctness tests. They assume a tiny systolic array on an FPGA emulator.
@@ -49,19 +49,19 @@ foreach(PRECISION ${PRECISIONS})
         foreach(HW "a10" "s10")
             string(TOUPPER ${SIZE} UPPER_SIZE)
             # Generate a demo application that will run on real hardware
-            add_custom_command(OUTPUT  ${CMAKE_SOURCE_DIR}/bin/demo_${PRECISION}${KERNEL}_${SIZE}_${HW}
+            add_custom_command(OUTPUT  ${CMAKE_SOURCE_DIR}/bin/demo_${PRECISION}$ENV{KERNEL}_${SIZE}_${HW}
                                COMMAND ${CMAKE_CXX_COMPILER}
                                        -reuse-exe=${RECONFIGURABLE_MATMUL_DIR}/bin/${PRECISION}matmul_${SIZE}_${HW}.image
                                        -I${TOOLS_PATH}/Halide/include -I$ENV{MKLROOT}/include -I${RECONFIGURABLE_MATMUL_DIR}
                                        -I${RECONFIGURABLE_MATMUL_DIR}/oneapi -I${CPP_SYCL_FPGA_PATH}/include
                                        -fsycl -fintelfpga
                                        ${CMAKE_SOURCE_DIR}/hardware_demo.cpp
-                                       -o ${CMAKE_SOURCE_DIR}/bin/demo_${PRECISION}${KERNEL}_${SIZE}_${HW}
-                               DEPENDS synthesize_${PRECISION}${KERNEL}_${SIZE}_${HW}
+                                       -o ${CMAKE_SOURCE_DIR}/bin/demo_${PRECISION}$ENV{KERNEL}_${SIZE}_${HW}
+                               DEPENDS synthesize_${PRECISION}$ENV{KERNEL}_${SIZE}_${HW}
                                WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
                                COMMENT "Start to generate a demo application using the image"
                                VERBATIM)
-            add_custom_target(demo_${PRECISION}${KERNEL}_${SIZE}_${HW} DEPENDS ${CMAKE_SOURCE_DIR}/bin/demo_${PRECISION}${KERNEL}_${SIZE}_${HW})
+            add_custom_target(demo_${PRECISION}$ENV{KERNEL}_${SIZE}_${HW} DEPENDS ${CMAKE_SOURCE_DIR}/bin/demo_${PRECISION}$ENV{KERNEL}_${SIZE}_${HW})
         endforeach()
     endforeach()
 endforeach()
