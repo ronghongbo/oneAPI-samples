@@ -27,6 +27,9 @@ where `op(X)` is one of `op(X) = X`, or `op(X) = X<sup>T</sup>`, or `op(X) = X<s
 
 By providing appropriate parameters, the above compute simulates various BLAS kernels: `sgemm`, `dgemm`, `cgemm`, `zgemm`, `ssymm`, `dsymm`, `csymm`, `zsymm`, `chemm`, `zhemm`, `ssyrk`, `dsyrk`, `csyrk`, `zsyrk`, `cherk` and `zherk`.
 
+Static parameters: data types
+Dynamic parameters: kernel types (`GEMM`, `SYMM`, ...)
+
 ## Prerequisites
 
 This sample is part of the FPGA code samples.

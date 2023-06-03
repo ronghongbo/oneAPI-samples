@@ -1,11 +1,12 @@
 # This file is to be included into the CMakeLists.txt of a KERNEL supported by the reconfigurable matrix multiplication.
-# Before including this file, set the KERNEL variable as one of "gemm", "symm", "hemm", "syrk" and "herk".
+# NOTE: Before including this file, set the KERNEL variable as one of "gemm", "symm", "hemm", "syrk" and "herk".
 
 set(RECONFIGURABLE_MATMUL_DIR ${CMAKE_CURRENT_LIST_DIR})
+set(PRECISIONS                "s" "d" "c" "z")
 
 # Create targets, which are interfaces of the same targets of reconfigurable_matmul
 file(MAKE_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
-foreach(PRECISION "s" "d" "c" "z")
+foreach(PRECISION ${PRECISIONS})
     foreach(SIZE "tiny" "large")
         foreach(HW "a10" "s10")
             # Generate OneAPI files
@@ -38,6 +39,7 @@ foreach(PRECISION "s" "d" "c" "z")
             add_custom_command(OUTPUT  ${RECONFIGURABLE_MATMUL_DIR}/bin/${PRECISION}matmul_${SIZE}_${HW}.image
                                        ${RECONFIGURABLE_MATMUL_DIR}/reports/${PRECISION}matmul_${SIZE}_${HW}/report.html
                                        ${RECONFIGURABLE_MATMUL_DIR}/reports/${PRECISION}matmul_${SIZE}_${HW}/resources
+                                       ${RECONFIGURABLE_MATMUL_DIR}/reports/${PRECISION}matmul_${SIZE}_${HW}/acl_quartus_report.txt
                                COMMAND make synthesize_${PRECISION}${KERNEL}_${SIZE}_${HW}
                                WORKING_DIRECTORY ${RECONFIGURABLE_MATMUL_DIR}/build
                                COMMENT "Invoke the make of reconfigurable matmul to generate an image"

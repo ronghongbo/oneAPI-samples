@@ -1,10 +1,11 @@
  cmake_minimum_required(VERSION 3.16)
 
  project(gemm)
-set(KERNELS "sgemm" "dgemm" "cgemm" "zgemm")
 set(CMAKE_CXX_COMPILER icpx)
-set(TOOLS_PATH "${CMAKE_SOURCE_DIR}/../../tools")
-set(CPP_SYCL_FPGA_PATH "${CMAKE_SOURCE_DIR}/../../../..")
+set(KERNEL             "gemm")
+set(PRECISIONS         "s" "d" "c" "z")
+set(TOOLS_PATH         ${CMAKE_SOURCE_DIR}/../../tools)
+set(CPP_SYCL_FPGA_PATH ${CMAKE_SOURCE_DIR}/../../../..)
 
 if(NOT DEFINED ENV{MKLROOT})
     message(FATAL_ERROR "MKLROOT is not set")
@@ -13,10 +14,8 @@ endif()
 # Create targets for generating OneAPI files, reporting of resource usage, and synthesizing bitstreams.
 include(../reconfigurable_matmul/CMakeInterface.txt)
 
-# Create targets for testing correctness of the kernels.
+# Generate correctness tests. They assume a tiny systolic array on an FPGA emulator.
 file(MAKE_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
-
-# Generate tests. They assume a tiny systolic array on an FPGA emulator.
 foreach(N RANGE 0 4)
     add_custom_command(OUTPUT  ${CMAKE_SOURCE_DIR}/bin/test_${N}
                        COMMAND ${CMAKE_CXX_COMPILER}
@@ -24,9 +23,9 @@ foreach(N RANGE 0 4)
                                -I${RECONFIGURABLE_MATMUL_DIR}/oneapi -I${CPP_SYCL_FPGA_PATH}/include
                                -D$TINY -DMKL_ILP64 -DT2SP_NDEBUG -DT2SP_TEST_${N} -DFPGA_EMULATOR
                                -fsycl -fintelfpga
+                               ${CMAKE_SOURCE_DIR}/test.cpp
                                -L${TOOLS_PATH}/Halide/lib -L$ENV{MKLROOT}/lib/intel64
                                -lmkl_sycl -lmkl_intel_ilp64 -lmkl_sequential -lmkl_core sycl -lOpenCL -lpthread -lm -ldl
-                               ${CMAKE_SOURCE_DIR}/test.cpp
                                -o ${CMAKE_SOURCE_DIR}/bin/test_${N}
                        DEPENDS oneapi_sgemm_tiny_a10
                                oneapi_dgemm_tiny_a10
@@ -45,25 +44,24 @@ add_custom_target(tests DEPENDS ${CMAKE_SOURCE_DIR}/bin/test_0
 
 # Create targets for demonstrating performance running on real hardware.
 # TODO: modify hardware_demo.cpp so that it can work with all precisions, sizes, and hardwares.
-foreach(KERNEL ${KERNELS})
-    string(SUBSTRING ${KERNEL} 0 1 PRECISION)
+foreach(PRECISION ${PRECISIONS})
     foreach(SIZE "tiny" "large")
         foreach(HW "a10" "s10")
             string(TOUPPER ${SIZE} UPPER_SIZE)
             # Generate a demo application that will run on real hardware
-            add_custom_command(OUTPUT  ${CMAKE_SOURCE_DIR}/bin/demo_${KERNEL}_${SIZE}_${HW}
+            add_custom_command(OUTPUT  ${CMAKE_SOURCE_DIR}/bin/demo_${PRECISION}${KERNEL}_${SIZE}_${HW}
                                COMMAND ${CMAKE_CXX_COMPILER}
                                        -reuse-exe=${RECONFIGURABLE_MATMUL_DIR}/bin/${PRECISION}matmul_${SIZE}_${HW}.image
                                        -I${TOOLS_PATH}/Halide/include -I$ENV{MKLROOT}/include -I${RECONFIGURABLE_MATMUL_DIR}
                                        -I${RECONFIGURABLE_MATMUL_DIR}/oneapi -I${CPP_SYCL_FPGA_PATH}/include
                                        -fsycl -fintelfpga
                                        ${CMAKE_SOURCE_DIR}/hardware_demo.cpp
-                                       -o ${CMAKE_SOURCE_DIR}/bin/demo_${KERNEL}_${SIZE}_${HW}
-                               DEPENDS synthesize_${KERNEL}_${SIZE}_${HW}
+                                       -o ${CMAKE_SOURCE_DIR}/bin/demo_${PRECISION}${KERNEL}_${SIZE}_${HW}
+                               DEPENDS synthesize_${PRECISION}${KERNEL}_${SIZE}_${HW}
                                WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
                                COMMENT "Start to generate a demo application using the image"
                                VERBATIM)
-            add_custom_target(demo_${KERNEL}_${SIZE}_${HW} DEPENDS ${CMAKE_SOURCE_DIR}/bin/demo_${KERNEL}_${SIZE}_${HW})
+            add_custom_target(demo_${PRECISION}${KERNEL}_${SIZE}_${HW} DEPENDS ${CMAKE_SOURCE_DIR}/bin/demo_${PRECISION}${KERNEL}_${SIZE}_${HW})
         endforeach()
     endforeach()
 endforeach()
