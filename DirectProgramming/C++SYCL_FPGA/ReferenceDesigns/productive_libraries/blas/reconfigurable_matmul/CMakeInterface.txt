@@ -10,7 +10,7 @@ foreach(PRECISION ${PRECISIONS})
     foreach(SIZE "tiny" "large")
         foreach(HW "a10" "s10")
             # Generate OneAPI files
-            add_custom_command(OUTPUT  ${RECONFIGURABLE_MATMUL_DIR}/oneapi/${PRECISION}matmul_${SIZE}_${HW}.sycl.h
+            add_custom_command(OUTPUT  ${RECONFIGURABLE_MATMUL_DIR}/oneapi/${PRECISION}matmul_${SIZE}_${HW}.cpp
                                        ${RECONFIGURABLE_MATMUL_DIR}/oneapi/complex_helper.hpp
                                        ${RECONFIGURABLE_MATMUL_DIR}/oneapi/halide_runtime_etc.h
                                        ${RECONFIGURABLE_MATMUL_DIR}/oneapi/pipe_wrapper.hpp
@@ -20,10 +20,10 @@ foreach(PRECISION ${PRECISIONS})
                                        ${RECONFIGURABLE_MATMUL_DIR}/parameters.h
                                COMMENT "Invoke the make of reconfigurable matmul to generate OneAPI files"
                                VERBATIM)
-            add_custom_target(oneapi_${PRECISION}$ENV{KERNEL}_${SIZE}_${HW} DEPENDS ${RECONFIGURABLE_MATMUL_DIR}/oneapi/${PRECISION}matmul_${SIZE}_${HW}.sycl.h
-                                                                                 ${RECONFIGURABLE_MATMUL_DIR}/oneapi/complex_helper.hpp
-                                                                                 ${RECONFIGURABLE_MATMUL_DIR}/oneapi/halide_runtime_etc.h
-                                                                                 ${RECONFIGURABLE_MATMUL_DIR}/oneapi/pipe_wrapper.hpp)
+            add_custom_target(oneapi_${PRECISION}$ENV{KERNEL}_${SIZE}_${HW} DEPENDS ${RECONFIGURABLE_MATMUL_DIR}/oneapi/${PRECISION}matmul_${SIZE}_${HW}.cpp
+                                                                                    ${RECONFIGURABLE_MATMUL_DIR}/oneapi/complex_helper.hpp
+                                                                                    ${RECONFIGURABLE_MATMUL_DIR}/oneapi/halide_runtime_etc.h
+                                                                                    ${RECONFIGURABLE_MATMUL_DIR}/oneapi/pipe_wrapper.hpp)
 
             # Generate a report
             add_custom_command(OUTPUT  ${RECONFIGURABLE_MATMUL_DIR}/reports/${PRECISION}matmul_${SIZE}_${HW}/report.html
@@ -33,18 +33,16 @@ foreach(PRECISION ${PRECISIONS})
                                COMMENT "Invoke the make of reconfigurable matmul to generate a report"
                                VERBATIM)
             add_custom_target(report_${PRECISION}$ENV{KERNEL}_${SIZE}_${HW} DEPENDS ${RECONFIGURABLE_MATMUL_DIR}/reports/${PRECISION}matmul_${SIZE}_${HW}/report.html
-                                                                                 ${RECONFIGURABLE_MATMUL_DIR}/reports/${PRECISION}matmul_${SIZE}_${HW}/resources)
+                                                                                    ${RECONFIGURABLE_MATMUL_DIR}/reports/${PRECISION}matmul_${SIZE}_${HW}/resources)
 
             # Generate an image
-            add_custom_command(OUTPUT  ${RECONFIGURABLE_MATMUL_DIR}/bin/${PRECISION}matmul_${SIZE}_${HW}.image
-                                       ${RECONFIGURABLE_MATMUL_DIR}/reports/${PRECISION}matmul_${SIZE}_${HW}/report.html
-                                       ${RECONFIGURABLE_MATMUL_DIR}/reports/${PRECISION}matmul_${SIZE}_${HW}/resources
+            add_custom_command(OUTPUT  ${RECONFIGURABLE_MATMUL_DIR}/bin/${PRECISION}matmul_${SIZE}_${HW}.a
                                        ${RECONFIGURABLE_MATMUL_DIR}/reports/${PRECISION}matmul_${SIZE}_${HW}/acl_quartus_report.txt
                                COMMAND make synthesize_${PRECISION}$ENV{KERNEL}_${SIZE}_${HW}
                                WORKING_DIRECTORY ${RECONFIGURABLE_MATMUL_DIR}/build
                                COMMENT "Invoke the make of reconfigurable matmul to generate an image"
                                VERBATIM)
-            add_custom_target(synthesize_${PRECISION}$ENV{KERNEL}_${SIZE}_${HW} DEPENDS ${RECONFIGURABLE_MATMUL_DIR}/bin/${PRECISION}matmul_${SIZE}_${HW}.image)
+            add_custom_target(synthesize_${PRECISION}$ENV{KERNEL}_${SIZE}_${HW} DEPENDS ${RECONFIGURABLE_MATMUL_DIR}/bin/${PRECISION}matmul_${SIZE}_${HW}.a)
         endforeach()
     endforeach()
 endforeach()

@@ -1,6 +1,6 @@
- cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.10)
 
- project(reconfigurable_matmul)
+project(reconfigurable_matmul)
 set(CMAKE_CXX_COMPILER icpx)
 set(KERNEL "matmul")
 set(PRECISIONS "s" "d" "c" "z")
@@ -12,8 +12,8 @@ if(NOT EXISTS "${CMAKE_CURRENT_LIST_DIR}/../../tools/Halide/lib/libHalide.a")
                     OUTPUT_FILE libHalide.a
                     WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/../../tools/Halide/lib)
 endif()
-set(TOOLS_PATH         "${CMAKE_SOURCE_DIR}/../../tools")
-set(CPP_SYCL_FPGA_PATH "${CMAKE_SOURCE_DIR}/../../../../include")
+get_filename_component(TOOLS_PATH         "${CMAKE_SOURCE_DIR}/../../tools"         ABSOLUTE)
+get_filename_component(CPP_SYCL_FPGA_PATH "${CMAKE_SOURCE_DIR}/../../../../include" ABSOLUTE)
 
 # FPGA board selection
 if(NOT DEFINED FPGA_DEVICE)
@@ -49,7 +49,7 @@ foreach(PRECISION ${PRECISIONS})
             string(TOUPPER ${HW}        UPPER_HW)
 
             # Generate OneAPI files
-            add_custom_command(OUTPUT  ${CMAKE_SOURCE_DIR}/oneapi/${PRECISION}${KERNEL}_${SIZE}_${HW}.sycl.h
+            add_custom_command(OUTPUT  ${CMAKE_SOURCE_DIR}/oneapi/${PRECISION}${KERNEL}_${SIZE}_${HW}.cpp
                                        ${CMAKE_SOURCE_DIR}/oneapi/complex_helper.hpp
                                        ${CMAKE_SOURCE_DIR}/oneapi/halide_runtime_etc.h
                                        ${CMAKE_SOURCE_DIR}/oneapi/pipe_wrapper.hpp
@@ -61,16 +61,16 @@ foreach(PRECISION ${PRECISIONS})
                                        -L${TOOLS_PATH}/Halide/lib -lpthread -lz -ldl -lHalide
                                        -o ${CMAKE_BINARY_DIR}/oneapi_${PRECISION}${KERNEL}_${SIZE}_${HW}
                                COMMAND env CLEARCODE=1 ${CMAKE_BINARY_DIR}/oneapi_${PRECISION}${KERNEL}_${SIZE}_${HW}
-                               COMMAND cp ${CMAKE_BINARY_DIR}/${PRECISION}${KERNEL}_${SIZE}_${HW}.sycl.h ${CMAKE_SOURCE_DIR}/oneapi
-                               COMMAND cp ${CMAKE_BINARY_DIR}/complex_helper.hpp                         ${CMAKE_SOURCE_DIR}/oneapi
-                               COMMAND cp ${CMAKE_BINARY_DIR}/halide_runtime_etc.h                       ${CMAKE_SOURCE_DIR}/oneapi
-                               COMMAND cp ${CMAKE_BINARY_DIR}/pipe_wrapper.hpp                           ${CMAKE_SOURCE_DIR}/oneapi
+                               COMMAND cp ${CMAKE_BINARY_DIR}/${PRECISION}${KERNEL}_${SIZE}_${HW}.cpp ${CMAKE_SOURCE_DIR}/oneapi
+                               COMMAND cp ${CMAKE_BINARY_DIR}/complex_helper.hpp                      ${CMAKE_SOURCE_DIR}/oneapi
+                               COMMAND cp ${CMAKE_BINARY_DIR}/halide_runtime_etc.h                    ${CMAKE_SOURCE_DIR}/oneapi
+                               COMMAND cp ${CMAKE_BINARY_DIR}/pipe_wrapper.hpp                        ${CMAKE_SOURCE_DIR}/oneapi
                                DEPENDS ${CMAKE_SOURCE_DIR}/matrix_multiply.cpp
                                        ${CMAKE_SOURCE_DIR}/parameters.h
                                WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
                                COMMENT "Start to generate OneAPI files"
                                VERBATIM)
-            add_custom_target(oneapi_${PRECISION}${KERNEL}_${SIZE}_${HW} DEPENDS ${CMAKE_SOURCE_DIR}/oneapi/${PRECISION}${KERNEL}_${SIZE}_${HW}.sycl.h
+            add_custom_target(oneapi_${PRECISION}${KERNEL}_${SIZE}_${HW} DEPENDS ${CMAKE_SOURCE_DIR}/oneapi/${PRECISION}${KERNEL}_${SIZE}_${HW}.cpp
                                                                                  ${CMAKE_SOURCE_DIR}/oneapi/complex_helper.hpp
                                                                                  ${CMAKE_SOURCE_DIR}/oneapi/halide_runtime_etc.h
                                                                                  ${CMAKE_SOURCE_DIR}/oneapi/pipe_wrapper.hpp)
@@ -81,14 +81,14 @@ foreach(PRECISION ${PRECISIONS})
                                        ${CMAKE_SOURCE_DIR}/reports/${PRECISION}${KERNEL}_${SIZE}_${HW}/resources
                                COMMAND ${CMAKE_CXX_COMPILER}
                                        -I${CMAKE_SOURCE_DIR}/oneapi -I${CPP_SYCL_FPGA_PATH}
-                                       ${CMAKE_SOURCE_DIR}/oneapi/${PRECISION}${KERNEL}_${SIZE}_${HW}.sycl.h
+                                       ${CMAKE_SOURCE_DIR}/oneapi/${PRECISION}${KERNEL}_${SIZE}_${HW}.cpp
                                        -Xshardware -Xstarget=${FPGA_DEVICE}
                                        -Xsffp-reassociate -Xsffp-contract=fast -Xsdsp-mode=prefer-dsp -Xsprofile -Xsclock=360MHz
                                        -fsycl -fintelfpga -fsycl-link=early -o ${PRECISION}${KERNEL}_${SIZE}_${HW}.early
                                COMMAND cp -rf ${PRECISION}${KERNEL}_${SIZE}_${HW}.early.prj/reports/report.html ${CMAKE_SOURCE_DIR}/reports/${PRECISION}${KERNEL}_${SIZE}_${HW}
                                COMMAND cp -rf ${PRECISION}${KERNEL}_${SIZE}_${HW}.early.prj/reports/resources   ${CMAKE_SOURCE_DIR}/reports/${PRECISION}${KERNEL}_${SIZE}_${HW}
-                               DEPENDS ${CMAKE_SOURCE_DIR}/oneapi/${PRECISION}${KERNEL}_${SIZE}_${HW}.sycl.h # File-level dependency
-                                       oneapi_${PRECISION}${KERNEL}_${SIZE}_${HW}                            # Target-level dependency
+                               DEPENDS ${CMAKE_SOURCE_DIR}/oneapi/${PRECISION}${KERNEL}_${SIZE}_${HW}.cpp # File-level dependency
+                                       oneapi_${PRECISION}${KERNEL}_${SIZE}_${HW}                         # Target-level dependency
                                WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
                                COMMENT "Start to generate a report"
                                VERBATIM)
@@ -96,13 +96,11 @@ foreach(PRECISION ${PRECISIONS})
                                                                                  ${CMAKE_SOURCE_DIR}/reports/${PRECISION}${KERNEL}_${SIZE}_${HW}/resources)
 
             # Generate an image
-            add_custom_command(OUTPUT  ${CMAKE_SOURCE_DIR}/bin/${PRECISION}${KERNEL}_${SIZE}_${HW}.image
-                                       ${CMAKE_SOURCE_DIR}/reports/${PRECISION}${KERNEL}_${SIZE}_${HW}/report.html
-                                       ${CMAKE_SOURCE_DIR}/reports/${PRECISION}${KERNEL}_${SIZE}_${HW}/resources
+            add_custom_command(OUTPUT  ${CMAKE_SOURCE_DIR}/bin/${PRECISION}${KERNEL}_${SIZE}_${HW}.a
                                        ${CMAKE_SOURCE_DIR}/reports/${PRECISION}${KERNEL}_${SIZE}_${HW}/acl_quartus_report.txt
                                COMMAND ${CMAKE_CXX_COMPILER}
                                        -I${CMAKE_SOURCE_DIR}/oneapi -I${CPP_SYCL_FPGA_PATH}
-                                       ${CMAKE_SOURCE_DIR}/oneapi/${PRECISION}${KERNEL}_${SIZE}_${HW}.sycl.h
+                                       ${CMAKE_SOURCE_DIR}/oneapi/${PRECISION}${KERNEL}_${SIZE}_${HW}.cpp
                                        -Xshardware -Xstarget=${FPGA_DEVICE}
                                        -Xsffp-reassociate -Xsffp-contract=fast -Xsdsp-mode=prefer-dsp -Xsprofile -Xsclock=360MHz -Xsseed=2
                                        -fsycl -fintelfpga -fsycl-link=image -o ${PRECISION}${KERNEL}_${SIZE}_${HW}.image
@@ -110,12 +108,12 @@ foreach(PRECISION ${PRECISIONS})
                                COMMAND cp -rf ${PRECISION}${KERNEL}_${SIZE}_${HW}.image.prj/reports/report.html    ${CMAKE_SOURCE_DIR}/reports/${PRECISION}${KERNEL}_${SIZE}_${HW}
                                COMMAND cp -rf ${PRECISION}${KERNEL}_${SIZE}_${HW}.image.prj/reports/resources      ${CMAKE_SOURCE_DIR}/reports/${PRECISION}${KERNEL}_${SIZE}_${HW}
                                COMMAND cp -rf ${PRECISION}${KERNEL}_${SIZE}_${HW}.image.prj/acl_quartus_report.txt ${CMAKE_SOURCE_DIR}/reports/${PRECISION}${KERNEL}_${SIZE}_${HW}
-                               DEPENDS ${CMAKE_SOURCE_DIR}/oneapi/${PRECISION}${KERNEL}_${SIZE}_${HW}.sycl.h # File-level dependency
-                                       oneapi_${PRECISION}${KERNEL}_${SIZE}_${HW}                            # Target-level dependency
+                               DEPENDS ${CMAKE_SOURCE_DIR}/oneapi/${PRECISION}${KERNEL}_${SIZE}_${HW}.cpp # File-level dependency
+                                       oneapi_${PRECISION}${KERNEL}_${SIZE}_${HW}                         # Target-level dependency
                                WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
                                COMMENT "Start to generate an image"
                                VERBATIM)
-            add_custom_target(synthesize_${PRECISION}${KERNEL}_${SIZE}_${HW} DEPENDS ${CMAKE_SOURCE_DIR}/bin/${PRECISION}${KERNEL}_${SIZE}_${HW}.image)
+            add_custom_target(synthesize_${PRECISION}${KERNEL}_${SIZE}_${HW} DEPENDS ${CMAKE_SOURCE_DIR}/bin/${PRECISION}${KERNEL}_${SIZE}_${HW}.a)
         endforeach()
     endforeach()
 endforeach()
