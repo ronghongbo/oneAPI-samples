@@ -5,7 +5,7 @@
 #include <type_traits>
 #include <vector>
 
-#include "interface.hpp"
+#include "api.hpp"
 #include "oneapi/mkl.hpp"
 
 template <typename T, int align>

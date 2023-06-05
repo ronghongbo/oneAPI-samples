@@ -68,12 +68,9 @@ foreach(PRECISION ${PRECISIONS})
                                DEPENDS ${CMAKE_SOURCE_DIR}/matrix_multiply.cpp
                                        ${CMAKE_SOURCE_DIR}/parameters.h
                                WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
-                               COMMENT "Start to generate OneAPI files"
+                               COMMENT "Generating OneAPI files"
                                VERBATIM)
-            add_custom_target(oneapi_${PRECISION}${KERNEL}_${SIZE}_${HW} DEPENDS ${CMAKE_SOURCE_DIR}/oneapi/${PRECISION}${KERNEL}_${SIZE}_${HW}.cpp
-                                                                                 ${CMAKE_SOURCE_DIR}/oneapi/complex_helper.hpp
-                                                                                 ${CMAKE_SOURCE_DIR}/oneapi/halide_runtime_etc.h
-                                                                                 ${CMAKE_SOURCE_DIR}/oneapi/pipe_wrapper.hpp)
+            add_custom_target(oneapi_${PRECISION}${KERNEL}_${SIZE}_${HW} DEPENDS ${CMAKE_SOURCE_DIR}/oneapi/${PRECISION}${KERNEL}_${SIZE}_${HW}.cpp)
 
             # Generate a report
             file(MAKE_DIRECTORY ${CMAKE_SOURCE_DIR}/reports/${PRECISION}${KERNEL}_${SIZE}_${HW})
@@ -90,7 +87,7 @@ foreach(PRECISION ${PRECISIONS})
                                DEPENDS ${CMAKE_SOURCE_DIR}/oneapi/${PRECISION}${KERNEL}_${SIZE}_${HW}.cpp # File-level dependency
                                        oneapi_${PRECISION}${KERNEL}_${SIZE}_${HW}                         # Target-level dependency
                                WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
-                               COMMENT "Start to generate a report"
+                               COMMENT "Generating a report"
                                VERBATIM)
             add_custom_target(report_${PRECISION}${KERNEL}_${SIZE}_${HW} DEPENDS ${CMAKE_SOURCE_DIR}/reports/${PRECISION}${KERNEL}_${SIZE}_${HW}/report.html
                                                                                  ${CMAKE_SOURCE_DIR}/reports/${PRECISION}${KERNEL}_${SIZE}_${HW}/resources)
@@ -111,7 +108,7 @@ foreach(PRECISION ${PRECISIONS})
                                DEPENDS ${CMAKE_SOURCE_DIR}/oneapi/${PRECISION}${KERNEL}_${SIZE}_${HW}.cpp # File-level dependency
                                        oneapi_${PRECISION}${KERNEL}_${SIZE}_${HW}                         # Target-level dependency
                                WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
-                               COMMENT "Start to generate an image"
+                               COMMENT "Generating an image"
                                VERBATIM)
             add_custom_target(synthesize_${PRECISION}${KERNEL}_${SIZE}_${HW} DEPENDS ${CMAKE_SOURCE_DIR}/bin/${PRECISION}${KERNEL}_${SIZE}_${HW}.a)
         endforeach()

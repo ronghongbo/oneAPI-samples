@@ -20,10 +20,7 @@ foreach(PRECISION ${PRECISIONS})
                                        ${RECONFIGURABLE_MATMUL_DIR}/parameters.h
                                COMMENT "Invoke the make of reconfigurable matmul to generate OneAPI files"
                                VERBATIM)
-            add_custom_target(oneapi_${PRECISION}$ENV{KERNEL}_${SIZE}_${HW} DEPENDS ${RECONFIGURABLE_MATMUL_DIR}/oneapi/${PRECISION}matmul_${SIZE}_${HW}.cpp
-                                                                                    ${RECONFIGURABLE_MATMUL_DIR}/oneapi/complex_helper.hpp
-                                                                                    ${RECONFIGURABLE_MATMUL_DIR}/oneapi/halide_runtime_etc.h
-                                                                                    ${RECONFIGURABLE_MATMUL_DIR}/oneapi/pipe_wrapper.hpp)
+            add_custom_target(oneapi_${PRECISION}$ENV{KERNEL}_${SIZE}_${HW} DEPENDS ${RECONFIGURABLE_MATMUL_DIR}/oneapi/${PRECISION}matmul_${SIZE}_${HW}.cpp)
 
             # Generate a report
             add_custom_command(OUTPUT  ${RECONFIGURABLE_MATMUL_DIR}/reports/${PRECISION}matmul_${SIZE}_${HW}/report.html

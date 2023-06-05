@@ -74,6 +74,7 @@ The parameters are defined for two configurations: tiny and large. The tiny conf
 
 * `CMakeLists.txt` - cmake targets
 * `CMakeInterface.txt` - a file shared by each kernel. Building a target of a kernel may, through this interface, invokes building a target of this reconfigurable matrix multiplication.
+* `api.hpp` - A BLAS-style programming interface to invoke the design.
 
 ## Metrics
 

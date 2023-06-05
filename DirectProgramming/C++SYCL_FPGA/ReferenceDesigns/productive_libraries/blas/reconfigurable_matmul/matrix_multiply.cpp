@@ -37,8 +37,8 @@ int main()
     #define K ((MATRICES_K + (KKK * KK - 1)) / (KKK * KK))
 
     // Inputs.
-    Param<bool> TransA{false}, TransB{false};
-    Param<CONST_TYPE> alpha, beta;
+    Param<bool> transa("transa"), transb("transb");
+    Param<CONST_TYPE> alpha("alpha"), beta("beta");
     ImageParam A("A", TTYPE, 2), B("B", TTYPE, 2), C("C", TTYPE, 2);
 
     // UREs
@@ -46,8 +46,8 @@ int main()
     URE X("X", TTYPE, {P}), Y("Y", TTYPE, {P}), Z("Z", TTYPE, {P}), Product("Product");
     URE Add("Add", TTYPE, {P_reorder}), Out("Out", TTYPE, {P_reorder});
 
-    Expr Check_Load_A = select(addr_A_in_range, A(select(!TransA, total_k, total_i), select(!TransA, total_i, total_k)), ZERO);
-    Expr Check_Load_B = select(addr_B_in_range, B(select(!TransB, total_j, total_k), select(!TransB, total_k, total_j)), ZERO);
+    Expr Check_Load_A = select(addr_A_in_range, A(select(!transa, total_k, total_i), select(!transa, total_i, total_k)), ZERO);
+    Expr Check_Load_B = select(addr_B_in_range, B(select(!transb, total_j, total_k), select(!transb, total_k, total_j)), ZERO);
 
     X(P) = select(jjj == 0, Check_Load_A, X(P_jjj_minus_1));
     Y(P) = select(iii == 0, Check_Load_B, Y(P_iii_minus_1));
@@ -90,7 +90,7 @@ int main()
     Out >> FIFO(256) >> DOut >> Output(total_j, total_i);
 
     // Compile the kernel to an oneAPI impl, and expose a C interface for the host to invoke
-    Output.compile_to_oneapi({ TransA, TransB, alpha, beta, A, B, C }, OUTPUT_FILE, IntelFPGA);
+    Output.compile_to_oneapi({ transa, transb, alpha, beta, A, B, C }, OUTPUT_FILE, IntelFPGA);
 
     return 0;
 }

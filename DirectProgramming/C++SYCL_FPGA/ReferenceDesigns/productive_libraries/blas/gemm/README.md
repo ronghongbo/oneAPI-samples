@@ -1,6 +1,11 @@
 # `GEMM`
 
-This reference design shows how to implement oneMKL-compatible GEMM (*General Matrix Multiply*) using the [T2SP](https://github.com/IntelLabs/t2sp) DSL and compile the DSL to oneAPI code:
+This reference design shows how to implement the standard GEMM (*General Matrix Multiply*) in BLAS as defined in the [Intel® oneAPI Math Kernel Library - Data Parallel C++ Developer Reference](https://www.intel.com/content/www/us/en/docs/onemkl/developer-reference-dpcpp/2023-0/overview.html) with the following restrictions:
+* Matrix storage: row-major.
+* Data types: `s` (single-precision), `d`(double-precision), `c`(complex single-precision), `z`(complex double-precision).
+* Data size: `n` and `k` must be multiples of the vectorized dimensions of the systolic array.
+
+The design is written in the [T2SP](https://github.com/IntelLabs/t2sp) DSL, which generates oneAPI code:
 
 * `gemm.cpp` - The implementation of GEMM using T2SP DSL.
 
@@ -10,7 +15,7 @@ This reference design shows how to implement oneMKL-compatible GEMM (*General Ma
 
 ## Purpose
 
-This FPGA reference design demonstrates GEMM, as defined in [oneMKL](https://www.intel.com/content/www/us/en/docs/onemkl/developer-reference-fortran/2023-1/gemm-001.html):
+This FPGA reference design demonstrates GEMM:
 
 ```
 C := alpha*op(A)*op(B) + beta*C
