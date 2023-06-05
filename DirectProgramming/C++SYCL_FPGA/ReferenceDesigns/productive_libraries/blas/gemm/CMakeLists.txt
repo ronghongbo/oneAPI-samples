@@ -3,8 +3,9 @@ cmake_minimum_required(VERSION 3.10)
 project(gemm)
 set(CMAKE_CXX_COMPILER icpx)
 set(PRECISIONS         "s" "d" "c" "z")
-get_filename_component(TOOLS_PATH         "${CMAKE_SOURCE_DIR}/../../tools" ABSOLUTE)
-get_filename_component(CPP_SYCL_FPGA_PATH "${CMAKE_SOURCE_DIR}/../../../.." ABSOLUTE)
+get_filename_component(TOOLS_PATH           "${CMAKE_SOURCE_DIR}/../../tools" ABSOLUTE)
+get_filename_component(CPP_SYCL_FPGA_PATH   "${CMAKE_SOURCE_DIR}/../../../.." ABSOLUTE)
+get_filename_component(PRODUCTIVE_BLAS_PATH "${CMAKE_SOURCE_DIR}/.."          ABSOLUTE)
 
 if(NOT DEFINED ENV{MKLROOT})
     message(FATAL_ERROR "MKLROOT is not set")
@@ -43,31 +44,33 @@ add_custom_target(tests DEPENDS ${CMAKE_SOURCE_DIR}/bin/test_0
                                 ${CMAKE_SOURCE_DIR}/bin/test_4)
 
 # Create targets for demonstrating performance running on real hardware.
-# TODO: modify hardware_demo.cpp so that it can work with all precisions, sizes, and hardwares.
 foreach(PRECISION ${PRECISIONS})
+    string(TOUPPER ${PRECISIONS} UPPER_PRECISION)
     foreach(SIZE "tiny" "large")
+        string(TOUPPER ${SIZE} UPPER_SIZE)
         foreach(HW "a10" "s10")
-            string(TOUPPER ${SIZE} UPPER_SIZE)
+            string(TOUPPER ${HW} UPPER_HW)
             # Generate a demo application that will run on real hardware
-            add_custom_command(OUTPUT  ${CMAKE_BINARY_DIR}/hardware_demo.o
+            add_custom_command(OUTPUT  ${CMAKE_BINARY_DIR}/demo.o
                                COMMAND ${CMAKE_CXX_COMPILER}
-                                       -I${TOOLS_PATH}/Halide/include -I$ENV{MKLROOT}/include -I${RECONFIGURABLE_MATMUL_DIR}
-                                       -I${RECONFIGURABLE_MATMUL_DIR}/oneapi -I${CPP_SYCL_FPGA_PATH}/include
+                                       -I${TOOLS_PATH}/Halide/include -I${PRODUCTIVE_BLAS_PATH}
+                                       -DT2SP_${UPPER_PRECISION}MATMUL -D${UPPER_SIZE} -D${UPPER_HW}
                                        -fsycl -fintelfpga
-                                       -c ${CMAKE_SOURCE_DIR}/hardware_demo.cpp
-                                       -o ${CMAKE_BINARY_DIR}/hardware_demo.o
-                               DEPENDS ${CMAKE_SOURCE_DIR}/hardware_demo.cpp
+                                       -c ${CMAKE_SOURCE_DIR}/demo.cpp
+                                       -o ${CMAKE_BINARY_DIR}/demo.o
+                               DEPENDS ${CMAKE_SOURCE_DIR}/demo.cpp
                                WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
-                               COMMENT "Start to generate a demo application"
+                               COMMENT "Generating a demo application"
                                VERBATIM)
             add_custom_command(OUTPUT  ${CMAKE_SOURCE_DIR}/bin/demo_${PRECISION}$ENV{KERNEL}_${SIZE}_${HW}
                                COMMAND ${CMAKE_CXX_COMPILER}
                                        -fsycl -fintelfpga
-                                       ${CMAKE_BINARY_DIR}/hardware_demo.o ${RECONFIGURABLE_MATMUL_DIR}/bin/${PRECISION}matmul_${SIZE}_${HW}.a
-                               DEPENDS ${CMAKE_BINARY_DIR}/hardware_demo.o
+                                       ${CMAKE_BINARY_DIR}/demo.o ${RECONFIGURABLE_MATMUL_DIR}/bin/${PRECISION}matmul_${SIZE}_${HW}.a
+                                       -o ${CMAKE_SOURCE_DIR}/bin/demo_${PRECISION}$ENV{KERNEL}_${SIZE}_${HW}
+                               DEPENDS ${CMAKE_BINARY_DIR}/demo.o
                                        synthesize_${PRECISION}$ENV{KERNEL}_${SIZE}_${HW}
                                WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
-                               COMMENT "Link the demo application with the device image"
+                               COMMENT "Linking the demo application with the device image"
                                VERBATIM)
             add_custom_target(demo_${PRECISION}$ENV{KERNEL}_${SIZE}_${HW} DEPENDS ${CMAKE_SOURCE_DIR}/bin/demo_${PRECISION}$ENV{KERNEL}_${SIZE}_${HW})
         endforeach()

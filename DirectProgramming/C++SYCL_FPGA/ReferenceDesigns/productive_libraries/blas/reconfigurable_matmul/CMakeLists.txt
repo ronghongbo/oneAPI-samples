@@ -54,7 +54,7 @@ foreach(PRECISION ${PRECISIONS})
                                        ${CMAKE_SOURCE_DIR}/oneapi/halide_runtime_etc.h
                                        ${CMAKE_SOURCE_DIR}/oneapi/pipe_wrapper.hpp
                                COMMAND ${CMAKE_CXX_COMPILER} -DT2SP_${UPPER_PRECISION}${UPPER_KERNEL} -D${UPPER_SIZE} -D${UPPER_HW}
-                                       -DOUTPUT_FILE="${PRECISION}${KERNEL}_${SIZE}_${HW}"
+                                       -DKERNEL="${UPPER_KERNEL}" -DOUTPUT_FILE="${PRECISION}${KERNEL}_${SIZE}_${HW}"
                                        -I${TOOLS_PATH}/Halide/include -I${CMAKE_SOURCE_DIR}
                                        -std=gnu++11
                                        ${CMAKE_SOURCE_DIR}/matrix_multiply.cpp
