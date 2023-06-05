@@ -90,7 +90,7 @@ int main()
     Out >> FIFO(256) >> DOut >> Output(total_j, total_i);
 
     // Compile the kernel to an oneAPI impl, and expose a C interface for the host to invoke
-    Output.compile_to_oneapi({ transa, transb, alpha, beta, A, B, C }, KERNEL, OUTPUT_FILE, IntelFPGA);
+    Output.compile_to_oneapi(OUTPUT_FILE, {transa, transb, alpha, beta, A, B, C}, KERNEL, IntelFPGA);
 
     return 0;
 }
