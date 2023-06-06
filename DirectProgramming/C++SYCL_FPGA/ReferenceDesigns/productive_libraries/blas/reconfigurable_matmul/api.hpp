@@ -1,5 +1,6 @@
-// Before including this file, define the size of the systolic array (TINY or LARGE), and the hardware(A10 or S10).
-// The device is FPGA hardware by default. To use the emulator instead, define FPGA_EMULATOR.
+// To compile this file, pass in a macro for the compute (T2SP_S/D/C/ZMATMUL), the size of the systolic array (TINY or LARGE), and the hardware(A10 or S10).
+// And pass in a macro FPGA_EMULATOR if to use the emulator instead of FPGA hardware.
+
 
 #pragma once
 #include <complex>
