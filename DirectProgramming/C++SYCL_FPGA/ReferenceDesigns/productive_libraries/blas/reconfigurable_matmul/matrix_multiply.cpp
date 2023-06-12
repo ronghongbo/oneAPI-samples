@@ -40,6 +40,7 @@ int main()
     Param<bool> FromSymmetricPosA("FromSymmetricPosA"), FromSymmetricPosB("FromSymmetricPosB"), FromSymmetricPosC("FromSymmetricPosC"); // When reading A/B/C(x,y),
                                                                                                                                         // read from position (y,x) instead?
     Param<bool> ConjugateA("ConjugateA"), ConjugateB("ConjugateB"), ConjugateC("ConjugateC"); // Conjugate the read values of A/B/C?
+    Param<bool> HalfSpace("HalfSpace"); // Visit only half of the iteration space
     Param<CONST_TYPE> alpha("alpha"), beta("beta");
     ImageParam A("A", TTYPE, 2), B("B", TTYPE, 2), C("C", TTYPE, 2);
 
@@ -67,14 +68,16 @@ int main()
     X.merge_ures(Y, Z, Product);
     Add.merge_ures(Out);
 
-    // Explicitly set the loop bounds
+    // Explicitly set the loop bounds: every loop has a min, and an extent (number of iterations)
     X.set_bounds(jjj, 0, JJJ, iii, 0, III, kkk, 0, KKK)
      .set_bounds(jj,  0, JJ,  ii,  0, II,  kk,  0, KK)
-     .set_bounds(j,   0, J,   i,   0, I,   k,   0, K);
+     .set_bounds(j,   select(HalfSpace, i, 0), select(HalfSpace, J-i, J)) // If scanning half space, j is in [i, J); otherwise, j is in [0, J)
+     .set_bounds(i,   0, I,   k,   0, K);
 
     Add.set_bounds(jjj, 0, JJJ, iii, 0, III)
        .set_bounds(jj,  0, JJ,  ii,  0, II)
-       .set_bounds(j,   0, J,   i,   0, I);
+       .set_bounds(j,   select(HalfSpace, i, 0), select(HalfSpace, J-i, J)) // If scanning half space, j is in [i, J); otherwise, j is in [0, J)
+       .set_bounds(i,   0, I);
 
     // Create a systolic array
     X.space_time_transform(jjj, iii).run_forever();
@@ -89,8 +92,12 @@ int main()
     Product >> RCollector.scope(iii).out(jjj) >> FIFO(256) >> SCollector >> FIFO(256);
     Out >> FIFO(256) >> DOut >> Output(total_j, total_i);
 
+    // For performance, we require that MATRICES_K and MATRIX_J must be multiples of KKK and JJJ, respectively (i.e. the vector lengths of the input and output data)
+    Output.require(MATRICES_K % KKK == 0)
+          .require(MATRICES_J % JJJ == 0);
+
     // Compile the kernel to an oneAPI impl, and expose a C interface for the host to invoke
-    Output.compile_to_oneapi(OUTPUT_FILE, {FromSymmetricPosA, FromSymmetricPosB, FromSymmetricPosC, ConjugateA, ConjugateB, ConjugateC, alpha, beta, A, B, C}, KERNEL, IntelFPGA);
+    Output.compile_to_oneapi(OUTPUT_FILE, {FromSymmetricPosA, FromSymmetricPosB, FromSymmetricPosC, ConjugateA, ConjugateB, ConjugateC, HalfSpace, alpha, beta, A, B, C}, KERNEL, IntelFPGA);
 
     return 0;
 }
