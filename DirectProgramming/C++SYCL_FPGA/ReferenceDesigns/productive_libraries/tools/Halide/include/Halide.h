@@ -12080,7 +12080,11 @@ Expr fast_inverse(Expr x);
  * even when strict_float is enabled. */
 Expr fast_inverse_sqrt(Expr x);
 
+/* Conjugate expression x */
 Expr conjugate(Expr x);
+
+/* Conjugate the expression x if the condition is true and the expression is complex. */
+Expr conditional_conjugate(Expr condition, Expr x);
 
 /** Return the greatest whole number less than or equal to a
  * floating-point expression. If the argument is not floating-point,
@@ -30185,6 +30189,10 @@ public:
    /* Infinitize time loops by isolating out all computation related with them into a separate kernel.
     * This feature is applicable only when all unrolled and vectorized loops are at the innermost levels. */
    Func &run_forever() { func.run_forever(true); return *this; }
+
+   /* Add a runtime check (assertion) of a condition. The condition may depend on parameters only, and may not call any Func or use a Var. */
+   Func &require(const Expr &condition) { pipeline().add_requirement(condition); return *this; };
+
 };
 
 namespace Internal {
@@ -32866,7 +32874,7 @@ protected:
                         const std::vector<DeviceArgument> &args);
         std::string get_str();
         void clean_stream();
-        void write_runtime_headers(const std::string &func_name); 
+        void write_runtime_headers(const std::vector<std::string> &tokens_in_func_name);
     };
 };
 
@@ -56579,7 +56587,11 @@ Expr fast_inverse(Expr x);
  * even when strict_float is enabled. */
 Expr fast_inverse_sqrt(Expr x);
 
+/* Conjugate expression x */
 Expr conjugate(Expr x);
+
+/* Conjugate the expression x if the condition is true and the expression is complex. */
+Expr conditional_conjugate(Expr condition, Expr x);
 
 /** Return the greatest whole number less than or equal to a
  * floating-point expression. If the argument is not floating-point,
@@ -73230,6 +73242,10 @@ public:
    /* Infinitize time loops by isolating out all computation related with them into a separate kernel.
     * This feature is applicable only when all unrolled and vectorized loops are at the innermost levels. */
    Func &run_forever() { func.run_forever(true); return *this; }
+
+   /* Add a runtime check (assertion) of a condition. The condition may depend on parameters only, and may not call any Func or use a Var. */
+   Func &require(const Expr &condition) { pipeline().add_requirement(condition); return *this; };
+
 };
 
 namespace Internal {
@@ -88946,6 +88962,7 @@ struct Stensor
     vector<Expr> dims;
     int schain_idx = -1;
     int fifo_depth = 0;
+    vector<Expr> conditions_of_asserts;
 
     Stensor(std::string _n, SMemType _p)
         : name(_n), position(_p) {}
@@ -88960,7 +88977,9 @@ struct Stensor
     void compile_to_oneapi(const string &file_name,
                            const vector<Argument> &args,
                            const std::string &fn_name,
-                           Starget t);
+                           Starget t,
+                           const vector<Target::Feature> &features = {});
+    Stensor &require(const Expr &condition) { conditions_of_asserts.push_back(condition); return *this; }
     Stensor &scope(Var v);
     Stensor &banks(const std::vector<Var> &banks);
     Stensor &out(const std::vector<Var> &bankwidth_and_banks);
