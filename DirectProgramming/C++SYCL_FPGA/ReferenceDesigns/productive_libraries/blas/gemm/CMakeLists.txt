@@ -3,9 +3,9 @@ cmake_minimum_required(VERSION 3.10)
 project(gemm)
 set(CMAKE_CXX_COMPILER icpx)
 set(PRECISIONS         "s" "d" "c" "z")
-get_filename_component(TOOLS_PATH           "${CMAKE_SOURCE_DIR}/../../tools" ABSOLUTE)
-get_filename_component(CPP_SYCL_FPGA_PATH   "${CMAKE_SOURCE_DIR}/../../../.." ABSOLUTE)
-get_filename_component(PRODUCTIVE_BLAS_PATH "${CMAKE_SOURCE_DIR}/.."          ABSOLUTE)
+get_filename_component(TOOLS_PATH                "${CMAKE_SOURCE_DIR}/../../tools" ABSOLUTE)
+get_filename_component(CPP_SYCL_FPGA_PATH        "${CMAKE_SOURCE_DIR}/../../../.." ABSOLUTE)
+get_filename_component(PRODUCTIVE_LIBRARIES_PATH "${CMAKE_SOURCE_DIR}/../.."          ABSOLUTE)
 
 if(NOT DEFINED ENV{MKLROOT})
     message(FATAL_ERROR "MKLROOT is not set")
@@ -20,7 +20,7 @@ file(MAKE_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
 foreach(N RANGE 0 4)
     add_custom_command(OUTPUT  ${CMAKE_SOURCE_DIR}/bin/test_${N}
                        COMMAND ${CMAKE_CXX_COMPILER}
-                               -I${TOOLS_PATH}/Halide/include -I$ENV{MKLROOT}/include -I${RECONFIGURABLE_MATMUL_DIR}
+                               -I${TOOLS_PATH}/Halide/include -I$ENV{MKLROOT}/include -I${PRODUCTIVE_LIBRARIES_PATH}/include -I${RECONFIGURABLE_MATMUL_DIR}
                                -I${RECONFIGURABLE_MATMUL_DIR}/oneapi -I${CPP_SYCL_FPGA_PATH}/include
                                -D$TINY -DMKL_ILP64 -DT2SP_NDEBUG -DT2SP_TEST_${N} -DFPGA_EMULATOR
                                -fsycl -fintelfpga
@@ -53,7 +53,7 @@ foreach(PRECISION ${PRECISIONS})
             # Generate a demo application that will run on real hardware
             add_custom_command(OUTPUT  ${CMAKE_BINARY_DIR}/demo.o
                                COMMAND ${CMAKE_CXX_COMPILER}
-                                       -I${TOOLS_PATH}/Halide/include -I${PRODUCTIVE_BLAS_PATH}
+                                       -I${TOOLS_PATH}/Halide/include -I${PRODUCTIVE_LIBRARIES_PATH}/include
                                        -DT2SP_${UPPER_PRECISION}MATMUL -D${UPPER_SIZE} -D${UPPER_HW}
                                        -fsycl -fintelfpga
                                        -c ${CMAKE_SOURCE_DIR}/demo.cpp
