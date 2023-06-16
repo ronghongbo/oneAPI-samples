@@ -14,6 +14,7 @@ if(NOT EXISTS "${CMAKE_CURRENT_LIST_DIR}/../../tools/Halide/lib/libHalide.a")
 endif()
 get_filename_component(TOOLS_PATH         "${CMAKE_SOURCE_DIR}/../../tools"         ABSOLUTE)
 get_filename_component(CPP_SYCL_FPGA_PATH "${CMAKE_SOURCE_DIR}/../../../../include" ABSOLUTE)
+get_filename_component(PRODUCTIVE_LIBRARIES_PATH "${CMAKE_SOURCE_DIR}/../.."       ABSOLUTE)
 
 # FPGA board selection
 if(NOT DEFINED FPGA_DEVICE)
@@ -62,9 +63,9 @@ foreach(PRECISION ${PRECISIONS})
                                        -o ${CMAKE_BINARY_DIR}/oneapi_${PRECISION}${KERNEL}_${SIZE}_${HW}
                                COMMAND env CLEARCODE=1 ${CMAKE_BINARY_DIR}/oneapi_${PRECISION}${KERNEL}_${SIZE}_${HW}
                                COMMAND cp ${CMAKE_BINARY_DIR}/${PRECISION}${KERNEL}_${SIZE}_${HW}.cpp ${CMAKE_SOURCE_DIR}/oneapi
-                               COMMAND cp ${CMAKE_BINARY_DIR}/complex_helper.hpp                      ${CMAKE_SOURCE_DIR}/oneapi
-                               COMMAND cp ${CMAKE_BINARY_DIR}/halide_runtime_etc.h                    ${CMAKE_SOURCE_DIR}/oneapi
-                               COMMAND cp ${CMAKE_BINARY_DIR}/pipe_wrapper.hpp                        ${CMAKE_SOURCE_DIR}/oneapi
+                               COMMAND cp ${PRODUCTIVE_LIBRARIES_PATH}/include/complex_helper.hpp                      ${CMAKE_SOURCE_DIR}/oneapi
+                               COMMAND cp ${PRODUCTIVE_LIBRARIES_PATH}/include/halide_runtime_etc.h                    ${CMAKE_SOURCE_DIR}/oneapi
+                               COMMAND cp ${PRODUCTIVE_LIBRARIES_PATH}/include/pipe_wrapper.hpp                        ${CMAKE_SOURCE_DIR}/oneapi
                                DEPENDS ${CMAKE_SOURCE_DIR}/matrix_multiply.cpp
                                        ${CMAKE_SOURCE_DIR}/parameters.h
                                WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
