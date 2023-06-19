@@ -58,21 +58,19 @@ foreach(PRECISION ${PRECISIONS})
         string(TOUPPER ${SIZE} UPPER_SIZE)
         foreach(HW "a10" "s10")
             string(TOUPPER ${HW} UPPER_HW)
-            # Generate a demo application that will run on real hardware
             add_custom_command(OUTPUT  ${CMAKE_BINARY_DIR}/demo_${PRECISION}$ENV{KERNEL}_${SIZE}_${HW}.o
                                COMMAND ${CMAKE_CXX_COMPILER}
                                        -I${TOOLS_PATH}/Halide/include -I$ENV{MKLROOT}/include -I${PRODUCTIVE_LIBRARIES_PATH}/include
                                        -I${CPP_SYCL_FPGA_PATH}/include
                                        -I${TEST_PATH}/include -I${TEST_PATH}/googletest/include                                       
-                                       #-DFPGA_EMULATOR -DCHECK_CORRECTNESS  # Comment this line if not to test for correctness
                                        -DT2SP_${UPPER_PRECISION}MATMUL -D${UPPER_SIZE} -D${UPPER_HW}
                                        -DMKL_ILP64 -DT2SP_NDEBUG
                                        -fsycl -fintelfpga
                                        -c ${CMAKE_SOURCE_DIR}/demo.cpp
                                        -o ${CMAKE_BINARY_DIR}/demo_${PRECISION}$ENV{KERNEL}_${SIZE}_${HW}.o
-                               #DEPENDS ${CMAKE_SOURCE_DIR}/demo.cpp
+                               DEPENDS ${CMAKE_SOURCE_DIR}/demo.cpp
                                WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
-                               COMMENT "Generating a demo application"
+                               COMMENT "Generating a demo application on FPGA hardware"
                                VERBATIM)
             add_custom_command(OUTPUT  ${CMAKE_SOURCE_DIR}/bin/demo_${PRECISION}$ENV{KERNEL}_${SIZE}_${HW}
                                COMMAND ${CMAKE_CXX_COMPILER}
@@ -87,6 +85,38 @@ foreach(PRECISION ${PRECISIONS})
                                COMMENT "Linking the demo application with the device image"
                                VERBATIM)
             add_custom_target(demo_${PRECISION}$ENV{KERNEL}_${SIZE}_${HW} DEPENDS ${CMAKE_SOURCE_DIR}/bin/demo_${PRECISION}$ENV{KERNEL}_${SIZE}_${HW})
+        endforeach()
+    endforeach()
+endforeach()
+
+# Create targets for demonstrating correctness running on FPGA emulator. This is for debugging purpose only.
+foreach(PRECISION ${PRECISIONS})
+    string(TOUPPER ${PRECISION} UPPER_PRECISION)
+    foreach(SIZE "tiny" "large")
+        string(TOUPPER ${SIZE} UPPER_SIZE)
+        foreach(HW "a10" "s10")
+            string(TOUPPER ${HW} UPPER_HW)
+            add_custom_command(OUTPUT  ${CMAKE_SOURCE_DIR}/bin/demo_${PRECISION}$ENV{KERNEL}_${SIZE}_${HW}_emu
+                               COMMAND ${CMAKE_CXX_COMPILER}
+                                       -I${TOOLS_PATH}/Halide/include -I$ENV{MKLROOT}/include -I${PRODUCTIVE_LIBRARIES_PATH}/include
+                                       -I${CPP_SYCL_FPGA_PATH}/include
+                                       -I${TEST_PATH}/include -I${TEST_PATH}/googletest/include                                       
+                                       -DFPGA_EMULATOR -DCHECK_CORRECTNESS
+                                       -DT2SP_${UPPER_PRECISION}MATMUL -D${UPPER_SIZE} -D${UPPER_HW}
+                                       -DMKL_ILP64 -DT2SP_NDEBUG
+                                       -fsycl -fintelfpga
+                                       -L${TOOLS_PATH}/Halide/lib -L$ENV{MKLROOT}/lib/intel64
+                                       -lmkl_sycl -lmkl_intel_ilp64 -lmkl_sequential -lmkl_core -lsycl -lOpenCL -lpthread -lm -ldl -lz
+                                       -lHalide
+                                       ${CMAKE_SOURCE_DIR}/demo.cpp
+                                       ${RECONFIGURABLE_MATMUL_DIR}/oneapi/${PRECISION}matmul_${SIZE}_${HW}.cpp
+                                       -o ${CMAKE_SOURCE_DIR}/bin/demo_${PRECISION}$ENV{KERNEL}_${SIZE}_${HW}_emu
+                               DEPENDS ${CMAKE_SOURCE_DIR}/demo.cpp
+                                       oneapi_${PRECISION}$ENV{KERNEL}_${SIZE}_${HW}
+                               WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+                               COMMENT "Generating a demo application on FPGA emulator"
+                               VERBATIM)
+            add_custom_target(demo_${PRECISION}$ENV{KERNEL}_${SIZE}_${HW}_emu DEPENDS ${CMAKE_SOURCE_DIR}/bin/demo_${PRECISION}$ENV{KERNEL}_${SIZE}_${HW}_emu)
         endforeach()
     endforeach()
 endforeach()

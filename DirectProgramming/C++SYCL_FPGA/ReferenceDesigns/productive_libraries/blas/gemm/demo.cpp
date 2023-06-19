@@ -44,7 +44,7 @@ void test(oneapi::mkl::transpose transa, oneapi::mkl::transpose transb,
     sycl::queue main_queue(sycl::cpu_selector_v);
     oneapi::mkl::blas::row_major::gemm(main_queue, transa, transb, m, n, k, alpha, a.data(), lda,
                                        b.data(), ldb, beta, c_ref.data(), ldc);
-    bool correct = check_equal_matrix(c.data(), c_ref.data(), oneapi::mkl::layout layout::row_major, m, n, ldc,  10 * k, std::cout);
+    bool correct = check_equal_matrix(c.data(), c_ref.data(), oneapi::mkl::layout::row_major, m, n, ldc,  10 * k, std::cout);
     assert(correct);
 #endif
 
