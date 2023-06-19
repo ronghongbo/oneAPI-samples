@@ -104,7 +104,7 @@ foreach(PRECISION ${PRECISIONS})
                                        -DFPGA_EMULATOR -DCHECK_CORRECTNESS
                                        -DT2SP_${UPPER_PRECISION}MATMUL -D${UPPER_SIZE} -D${UPPER_HW}
                                        -DMKL_ILP64 -DT2SP_NDEBUG
-                                       -fsycl -fintelfpga
+                                       -fsycl -fintelfpga -O0 -g
                                        -L${TOOLS_PATH}/Halide/lib -L$ENV{MKLROOT}/lib/intel64
                                        -lmkl_sycl -lmkl_intel_ilp64 -lmkl_sequential -lmkl_core -lsycl -lOpenCL -lpthread -lm -ldl -lz
                                        -lHalide

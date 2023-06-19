@@ -46,8 +46,8 @@ void test(oneapi::mkl::transpose transa, oneapi::mkl::transpose transb,
                                        b.data(), ldb, beta, c_ref.data(), ldc);
     bool correct = check_equal_matrix(c.data(), c_ref.data(), oneapi::mkl::layout::row_major, m, n, ldc,  10 * k, std::cout);
     assert(correct);
-#endif
-
+    std::cout << "Correct!\n";
+#else
     // Get time in ns
     uint64_t start = e.get_profiling_info<sycl::info::event_profiling::command_start>();
     uint64_t end   = e.get_profiling_info<sycl::info::event_profiling::command_end>();
@@ -68,6 +68,7 @@ void test(oneapi::mkl::transpose transa, oneapi::mkl::transpose transb,
     std::cout << "Size of matrix a: " << m << " * " << k << "\n";
     std::cout << "Size of matrix b: " << k << " * " << n << "\n";
     std::cout << "Size of matrix c: " << m << " * " << n << "\n";
+#endif
 }
 
 int main() {
