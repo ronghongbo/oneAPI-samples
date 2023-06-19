@@ -31,6 +31,11 @@ else()
     message(STATUS "Configuring the design to run on FPGA board ${FPGA_DEVICE}")
 endif()
 
+# Seed for synthesis
+if(NOT DEFINED SEED)
+    set(SEED 1)
+endif()
+
 ###############################################################################
 ### Create results directories
 ###############################################################################
@@ -91,15 +96,15 @@ foreach(PRECISION ${PRECISIONS})
             add_custom_command(OUTPUT  ${CMAKE_SOURCE_DIR}/bin/${PRECISION}${KERNEL}_${SIZE}_${HW}.a
                                        ${CMAKE_SOURCE_DIR}/reports/${PRECISION}${KERNEL}_${SIZE}_${HW}/acl_quartus_report.txt
                                COMMAND ${CMAKE_CXX_COMPILER}
-                                       -I${CMAKE_SOURCE_DIR}/oneapi -I${CPP_SYCL_FPGA_PATH}
+                                       -I${CMAKE_SOURCE_DIR}/oneapi -I${CPP_SYCL_FPGA_PATH} -I${PRODUCTIVE_LIBRARIES_PATH}/include
                                        ${CMAKE_SOURCE_DIR}/oneapi/${PRECISION}${KERNEL}_${SIZE}_${HW}.cpp
                                        -Xshardware -Xstarget=${FPGA_DEVICE}
-                                       -Xsffp-reassociate -Xsffp-contract=fast -Xsdsp-mode=prefer-dsp -Xsprofile -Xsclock=360MHz -Xsseed=2
-                                       -fsycl -fintelfpga -fsycl-link=image -o ${PRECISION}${KERNEL}_${SIZE}_${HW}.image
-                               COMMAND cp -rf ${PRECISION}${KERNEL}_${SIZE}_${HW}.image                            ${CMAKE_SOURCE_DIR}/bin
-                               COMMAND cp -rf ${PRECISION}${KERNEL}_${SIZE}_${HW}.image.prj/reports/report.html    ${CMAKE_SOURCE_DIR}/reports/${PRECISION}${KERNEL}_${SIZE}_${HW}
-                               COMMAND cp -rf ${PRECISION}${KERNEL}_${SIZE}_${HW}.image.prj/reports/resources      ${CMAKE_SOURCE_DIR}/reports/${PRECISION}${KERNEL}_${SIZE}_${HW}
-                               COMMAND cp -rf ${PRECISION}${KERNEL}_${SIZE}_${HW}.image.prj/acl_quartus_report.txt ${CMAKE_SOURCE_DIR}/reports/${PRECISION}${KERNEL}_${SIZE}_${HW}
+                                       -Xsffp-reassociate -Xsffp-contract=fast -Xsdsp-mode=prefer-dsp -Xsprofile -Xsclock=360MHz -Xsseed=${SEED}
+                                       -fsycl -fintelfpga -fsycl-link=image -o ${PRECISION}${KERNEL}_${SIZE}_${HW}.a
+                               COMMAND cp -rf ${PRECISION}${KERNEL}_${SIZE}_${HW}.a                            ${CMAKE_SOURCE_DIR}/bin
+                               COMMAND cp -rf ${PRECISION}${KERNEL}_${SIZE}_${HW}.a.prj/reports/report.html    ${CMAKE_SOURCE_DIR}/reports/${PRECISION}${KERNEL}_${SIZE}_${HW}
+                               COMMAND cp -rf ${PRECISION}${KERNEL}_${SIZE}_${HW}.a.prj/reports/resources      ${CMAKE_SOURCE_DIR}/reports/${PRECISION}${KERNEL}_${SIZE}_${HW}
+                               COMMAND cp -rf ${PRECISION}${KERNEL}_${SIZE}_${HW}.a.prj/acl_quartus_report.txt ${CMAKE_SOURCE_DIR}/reports/${PRECISION}${KERNEL}_${SIZE}_${HW}
                                DEPENDS ${CMAKE_SOURCE_DIR}/oneapi/${PRECISION}${KERNEL}_${SIZE}_${HW}.cpp # File-level dependency
                                        oneapi_${PRECISION}${KERNEL}_${SIZE}_${HW}                         # Target-level dependency
                                WORKING_DIRECTORY ${CMAKE_BINARY_DIR}

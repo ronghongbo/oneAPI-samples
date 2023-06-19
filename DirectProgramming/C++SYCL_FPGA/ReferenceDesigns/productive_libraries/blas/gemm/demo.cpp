@@ -3,12 +3,19 @@
 
 #include <cstdlib>
 #include <iostream>
+#include <sycl/sycl.hpp>
+#include <sycl/ext/intel/fpga_extensions.hpp>
 
 // The GEMM API to invoke
 #include "./api.hpp"
 
 // Useful routines from the OneMKL unit tests
-#include "unit_tests/blas/include/test_common.hpp"
+#include "allocator_helper.hpp"
+#include "oneapi/mkl.hpp"
+#include "test_common.hpp"
+#include "test_helper.hpp"
+
+#include "exception_handler.hpp"
 
 using namespace std;
 
@@ -22,19 +29,15 @@ void test(oneapi::mkl::transpose transa, oneapi::mkl::transpose transb,
     rand_matrix(c, oneapi::mkl::layout::row_major, oneapi::mkl::transpose::nontrans, m, n, ldc);
     c_ref = c;
 
-// Select either the FPGA emulator or FPGA device
+// Create a queue bound to either the FPGA emulator or FPGA device.
 #if defined(FPGA_EMULATOR)
-    ext::intel::fpga_emulator_selector device_selector;
+    sycl::queue q_device(sycl::ext::intel::fpga_emulator_selector_v, fpga_tools::exception_handler);
 #else
-    ext::intel::fpga_selector          device_selector;
+    sycl::queue q_device(sycl::ext::intel::fpga_selector_v, fpga_tools::exception_handler);
 #endif
 
-     // Create a queue bound to the chosen device.
-     // If the device is unavailable, a SYCL runtime exception is thrown.
-     sycl::queue q_device(device_selector, fpga_tools::exception_handler);
-
-     sycl::event e = t2sp::blas::row_major::gemm<float>(q_device, transa, transb, m, n, k, alpha, a.data(), lda,
-                                                        b.data(), ldb, beta, c.data(), ldc);
+     sycl::event e = t2sp::blas::row_major::gemm<T>(q_device, transa, transb, m, n, k, alpha, a.data(), lda,
+                                                    b.data(), ldb, beta, c.data(), ldc);
 
 #ifdef CHECK_CORRECTNESS
     // Call oneMKL GEMM as reference.
@@ -51,14 +54,15 @@ void test(oneapi::mkl::transpose transa, oneapi::mkl::transpose transb,
     uint64_t exec_time = end - start;
     std::cout << "Execution time in nanoseconds = " << exec_time << "\n";
 
-    if (constexpr (std::is_same_v<float, T>) || constexpr (std::is_same_v<double, T>)) {
+    double number_ops;
+    if ((std::is_same_v<float, T> || std::is_same_v<double, T>)) {
         // FP operations per MAD (MUL and ADD) for float and double =2
-        double number_ops = 2.0 * m * n * k + m * n;
+        number_ops = 2.0 * m * n * k + m * n;
     } else {
         // FP operations per MAD (MUL and ADD) for complex float and double =8:
         // Multiplying two complex numbers requires 4 FP MUL and 2 FP ADD
         // Adding two complex numbers requires 2 FP ADD
-        double number_ops = 8.0 * m * n * k + 2.0 * m * n;
+        number_ops = 8.0 * m * n * k + 2.0 * m * n;
     }
     std::cout << "GFLOPs: " << number_ops / exec_time << "\n";
     std::cout << "Size of matrix a: " << m << " * " << k << "\n";
@@ -67,28 +71,49 @@ void test(oneapi::mkl::transpose transa, oneapi::mkl::transpose transb,
 }
 
 int main() {
-    constexpr int64_t m = III * II * 32;
-    constexpr int64_t n = JJJ * JJ * 32;
-    constexpr int64_t k = KKK * KK * 32;
-    constexpr int64_t lda = k;
-    constexpr int64_t ldb = n;
-    constexpr int64_t ldc = n;
-
 #if defined(T2SP_SMATMUL)
-    constexpr float alpha = 2.0f;
-    constexpr float beta  = 3.0f;
+    const auto [KKK, JJJ, III, JJ, II, KK] = t2sp::blas::row_major::get_systolic_array_dimensions<float>();
+    int64_t m = III * II * 32;
+    int64_t n = JJJ * JJ * 32;
+    int64_t k = KKK * KK * 32;
+    int64_t lda = k;
+    int64_t ldb = n;
+    int64_t ldc = n;
+    float alpha = 2.0f;
+    float beta  = 3.0f;
     test<float>(oneapi::mkl::transpose::N, oneapi::mkl::transpose::T, m, n, k, alpha, lda, ldb, beta, ldc);
 #elif defined(T2SP_DMATMUL)
-    constexpr double alpha = 2.0f;
-    constexpr double beta = 3.0f;
+    const auto [KKK, JJJ, III, JJ, II, KK] = t2sp::blas::row_major::get_systolic_array_dimensions<double>();
+    int64_t m = III * II * 32;
+    int64_t n = JJJ * JJ * 32;
+    int64_t k = KKK * KK * 32;
+    int64_t lda = k;
+    int64_t ldb = n;
+    int64_t ldc = n;
+    double alpha = 2.0f;
+    double beta = 3.0f;
     test<double>(oneapi::mkl::transpose::N, oneapi::mkl::transpose::T, m, n, k, alpha, lda, ldb, beta, ldc);
 #elif defined(T2SP_CMATMUL)
-    constexpr std::complex<float> alpha = {2.0f, -0.5f};
-    constexpr std::complex<float> beta  = {3.0f, -1.5f};
+    const auto [KKK, JJJ, III, JJ, II, KK] = t2sp::blas::row_major::get_systolic_array_dimensions<std::complex<float>>();
+    int64_t m = III * II * 32;
+    int64_t n = JJJ * JJ * 32;
+    int64_t k = KKK * KK * 32;
+    int64_t lda = k;
+    int64_t ldb = n;
+    int64_t ldc = n;
+    std::complex<float> alpha = {2.0f, -0.5f};
+    std::complex<float> beta  = {3.0f, -1.5f};
     test<std::complex<float>>(oneapi::mkl::transpose::N, oneapi::mkl::transpose::T, m, n, k, alpha, lda, ldb, beta, ldc);
 #else
-    constexpr std::complex<double> alpha = {2.0f, -0.5f};
-    constexpr std::complex<double> beta  = {3.0f, -1.5f};
+    const auto [KKK, JJJ, III, JJ, II, KK] = t2sp::blas::row_major::get_systolic_array_dimensions<std::complex<double>>();
+    int64_t m = III * II * 32;
+    int64_t n = JJJ * JJ * 32;
+    int64_t k = KKK * KK * 32;
+    int64_t lda = k;
+    int64_t ldb = n;
+    int64_t ldc = n;
+    std::complex<double> alpha = {2.0f, -0.5f};
+    std::complex<double> beta  = {3.0f, -1.5f};
     test<std::complex<double>>(oneapi::mkl::transpose::N, oneapi::mkl::transpose::T, m, n, k, alpha, lda, ldb, beta, ldc);
 #endif
 }

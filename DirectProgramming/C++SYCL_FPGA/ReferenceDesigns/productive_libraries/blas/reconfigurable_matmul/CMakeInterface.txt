@@ -32,7 +32,7 @@ foreach(PRECISION ${PRECISIONS})
             # Generate an image
             add_custom_command(OUTPUT  ${RECONFIGURABLE_MATMUL_DIR}/bin/${PRECISION}matmul_${SIZE}_${HW}.a
                                        ${RECONFIGURABLE_MATMUL_DIR}/reports/${PRECISION}matmul_${SIZE}_${HW}/acl_quartus_report.txt
-                               COMMAND make synthesize_${PRECISION}$ENV{KERNEL}_${SIZE}_${HW}
+                               COMMAND make synthesize_${PRECISION}matmul_${SIZE}_${HW}
                                WORKING_DIRECTORY ${RECONFIGURABLE_MATMUL_DIR}/build
                                COMMENT "Invoke the make of reconfigurable matmul to generate an image"
                                VERBATIM)
