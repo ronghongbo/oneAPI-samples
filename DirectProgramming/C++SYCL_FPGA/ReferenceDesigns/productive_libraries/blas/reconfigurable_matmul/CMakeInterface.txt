@@ -11,9 +11,6 @@ foreach(PRECISION ${PRECISIONS})
         foreach(HW "a10" "s10")
             # Generate OneAPI files
             add_custom_command(OUTPUT  ${RECONFIGURABLE_MATMUL_DIR}/oneapi/${PRECISION}matmul_${SIZE}_${HW}.cpp
-                                       ${RECONFIGURABLE_MATMUL_DIR}/oneapi/complex_helper.hpp
-                                       ${RECONFIGURABLE_MATMUL_DIR}/oneapi/halide_runtime_etc.h
-                                       ${RECONFIGURABLE_MATMUL_DIR}/oneapi/pipe_wrapper.hpp
                                COMMAND make oneapi_${PRECISION}matmul_${SIZE}_${HW}
                                WORKING_DIRECTORY ${RECONFIGURABLE_MATMUL_DIR}/build
                                DEPENDS ${RECONFIGURABLE_MATMUL_DIR}/matrix_multiply.cpp

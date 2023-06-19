@@ -11,41 +11,7 @@
 #include "Halide.h"
 using namespace Halide;
 
-
-
 namespace t2sp::blas::row_major {
-// Our interface shouldn't depend on these macro definitions,
-// but since we're going to strip out extra zeros next,
-// this requires the macros II/JJ/III/JJJ.
-// When we improve our implementation in the future,
-// we can remove this part.
-// 
-// As for why we don't use parameters.h,
-// because the value it provides is determined by the macro,
-// but we want to use the type to select the value.
-template <typename T>
-constexpr auto get_dimensions() {
-#ifdef TINY
-    return std::tuple{4, 4, 4, 4, 4};
-#else
-#ifdef S10
-    constexpr bool run_on_s10 = true;
-#else
-    constexpr bool run_on_s10 = false;
-#endif
-    if constexpr (std::is_same_v<T, float>) {
-        return run_on_s10 ? std::tuple{32, 32, 14, 16, 16} : std::tuple{32, 32, 10, 8, 16};
-    } else if constexpr (std::is_same_v<T, double>) {
-        return run_on_s10 ? std::tuple{32, 32, 8, 4, 8} : std::tuple{32, 32, 8, 4, 8};
-    } else if constexpr (std::is_same_v<T, std::complex<float>>) {
-        return run_on_s10 ? std::tuple{32, 32, 14, 16, 16} : std::tuple{32, 32, 10, 4, 8};
-    } else if constexpr (std::is_same_v<T, std::complex<double>>) {
-        return run_on_s10 ? std::tuple{32, 32, 4, 6, 4} : std::tuple{32, 32, 4, 4, 4};
-    } else {
-        return std::tuple{4, 4, 4, 4, 4};
-    }
-#endif
-    }
 // The API for GEMM. We choose the USM version of oneMKL DPC++ interface (https://www.intel.com/content/www/us/en/docs/onemkl/developer-reference-dpcpp/2023-0/gemm.html) with the
 // restriction of standard data types (s, d, c, z) only. In this case, the matrices, alpha and beta all have the same data type according to the DPC++ interface. So we define our
 // GEMM interface as a template with a single type T.
@@ -84,7 +50,7 @@ sycl::event gemm(sycl::queue &queue,
                         (std::is_same_v<std::complex<float>, T>) ||
                         (std::is_same_v<std::complex<double>, T>)) << "Unsupported data type";
 
-    const auto [II, JJ, III, JJJ, KKK] = get_dimensions<T>();
+    const auto [KKK, JJJ, III, JJ, II, KK] = get_systolic_array_dimensions<T>();
 
     // TOREMOVE: These two constraints below should be checked by the reconfigurable matmul instead.
     _halide_user_assert(n % JJJ == 0) << "For performance reasons, the current implementation requires that n must be a multiple of " << JJJ
@@ -97,13 +63,13 @@ sycl::event gemm(sycl::queue &queue,
     std::int64_t cols_of_A = !transpose_a ? k : m;
     std::int64_t rows_of_B = !transpose_b ? k : n;
     std::int64_t cols_of_B = !transpose_b ? n : k;
-    halide_dimension_t dim_a[]{{0, static_cast<int32_t>(cols_of_A), 1}, {0, static_cast<int32_t>(rows_of_A), static_cast<int32_t>(lda)}};
+    halide_dimension_t dim_a[]{{0, cols_of_A, 1}, {0, rows_of_A, lda}};
     Buffer<T> A_buffer{const_cast<T *>(a), 2, dim_a};
-    halide_dimension_t dim_b[]{{0, static_cast<int32_t>(cols_of_B), 1}, {0, static_cast<int32_t>(rows_of_B), static_cast<int32_t>(ldb)}};
+    halide_dimension_t dim_b[]{{0, cols_of_B, 1}, {0, rows_of_B, ldb}};
     Buffer<T> B_buffer{const_cast<T *>(b), 2, dim_b};
-    halide_dimension_t dim_c[]{{0, static_cast<int32_t>(n), 1}, {0, static_cast<int32_t>(m), static_cast<int32_t>(ldc)}};
+    halide_dimension_t dim_c[]{{0, n, 1}, {0, m, ldc}};
     Buffer<T> C_buffer{c, 2, dim_c};
-    Buffer<T> Output_buffer{JJJ, JJ, II, III, (static_cast<int32_t>(n) + (JJJ * JJ - 1)) / (JJJ * JJ), (static_cast<int32_t>(m) + (III * II - 1)) / (III * II)};
+    Buffer<T> Output_buffer{JJJ, JJ, II, III, (n + (JJJ * JJ - 1)) / (JJJ * JJ), (m + (III * II - 1)) / (III * II)};
 
     for (sycl::event e : dependencies) {
         e.wait();

@@ -35,7 +35,7 @@
 #include "test_common.hpp"
 #include "test_helper.hpp"
 
-#include "api.hpp"
+#include "./api.hpp"
 
 #include <gtest/gtest.h>
 

@@ -21,8 +21,8 @@ file(MAKE_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
 foreach(N RANGE 0 3)
     add_custom_command(OUTPUT  ${CMAKE_SOURCE_DIR}/bin/test_${N}
                        COMMAND ${CMAKE_CXX_COMPILER}
-                               -I${TOOLS_PATH}/Halide/include -I$ENV{MKLROOT}/include -I${PRODUCTIVE_LIBRARIES_PATH}/include -I${RECONFIGURABLE_MATMUL_DIR}
-                               -I${RECONFIGURABLE_MATMUL_DIR}/oneapi -I${CPP_SYCL_FPGA_PATH}/include
+                               -I${TOOLS_PATH}/Halide/include -I$ENV{MKLROOT}/include -I${PRODUCTIVE_LIBRARIES_PATH}/include
+                               -I${CPP_SYCL_FPGA_PATH}/include
                                -DTINY -DMKL_ILP64 -DT2SP_NDEBUG -DT2SP_TEST_${N} -DFPGA_EMULATOR
                                -I${TEST_PATH}/include -I${TEST_PATH}/googletest/include
                                -fsycl -fintelfpga
@@ -32,7 +32,7 @@ foreach(N RANGE 0 3)
                                # ${RECONFIGURABLE_MATMUL_DIR}/oneapi/cmatmul_tiny_a10.cpp removed as we cannot generate code for complex type.
                                # ${RECONFIGURABLE_MATMUL_DIR}/oneapi/zmatmul_tiny_a10.cpp
                                -L${TOOLS_PATH}/Halide/lib -L$ENV{MKLROOT}/lib/intel64
-                               -lmkl_sycl -lmkl_intel_ilp64 -lmkl_sequential -lmkl_core -lsycl -lOpenCL -lpthread -lm -ldl
+                               -lmkl_sycl -lmkl_intel_ilp64 -lmkl_sequential -lmkl_core -lsycl -lOpenCL -lpthread -lm -ldl -lz
                                -L${TEST_PATH}/googletest/lib
                                -lgtest -lgtest_main
                                -lHalide

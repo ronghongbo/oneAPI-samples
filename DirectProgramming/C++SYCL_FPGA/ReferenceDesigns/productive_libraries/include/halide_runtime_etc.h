@@ -2397,5 +2397,4 @@ halide_buffer_t *_halide_buffer_set_bounds(halide_buffer_t *buf,
 #define HALIDE_FUNCTION_ATTRS
 #endif
 
-void halide_device_and_host_free_as_destructor(void *user_context, void *obj) {
-}
+extern HALIDE_ALWAYS_INLINE void halide_device_and_host_free_as_destructor(void *user_context, void *obj) {};

@@ -1,6 +1,8 @@
 #ifndef MATMUL_CONST_PARAMS_H
 #define MATMUL_CONST_PARAMS_H
 
+// NOTE: When change any parameters of the systolic array (KKK, JJJ, III, JJ, II, KK), please make the same change in api.hpp
+
 // Inner loop bounds, which are static constant parameters of the design
 #ifdef TINY // For verifying correctness only
     #define KKK         4
