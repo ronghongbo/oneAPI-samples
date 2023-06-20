@@ -77,8 +77,9 @@ foreach(PRECISION ${PRECISIONS})
             add_custom_command(OUTPUT  ${CMAKE_SOURCE_DIR}/reports/${PRECISION}${KERNEL}_${SIZE}_${HW}/report.html
                                        ${CMAKE_SOURCE_DIR}/reports/${PRECISION}${KERNEL}_${SIZE}_${HW}/resources
                                COMMAND ${CMAKE_CXX_COMPILER}
-                                       -I${CMAKE_SOURCE_DIR}/oneapi -I${CPP_SYCL_FPGA_PATH}
+                                       -I${CMAKE_SOURCE_DIR}/oneapi -I${CPP_SYCL_FPGA_PATH} -I${PRODUCTIVE_LIBRARIES_PATH}/include -I${TOOLS_PATH}/Halide/include
                                        ${CMAKE_SOURCE_DIR}/oneapi/${PRECISION}${KERNEL}_${SIZE}_${HW}.cpp
+                                       ${PRODUCTIVE_LIBRARIES_PATH}/include/halide_runtime_etc.cpp
                                        -Xshardware -Xstarget=${FPGA_DEVICE}
                                        -Xsffp-reassociate -Xsffp-contract=fast -Xsdsp-mode=prefer-dsp -Xsprofile -Xsclock=360MHz
                                        -fsycl -fintelfpga -fsycl-link=early -o ${PRECISION}${KERNEL}_${SIZE}_${HW}.early
@@ -96,8 +97,9 @@ foreach(PRECISION ${PRECISIONS})
             add_custom_command(OUTPUT  ${CMAKE_SOURCE_DIR}/bin/${PRECISION}${KERNEL}_${SIZE}_${HW}.a
                                        ${CMAKE_SOURCE_DIR}/reports/${PRECISION}${KERNEL}_${SIZE}_${HW}/acl_quartus_report.txt
                                COMMAND ${CMAKE_CXX_COMPILER}
-                                       -I${CMAKE_SOURCE_DIR}/oneapi -I${CPP_SYCL_FPGA_PATH} -I${PRODUCTIVE_LIBRARIES_PATH}/include
+                                       -I${CMAKE_SOURCE_DIR}/oneapi -I${CPP_SYCL_FPGA_PATH} -I${PRODUCTIVE_LIBRARIES_PATH}/include -I${TOOLS_PATH}/Halide/include
                                        ${CMAKE_SOURCE_DIR}/oneapi/${PRECISION}${KERNEL}_${SIZE}_${HW}.cpp
+                                       ${PRODUCTIVE_LIBRARIES_PATH}/include/halide_runtime_etc.cpp
                                        -Xshardware -Xstarget=${FPGA_DEVICE}
                                        -Xsffp-reassociate -Xsffp-contract=fast -Xsdsp-mode=prefer-dsp -Xsprofile -Xsclock=360MHz -Xsseed=${SEED}
                                        -fsycl -fintelfpga -fsycl-link=image -o ${PRECISION}${KERNEL}_${SIZE}_${HW}.a

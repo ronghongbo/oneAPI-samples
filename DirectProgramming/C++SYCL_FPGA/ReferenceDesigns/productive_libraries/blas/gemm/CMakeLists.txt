@@ -25,9 +25,10 @@ foreach(N RANGE 0 3)
                                -I${CPP_SYCL_FPGA_PATH}/include
                                -DTINY -DMKL_ILP64 -DT2SP_NDEBUG -DT2SP_TEST_${N} -DFPGA_EMULATOR
                                -I${TEST_PATH}/include -I${TEST_PATH}/googletest/include
-                               -fsycl -fintelfpga
+                               -fsycl -fintelfpga -O0 -g
                                -Wno-tautological-constant-compare
                                ${CMAKE_SOURCE_DIR}/test.cpp
+                               ${PRODUCTIVE_LIBRARIES_PATH}/include/halide_runtime_etc.cpp
                                ${RECONFIGURABLE_MATMUL_DIR}/oneapi/smatmul_tiny_a10.cpp
                                ${RECONFIGURABLE_MATMUL_DIR}/oneapi/dmatmul_tiny_a10.cpp
                                ${RECONFIGURABLE_MATMUL_DIR}/oneapi/cmatmul_tiny_a10.cpp
@@ -77,6 +78,7 @@ foreach(PRECISION ${PRECISIONS})
                                COMMAND ${CMAKE_CXX_COMPILER}
                                        -fsycl -fintelfpga
                                        ${CMAKE_BINARY_DIR}/demo_${PRECISION}$ENV{KERNEL}_${SIZE}_${HW}.o
+                                       ${PRODUCTIVE_LIBRARIES_PATH}/include/halide_runtime_etc.cpp
                                        ${RECONFIGURABLE_MATMUL_DIR}/bin/${PRECISION}matmul_${SIZE}_${HW}.a
                                        -L${TOOLS_PATH}/Halide/lib -lHalide -lpthread -lz
                                        -o ${CMAKE_SOURCE_DIR}/bin/demo_${PRECISION}$ENV{KERNEL}_${SIZE}_${HW}
@@ -111,6 +113,7 @@ foreach(PRECISION ${PRECISIONS})
                                        -lHalide
                                        ${CMAKE_SOURCE_DIR}/demo.cpp
                                        ${RECONFIGURABLE_MATMUL_DIR}/oneapi/${PRECISION}matmul_${SIZE}_${HW}.cpp
+                                       ${PRODUCTIVE_LIBRARIES_PATH}/include/halide_runtime_etc.cpp
                                        -o ${CMAKE_SOURCE_DIR}/bin/demo_${PRECISION}$ENV{KERNEL}_${SIZE}_${HW}_emu
                                DEPENDS ${CMAKE_SOURCE_DIR}/demo.cpp
                                        oneapi_${PRECISION}$ENV{KERNEL}_${SIZE}_${HW}
