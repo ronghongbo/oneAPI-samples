@@ -104,9 +104,9 @@ foreach(PRECISION ${PRECISIONS})
                                        -Xsffp-reassociate -Xsffp-contract=fast -Xsdsp-mode=prefer-dsp -Xsprofile -Xsclock=360MHz -Xsseed=${SEED}
                                        -fsycl -fintelfpga -fsycl-link=image -o ${PRECISION}${KERNEL}_${SIZE}_${HW}.a
                                COMMAND cp -rf ${PRECISION}${KERNEL}_${SIZE}_${HW}.a                            ${CMAKE_SOURCE_DIR}/bin
-                               COMMAND cp -rf ${PRECISION}${KERNEL}_${SIZE}_${HW}.a.prj/reports/report.html    ${CMAKE_SOURCE_DIR}/reports/${PRECISION}${KERNEL}_${SIZE}_${HW}
-                               COMMAND cp -rf ${PRECISION}${KERNEL}_${SIZE}_${HW}.a.prj/reports/resources      ${CMAKE_SOURCE_DIR}/reports/${PRECISION}${KERNEL}_${SIZE}_${HW}
-                               COMMAND cp -rf ${PRECISION}${KERNEL}_${SIZE}_${HW}.a.prj/acl_quartus_report.txt ${CMAKE_SOURCE_DIR}/reports/${PRECISION}${KERNEL}_${SIZE}_${HW}
+                               COMMAND cp -rf ${PRECISION}${KERNEL}_${SIZE}_${HW}.prj/reports/report.html    ${CMAKE_SOURCE_DIR}/reports/${PRECISION}${KERNEL}_${SIZE}_${HW}
+                               COMMAND cp -rf ${PRECISION}${KERNEL}_${SIZE}_${HW}.prj/reports/resources      ${CMAKE_SOURCE_DIR}/reports/${PRECISION}${KERNEL}_${SIZE}_${HW}
+                               COMMAND cp -rf ${PRECISION}${KERNEL}_${SIZE}_${HW}.prj/acl_quartus_report.txt ${CMAKE_SOURCE_DIR}/reports/${PRECISION}${KERNEL}_${SIZE}_${HW}
                                DEPENDS ${CMAKE_SOURCE_DIR}/oneapi/${PRECISION}${KERNEL}_${SIZE}_${HW}.cpp # File-level dependency
                                        oneapi_${PRECISION}${KERNEL}_${SIZE}_${HW}                         # Target-level dependency
                                WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
