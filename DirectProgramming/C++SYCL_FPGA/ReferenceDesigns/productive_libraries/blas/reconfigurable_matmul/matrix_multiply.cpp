@@ -60,7 +60,7 @@ int main()
     Product(P_reduced) = select(k == K-1 && kk == KK-1 && kkk == KKK-1, Z(P));
 
     // Note that for C, we do not need check its range: the loading of C happens only when adding C with the product, and the product is ensured to be in range.
-    Expr Check_Load_C = conditional_conjugate(ConjugateC, C(select(!FromSymmetricPosA, total_j, total_i), select(!FromSymmetricPosA, total_i, total_j)));
+    Expr Check_Load_C = conditional_conjugate(ConjugateC, C(select(!FromSymmetricPosC, total_j, total_i), select(!FromSymmetricPosC, total_i, total_j)));
     Add(P_reorder) = alpha * Product(P_reorder) + select(beta == ZERO, ZERO, beta * Check_Load_C);
     Out(P_reorder) = select(true, Add(P_reorder));
 

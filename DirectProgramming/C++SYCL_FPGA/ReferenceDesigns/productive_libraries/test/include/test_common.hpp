@@ -489,7 +489,7 @@ bool check_equal(fp x, fp x_ref, int error_mag, std::ostream &out) {
     bool good = check_equal(x, x_ref, error_mag);
 
     if (!good) {
-        out << "Difference in result: DPC++ " << x << " vs. Reference " << x_ref << std::endl;
+        out << "Difference in result: T2SP " << x << " vs. DPC++ " << x_ref << std::endl;
     }
     return good;
 }
@@ -510,8 +510,8 @@ bool check_equal_vector(const fp *v, const fp *v_ref, int n, int inc, int error_
     for (int i = 0; i < n; i++) {
         if (!check_equal(v[i * abs_inc], v_ref[i * abs_inc], error_mag)) {
             int i_actual = (inc > 0) ? i : n - i;
-            std::cout << "Difference in entry " << i_actual << ": DPC++ " << v[i * abs_inc]
-                      << " vs. Reference " << v_ref[i * abs_inc] << std::endl;
+            std::cout << "Difference in entry " << i_actual << ": T2SP " << v[i * abs_inc]
+                      << " vs. DPC++ " << v_ref[i * abs_inc] << std::endl;
             good = false;
             count++;
             if (count > MAX_NUM_PRINT)
@@ -530,8 +530,8 @@ bool check_equal_vector(vec1 &v, vec2 &v_ref, int n, int inc, int error_mag, std
     for (int i = 0; i < n; i++) {
         if (!check_equal(v[i * abs_inc], v_ref[i * abs_inc], error_mag)) {
             int i_actual = (inc > 0) ? i : n - i;
-            std::cout << "Difference in entry " << i_actual << ": DPC++ " << v[i * abs_inc]
-                      << " vs. Reference " << v_ref[i * abs_inc] << std::endl;
+            std::cout << "Difference in entry " << i_actual << ": T2SP " << v[i * abs_inc]
+                      << " vs. DPC++ " << v_ref[i * abs_inc] << std::endl;
             good = false;
             count++;
             if (count > MAX_NUM_PRINT)
@@ -551,8 +551,8 @@ bool check_equal_trsv_vector(vec1 &v, vec2 &v_ref, int n, int inc, int error_mag
     for (int i = 0; i < n; i++) {
         if (!check_equal_trsm(v[i * abs_inc], v_ref[i * abs_inc], error_mag)) {
             int i_actual = (inc > 0) ? i : n - i;
-            std::cout << "Difference in entry " << i_actual << ": DPC++ " << v[i * abs_inc]
-                      << " vs. Reference " << v_ref[i * abs_inc] << std::endl;
+            std::cout << "Difference in entry " << i_actual << ": T2SP " << v[i * abs_inc]
+                      << " vs. DPC++ " << v_ref[i * abs_inc] << std::endl;
             good = false;
             count++;
             if (count > MAX_NUM_PRINT)
@@ -572,8 +572,8 @@ bool check_equal_matrix(acc1 &M, acc2 &M_ref, oneapi::mkl::layout layout, int m,
         for (int i = 0; i < m; i++) {
             idx = (layout == oneapi::mkl::layout::col_major) ? i + j * ld : j + i * ld;
             if (!check_equal(M[idx], M_ref[idx], error_mag)) {
-                out << "Difference in entry (" << i << ',' << j << "): DPC++ " << M[idx]
-                    << " vs. Reference " << M_ref[idx] << std::endl;
+                out << "Difference in entry (" << i << ',' << j << "): T2SP " << M[idx]
+                    << " vs. DPC++ " << M_ref[idx] << std::endl;
                 good = false;
                 count++;
                 if (count > MAX_NUM_PRINT)
@@ -594,8 +594,8 @@ bool check_equal_matrix(const fp *M, const fp *M_ref, oneapi::mkl::layout layout
         for (int i = 0; i < m; i++) {
             idx = (layout == oneapi::mkl::layout::col_major) ? i + j * ld : j + i * ld;
             if (!check_equal(M[idx], M_ref[idx], error_mag)) {
-                out << "Difference in entry (" << i << ',' << j << "): DPC++ " << M[idx]
-                    << " vs. Reference " << M_ref[idx] << std::endl;
+                out << "Difference in entry (" << i << ',' << j << "): T2SP " << M[idx]
+                    << " vs. DPC++ " << M_ref[idx] << std::endl;
                 good = false;
                 count++;
                 if (count > MAX_NUM_PRINT)
@@ -619,8 +619,8 @@ bool check_equal_matrix(acc1 &M, acc2 &M_ref, oneapi::mkl::layout layout,
             if (((upper_lower == oneapi::mkl::uplo::upper) && (j >= i)) ||
                 ((upper_lower == oneapi::mkl::uplo::lower) && (j <= i))) {
                 if (!check_equal(M[idx], M_ref[idx], error_mag)) {
-                    out << "Difference in entry (" << i << ',' << j << "): DPC++ " << M[idx]
-                        << " vs. Reference " << M_ref[idx] << std::endl;
+                    out << "Difference in entry (" << i << ',' << j << "): T2SP " << M[idx]
+                        << " vs. DPC++ " << M_ref[idx] << std::endl;
                     good = false;
                     count++;
                     if (count > MAX_NUM_PRINT)
@@ -642,8 +642,8 @@ bool check_equal_trsm_matrix(acc1 &M, acc2 &M_ref, oneapi::mkl::layout layout, i
         for (int i = 0; i < m; i++) {
             idx = (layout == oneapi::mkl::layout::col_major) ? i + j * ld : j + i * ld;
             if (!check_equal_trsm(M[idx], M_ref[idx], error_mag)) {
-                out << "Difference in entry (" << i << ',' << j << "): DPC++ " << M[idx]
-                    << " vs. Reference " << M_ref[idx] << std::endl;
+                out << "Difference in entry (" << i << ',' << j << "): T2SP " << M[idx]
+                    << " vs. DPC++ " << M_ref[idx] << std::endl;
                 good = false;
                 count++;
                 if (count > MAX_NUM_PRINT)

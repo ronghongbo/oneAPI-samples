@@ -57,7 +57,7 @@ foreach(PRECISION ${PRECISIONS})
             # Generate OneAPI files
             add_custom_command(OUTPUT  ${CMAKE_SOURCE_DIR}/oneapi/${PRECISION}${KERNEL}_${SIZE}_${HW}.cpp
                                COMMAND ${CMAKE_CXX_COMPILER} -DT2SP_${UPPER_PRECISION}${UPPER_KERNEL} -D${UPPER_SIZE} -D${UPPER_HW}
-                                       -DKERNEL="t2sp::blas::row_major::${PRECISION}${KERNEL}" -DOUTPUT_FILE="${PRECISION}${KERNEL}_${SIZE}_${HW}.cpp"
+                               -DKERNEL="t2sp::blas::row_major::${PRECISION}${KERNEL}::${PRECISION}${KERNEL}" -DOUTPUT_FILE="${PRECISION}${KERNEL}_${SIZE}_${HW}.cpp"
                                        -I${TOOLS_PATH}/Halide/include -I${CMAKE_SOURCE_DIR}
                                        -std=gnu++11
                                        ${CMAKE_SOURCE_DIR}/matrix_multiply.cpp

@@ -26,11 +26,12 @@ foreach(N RANGE 0 3)
                                -DTINY -DMKL_ILP64 -DT2SP_NDEBUG -DT2SP_TEST_${N} -DFPGA_EMULATOR
                                -I${TEST_PATH}/include -I${TEST_PATH}/googletest/include
                                -fsycl -fintelfpga
+                               -Wno-tautological-constant-compare
                                ${CMAKE_SOURCE_DIR}/test.cpp
                                ${RECONFIGURABLE_MATMUL_DIR}/oneapi/smatmul_tiny_a10.cpp
                                ${RECONFIGURABLE_MATMUL_DIR}/oneapi/dmatmul_tiny_a10.cpp
-                               # ${RECONFIGURABLE_MATMUL_DIR}/oneapi/cmatmul_tiny_a10.cpp removed as we cannot generate code for complex type.
-                               # ${RECONFIGURABLE_MATMUL_DIR}/oneapi/zmatmul_tiny_a10.cpp
+                               ${RECONFIGURABLE_MATMUL_DIR}/oneapi/cmatmul_tiny_a10.cpp
+                               ${RECONFIGURABLE_MATMUL_DIR}/oneapi/zmatmul_tiny_a10.cpp
                                -L${TOOLS_PATH}/Halide/lib -L$ENV{MKLROOT}/lib/intel64
                                -lmkl_sycl -lmkl_intel_ilp64 -lmkl_sequential -lmkl_core -lsycl -lOpenCL -lpthread -lm -ldl -lz
                                -L${TEST_PATH}/googletest/lib
@@ -39,8 +40,8 @@ foreach(N RANGE 0 3)
                                -o ${CMAKE_SOURCE_DIR}/bin/test_${N}
                        DEPENDS oneapi_sgemm_tiny_a10
                                oneapi_dgemm_tiny_a10
-                               #oneapi_cgemm_tiny_a10 removed as we cannot generate code for complex type.
-                               #oneapi_zgemm_tiny_a10
+                               oneapi_cgemm_tiny_a10
+                               oneapi_zgemm_tiny_a10
                                ${CMAKE_SOURCE_DIR}/test.cpp
                        WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
                        COMMENT "Generate tests"

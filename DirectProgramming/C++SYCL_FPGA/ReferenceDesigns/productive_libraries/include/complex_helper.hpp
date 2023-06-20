@@ -52,6 +52,11 @@ class vec {
         for (size_t i = 0; i < N; i++) _arr[i] *= arg;
         return *this;
     }
+    vec conj() const {
+        vec ret{};
+        for (size_t i = 0; i < N; i++) ret._arr[i] = std::conj(_arr[i]);
+        return ret;
+    }
     friend vec operator+(const vec &arg) {
         return arg;
     }
@@ -143,6 +148,3 @@ using complexd2 = t2sp::detail::vec<complexd, 2>;
 using complexd4 = t2sp::detail::vec<complexd, 4>;
 using complexd8 = t2sp::detail::vec<complexd, 8>;
 using complexd16 = t2sp::detail::vec<complexd, 16>;
-
-inline complexf conditional_conjugate_c32(bool condition, complexf x) { return condition ? std::conj(x) : x; }
-inline complexd conditional_conjugate_c64(bool condition, complexd x) { return condition ? std::conj(x) : x; }

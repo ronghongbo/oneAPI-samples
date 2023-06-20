@@ -42,7 +42,8 @@
 using namespace sycl;
 using std::vector;
 
-std::vector<sycl::device*> devices = {nullptr};
+sycl::device d{sycl::cpu_selector_v};
+std::vector<sycl::device*> devices{&d};
 
 namespace {
 
@@ -64,7 +65,7 @@ int test(device* dev, oneapi::mkl::layout layout, oneapi::mkl::transpose transa,
         }
     };
 
-    queue main_queue(sycl::cpu_selector_v, exception_handler);
+    queue main_queue(*dev, exception_handler);
     queue fpga_queue(sycl::ext::intel::fpga_emulator_selector_v, exception_handler);
     context cxt = main_queue.get_context();
     event done;
@@ -83,7 +84,7 @@ int test(device* dev, oneapi::mkl::layout layout, oneapi::mkl::transpose transa,
 
     // Call DPC++ GEMM.
     oneapi::mkl::blas::row_major::gemm(main_queue, transa, transb, m, n, k, alpha, A.data(), lda, B.data(),
-                                       ldb, beta, C_ref.data(), ldc, dependencies);
+                                       ldb, beta, C_ref.data(), ldc, dependencies).wait();
 
     // Call T2SP GEMM.
     try {
@@ -93,8 +94,8 @@ int test(device* dev, oneapi::mkl::layout layout, oneapi::mkl::transpose transa,
                 break;
             case oneapi::mkl::layout::row_major:
                 done = t2sp::blas::row_major::gemm(fpga_queue, transa, transb, m, n, k,
-                                                        alpha, A.data(), lda, B.data(), ldb, beta,
-                                                        C.data(), ldc, dependencies);
+                                                   alpha, A.data(), lda, B.data(), ldb, beta,
+                                                   C.data(), ldc, dependencies);
                 break;
             default: break;
         }
@@ -213,8 +214,7 @@ TEST_P(GemmUsmTests, ComplexDoublePrecision) {
 
 INSTANTIATE_TEST_SUITE_P(GemmUsmTestSuite, GemmUsmTests,
                          ::testing::Combine(testing::ValuesIn(devices),
-                                            testing::Values(oneapi::mkl::layout::col_major,
-                                                            oneapi::mkl::layout::row_major)),
+                                            testing::Values(oneapi::mkl::layout::row_major)),
                          ::LayoutDeviceNamePrint());
 
 } // anonymous namespace

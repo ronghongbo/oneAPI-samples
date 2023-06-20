@@ -59,13 +59,9 @@ sycl::event gemm(sycl::queue &queue,
                               << "(the vectorized dimension for the input matrices), but k = " << k;
 
     using Halide::Runtime::Buffer;
-    std::int64_t rows_of_A = !transpose_a ? m : k;
-    std::int64_t cols_of_A = !transpose_a ? k : m;
-    std::int64_t rows_of_B = !transpose_b ? k : n;
-    std::int64_t cols_of_B = !transpose_b ? n : k;
-    halide_dimension_t dim_a[]{{0, cols_of_A, 1}, {0, rows_of_A, lda}};
+    halide_dimension_t dim_a[]{{0, k, 1}, {0, m, lda}};
     Buffer<T> A_buffer{const_cast<T *>(a), 2, dim_a};
-    halide_dimension_t dim_b[]{{0, cols_of_B, 1}, {0, rows_of_B, ldb}};
+    halide_dimension_t dim_b[]{{0, n, 1}, {0, k, ldb}};
     Buffer<T> B_buffer{const_cast<T *>(b), 2, dim_b};
     halide_dimension_t dim_c[]{{0, n, 1}, {0, m, ldc}};
     Buffer<T> C_buffer{c, 2, dim_c};
@@ -83,24 +79,43 @@ sycl::event gemm(sycl::queue &queue,
     bool ConjugateC = false;
     bool HalfSpace = false;
 
+    sycl::event done;
+
     if constexpr (std::is_same_v<float, T>) {
-        return t2sp::blas::row_major::smatmul(queue, FromSymmetricPosA, FromSymmetricPosB, FromSymmetricPosC,
-                                              ConjugateA, ConjugateB, ConjugateC, HalfSpace, alpha, beta,
-                                              A_buffer, B_buffer, C_buffer, Output_buffer);
+        done = t2sp::blas::row_major::smatmul::smatmul(queue, FromSymmetricPosA, FromSymmetricPosB, FromSymmetricPosC,
+                                                       ConjugateA, ConjugateB, ConjugateC, HalfSpace, alpha, beta,
+                                                       A_buffer, B_buffer, C_buffer, Output_buffer);
     } else if constexpr (std::is_same_v<double, T>) {
-        return t2sp::blas::row_major::dmatmul(queue, FromSymmetricPosA, FromSymmetricPosB, FromSymmetricPosC,
-                                              ConjugateA, ConjugateB, ConjugateC, HalfSpace, alpha, beta,
-                                              A_buffer, B_buffer, C_buffer, Output_buffer);
+        done = t2sp::blas::row_major::dmatmul::dmatmul(queue, FromSymmetricPosA, FromSymmetricPosB, FromSymmetricPosC,
+                                                       ConjugateA, ConjugateB, ConjugateC, HalfSpace, alpha, beta,
+                                                       A_buffer, B_buffer, C_buffer, Output_buffer);
     } else if constexpr (std::is_same_v<std::complex<float>, T>) {
-        // Temporarily removed as we cannot now generate code for complex types
-        //return t2sp::blas::row_major::cmatmul(queue, FromSymmetricPosA, FromSymmetricPosB, FromSymmetricPosC,
-        //                                      ConjugateA, ConjugateB, ConjugateC, HalfSpace, alpha, beta,
-        //                                      A_buffer, B_buffer, C_buffer, Output_buffer);
+        done = t2sp::blas::row_major::cmatmul::cmatmul(queue, FromSymmetricPosA, FromSymmetricPosB, FromSymmetricPosC,
+                                                       ConjugateA, ConjugateB, ConjugateC, HalfSpace, alpha, beta,
+                                                       A_buffer, B_buffer, C_buffer, Output_buffer);
     } else {
-        //return t2sp::blas::row_major::zmatmul(queue, FromSymmetricPosA, FromSymmetricPosB, FromSymmetricPosC,
-        //                                      ConjugateA, ConjugateB, ConjugateC, HalfSpace, alpha, beta,
-        //                                      A_buffer, B_buffer, C_buffer, Output_buffer);
+        done = t2sp::blas::row_major::zmatmul::zmatmul(queue, FromSymmetricPosA, FromSymmetricPosB, FromSymmetricPosC,
+                                                       ConjugateA, ConjugateB, ConjugateC, HalfSpace, alpha, beta,
+                                                       A_buffer, B_buffer, C_buffer, Output_buffer);
     }
+    for (int i = 0; i < (m + (III * II - 1)) / (III * II); i++) {
+        for (int j = 0; j < (n + (JJJ * JJ - 1)) / (JJJ * JJ); j++) {
+            for (int ii = 0; ii < II; ii++) {
+                for (int jj = 0; jj < JJ; jj++) {
+                    for (int iii = 0; iii < III; iii++) {
+                        for (int jjj = 0; jjj < JJJ; jjj++) {
+                            int total_i = iii + III * ii + III * II * i;
+                            int total_j = jjj + JJJ * jj + JJJ * JJ * j;
+                            if (total_i < m && total_j < n) {
+                                c[total_j + total_i * ldc] = Output_buffer(jjj, jj, ii, iii, j, i);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return done;
 }
 
 } // namespace t2sp::blas::row_major
