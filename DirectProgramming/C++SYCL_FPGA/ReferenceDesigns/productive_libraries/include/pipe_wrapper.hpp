@@ -15,14 +15,6 @@ using device_selector_t = int(*)(const sycl::device&);
 using device_selector_t = const sycl::device_selector &;
 #endif
 
-struct device_handle {
-  // Important: order these to avoid any padding between fields;
-  // some Win32 compiler optimizer configurations can inconsistently
-  // insert padding otherwise.
-  uint64_t offset;
-  void *mem;
-};
-
 template <typename name, typename data_type, int32_t min_capacity, int32_t... dims>
 struct pipe_wrapper {
   template <int32_t...> struct unique_id;

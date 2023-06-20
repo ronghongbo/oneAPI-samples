@@ -36,8 +36,8 @@ void test(oneapi::mkl::transpose transa, oneapi::mkl::transpose transb,
     sycl::queue q_device(sycl::ext::intel::fpga_selector_v, fpga_tools::exception_handler);
 #endif
 
-     sycl::event e = t2sp::blas::row_major::gemm<T>(q_device, transa, transb, m, n, k, alpha, a.data(), lda,
-                                                    b.data(), ldb, beta, c.data(), ldc);
+    sycl::event e = t2sp::blas::row_major::gemm<T>(q_device, transa, transb, m, n, k, alpha, a.data(), lda,
+                                                   b.data(), ldb, beta, c.data(), ldc);
 
 #ifdef CHECK_CORRECTNESS
     // Call oneMKL GEMM as reference.
