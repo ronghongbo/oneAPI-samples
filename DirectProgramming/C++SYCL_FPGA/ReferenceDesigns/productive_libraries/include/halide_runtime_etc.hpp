@@ -2412,5 +2412,5 @@ extern void halide_sycl_device_and_host_malloc(struct halide_buffer_t *buf, cons
 extern void halide_sycl_device_free(halide_buffer_t *buf, const sycl::queue &q_device);
 extern void halide_sycl_host_free(halide_buffer_t *buf);
 extern void halide_sycl_device_and_host_free(halide_buffer_t *buf, const sycl::queue &q_device);
-extern void halide_sycl_buffer_copy(halide_buffer_t *buf, sycl::queue &q_device);
+extern void halide_sycl_buffer_copy(halide_buffer_t *buf, bool to_host, sycl::queue &q_device);
 

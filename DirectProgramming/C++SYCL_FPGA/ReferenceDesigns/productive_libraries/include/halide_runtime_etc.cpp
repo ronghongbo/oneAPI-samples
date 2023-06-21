@@ -52,9 +52,8 @@ void halide_sycl_device_and_host_free(halide_buffer_t *buf, const sycl::queue &q
 }
 
 
-void halide_sycl_buffer_copy(halide_buffer_t *buf, sycl::queue &q_device) {
+void halide_sycl_buffer_copy(halide_buffer_t *buf, bool to_host, sycl::queue &q_device) {
     bool from_host = (buf->device == 0) || (buf->host_dirty() && buf->host != NULL);
-    bool to_host = 1;
     if (!from_host && to_host) {
         // Device->host
         q_device.submit([&](sycl::handler& h){ h.memcpy((void *)buf->host, (void *)(((device_handle*)buf->device)->mem), buf->size_in_bytes()); }).wait();
