@@ -44,6 +44,10 @@ foreach(N RANGE 0 3)
                                oneapi_cgemm_tiny_a10
                                oneapi_zgemm_tiny_a10
                                ${CMAKE_SOURCE_DIR}/test.cpp
+                               ${PRODUCTIVE_LIBRARIES_PATH}/include/halide_runtime_etc.cpp
+                               ${PRODUCTIVE_LIBRARIES_PATH}/include/halide_runtime_etc.hpp
+                               ${PRODUCTIVE_LIBRARIES_PATH}/include/complex_helper.hpp
+                               ${PRODUCTIVE_LIBRARIES_PATH}/include/pipe_wrapper.hpp
                                ${CMAKE_SOURCE_DIR}/api.hpp
                                ${RECONFIGURABLE_MATMUL_DIR}/api.hpp
                                ${TOOLS_PATH}/Halide/include/Halide.h
