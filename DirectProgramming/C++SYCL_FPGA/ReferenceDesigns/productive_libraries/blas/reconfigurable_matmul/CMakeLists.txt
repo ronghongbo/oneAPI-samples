@@ -67,6 +67,7 @@ foreach(PRECISION ${PRECISIONS})
                                COMMAND cp ${CMAKE_BINARY_DIR}/${PRECISION}${KERNEL}_${SIZE}_${HW}.cpp ${CMAKE_SOURCE_DIR}/oneapi
                                DEPENDS ${CMAKE_SOURCE_DIR}/matrix_multiply.cpp
                                        ${CMAKE_SOURCE_DIR}/parameters.h
+                                       ${TOOLS_PATH}/Halide/include/Halide.h
                                WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
                                COMMENT "Generating OneAPI files"
                                VERBATIM)
@@ -85,8 +86,11 @@ foreach(PRECISION ${PRECISIONS})
                                        -fsycl -fintelfpga -fsycl-link=early -o ${PRECISION}${KERNEL}_${SIZE}_${HW}.early
                                COMMAND cp -rf ${PRECISION}${KERNEL}_${SIZE}_${HW}.early.prj/reports/report.html ${CMAKE_SOURCE_DIR}/reports/${PRECISION}${KERNEL}_${SIZE}_${HW}
                                COMMAND cp -rf ${PRECISION}${KERNEL}_${SIZE}_${HW}.early.prj/reports/resources   ${CMAKE_SOURCE_DIR}/reports/${PRECISION}${KERNEL}_${SIZE}_${HW}
-                               DEPENDS ${CMAKE_SOURCE_DIR}/oneapi/${PRECISION}${KERNEL}_${SIZE}_${HW}.cpp # File-level dependency
-                                       oneapi_${PRECISION}${KERNEL}_${SIZE}_${HW}                         # Target-level dependency
+                               DEPENDS ${PRODUCTIVE_LIBRARIES_PATH}/include/halide_runtime_etc.cpp
+                                       ${PRODUCTIVE_LIBRARIES_PATH}/include/halide_runtime_etc.hpp
+                                       ${PRODUCTIVE_LIBRARIES_PATH}/include/complex_helper.hpp
+                                       ${PRODUCTIVE_LIBRARIES_PATH}/include/pipe_wrapper.hpp
+                                       oneapi_${PRECISION}${KERNEL}_${SIZE}_${HW}
                                WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
                                COMMENT "Generating a report"
                                VERBATIM)
@@ -103,12 +107,15 @@ foreach(PRECISION ${PRECISIONS})
                                        -Xshardware -Xstarget=${FPGA_DEVICE}
                                        -Xsffp-reassociate -Xsffp-contract=fast -Xsdsp-mode=prefer-dsp -Xsprofile -Xsclock=360MHz -Xsseed=${SEED}
                                        -fsycl -fintelfpga -fsycl-link=image -o ${PRECISION}${KERNEL}_${SIZE}_${HW}.a
-                               COMMAND cp -rf ${PRECISION}${KERNEL}_${SIZE}_${HW}.a                            ${CMAKE_SOURCE_DIR}/bin
+                               COMMAND cp -rf ${PRECISION}${KERNEL}_${SIZE}_${HW}.a                          ${CMAKE_SOURCE_DIR}/bin
                                COMMAND cp -rf ${PRECISION}${KERNEL}_${SIZE}_${HW}.prj/reports/report.html    ${CMAKE_SOURCE_DIR}/reports/${PRECISION}${KERNEL}_${SIZE}_${HW}
                                COMMAND cp -rf ${PRECISION}${KERNEL}_${SIZE}_${HW}.prj/reports/resources      ${CMAKE_SOURCE_DIR}/reports/${PRECISION}${KERNEL}_${SIZE}_${HW}
                                COMMAND cp -rf ${PRECISION}${KERNEL}_${SIZE}_${HW}.prj/acl_quartus_report.txt ${CMAKE_SOURCE_DIR}/reports/${PRECISION}${KERNEL}_${SIZE}_${HW}
-                               DEPENDS ${CMAKE_SOURCE_DIR}/oneapi/${PRECISION}${KERNEL}_${SIZE}_${HW}.cpp # File-level dependency
-                                       oneapi_${PRECISION}${KERNEL}_${SIZE}_${HW}                         # Target-level dependency
+                               DEPENDS ${PRODUCTIVE_LIBRARIES_PATH}/include/halide_runtime_etc.cpp
+                                       ${PRODUCTIVE_LIBRARIES_PATH}/include/halide_runtime_etc.hpp
+                                       ${PRODUCTIVE_LIBRARIES_PATH}/include/complex_helper.hpp
+                                       ${PRODUCTIVE_LIBRARIES_PATH}/include/pipe_wrapper.hpp
+                                       oneapi_${PRECISION}${KERNEL}_${SIZE}_${HW}
                                WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
                                COMMENT "Generating an image"
                                VERBATIM)

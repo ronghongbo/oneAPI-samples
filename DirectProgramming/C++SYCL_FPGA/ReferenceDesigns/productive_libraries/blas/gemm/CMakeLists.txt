@@ -44,6 +44,11 @@ foreach(N RANGE 0 3)
                                oneapi_cgemm_tiny_a10
                                oneapi_zgemm_tiny_a10
                                ${CMAKE_SOURCE_DIR}/test.cpp
+                               ${CMAKE_SOURCE_DIR}/api.hpp
+                               ${RECONFIGURABLE_MATMUL_DIR}/api.hpp
+                               ${TOOLS_PATH}/Halide/include/Halide.h
+                               ${TOOLS_PATH}/Halide/include/HalideRuntime.h
+                               ${TOOLS_PATH}/Halide/include/HalideBuffer.h
                        WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
                        COMMENT "Generate tests"
                        VERBATIM)
@@ -71,6 +76,11 @@ foreach(PRECISION ${PRECISIONS})
                                        -c ${CMAKE_SOURCE_DIR}/demo.cpp
                                        -o ${CMAKE_BINARY_DIR}/demo_${PRECISION}$ENV{KERNEL}_${SIZE}_${HW}.o
                                DEPENDS ${CMAKE_SOURCE_DIR}/demo.cpp
+                                       ${CMAKE_SOURCE_DIR}/api.hpp
+                                       ${RECONFIGURABLE_MATMUL_DIR}/api.hpp
+                                       ${TOOLS_PATH}/Halide/include/Halide.h
+                                       ${TOOLS_PATH}/Halide/include/HalideRuntime.h
+                                       ${TOOLS_PATH}/Halide/include/HalideBuffer.h
                                WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
                                COMMENT "Generating a demo application on FPGA hardware"
                                VERBATIM)
@@ -83,6 +93,10 @@ foreach(PRECISION ${PRECISIONS})
                                        -L${TOOLS_PATH}/Halide/lib -lHalide -lpthread -lz
                                        -o ${CMAKE_SOURCE_DIR}/bin/demo_${PRECISION}$ENV{KERNEL}_${SIZE}_${HW}
                                DEPENDS ${CMAKE_BINARY_DIR}/demo_${PRECISION}$ENV{KERNEL}_${SIZE}_${HW}.o
+                                       ${PRODUCTIVE_LIBRARIES_PATH}/include/halide_runtime_etc.cpp
+                                       ${PRODUCTIVE_LIBRARIES_PATH}/include/halide_runtime_etc.hpp
+                                       ${PRODUCTIVE_LIBRARIES_PATH}/include/complex_helper.hpp
+                                       ${PRODUCTIVE_LIBRARIES_PATH}/include/pipe_wrapper.hpp
                                        synthesize_${PRECISION}$ENV{KERNEL}_${SIZE}_${HW}
                                WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
                                COMMENT "Linking the demo application with the device image"
@@ -116,6 +130,15 @@ foreach(PRECISION ${PRECISIONS})
                                        ${PRODUCTIVE_LIBRARIES_PATH}/include/halide_runtime_etc.cpp
                                        -o ${CMAKE_SOURCE_DIR}/bin/demo_${PRECISION}$ENV{KERNEL}_${SIZE}_${HW}_emu
                                DEPENDS ${CMAKE_SOURCE_DIR}/demo.cpp
+                                       ${CMAKE_SOURCE_DIR}/api.hpp
+                                       ${RECONFIGURABLE_MATMUL_DIR}/api.hpp
+                                       ${TOOLS_PATH}/Halide/include/Halide.h
+                                       ${TOOLS_PATH}/Halide/include/HalideRuntime.h
+                                       ${TOOLS_PATH}/Halide/include/HalideBuffer.h
+                                       ${PRODUCTIVE_LIBRARIES_PATH}/include/halide_runtime_etc.cpp
+                                       ${PRODUCTIVE_LIBRARIES_PATH}/include/halide_runtime_etc.hpp
+                                       ${PRODUCTIVE_LIBRARIES_PATH}/include/complex_helper.hpp
+                                       ${PRODUCTIVE_LIBRARIES_PATH}/include/pipe_wrapper.hpp
                                        oneapi_${PRECISION}$ENV{KERNEL}_${SIZE}_${HW}
                                WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
                                COMMENT "Generating a demo application on FPGA emulator"

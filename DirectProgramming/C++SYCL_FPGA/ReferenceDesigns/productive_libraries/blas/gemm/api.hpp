@@ -12,9 +12,9 @@
 using namespace Halide;
 
 namespace t2sp::blas::row_major {
-// The API for GEMM. We choose the USM version of oneMKL DPC++ interface (https://www.intel.com/content/www/us/en/docs/onemkl/developer-reference-dpcpp/2023-0/gemm.html) with the
-// restriction of standard data types (s, d, c, z) only. In this case, the matrices, alpha and beta all have the same data type according to the DPC++ interface. So we define our
-// GEMM interface as a template with a single type T.
+// The API for GEMM. We choose the USM version of oneMKL DPC++ interface (https://oneapi-src.github.io/oneMKL/domains/blas/gemm.html) with the
+// restriction of standard data types (s, d, c, z) only. In this case, the matrices, alpha and beta all have the same data type according to the DPC++ interface.
+// So we define our GEMM interface as a template with a single type T.
 template<typename T>
 sycl::event gemm(sycl::queue &queue,
                  oneapi::mkl::transpose transa,
@@ -36,7 +36,7 @@ sycl::event gemm(sycl::queue &queue,
     bool conjugate_a = (transa == oneapi::mkl::transpose::C);
     bool conjugate_b = (transb == oneapi::mkl::transpose::C);
 
-    // Check parameters for constraints set by oneMKL DPC++ interface (https://www.intel.com/content/www/us/en/docs/onemkl/developer-reference-dpcpp/2023-0/gemm.html)
+    // Check parameters for constraints set by oneMKL DPC++ interface
     _halide_user_assert(m >= 0 && n >= 0 && k >= 0) << "m = " << m << ", n = " << n << ", k = " << k;
     _halide_user_assert(a && b && c) << "a = " << (const void *)a << ", b = " << (const void *)b << ", c = " << (const void *)c;
     _halide_user_assert(!transpose_a && lda >= k || transpose_a && lda >= m)
@@ -71,31 +71,37 @@ sycl::event gemm(sycl::queue &queue,
         e.wait();
     }
 
-    bool FromSymmetricPosA = transpose_a;
-    bool FromSymmetricPosB = transpose_b;
-    bool FromSymmetricPosC = false;
+    bool Upper_From_Upper_A = !transpose_a;
+    bool Upper_From_Upper_B = !transpose_b;
+    bool Upper_From_Upper_C = true;
+    bool Lower_From_Lower_A = !transpose_a;
+    bool Lower_From_Lower_B = !transpose_b;
+    bool Lower_From_Lower_C = true;
     bool ConjugateA = conjugate_a;
     bool ConjugateB = conjugate_b;
     bool ConjugateC = false;
-    bool HalfSpace = false;
-
+    bool HalfSpaceOut = false;
     sycl::event done;
 
     if constexpr (std::is_same_v<float, T>) {
-        done = t2sp::blas::row_major::smatmul::smatmul(queue, FromSymmetricPosA, FromSymmetricPosB, FromSymmetricPosC,
-                                                       ConjugateA, ConjugateB, ConjugateC, HalfSpace, alpha, beta,
+        done = t2sp::blas::row_major::smatmul::smatmul(queue, Upper_From_Upper_A, Upper_From_Upper_B, Upper_From_Upper_C,
+                                                       Lower_From_Lower_A, Lower_From_Lower_B, Lower_From_Lower_C,
+                                                       ConjugateA, ConjugateB, ConjugateC, HalfSpaceOut, alpha, beta,
                                                        A_buffer, B_buffer, C_buffer, Output_buffer);
     } else if constexpr (std::is_same_v<double, T>) {
-        done = t2sp::blas::row_major::dmatmul::dmatmul(queue, FromSymmetricPosA, FromSymmetricPosB, FromSymmetricPosC,
-                                                       ConjugateA, ConjugateB, ConjugateC, HalfSpace, alpha, beta,
+        done = t2sp::blas::row_major::dmatmul::dmatmul(queue, Upper_From_Upper_A, Upper_From_Upper_B, Upper_From_Upper_C,
+                                                       Lower_From_Lower_A, Lower_From_Lower_B, Lower_From_Lower_C,
+                                                       ConjugateA, ConjugateB, ConjugateC, HalfSpaceOut, alpha, beta,
                                                        A_buffer, B_buffer, C_buffer, Output_buffer);
     } else if constexpr (std::is_same_v<std::complex<float>, T>) {
-        done = t2sp::blas::row_major::cmatmul::cmatmul(queue, FromSymmetricPosA, FromSymmetricPosB, FromSymmetricPosC,
-                                                       ConjugateA, ConjugateB, ConjugateC, HalfSpace, alpha, beta,
+        done = t2sp::blas::row_major::cmatmul::cmatmul(queue, Upper_From_Upper_A, Upper_From_Upper_B, Upper_From_Upper_C,
+                                                       Lower_From_Lower_A, Lower_From_Lower_B, Lower_From_Lower_C,
+                                                       ConjugateA, ConjugateB, ConjugateC, HalfSpaceOut, alpha, beta,
                                                        A_buffer, B_buffer, C_buffer, Output_buffer);
     } else {
-        done = t2sp::blas::row_major::zmatmul::zmatmul(queue, FromSymmetricPosA, FromSymmetricPosB, FromSymmetricPosC,
-                                                       ConjugateA, ConjugateB, ConjugateC, HalfSpace, alpha, beta,
+        done = t2sp::blas::row_major::zmatmul::zmatmul(queue, Upper_From_Upper_A, Upper_From_Upper_B, Upper_From_Upper_C,
+                                                       Lower_From_Lower_A, Lower_From_Lower_B, Lower_From_Lower_C,
+                                                       ConjugateA, ConjugateB, ConjugateC, HalfSpaceOut, alpha, beta,
                                                        A_buffer, B_buffer, C_buffer, Output_buffer);
     }
     for (int i = 0; i < (m + (III * II - 1)) / (III * II); i++) {

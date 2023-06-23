@@ -6,29 +6,33 @@ using namespace Halide;
 
 namespace t2sp::blas::row_major {
 namespace smatmul {
-extern sycl::event smatmul(sycl::queue &q_device, bool FromSymmetricPosA, bool FromSymmetricPosB, bool FromSymmetricPosC,
-                           bool ConjugateA, bool ConjugateB, bool ConjugateC, bool HalfSpace, float alpha, float beta,
+extern sycl::event smatmul(sycl::queue &q_device, bool Upper_From_Upper_A, bool Upper_From_Upper_B, bool Upper_From_Upper_C,
+                           bool Lower_From_Lower_A, bool Lower_From_Lower_B, bool Lower_From_Lower_C,
+                           bool ConjugateA, bool ConjugateB, bool ConjugateC, bool HalfSpaceOut, float alpha, float beta,
                            struct halide_buffer_t *A_buffer, struct halide_buffer_t *B_buffer, struct halide_buffer_t *C_buffer,
                            struct halide_buffer_t *Output_buffer);
 }
 
 namespace dmatmul {
-extern sycl::event dmatmul(sycl::queue &q_device, bool FromSymmetricPosA, bool FromSymmetricPosB, bool FromSymmetricPosC,
-                           bool ConjugateA, bool ConjugateB, bool ConjugateC, bool HalfSpace, double alpha, double beta,
+extern sycl::event dmatmul(sycl::queue &q_device, bool Upper_From_Upper_A, bool Upper_From_Upper_B, bool Upper_From_Upper_C,
+                           bool Lower_From_Lower_A, bool Lower_From_Lower_B, bool Lower_From_Lower_C,
+                           bool ConjugateA, bool ConjugateB, bool ConjugateC, bool HalfSpaceOut, double alpha, double beta,
                            struct halide_buffer_t *A_buffer, struct halide_buffer_t *B_buffer, struct halide_buffer_t *C_buffer,
                            struct halide_buffer_t *Output_buffer);
 }
 
 namespace cmatmul {
-extern sycl::event cmatmul(sycl::queue &q_device, bool FromSymmetricPosA, bool FromSymmetricPosB, bool FromSymmetricPosC,
-                           bool ConjugateA, bool ConjugateB, bool ConjugateC, bool HalfSpace, std::complex<float> alpha, std::complex<float> beta,
+extern sycl::event cmatmul(sycl::queue &q_device, bool Upper_From_Upper_A, bool Upper_From_Upper_B, bool Upper_From_Upper_C,
+                           bool Lower_From_Lower_A, bool Lower_From_Lower_B, bool Lower_From_Lower_C,
+                           bool ConjugateA, bool ConjugateB, bool ConjugateC, bool HalfSpaceOut, std::complex<float> alpha, std::complex<float> beta,
                            struct halide_buffer_t *A_buffer, struct halide_buffer_t *B_buffer, struct halide_buffer_t *C_buffer,
                            struct halide_buffer_t *Output_buffer);
 }
 
 namespace zmatmul {
-extern sycl::event zmatmul(sycl::queue &q_device, bool FromSymmetricPosA, bool FromSymmetricPosB, bool FromSymmetricPosC,
-                           bool ConjugateA, bool ConjugateB, bool ConjugateC, bool HalfSpace, std::complex<double> alpha, std::complex<double> beta,
+extern sycl::event zmatmul(sycl::queue &q_device, bool Upper_From_Upper_A, bool Upper_From_Upper_B, bool Upper_From_Upper_C,
+                           bool Lower_From_Lower_A, bool Lower_From_Lower_B, bool Lower_From_Lower_C,
+                           bool ConjugateA, bool ConjugateB, bool ConjugateC, bool HalfSpaceOut, std::complex<double> alpha, std::complex<double> beta,
                            struct halide_buffer_t *A_buffer, struct halide_buffer_t *B_buffer, struct halide_buffer_t *C_buffer,
                            struct halide_buffer_t *Output_buffer);
 }

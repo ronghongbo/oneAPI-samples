@@ -74,9 +74,9 @@ void test(oneapi::mkl::transpose transa, oneapi::mkl::transpose transb,
 int main() {
 #if defined(T2SP_SMATMUL)
     const auto [KKK, JJJ, III, JJ, II, KK] = t2sp::blas::row_major::get_systolic_array_dimensions<float>();
-    int64_t m = III * II * 32;
-    int64_t n = JJJ * JJ * 32;
-    int64_t k = KKK * KK * 32;
+    int64_t m = III * II * 4;
+    int64_t n = JJJ * JJ * 4;
+    int64_t k = KKK * KK * 4;
     int64_t lda = k;
     int64_t ldb = n;
     int64_t ldc = n;
