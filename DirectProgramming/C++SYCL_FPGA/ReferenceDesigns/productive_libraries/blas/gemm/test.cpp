@@ -186,7 +186,27 @@ TEST_P(GemmUsmTests, ComplexSinglePrecision) {
 #elif defined(T2SP_TEST_3)
     EXPECT_TRUEORSKIP((test<std::complex<float>, std::complex<float>>(
         std::get<0>(GetParam()), std::get<1>(GetParam()), oneapi::mkl::transpose::trans,
+        oneapi::mkl::transpose::nontrans, 79, 84, 92, 103, 105, 106, alpha, beta)));
+#elif defined(T2SP_TEST_4)
+    EXPECT_TRUEORSKIP((test<std::complex<float>, std::complex<float>>(
+        std::get<0>(GetParam()), std::get<1>(GetParam()), oneapi::mkl::transpose::nontrans,
+        oneapi::mkl::transpose::conjtrans, 79, 84, 92, 103, 105, 106, alpha, beta)));
+#elif defined(T2SP_TEST_5)
+    EXPECT_TRUEORSKIP((test<std::complex<float>, std::complex<float>>(
+        std::get<0>(GetParam()), std::get<1>(GetParam()), oneapi::mkl::transpose::trans,
+        oneapi::mkl::transpose::conjtrans, 79, 84, 92, 103, 105, 106, alpha, beta)));
+#elif defined(T2SP_TEST_6)
+    EXPECT_TRUEORSKIP((test<std::complex<float>, std::complex<float>>(
+        std::get<0>(GetParam()), std::get<1>(GetParam()), oneapi::mkl::transpose::conjtrans,
+        oneapi::mkl::transpose::nontrans, 79, 84, 92, 103, 105, 106, alpha, beta)));
+#elif defined(T2SP_TEST_7)
+    EXPECT_TRUEORSKIP((test<std::complex<float>, std::complex<float>>(
+        std::get<0>(GetParam()), std::get<1>(GetParam()), oneapi::mkl::transpose::conjtrans,
         oneapi::mkl::transpose::trans, 79, 84, 92, 103, 105, 106, alpha, beta)));
+#elif defined(T2SP_TEST_8)
+    EXPECT_TRUEORSKIP((test<std::complex<float>, std::complex<float>>(
+        std::get<0>(GetParam()), std::get<1>(GetParam()), oneapi::mkl::transpose::conjtrans,
+        oneapi::mkl::transpose::conjtrans, 79, 84, 92, 103, 105, 106, alpha, beta)));
 #endif
 }
 
@@ -209,6 +229,26 @@ TEST_P(GemmUsmTests, ComplexDoublePrecision) {
     EXPECT_TRUEORSKIP((test<std::complex<double>, std::complex<double>>(
         std::get<0>(GetParam()), std::get<1>(GetParam()), oneapi::mkl::transpose::trans,
         oneapi::mkl::transpose::trans, 79, 84, 92, 103, 105, 106, alpha, beta)));
+#elif defined(T2SP_TEST_4)
+    EXPECT_TRUEORSKIP((test<std::complex<double>, std::complex<double>>(
+        std::get<0>(GetParam()), std::get<1>(GetParam()), oneapi::mkl::transpose::nontrans,
+        oneapi::mkl::transpose::conjtrans, 79, 84, 92, 103, 105, 106, alpha, beta)));
+#elif defined(T2SP_TEST_5)
+    EXPECT_TRUEORSKIP((test<std::complex<double>, std::complex<double>>(
+        std::get<0>(GetParam()), std::get<1>(GetParam()), oneapi::mkl::transpose::trans,
+        oneapi::mkl::transpose::conjtrans, 79, 84, 92, 103, 105, 106, alpha, beta)));
+#elif defined(T2SP_TEST_6)
+    EXPECT_TRUEORSKIP((test<std::complex<double>, std::complex<double>>(
+        std::get<0>(GetParam()), std::get<1>(GetParam()), oneapi::mkl::transpose::conjtrans,
+        oneapi::mkl::transpose::nontrans, 79, 84, 92, 103, 105, 106, alpha, beta)));
+#elif defined(T2SP_TEST_7)
+    EXPECT_TRUEORSKIP((test<std::complex<double>, std::complex<double>>(
+        std::get<0>(GetParam()), std::get<1>(GetParam()), oneapi::mkl::transpose::conjtrans,
+        oneapi::mkl::transpose::trans, 79, 84, 92, 103, 105, 106, alpha, beta)));
+#elif defined(T2SP_TEST_8)
+    EXPECT_TRUEORSKIP((test<std::complex<double>, std::complex<double>>(
+        std::get<0>(GetParam()), std::get<1>(GetParam()), oneapi::mkl::transpose::conjtrans,
+        oneapi::mkl::transpose::conjtrans, 79, 84, 92, 103, 105, 106, alpha, beta)));
 #endif
 }
 

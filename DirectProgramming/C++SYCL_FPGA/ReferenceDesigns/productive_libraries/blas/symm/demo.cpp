@@ -21,11 +21,12 @@ using namespace std;
 
 template <typename T>
 void test(oneapi::mkl::transpose transa, oneapi::mkl::transpose transb,
-          int64_t m, int64_t n, int64_t k, T alpha, int64_t lda, int64_t ldb, T beta, int64_t ldc) {
+          int64_t m, int64_t n, T alpha, int64_t lda, int64_t ldb, T beta, int64_t ldc) {
     vector<T, allocator_helper<T, 64>> a, b;
     vector<T, allocator_helper<T, 64>> c, c_ref;
-    rand_matrix(a, oneapi::mkl::layout::row_major, transa, m, k, lda);
-    rand_matrix(b, oneapi::mkl::layout::row_major, transb, k, n, ldb);
+    rand_matrix(a, oneapi::mkl::layout::row_major, transa, left_right == oneapi::mkl::side::left ? m : m,
+                                                           left_right == oneapi::mkl::side::left ? n : n, lda);
+    rand_matrix(b, oneapi::mkl::layout::row_major, transb, m, n, ldb);
     rand_matrix(c, oneapi::mkl::layout::row_major, oneapi::mkl::transpose::nontrans, m, n, ldc);
     c_ref = c;
 
