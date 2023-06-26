@@ -20,14 +20,13 @@
 using namespace std;
 
 template <typename T>
-void test(oneapi::mkl::transpose transa, oneapi::mkl::transpose transb,
-          int64_t m, int64_t n, T alpha, int64_t lda, int64_t ldb, T beta, int64_t ldc) {
+void test(oneapi::mkl::side left_right, oneapi::mkl::uplo upper_lower, int m, int n, int lda, int ldb, int ldc, T alpha, T beta) {
     vector<T, allocator_helper<T, 64>> a, b;
     vector<T, allocator_helper<T, 64>> c, c_ref;
-    rand_matrix(a, oneapi::mkl::layout::row_major, transa, left_right == oneapi::mkl::side::left ? m : m,
-                                                           left_right == oneapi::mkl::side::left ? n : n, lda);
-    rand_matrix(b, oneapi::mkl::layout::row_major, transb, m, n, ldb);
-    rand_matrix(c, oneapi::mkl::layout::row_major, oneapi::mkl::transpose::nontrans, m, n, ldc);
+    rand_matrix(a, oneapi::mkl::layout::row_major, oneapi::mkl::transpose::N, left_right == oneapi::mkl::side::left ? m : n,
+                                                                              left_right == oneapi::mkl::side::left ? m : n, lda);
+    rand_matrix(b, oneapi::mkl::layout::row_major, oneapi::mkl::transpose::N, m, n, ldb);
+    rand_matrix(c, oneapi::mkl::layout::row_major, oneapi::mkl::transpose::N, m, n, ldc);
     c_ref = c;
 
 // Create a queue bound to either the FPGA emulator or FPGA device.
@@ -37,14 +36,14 @@ void test(oneapi::mkl::transpose transa, oneapi::mkl::transpose transb,
     sycl::queue q_device(sycl::ext::intel::fpga_selector_v, fpga_tools::exception_handler);
 #endif
 
-    sycl::event e = t2sp::blas::row_major::symm(q_device, oneapi::mkl::side::L, oneapi::mkl::uplo::U, m, n, alpha, a.data(), lda,
+    sycl::event e = t2sp::blas::row_major::symm(q_device, left_right, upper_lower, m, n, alpha, a.data(), lda,
                                                 b.data(), ldb, beta, c.data(), ldc);
     e.wait();
 
 #ifdef CHECK_CORRECTNESS
     // Call oneMKL GEMM as reference.
     sycl::queue main_queue(sycl::cpu_selector_v);
-    oneapi::mkl::blas::row_major::symm(main_queue, oneapi::mkl::side::L, oneapi::mkl::uplo::U, m, n, alpha, a.data(), lda,
+    oneapi::mkl::blas::row_major::symm(main_queue, left_right, upper_lower, m, n, alpha, a.data(), lda,
                                        b.data(), ldb, beta, c_ref.data(), ldc).wait();
     bool correct = check_equal_matrix(c.data(), c_ref.data(), oneapi::mkl::layout::row_major, m, n, ldc,  10 * m, std::cout);
     assert(correct);
@@ -84,7 +83,7 @@ int main() {
     int64_t ldc = n;
     float alpha = 2.0f;
     float beta  = 3.0f;
-    test<float>(oneapi::mkl::transpose::N, oneapi::mkl::transpose::T, m, n, k, alpha, lda, ldb, beta, ldc);
+    test<float>(oneapi::mkl::side::L, oneapi::mkl::uplo::U, m, n, lda, ldb, ldc, alpha, beta);
 #elif defined(T2SP_DMATMUL)
     const auto [KKK, JJJ, III, JJ, II, KK] = t2sp::blas::row_major::get_systolic_array_dimensions<double>();
     int64_t m = III * II * 32;
@@ -95,7 +94,7 @@ int main() {
     int64_t ldc = n;
     double alpha = 2.0f;
     double beta = 3.0f;
-    test<double>(oneapi::mkl::transpose::N, oneapi::mkl::transpose::T, m, n, k, alpha, lda, ldb, beta, ldc);
+    test<double>(oneapi::mkl::side::L, oneapi::mkl::uplo::U, m, n, lda, ldb, ldc, alpha, beta);
 #elif defined(T2SP_CMATMUL)
     const auto [KKK, JJJ, III, JJ, II, KK] = t2sp::blas::row_major::get_systolic_array_dimensions<std::complex<float>>();
     int64_t m = III * II * 32;
@@ -106,7 +105,7 @@ int main() {
     int64_t ldc = n;
     std::complex<float> alpha = {2.0f, -0.5f};
     std::complex<float> beta  = {3.0f, -1.5f};
-    test<std::complex<float>>(oneapi::mkl::transpose::N, oneapi::mkl::transpose::T, m, n, k, alpha, lda, ldb, beta, ldc);
+    test<std::complex<float>>(oneapi::mkl::side::L, oneapi::mkl::uplo::U, m, n, lda, ldb, ldc, alpha, beta);
 #else
     const auto [KKK, JJJ, III, JJ, II, KK] = t2sp::blas::row_major::get_systolic_array_dimensions<std::complex<double>>();
     int64_t m = III * II * 32;
@@ -117,6 +116,6 @@ int main() {
     int64_t ldc = n;
     std::complex<double> alpha = {2.0f, -0.5f};
     std::complex<double> beta  = {3.0f, -1.5f};
-    test<std::complex<double>>(oneapi::mkl::transpose::N, oneapi::mkl::transpose::T, m, n, k, alpha, lda, ldb, beta, ldc);
+    test<std::complex<double>>(oneapi::mkl::side::L, oneapi::mkl::uplo::U, m, n, lda, ldb, ldc, alpha, beta);
 #endif
 }
