@@ -27,7 +27,7 @@ void test(oneapi::mkl::side left_right, oneapi::mkl::uplo upper_lower, int m, in
                                                                               left_right == oneapi::mkl::side::left ? m : n, lda);
     rand_matrix(b, oneapi::mkl::layout::row_major, oneapi::mkl::transpose::N, m, n, ldb);
     rand_matrix(c, oneapi::mkl::layout::row_major, oneapi::mkl::transpose::N, m, n, ldc);
-    c_ref = c;
+    c_ref = c ;
 
 // Create a queue bound to either the FPGA emulator or FPGA device.
 #if defined(FPGA_EMULATOR)
