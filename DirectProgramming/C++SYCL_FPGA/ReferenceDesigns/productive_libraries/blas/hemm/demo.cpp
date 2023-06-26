@@ -36,14 +36,14 @@ void test(oneapi::mkl::side left_right, oneapi::mkl::uplo upper_lower, int m, in
     sycl::queue q_device(sycl::ext::intel::fpga_selector_v, fpga_tools::exception_handler);
 #endif
 
-    sycl::event e = t2sp::blas::row_major::symm(q_device, left_right, upper_lower, m, n, alpha, a.data(), lda,
+    sycl::event e = t2sp::blas::row_major::hemm(q_device, left_right, upper_lower, m, n, alpha, a.data(), lda,
                                                 b.data(), ldb, beta, c.data(), ldc);
     e.wait();
 
 #ifdef CHECK_CORRECTNESS
     // Call oneMKL GEMM as reference.
     sycl::queue main_queue(sycl::cpu_selector_v);
-    oneapi::mkl::blas::row_major::symm(main_queue, left_right, upper_lower, m, n, alpha, a.data(), lda,
+    oneapi::mkl::blas::row_major::hemm(main_queue, left_right, upper_lower, m, n, alpha, a.data(), lda,
                                        b.data(), ldb, beta, c_ref.data(), ldc).wait();
     bool correct = check_equal_matrix(c.data(), c_ref.data(), oneapi::mkl::layout::row_major, m, n, ldc,  10 * m, std::cout);
     assert(correct);
