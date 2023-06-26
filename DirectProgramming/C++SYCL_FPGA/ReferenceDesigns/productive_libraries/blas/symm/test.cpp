@@ -90,7 +90,7 @@ int test(device* dev, oneapi::mkl::layout layout, oneapi::mkl::side left_right,
 
     try {
         switch (layout) {
-            case oneapi::mkl::layout::column_major:
+            case oneapi::mkl::layout::col_major:
                 throw oneapi::mkl::unimplemented{"Unkown", "Unkown"};
                 break;
             case oneapi::mkl::layout::row_major:

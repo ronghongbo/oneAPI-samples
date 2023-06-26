@@ -75,33 +75,57 @@ sycl::event symm(sycl::queue &queue,
 
     sycl::event done;
     if constexpr (std::is_same_v<float, T>) {
-        done = t2sp::blas::row_major::smatmul::smatmul(queue, Upper_From_Upper_A, Upper_From_Upper_B, Upper_From_Upper_C,
-                                                       Lower_From_Lower_A, Lower_From_Lower_B, Lower_From_Lower_C,
-                                                       ConjugateA, ConjugateB, ConjugateC, HalfSpaceOut, alpha, beta,
-                                                       left_right == oneapi::mkl::side::L ? A_buffer : B_buffer,
-                                                       left_right == oneapi::mkl::side::L ? B_buffer : A_buffer,
-                                                       C_buffer, Output_buffer);
+        done = t2sp::blas::row_major::smatmul::smatmul(queue, left_right == oneapi::mkl::side::L ? Upper_From_Upper_A : Upper_From_Upper_B,
+                                                              left_right == oneapi::mkl::side::L ? Upper_From_Upper_B : Upper_From_Upper_A,
+                                                              Upper_From_Upper_C,
+                                                              left_right == oneapi::mkl::side::L ? Lower_From_Lower_A : Lower_From_Lower_B,
+                                                              left_right == oneapi::mkl::side::L ? Lower_From_Lower_B : Lower_From_Lower_A,
+                                                              Lower_From_Lower_C,
+                                                              left_right == oneapi::mkl::side::L ? ConjugateA : ConjugateB,
+                                                              left_right == oneapi::mkl::side::L ? ConjugateB : ConjugateA,
+                                                              ConjugateC, HalfSpaceOut, alpha, beta,
+                                                              left_right == oneapi::mkl::side::L ? A_buffer : B_buffer,
+                                                              left_right == oneapi::mkl::side::L ? B_buffer : A_buffer,
+                                                              C_buffer, Output_buffer);
     } else if constexpr (std::is_same_v<double, T>) {
-        done = t2sp::blas::row_major::dmatmul::dmatmul(queue, Upper_From_Upper_A, Upper_From_Upper_B, Upper_From_Upper_C,
-                                                       Lower_From_Lower_A, Lower_From_Lower_B, Lower_From_Lower_C,
-                                                       ConjugateA, ConjugateB, ConjugateC, HalfSpaceOut, alpha, beta,
-                                                       left_right == oneapi::mkl::side::L ? A_buffer : B_buffer,
-                                                       left_right == oneapi::mkl::side::L ? B_buffer : A_buffer,
-                                                       C_buffer, Output_buffer);
+        done = t2sp::blas::row_major::dmatmul::dmatmul(queue, left_right == oneapi::mkl::side::L ? Upper_From_Upper_A : Upper_From_Upper_B,
+                                                              left_right == oneapi::mkl::side::L ? Upper_From_Upper_B : Upper_From_Upper_A,
+                                                              Upper_From_Upper_C,
+                                                              left_right == oneapi::mkl::side::L ? Lower_From_Lower_A : Lower_From_Lower_B,
+                                                              left_right == oneapi::mkl::side::L ? Lower_From_Lower_B : Lower_From_Lower_A,
+                                                              Lower_From_Lower_C,
+                                                              left_right == oneapi::mkl::side::L ? ConjugateA : ConjugateB,
+                                                              left_right == oneapi::mkl::side::L ? ConjugateB : ConjugateA,
+                                                              ConjugateC, HalfSpaceOut, alpha, beta,
+                                                              left_right == oneapi::mkl::side::L ? A_buffer : B_buffer,
+                                                              left_right == oneapi::mkl::side::L ? B_buffer : A_buffer,
+                                                              C_buffer, Output_buffer);
     } else if constexpr (std::is_same_v<std::complex<float>, T>) {
-        done = t2sp::blas::row_major::cmatmul::cmatmul(queue, Upper_From_Upper_A, Upper_From_Upper_B, Upper_From_Upper_C,
-                                                       Lower_From_Lower_A, Lower_From_Lower_B, Lower_From_Lower_C,
-                                                       ConjugateA, ConjugateB, ConjugateC, HalfSpaceOut, alpha, beta,
-                                                       left_right == oneapi::mkl::side::L ? A_buffer : B_buffer,
-                                                       left_right == oneapi::mkl::side::L ? B_buffer : A_buffer,
-                                                       C_buffer, Output_buffer);
+        done = t2sp::blas::row_major::cmatmul::cmatmul(queue, left_right == oneapi::mkl::side::L ? Upper_From_Upper_A : Upper_From_Upper_B,
+                                                              left_right == oneapi::mkl::side::L ? Upper_From_Upper_B : Upper_From_Upper_A,
+                                                              Upper_From_Upper_C,
+                                                              left_right == oneapi::mkl::side::L ? Lower_From_Lower_A : Lower_From_Lower_B,
+                                                              left_right == oneapi::mkl::side::L ? Lower_From_Lower_B : Lower_From_Lower_A,
+                                                              Lower_From_Lower_C,
+                                                              left_right == oneapi::mkl::side::L ? ConjugateA : ConjugateB,
+                                                              left_right == oneapi::mkl::side::L ? ConjugateB : ConjugateA,
+                                                              ConjugateC, HalfSpaceOut, alpha, beta,
+                                                              left_right == oneapi::mkl::side::L ? A_buffer : B_buffer,
+                                                              left_right == oneapi::mkl::side::L ? B_buffer : A_buffer,
+                                                              C_buffer, Output_buffer);
     } else {
-        done = t2sp::blas::row_major::zmatmul::zmatmul(queue, Upper_From_Upper_A, Upper_From_Upper_B, Upper_From_Upper_C,
-                                                       Lower_From_Lower_A, Lower_From_Lower_B, Lower_From_Lower_C,
-                                                       ConjugateA, ConjugateB, ConjugateC, HalfSpaceOut, alpha, beta,
-                                                       left_right == oneapi::mkl::side::L ? A_buffer : B_buffer,
-                                                       left_right == oneapi::mkl::side::L ? B_buffer : A_buffer,
-                                                       C_buffer, Output_buffer);
+        done = t2sp::blas::row_major::zmatmul::zmatmul(queue, left_right == oneapi::mkl::side::L ? Upper_From_Upper_A : Upper_From_Upper_B,
+                                                              left_right == oneapi::mkl::side::L ? Upper_From_Upper_B : Upper_From_Upper_A,
+                                                              Upper_From_Upper_C,
+                                                              left_right == oneapi::mkl::side::L ? Lower_From_Lower_A : Lower_From_Lower_B,
+                                                              left_right == oneapi::mkl::side::L ? Lower_From_Lower_B : Lower_From_Lower_A,
+                                                              Lower_From_Lower_C,
+                                                              left_right == oneapi::mkl::side::L ? ConjugateA : ConjugateB,
+                                                              left_right == oneapi::mkl::side::L ? ConjugateB : ConjugateA,
+                                                              ConjugateC, HalfSpaceOut, alpha, beta,
+                                                              left_right == oneapi::mkl::side::L ? A_buffer : B_buffer,
+                                                              left_right == oneapi::mkl::side::L ? B_buffer : A_buffer,
+                                                              C_buffer, Output_buffer);
     }
     for (int i = 0; i < (m + (III * II - 1)) / (III * II); i++) {
         for (int j = 0; j < (n + (JJJ * JJ - 1)) / (JJJ * JJ); j++) {

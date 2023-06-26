@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.10)
 
-project(gemm)
+project(symm)
 set(CMAKE_CXX_COMPILER icpx)
 set(PRECISIONS         "s" "d" "c" "z")
 get_filename_component(TOOLS_PATH                "${CMAKE_SOURCE_DIR}/../../tools" ABSOLUTE)
@@ -39,10 +39,10 @@ foreach(N RANGE 0 3)
                                -lgtest -lgtest_main
                                -lHalide
                                -o ${CMAKE_SOURCE_DIR}/bin/test_${N}
-                       DEPENDS oneapi_sgemm_tiny_a10
-                               oneapi_dgemm_tiny_a10
-                               oneapi_cgemm_tiny_a10
-                               oneapi_zgemm_tiny_a10
+                       DEPENDS oneapi_ssymm_tiny_a10
+                               oneapi_dsymm_tiny_a10
+                               oneapi_csymm_tiny_a10
+                               oneapi_zsymm_tiny_a10
                                ${CMAKE_SOURCE_DIR}/test.cpp
                                ${PRODUCTIVE_LIBRARIES_PATH}/include/halide_runtime_etc.cpp
                                ${PRODUCTIVE_LIBRARIES_PATH}/include/halide_runtime_etc.hpp
