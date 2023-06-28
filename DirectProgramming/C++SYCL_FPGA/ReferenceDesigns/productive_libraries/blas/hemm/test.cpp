@@ -74,10 +74,23 @@ int test(device* dev, oneapi::mkl::layout layout, oneapi::mkl::side left_right,
     // Prepare data.
     auto ua = usm_allocator<fp, usm::alloc::shared, 64>(cxt, *dev);
     vector<fp, decltype(ua)> A(ua), B(ua), C(ua);
-    if (left_right == oneapi::mkl::side::left)
+    if (left_right == oneapi::mkl::side::left) {
         rand_matrix(A, layout, oneapi::mkl::transpose::nontrans, m, m, lda);
-    else
+        // set the elements on the diagonal to real numbers
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < m; j++) {
+                A[j + i * lda] = A[j + i * lda].real();
+            }
+        }
+    } else {
         rand_matrix(A, layout, oneapi::mkl::transpose::nontrans, n, n, lda);
+        // set the elements on the diagonal to real numbers
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                A[j + i * lda] = A[j + i * lda].real();
+            }
+        }
+    }
     rand_matrix(B, layout, oneapi::mkl::transpose::nontrans, m, n, ldb);
     rand_matrix(C, layout, oneapi::mkl::transpose::nontrans, m, n, ldc);
 
@@ -122,10 +135,10 @@ int test(device* dev, oneapi::mkl::layout layout, oneapi::mkl::side left_right,
     return (int)good;
 }
 
-class SymmUsmTests
+class HemmUsmTests
         : public ::testing::TestWithParam<std::tuple<sycl::device*, oneapi::mkl::layout>> {};
 
-TEST_P(SymmUsmTests, ComplexSinglePrecision) {
+TEST_P(HemmUsmTests, ComplexSinglePrecision) {
     std::complex<float> alpha(2.0, -0.5);
     std::complex<float> beta(3.0, -1.5);
 #ifdef T2SP_TEST_0
@@ -146,7 +159,7 @@ TEST_P(SymmUsmTests, ComplexSinglePrecision) {
                                                 72, 28, 101, 102, 103, alpha, beta));
 #endif
 }
-TEST_P(SymmUsmTests, ComplexDoublePrecision) {
+TEST_P(HemmUsmTests, ComplexDoublePrecision) {
     std::complex<double> alpha(2.0, -0.5);
     std::complex<double> beta(3.0, -1.5);
 #ifdef T2SP_TEST_0
@@ -168,7 +181,7 @@ TEST_P(SymmUsmTests, ComplexDoublePrecision) {
 #endif
 }
 
-INSTANTIATE_TEST_SUITE_P(SymmUsmTestSuite, SymmUsmTests,
+INSTANTIATE_TEST_SUITE_P(HemmUsmTestSuite, HemmUsmTests,
                          ::testing::Combine(testing::ValuesIn(devices),
                                             testing::Values(oneapi::mkl::layout::row_major)),
                          ::LayoutDeviceNamePrint());
