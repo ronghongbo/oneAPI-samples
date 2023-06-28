@@ -68,9 +68,9 @@ sycl::event symm(sycl::queue &queue,
     bool Lower_From_Lower_A = (upper_lower == oneapi::mkl::uplo::U ? false : true);
     bool Lower_From_Lower_B = true;
     bool Lower_From_Lower_C = true;
-    bool ConjugateA = false;
-    bool ConjugateB = false;
-    bool ConjugateC = false;
+    bool ConjugateTransposedA = false;
+    bool ConjugateTransposedB = false;
+    bool ConjugateTransposedC = false;
     bool HalfSpaceOut = false;
 
     sycl::event done;
@@ -81,9 +81,9 @@ sycl::event symm(sycl::queue &queue,
                                                               left_right == oneapi::mkl::side::L ? Lower_From_Lower_A : Lower_From_Lower_B,
                                                               left_right == oneapi::mkl::side::L ? Lower_From_Lower_B : Lower_From_Lower_A,
                                                               Lower_From_Lower_C,
-                                                              left_right == oneapi::mkl::side::L ? ConjugateA : ConjugateB,
-                                                              left_right == oneapi::mkl::side::L ? ConjugateB : ConjugateA,
-                                                              ConjugateC, HalfSpaceOut, alpha, beta,
+                                                              left_right == oneapi::mkl::side::L ? ConjugateTransposedA : ConjugateTransposedB,
+                                                              left_right == oneapi::mkl::side::L ? ConjugateTransposedB : ConjugateTransposedA,
+                                                              ConjugateTransposedC, HalfSpaceOut, alpha, beta,
                                                               left_right == oneapi::mkl::side::L ? A_buffer : B_buffer,
                                                               left_right == oneapi::mkl::side::L ? B_buffer : A_buffer,
                                                               C_buffer, Output_buffer);
@@ -94,9 +94,9 @@ sycl::event symm(sycl::queue &queue,
                                                               left_right == oneapi::mkl::side::L ? Lower_From_Lower_A : Lower_From_Lower_B,
                                                               left_right == oneapi::mkl::side::L ? Lower_From_Lower_B : Lower_From_Lower_A,
                                                               Lower_From_Lower_C,
-                                                              left_right == oneapi::mkl::side::L ? ConjugateA : ConjugateB,
-                                                              left_right == oneapi::mkl::side::L ? ConjugateB : ConjugateA,
-                                                              ConjugateC, HalfSpaceOut, alpha, beta,
+                                                              left_right == oneapi::mkl::side::L ? ConjugateTransposedA : ConjugateTransposedB,
+                                                              left_right == oneapi::mkl::side::L ? ConjugateTransposedB : ConjugateTransposedA,
+                                                              ConjugateTransposedC, HalfSpaceOut, alpha, beta,
                                                               left_right == oneapi::mkl::side::L ? A_buffer : B_buffer,
                                                               left_right == oneapi::mkl::side::L ? B_buffer : A_buffer,
                                                               C_buffer, Output_buffer);
@@ -107,9 +107,9 @@ sycl::event symm(sycl::queue &queue,
                                                               left_right == oneapi::mkl::side::L ? Lower_From_Lower_A : Lower_From_Lower_B,
                                                               left_right == oneapi::mkl::side::L ? Lower_From_Lower_B : Lower_From_Lower_A,
                                                               Lower_From_Lower_C,
-                                                              left_right == oneapi::mkl::side::L ? ConjugateA : ConjugateB,
-                                                              left_right == oneapi::mkl::side::L ? ConjugateB : ConjugateA,
-                                                              ConjugateC, HalfSpaceOut, alpha, beta,
+                                                              left_right == oneapi::mkl::side::L ? ConjugateTransposedA : ConjugateTransposedB,
+                                                              left_right == oneapi::mkl::side::L ? ConjugateTransposedB : ConjugateTransposedA,
+                                                              ConjugateTransposedC, HalfSpaceOut, alpha, beta,
                                                               left_right == oneapi::mkl::side::L ? A_buffer : B_buffer,
                                                               left_right == oneapi::mkl::side::L ? B_buffer : A_buffer,
                                                               C_buffer, Output_buffer);
@@ -120,9 +120,9 @@ sycl::event symm(sycl::queue &queue,
                                                               left_right == oneapi::mkl::side::L ? Lower_From_Lower_A : Lower_From_Lower_B,
                                                               left_right == oneapi::mkl::side::L ? Lower_From_Lower_B : Lower_From_Lower_A,
                                                               Lower_From_Lower_C,
-                                                              left_right == oneapi::mkl::side::L ? ConjugateA : ConjugateB,
-                                                              left_right == oneapi::mkl::side::L ? ConjugateB : ConjugateA,
-                                                              ConjugateC, HalfSpaceOut, alpha, beta,
+                                                              left_right == oneapi::mkl::side::L ? ConjugateTransposedA : ConjugateTransposedB,
+                                                              left_right == oneapi::mkl::side::L ? ConjugateTransposedB : ConjugateTransposedA,
+                                                              ConjugateTransposedC, HalfSpaceOut, alpha, beta,
                                                               left_right == oneapi::mkl::side::L ? A_buffer : B_buffer,
                                                               left_right == oneapi::mkl::side::L ? B_buffer : A_buffer,
                                                               C_buffer, Output_buffer);
