@@ -89019,6 +89019,8 @@ struct Stensor
     friend Stensor &operator>>(const ImageParam &im, Stensor &s);
     friend Stensor &operator>>(const vector<ImageParam> &im, Stensor &s);
     friend Stensor &operator>>(Func &f, Stensor &s);
+    friend Stensor &operator>>(const Expr &e, Stensor &s);
+    friend Stensor &operator>>(const vector<Expr> &e, Stensor &s);
 };
 
 struct FIFO

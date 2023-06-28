@@ -39,8 +39,11 @@ int main()
     // Inputs. Depending if an input matrix is symmetric or is general but transposed, we may read, e.g., the upper triangle from the upper triangle directly or from the corresponding lower triangle.
     Param<bool> Upper_From_Upper_A("Upper_From_Upper_A"), Upper_From_Upper_B("Upper_From_Upper_B"), Upper_From_Upper_C("Upper_From_Upper_C");
     Param<bool> Lower_From_Lower_A("Lower_From_Lower_A"), Lower_From_Lower_B("Lower_From_Lower_B"), Lower_From_Lower_C("Lower_From_Lower_C");
-    Param<bool> ConjugateA("ConjugateA"), ConjugateB("ConjugateB"), ConjugateC("ConjugateC"); // Conjugate the read values of A/B/C?
+    Param<bool> ConjugateTransposedA("ConjugateTransposedA"), ConjugateTransposedB("ConjugateTransposedB"), ConjugateTransposedC("ConjugateTransposedC"); // Conjugate transposed values
     Param<bool> HalfSpaceOut("HalfSpaceOut"); // Compute only half output? This is true when the output is symmetric. In this case, we compute only the upper triangle of the output.
+                                              // This "upper triangle of the output" is not strictly upper triangular: the output is composed of jjj-wide vectors, and thus for the vectors
+                                              // crossing the diagonal, they can have left part in the lower triangle, and right part in the upper triangle (including the diagonal). We only
+                                              // make sure the right part is correct.
     Param<CONST_TYPE> alpha("alpha"), beta("beta");
     ImageParam A("A", TTYPE, 2), B("B", TTYPE, 2), C("C", TTYPE, 2);
 
@@ -50,16 +53,18 @@ int main()
     URE Add("Add", TTYPE, {P_reorder}), Out("Out", TTYPE, {P_reorder});
 
     Expr Is_Upper_A = total_i <= total_k;
-    Expr Is_Lower_A = !Is_Upper_A;
-    Expr Effective_dim0_A = select(((Is_Upper_A && Upper_From_Upper_A) || (Is_Lower_A && Lower_From_Lower_A)), total_k, total_i);
-    Expr Effective_dim1_A = select(((Is_Upper_A && Upper_From_Upper_A) || (Is_Lower_A && Lower_From_Lower_A)), total_i, total_k);
-    Expr Check_Load_A = select(addr_A_out_of_range, ZERO, conditional_conjugate(ConjugateA, A(Effective_dim0_A, Effective_dim1_A)));
+    Expr Transposed_A = select(Is_Upper_A, !Upper_From_Upper_A, !Lower_From_Lower_A);
+    Expr Effective_dim0_A = select(Transposed_A, total_i, total_k);
+    Expr Effective_dim1_A = select(Transposed_A, total_k, total_i);
+    Expr Check_Load_A = select(addr_A_out_of_range, ZERO,
+                               conditional_conjugate(ConjugateTransposedA && Transposed_A, A(Effective_dim0_A, Effective_dim1_A)));
 
     Expr Is_Upper_B = total_k <= total_j;
-    Expr Is_Lower_B = !Is_Upper_B;
-    Expr Effective_dim0_B = select(((Is_Upper_B && Upper_From_Upper_B) || (Is_Lower_B && Lower_From_Lower_B)), total_j, total_k);
-    Expr Effective_dim1_B = select(((Is_Upper_B && Upper_From_Upper_B) || (Is_Lower_B && Lower_From_Lower_B)), total_k, total_j);
-    Expr Check_Load_B = select(addr_B_out_of_range, ZERO, conditional_conjugate(ConjugateB, B(Effective_dim0_B, Effective_dim1_B)));
+    Expr Transposed_B = select(Is_Upper_B, !Upper_From_Upper_B, !Lower_From_Lower_B);
+    Expr Effective_dim0_B = select(Transposed_B, total_k, total_j);
+    Expr Effective_dim1_B = select(Transposed_B, total_j, total_k);
+    Expr Check_Load_B = select(addr_B_out_of_range, ZERO,
+                               conditional_conjugate(ConjugateTransposedB && Transposed_B, B(Effective_dim0_B, Effective_dim1_B)));
 
     X(P) = select(jjj == 0, Check_Load_A, X(P_jjj_minus_1));
     Y(P) = select(iii == 0, Check_Load_B, Y(P_iii_minus_1));
@@ -69,11 +74,14 @@ int main()
     Product(P_reduced) = select(k == K-1 && kk == KK-1 && kkk == KKK-1, Z(P));
 
     // For C, we do not need check its range: the loading of C happens only when adding C with the product, and the product is ensured to be in the valid range.
-    Expr Is_Upper_C = total_i <= total_j;
-    Expr Is_Lower_C = !Is_Upper_C;
-    Expr Effective_dim0_C = select(((Is_Upper_C && Upper_From_Upper_C) || (Is_Lower_C && Lower_From_Lower_C)), total_j, total_i);
-    Expr Effective_dim1_C = select(((Is_Upper_C && Upper_From_Upper_C) || (Is_Lower_C && Lower_From_Lower_C)), total_i, total_j);
-    Expr Check_Load_C = conditional_conjugate(ConjugateC, C(Effective_dim0_C, Effective_dim1_C));
+    // If C is general, the parameters should be such that Upper_From_Upper_C == Lower_From_Lower_C == true, and thus Transposed_C below is always false.
+    // If C is symmetric or hermitian, the expressions below are correct only for values that are truly in the upper triangle (including the diagonal),
+    // as we care only that part.
+    Expr Is_Upper_C = total_i < JJJ * (jj + 1 + JJ * j);
+    Expr Transposed_C = select(Is_Upper_C, !Upper_From_Upper_C, !Lower_From_Lower_C);
+    Expr Effective_dim0_C = select(Transposed_C, total_i, total_j);
+    Expr Effective_dim1_C = select(Transposed_C, total_j, total_i);
+    Expr Check_Load_C = conditional_conjugate(ConjugateTransposedC && Transposed_C, C(Effective_dim0_C, Effective_dim1_C));
 
     Add(P_reorder) = alpha * Product(P_reorder) + select(beta == ZERO, ZERO, beta * Check_Load_C);
     Out(P_reorder) = select(true, Add(P_reorder));
@@ -100,12 +108,12 @@ int main()
     X.space_time_transform(jjj, iii).run_forever();
     Add.vectorize(jjj);
 
-    // I/O network
-    Stensor DA("ALoader", DRAM), SA("AFeeder", SRAM), DB("BLoader", DRAM), SB("BFeeder", SRAM), DC("CLoader", DRAM);
-    Stensor RCollector("RCollector", REG), SCollector("SCollector", SRAM), DOut("Unloader", DRAM), Output("Output");
-    A   >> DA.out(kkk).apply_transform(Check_Load_A) >> FIFO(256) >> SA.scope(k).out(kkk, iii) >> FIFO(256);
-    B   >> DB.out(kkk).apply_transform(Check_Load_B) >> FIFO(256) >> SB.scope(k).out(kkk, jjj) >> FIFO(256);
-    C   >> DC.out(jjj).apply_transform(Check_Load_C) >> FIFO(256);
+    // I/O network.
+    Stensor DA("DA", DRAM), SA("SA", SRAM), DB("DB", DRAM), SB("SB", SRAM), DC("DC", DRAM);
+    Stensor RCollector("RCollector", REG), SCollector("SCollector", SRAM), DOut("DOut", DRAM), Output("Output");
+    Check_Load_A >> DA.out(kkk) >> FIFO(256) >> SA.scope(k).out(kkk, iii) >> FIFO(256);
+    Check_Load_B >> DB.out(kkk) >> FIFO(256) >> SB.scope(k).out(kkk, jjj) >> FIFO(256);
+    Check_Load_C >> DC.out(jjj) >> FIFO(256);
     Product >> RCollector.scope(iii).out(jjj) >> FIFO(256) >> SCollector >> FIFO(256);
     Out >> FIFO(256) >> DOut >> Output(total_j, total_i);
 
@@ -115,7 +123,7 @@ int main()
 
     // Compile the kernel to an oneAPI impl, and expose a C interface for the host to invoke
     Output.compile_to_oneapi(OUTPUT_FILE, {Upper_From_Upper_A, Upper_From_Upper_B, Upper_From_Upper_C, Lower_From_Lower_A, Lower_From_Lower_B, Lower_From_Lower_C,
-                                           ConjugateA, ConjugateB, ConjugateC, HalfSpaceOut, alpha, beta, A, B, C}, KERNEL, IntelFPGA);
+                                           ConjugateTransposedA, ConjugateTransposedB, ConjugateTransposedC, HalfSpaceOut, alpha, beta, A, B, C}, KERNEL, IntelFPGA);
 
     return 0;
 }
