@@ -78,17 +78,13 @@ int test(device* dev, oneapi::mkl::layout layout, oneapi::mkl::side left_right,
         rand_matrix(A, layout, oneapi::mkl::transpose::nontrans, m, m, lda);
         // set the elements on the diagonal to real numbers
         for (int i = 0; i < m; i++) {
-            for (int j = 0; j < m; j++) {
-                A[j + i * lda] = A[j + i * lda].real();
-            }
+            A[i + i * lda] = A[i + i * lda].real();
         }
     } else {
         rand_matrix(A, layout, oneapi::mkl::transpose::nontrans, n, n, lda);
         // set the elements on the diagonal to real numbers
         for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
-                A[j + i * lda] = A[j + i * lda].real();
-            }
+            A[i + i * lda] = A[i + i * lda].real();
         }
     }
     rand_matrix(B, layout, oneapi::mkl::transpose::nontrans, m, n, ldb);
