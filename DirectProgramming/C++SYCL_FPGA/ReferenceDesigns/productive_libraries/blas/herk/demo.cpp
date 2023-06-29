@@ -6,7 +6,7 @@
 #include <sycl/sycl.hpp>
 #include <sycl/ext/intel/fpga_extensions.hpp>
 
-// The GEMM API to invoke
+// The HERK API to invoke
 #include "./api.hpp"
 
 // Useful routines from the OneMKL unit tests
@@ -35,14 +35,14 @@ int test(oneapi::mkl::uplo upper_lower,
     sycl::queue q_device(sycl::ext::intel::fpga_selector_v, fpga_tools::exception_handler);
 #endif
 
-    sycl::event e = t2sp::blas::row_major::syrk(q_device, upper_lower, trans, n, k,
+    sycl::event e = t2sp::blas::row_major::herk(q_device, upper_lower, trans, n, k,
                                                 alpha, a.data(), lda, beta, c.data(), ldc);
     e.wait();
 
 #ifdef CHECK_CORRECTNESS
-    // Call oneMKL GEMM as reference.
+    // Call oneMKL HERK as reference.
     sycl::queue main_queue(sycl::cpu_selector_v);
-    oneapi::mkl::blas::row_major::syrk(main_queue, upper_lower, trans, n, k,
+    oneapi::mkl::blas::row_major::herk(main_queue, upper_lower, trans, n, k,
                                        alpha, a.data(), lda, beta, c_ref.data(), ldc).wait();
     bool correct = check_equal_matrix(c, c_ref, oneapi::mkl::layout::row_major, n, n, ldc, 10 * std::max(n, k), std::cout);
     assert(correct);

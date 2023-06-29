@@ -42,14 +42,14 @@
 using namespace sycl;
 using std::vector;
 
-sycl::device d{sycl::cpu_selector_v};
-std::vector<sycl::device*> devices{&d};
+extern std::vector<sycl::device*> devices;
 
 namespace {
 
-template <typename fp>
+template <typename fp, typename fp_scalar>
 int test(device* dev, oneapi::mkl::layout layout, oneapi::mkl::uplo upper_lower,
-         oneapi::mkl::transpose trans, int n, int k, int lda, int ldc, fp alpha, fp beta) {
+         oneapi::mkl::transpose trans, int n, int k, int lda, int ldc, fp_scalar alpha,
+         fp_scalar beta) {
     // Catch asynchronous exceptions.
     auto exception_handler = [](exception_list exceptions) {
         for (std::exception_ptr const& e : exceptions) {
@@ -57,7 +57,7 @@ int test(device* dev, oneapi::mkl::layout layout, oneapi::mkl::uplo upper_lower,
                 std::rethrow_exception(e);
             }
             catch (exception const& e) {
-                std::cout << "Caught asynchronous SYCL exception during SYRK:\n"
+                std::cout << "Caught asynchronous SYCL exception during HERK:\n"
                           << e.what() << std::endl;
                 print_error_code(e);
             }
@@ -78,8 +78,8 @@ int test(device* dev, oneapi::mkl::layout layout, oneapi::mkl::uplo upper_lower,
 
     auto C_ref = C;
 
-    // Call DPC++ SYRK.
-    oneapi::mkl::blas::row_major::syrk(main_queue, upper_lower, trans, n, k,
+    // Call DPC++ HERK.
+    oneapi::mkl::blas::row_major::herk(main_queue, upper_lower, trans, n, k,
                                        alpha, A.data(), lda, beta, C_ref.data(), ldc,
                                        dependencies).wait();
 
@@ -89,7 +89,7 @@ int test(device* dev, oneapi::mkl::layout layout, oneapi::mkl::uplo upper_lower,
                 throw oneapi::mkl::unimplemented{"Unkown", "Unkown"};
                 break;
             case oneapi::mkl::layout::row_major:
-                done = t2sp::blas::row_major::syrk(fpga_queue, upper_lower, trans, n, k,
+                done = t2sp::blas::row_major::herk(fpga_queue, upper_lower, trans, n, k,
                                                    alpha, A.data(), lda, beta, C.data(), ldc,
                                                    dependencies);
                 break;
@@ -98,7 +98,7 @@ int test(device* dev, oneapi::mkl::layout layout, oneapi::mkl::uplo upper_lower,
         done.wait();
     }
     catch (exception const& e) {
-        std::cout << "Caught synchronous SYCL exception during SYRK:\n" << e.what() << std::endl;
+        std::cout << "Caught synchronous SYCL exception during HERK:\n" << e.what() << std::endl;
         print_error_code(e);
     }
 
@@ -107,7 +107,7 @@ int test(device* dev, oneapi::mkl::layout layout, oneapi::mkl::uplo upper_lower,
     }
 
     catch (const std::runtime_error& error) {
-        std::cout << "Error raised during execution of SYRK:\n" << error.what() << std::endl;
+        std::cout << "Error raised during execution of HERK:\n" << error.what() << std::endl;
     }
 
     // Compare the results of reference implementation and DPC++ implementation.
@@ -117,95 +117,53 @@ int test(device* dev, oneapi::mkl::layout layout, oneapi::mkl::uplo upper_lower,
     return (int)good;
 }
 
-class SyrkUsmTests
+class HerkUsmTests
         : public ::testing::TestWithParam<std::tuple<sycl::device*, oneapi::mkl::layout>> {};
 
-TEST_P(SyrkUsmTests, RealSinglePrecision) {
-    float alpha(3.0);
+TEST_P(HerkUsmTests, ComplexSinglePrecision) {
+    float alpha(2.0);
     float beta(3.0);
 #ifdef T2SP_TEST_0
-    EXPECT_TRUEORSKIP(test<float>(std::get<0>(GetParam()), std::get<1>(GetParam()),
-                                  oneapi::mkl::uplo::lower, oneapi::mkl::transpose::nontrans, 72,
-                                  28, 101, 103, alpha, beta));
+    EXPECT_TRUEORSKIP((test<std::complex<float>, float>(
+        std::get<0>(GetParam()), std::get<1>(GetParam()), oneapi::mkl::uplo::lower,
+        oneapi::mkl::transpose::nontrans, 72, 27, 101, 103, alpha, beta)));
 #elif defined(T2SP_TEST_1)
-    EXPECT_TRUEORSKIP(test<float>(std::get<0>(GetParam()), std::get<1>(GetParam()),
-                                  oneapi::mkl::uplo::upper, oneapi::mkl::transpose::nontrans, 72,
-                                  28, 101, 103, alpha, beta));
+    EXPECT_TRUEORSKIP((test<std::complex<float>, float>(
+        std::get<0>(GetParam()), std::get<1>(GetParam()), oneapi::mkl::uplo::upper,
+        oneapi::mkl::transpose::nontrans, 72, 27, 101, 103, alpha, beta)));
 #elif defined(T2SP_TEST_2)
-    EXPECT_TRUEORSKIP(test<float>(std::get<0>(GetParam()), std::get<1>(GetParam()),
-                                  oneapi::mkl::uplo::lower, oneapi::mkl::transpose::trans, 72, 28,
-                                  101, 103, alpha, beta));
+    EXPECT_TRUEORSKIP((test<std::complex<float>, float>(
+        std::get<0>(GetParam()), std::get<1>(GetParam()), oneapi::mkl::uplo::lower,
+        oneapi::mkl::transpose::conjtrans, 72, 27, 101, 103, alpha, beta)));
 #elif defined(T2SP_TEST_3)
-    EXPECT_TRUEORSKIP(test<float>(std::get<0>(GetParam()), std::get<1>(GetParam()),
-                                  oneapi::mkl::uplo::upper, oneapi::mkl::transpose::trans, 72, 28,
-                                  101, 103, alpha, beta));
+    EXPECT_TRUEORSKIP((test<std::complex<float>, float>(
+        std::get<0>(GetParam()), std::get<1>(GetParam()), oneapi::mkl::uplo::upper,
+        oneapi::mkl::transpose::conjtrans, 72, 27, 101, 103, alpha, beta)));
 #endif
 }
-TEST_P(SyrkUsmTests, RealDoublePrecision) {
-    double alpha(3.0);
+TEST_P(HerkUsmTests, ComplexDoublePrecision) {
+    double alpha(2.0);
     double beta(3.0);
 #ifdef T2SP_TEST_0
-    EXPECT_TRUEORSKIP(test<double>(std::get<0>(GetParam()), std::get<1>(GetParam()),
-                                   oneapi::mkl::uplo::lower, oneapi::mkl::transpose::nontrans, 72,
-                                   28, 101, 103, alpha, beta));
+    EXPECT_TRUEORSKIP((test<std::complex<double>, double>(
+        std::get<0>(GetParam()), std::get<1>(GetParam()), oneapi::mkl::uplo::lower,
+        oneapi::mkl::transpose::nontrans, 72, 27, 101, 103, alpha, beta)));
 #elif defined(T2SP_TEST_1)
-    EXPECT_TRUEORSKIP(test<double>(std::get<0>(GetParam()), std::get<1>(GetParam()),
-                                   oneapi::mkl::uplo::upper, oneapi::mkl::transpose::nontrans, 72,
-                                   28, 101, 103, alpha, beta));
+    EXPECT_TRUEORSKIP((test<std::complex<double>, double>(
+        std::get<0>(GetParam()), std::get<1>(GetParam()), oneapi::mkl::uplo::upper,
+        oneapi::mkl::transpose::nontrans, 72, 27, 101, 103, alpha, beta)));
 #elif defined(T2SP_TEST_2)
-    EXPECT_TRUEORSKIP(test<double>(std::get<0>(GetParam()), std::get<1>(GetParam()),
-                                   oneapi::mkl::uplo::lower, oneapi::mkl::transpose::trans, 72, 28,
-                                   101, 103, alpha, beta));
+    EXPECT_TRUEORSKIP((test<std::complex<double>, double>(
+        std::get<0>(GetParam()), std::get<1>(GetParam()), oneapi::mkl::uplo::lower,
+        oneapi::mkl::transpose::conjtrans, 72, 27, 101, 103, alpha, beta)));
 #elif defined(T2SP_TEST_3)
-    EXPECT_TRUEORSKIP(test<double>(std::get<0>(GetParam()), std::get<1>(GetParam()),
-                                   oneapi::mkl::uplo::upper, oneapi::mkl::transpose::trans, 72, 28,
-                                   101, 103, alpha, beta));
-#endif
-}
-TEST_P(SyrkUsmTests, ComplexSinglePrecision) {
-    std::complex<float> alpha(3.0, -0.5);
-    std::complex<float> beta(3.0, -1.5);
-#ifdef T2SP_TEST_0
-    EXPECT_TRUEORSKIP(test<std::complex<float>>(
-        std::get<0>(GetParam()), std::get<1>(GetParam()), oneapi::mkl::uplo::lower,
-        oneapi::mkl::transpose::nontrans, 72, 28, 101, 103, alpha, beta));
-#elif defined(T2SP_TEST_1)
-    EXPECT_TRUEORSKIP(test<std::complex<float>>(
+    EXPECT_TRUEORSKIP((test<std::complex<double>, double>(
         std::get<0>(GetParam()), std::get<1>(GetParam()), oneapi::mkl::uplo::upper,
-        oneapi::mkl::transpose::nontrans, 72, 28, 101, 103, alpha, beta));
-#elif defined(T2SP_TEST_2)
-    EXPECT_TRUEORSKIP(test<std::complex<float>>(
-        std::get<0>(GetParam()), std::get<1>(GetParam()), oneapi::mkl::uplo::lower,
-        oneapi::mkl::transpose::trans, 72, 28, 101, 103, alpha, beta));
-#elif defined(T2SP_TEST_3)
-    EXPECT_TRUEORSKIP(test<std::complex<float>>(
-        std::get<0>(GetParam()), std::get<1>(GetParam()), oneapi::mkl::uplo::upper,
-        oneapi::mkl::transpose::trans, 72, 28, 101, 103, alpha, beta));
-#endif
-}
-TEST_P(SyrkUsmTests, ComplexDoublePrecision) {
-    std::complex<double> alpha(3.0, -0.5);
-    std::complex<double> beta(3.0, -1.5);
-#ifdef T2SP_TEST_0
-    EXPECT_TRUEORSKIP(test<std::complex<double>>(
-        std::get<0>(GetParam()), std::get<1>(GetParam()), oneapi::mkl::uplo::lower,
-        oneapi::mkl::transpose::nontrans, 72, 28, 101, 103, alpha, beta));
-#elif defined(T2SP_TEST_1)
-    EXPECT_TRUEORSKIP(test<std::complex<double>>(
-        std::get<0>(GetParam()), std::get<1>(GetParam()), oneapi::mkl::uplo::upper,
-        oneapi::mkl::transpose::nontrans, 72, 28, 101, 103, alpha, beta));
-#elif defined(T2SP_TEST_2)
-    EXPECT_TRUEORSKIP(test<std::complex<double>>(
-        std::get<0>(GetParam()), std::get<1>(GetParam()), oneapi::mkl::uplo::lower,
-        oneapi::mkl::transpose::trans, 72, 28, 101, 103, alpha, beta));
-#elif defined(T2SP_TEST_3)
-    EXPECT_TRUEORSKIP(test<std::complex<double>>(
-        std::get<0>(GetParam()), std::get<1>(GetParam()), oneapi::mkl::uplo::upper,
-        oneapi::mkl::transpose::trans, 72, 28, 101, 103, alpha, beta));
+        oneapi::mkl::transpose::conjtrans, 72, 27, 101, 103, alpha, beta)));
 #endif
 }
 
-INSTANTIATE_TEST_SUITE_P(SyrkUsmTestSuite, SyrkUsmTests,
+INSTANTIATE_TEST_SUITE_P(HerkUsmTestSuite, HerkUsmTests,
                          ::testing::Combine(testing::ValuesIn(devices),
                                             testing::Values(oneapi::mkl::layout::row_major)),
                          ::LayoutDeviceNamePrint());

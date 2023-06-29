@@ -13,16 +13,16 @@ using namespace Halide;
 
 namespace t2sp::blas::row_major {
 // The API for SRYK. We choose the USM version of oneMKL DPC++ interface (https://oneapi-src.github.io/oneMKL/domains/blas/syrk.html).
-template<typename T>
+template<typename T, typename T_REAL>
 sycl::event syrk(sycl::queue &queue,
                  oneapi::mkl::uplo upper_lower,
                  oneapi::mkl::transpose trans,
                  std::int64_t n,
                  std::int64_t k,
-                 T alpha,
+                 T_REAL alpha,
                  const T* a,
                  std::int64_t lda,
-                 T beta,
+                 T_REAL beta,
                  T* c,
                  std::int64_t ldc,
                  const std::vector<sycl::event> &dependencies = {})
@@ -33,10 +33,8 @@ sycl::event syrk(sycl::queue &queue,
     _halide_user_assert(lda > 0 && (trans == oneapi::mkl::transpose::N ? lda >= k : lda >= n)) << "lda = " << lda << ", k = " << k << ", n = " << n;
     _halide_user_assert(ldc > 0 && ldc >= n) << "ldc = " << ldc << ", n = " << n;
 
-    _halide_user_assert((std::is_same_v<float, T>) ||
-                        (std::is_same_v<double, T>) ||
-                        (std::is_same_v<std::complex<float>, T>) ||
-                        (std::is_same_v<std::complex<double>, T>)) << "Unsupported data type";
+    _halide_user_assert(((std::is_same_v<std::complex<float>, T>)  && (std::is_same_v<float, T_REAL>)) ||
+                        ((std::is_same_v<std::complex<double>, T>) && (std::is_same_v<double, T_REAL>))) << "Unsupported data type";
 
     const auto [KKK, JJJ, III, JJ, II, KK] = get_systolic_array_dimensions<T>();
 
@@ -66,25 +64,13 @@ sycl::event syrk(sycl::queue &queue,
     bool Lower_From_Lower_A = (trans == oneapi::mkl::transpose::N ? true : false);
     bool Lower_From_Lower_B = (trans == oneapi::mkl::transpose::N ? false : true);
     bool Lower_From_Lower_C = (upper_lower == oneapi::mkl::uplo::U ? false : true);
-    bool ConjugateTransposedA = false;
-    bool ConjugateTransposedB = false;
+    bool ConjugateTransposedA = (trans == oneapi::mkl::transpose::N ? false : true);
+    bool ConjugateTransposedB = (trans == oneapi::mkl::transpose::N ? true : false);
     bool ConjugateTransposedC = false;
     bool HalfSpaceOut = true;
 
     sycl::event done;
-    if constexpr (std::is_same_v<float, T>) {
-        done = t2sp::blas::row_major::smatmul::smatmul(queue, Upper_From_Upper_A, Upper_From_Upper_B, Upper_From_Upper_C,
-                                                              Lower_From_Lower_A, Lower_From_Lower_B, Lower_From_Lower_C,
-                                                              ConjugateTransposedA, ConjugateTransposedB, ConjugateTransposedC,
-                                                              HalfSpaceOut, alpha, beta,
-                                                              A_buffer, A_buffer, C_buffer, Output_buffer);
-    } else if constexpr (std::is_same_v<double, T>) {
-        done = t2sp::blas::row_major::dmatmul::dmatmul(queue, Upper_From_Upper_A, Upper_From_Upper_B, Upper_From_Upper_C,
-                                                              Lower_From_Lower_A, Lower_From_Lower_B, Lower_From_Lower_C,
-                                                              ConjugateTransposedA, ConjugateTransposedB, ConjugateTransposedC,
-                                                              HalfSpaceOut, alpha, beta,
-                                                              A_buffer, A_buffer, C_buffer, Output_buffer);
-    } else if constexpr (std::is_same_v<std::complex<float>, T>) {
+    if constexpr (std::is_same_v<std::complex<float>, T>) {
         done = t2sp::blas::row_major::cmatmul::cmatmul(queue, Upper_From_Upper_A, Upper_From_Upper_B, Upper_From_Upper_C,
                                                               Lower_From_Lower_A, Lower_From_Lower_B, Lower_From_Lower_C,
                                                               ConjugateTransposedA, ConjugateTransposedB, ConjugateTransposedC,
