@@ -1,0 +1,63 @@
+# This file is to be included into the CMakeLists.txt of a KERNEL supported by the reconfigurable dot multiplication.
+# NOTE: Before including this file, set the KERNEL variable as one of "gemm", "symm", "hemm", "syrk" and "herk".
+
+set(RECONFIGURABLE_DOT_DIR ${CMAKE_CURRENT_LIST_DIR})
+set(PRECISIONS                "s" "d" "c" "z")
+
+# Create targets, which are interfaces of the same targets of reconfigurable_dot
+file(MAKE_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
+foreach(PRECISION ${PRECISIONS})
+    foreach(SIZE "tiny" "large")
+        foreach(HW "a10" "s10")
+            # Generate OneAPI files
+            add_custom_command(OUTPUT  ${RECONFIGURABLE_DOT_DIR}/oneapi/${PRECISION}dot_${SIZE}_${HW}.cpp
+                               COMMAND make oneapi_${PRECISION}dot_${SIZE}_${HW}
+                               WORKING_DIRECTORY ${RECONFIGURABLE_DOT_DIR}/build
+                               DEPENDS ${RECONFIGURABLE_DOT_DIR}/dot.cpp
+                                       ${RECONFIGURABLE_DOT_DIR}/parameters.h
+                                       ${TOOLS_PATH}/Halide/include/Halide.h
+                               COMMENT "Invoke the make of reconfigurable dot to generate OneAPI files"
+                               VERBATIM)
+            add_custom_target(oneapi_${PRECISION}$ENV{KERNEL}_${SIZE}_${HW} DEPENDS ${RECONFIGURABLE_DOT_DIR}/oneapi/${PRECISION}dot_${SIZE}_${HW}.cpp)
+
+            # Generate a report
+            add_custom_command(OUTPUT  ${RECONFIGURABLE_DOT_DIR}/reports/${PRECISION}dot_${SIZE}_${HW}/report.html
+                                       ${RECONFIGURABLE_DOT_DIR}/reports/${PRECISION}dot_${SIZE}_${HW}/resources
+                               COMMAND make report_${PRECISION}dot_${SIZE}_${HW}
+                               WORKING_DIRECTORY ${RECONFIGURABLE_DOT_DIR}/build
+                               DEPENDS ${PRODUCTIVE_LIBRARIES_PATH}/include/halide_runtime_etc.cpp
+                                       ${PRODUCTIVE_LIBRARIES_PATH}/include/halide_runtime_etc.hpp
+                                       ${PRODUCTIVE_LIBRARIES_PATH}/include/complex_helper.hpp
+                                       ${PRODUCTIVE_LIBRARIES_PATH}/include/pipe_wrapper.hpp
+                                       oneapi_${PRECISION}$ENV{KERNEL}_${SIZE}_${HW}
+                               COMMENT "Invoke the make of reconfigurable dot to generate a report"
+                               VERBATIM)
+            add_custom_target(report_${PRECISION}$ENV{KERNEL}_${SIZE}_${HW} DEPENDS ${RECONFIGURABLE_DOT_DIR}/reports/${PRECISION}dot_${SIZE}_${HW}/report.html
+                                                                                    ${RECONFIGURABLE_DOT_DIR}/reports/${PRECISION}dot_${SIZE}_${HW}/resources)
+
+            # Generate an image
+            add_custom_command(OUTPUT  ${RECONFIGURABLE_DOT_DIR}/bin/${PRECISION}dot_${SIZE}_${HW}.a
+                                       ${RECONFIGURABLE_DOT_DIR}/reports/${PRECISION}dot_${SIZE}_${HW}/acl_quartus_report.txt
+                               COMMAND make synthesize_${PRECISION}dot_${SIZE}_${HW}
+                               WORKING_DIRECTORY ${RECONFIGURABLE_DOT_DIR}/build
+                               DEPENDS ${PRODUCTIVE_LIBRARIES_PATH}/include/halide_runtime_etc.cpp
+                                       ${PRODUCTIVE_LIBRARIES_PATH}/include/halide_runtime_etc.hpp
+                                       ${PRODUCTIVE_LIBRARIES_PATH}/include/complex_helper.hpp
+                                       ${PRODUCTIVE_LIBRARIES_PATH}/include/pipe_wrapper.hpp
+                                       oneapi_${PRECISION}$ENV{KERNEL}_${SIZE}_${HW}
+                               COMMENT "Invoke the make of reconfigurable dot to generate an image"
+                               VERBATIM)
+            add_custom_target(synthesize_${PRECISION}$ENV{KERNEL}_${SIZE}_${HW} DEPENDS ${RECONFIGURABLE_DOT_DIR}/bin/${PRECISION}dot_${SIZE}_${HW}.a)
+        endforeach()
+    endforeach()
+endforeach()
+
+# Create Makefiles, etc. for the reconfigurable dot multiplication, if not done yet.
+if(NOT EXISTS "${RECONFIGURABLE_DOT_DIR}/build/CMakeFiles")
+    message(STATUS "\n\nConfiguring reconfigurable_dot")
+    execute_process(COMMAND rm -rf ${RECONFIGURABLE_DOT_DIR}/bin ${RECONFIGURABLE_DOT_DIR}/oneapi ${RECONFIGURABLE_DOT_DIR}/reports)
+    execute_process(COMMAND mkdir -p ${RECONFIGURABLE_DOT_DIR}/build)
+    execute_process(COMMAND cmake ..
+                    WORKING_DIRECTORY ${RECONFIGURABLE_DOT_DIR}/build)
+endif()
+message(STATUS "\n")

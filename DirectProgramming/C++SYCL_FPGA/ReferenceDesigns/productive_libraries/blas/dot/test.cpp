@@ -1,130 +1,159 @@
-#include <cstddef>
+/*******************************************************************************
+* Copyright 2020-2021 Intel Corporation
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+* http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing,
+* software distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions
+* and limitations under the License.
+*
+*
+* SPDX-License-Identifier: Apache-2.0
+*******************************************************************************/
+
+#include <cstdint>
 #include <cstdlib>
-#include <iomanip>
+#include <iostream>
 #include <limits>
-#include <type_traits>
 #include <vector>
 
-#include "interface.hpp"
+#if __has_include(<sycl/sycl.hpp>)
+#include <sycl/sycl.hpp>
+#else
+#include <CL/sycl.hpp>
+#endif
+#include <sycl/ext/intel/fpga_device_selector.hpp>
+#include "mkl_cblas.h"
 #include "oneapi/mkl.hpp"
+#include "test_common.hpp"
+#include "test_helper.hpp"
 
-// Random initialization.
-template <typename fp>
-fp rand_scalar() {
-    if constexpr (std::is_same_v<fp, std::complex<float>> ||
-                  std::is_same_v<fp, std::complex<double>>) {
-        return fp(rand_scalar<typename fp::value_type>(), rand_scalar<typename fp::value_type>());
-    } else {
-        return fp(std::rand()) / fp(RAND_MAX) - fp(0.5);
-    }
-}
+#include "./api.hpp"
 
-template <typename vec>
-void rand_vector(vec &v, int n, int inc) {
-    using fp = typename vec::value_type;
-    int abs_inc = std::abs(inc);
+#include <gtest/gtest.h>
 
-    v.resize(n * abs_inc);
+using namespace sycl;
+using std::vector;
 
-    for (int i = 0; i < n; i++)
-        v[i * abs_inc] = rand_scalar<fp>();
-}
+sycl::device d{sycl::cpu_selector_v};
+std::vector<sycl::device*> devices{&d};
 
-// Correctness checking.
-template <typename T>
-constexpr auto helper() noexcept {
-    if constexpr (std::is_same_v<T, std::complex<float>> ||
-                  std::is_same_v<T, std::complex<double>>) {
-        return 2 * std::numeric_limits<typename T::value_type>::epsilon();
-    } else {
-        return std::numeric_limits<T>::epsilon();
-    }
-}
+namespace {
 
-template <typename fp>
-typename std::enable_if<!std::is_integral<fp>::value, bool>::type check_equal(fp x, fp x_ref,
-                                                                              int error_mag) {
-    auto bound = error_mag * helper<fp>();
-    bool ok = false;
-
-    auto aerr = std::abs(x - x_ref);
-    auto rerr = aerr / std::abs(x_ref);
-    ok = (rerr <= bound) || (aerr <= bound);
-    if (!ok)
-        std::cout << "relative error = " << rerr << " absolute error = " << aerr
-                  << " limit = " << bound << std::endl;
-    return ok;
-}
-
-template <typename fp>
-bool check_equal(fp x, fp x_ref, int error_mag, std::ostream &out) {
-    bool good = check_equal(x, x_ref, error_mag);
-
-    if (!good) {
-        out << "Difference in result: T2SP " << x << " vs. oneMKL " << x_ref << std::endl;
-    }
-    return good;
-}
-
-template <typename fp, typename fp_res>
-bool test_internal(int N, int incx, int incy) {
-    using std::vector;
-    vector<fp> x, y;
-    fp_res result = fp_res(-1), result_ref = fp_res(-1);
-
-    rand_vector(x, N, incx);
-    rand_vector(y, N, incy);
-    
-    t2sp::dot(N, x.data(), incx, y.data(), incy, &result);
-
-    // Call oneMKL GEMM as Reference.
-    auto exception_handler = [](sycl::exception_list exceptions) {
+template <typename fp, typename fp_res, usm::alloc alloc_type = usm::alloc::shared>
+int test(device* dev, oneapi::mkl::layout layout, int N, int incx, int incy) {
+    // Catch asynchronous exceptions.
+    auto exception_handler = [](exception_list exceptions) {
         for (std::exception_ptr const& e : exceptions) {
             try {
                 std::rethrow_exception(e);
             }
-            catch (sycl::exception const& e) {
-                std::cout << "Caught asynchronous SYCL exception during GEMM:\n"
+            catch (exception const& e) {
+                std::cout << "Caught asynchronous SYCL exception during DOT:\n"
                           << e.what() << std::endl;
+                print_error_code(e);
             }
         }
     };
-    sycl::queue main_queue(sycl::cpu_selector_v, exception_handler);
 
-    sycl::buffer<fp, 1> x_buffer(x.data(), sycl::range<1>(x.size()));
-    sycl::buffer<fp, 1> y_buffer(y.data(), sycl::range<1>(y.size()));
-    sycl::buffer<fp_res, 1> result_ref_buffer(&result_ref, sycl::range<1>(1));
+    queue main_queue(*dev, exception_handler);
+    queue fpga_queue(sycl::ext::intel::fpga_emulator_selector_v, exception_handler);
+    context cxt = main_queue.get_context();
+    event done;
+    std::vector<event> dependencies;
 
-    oneapi::mkl::blas::row_major::dot(main_queue, N, x_buffer, incx, y_buffer, incy, result_ref_buffer);
+    // Prepare data.
+    auto ua = usm_allocator<fp, usm::alloc::shared, 64>(cxt, *dev);
+    vector<fp, decltype(ua)> x(ua), y(ua);
+    fp_res *result_ref = (fp_res*)oneapi::mkl::malloc_shared(64, sizeof(fp_res), *dev, cxt);
 
-    auto result_ref_accessor = result_ref_buffer.template get_host_access(sycl::read_only);
-    return check_equal(result, result_ref_accessor[0], N, std::cout);
+    rand_vector(x, N, incx);
+    rand_vector(y, N, incy);
+
+    // Call DPC++ DOT.
+    oneapi::mkl::blas::row_major::dot(main_queue, N, x.data(), incx, y.data(),
+                                      incy, result_ref, dependencies).wait();
+    // Call T2SP DOT.
+    fp_res* result_p;
+    if constexpr (alloc_type == usm::alloc::shared) {
+        result_p = (fp_res*)oneapi::mkl::malloc_shared(64, sizeof(fp_res), *dev, cxt);
+    }
+    else if constexpr (alloc_type == usm::alloc::device) {
+        result_p = (fp_res*)oneapi::mkl::malloc_device(64, sizeof(fp_res), *dev, cxt);
+    }
+    else {
+        throw std::runtime_error("Bad alloc_type");
+    }
+
+    try {
+        switch (layout) {
+            case oneapi::mkl::layout::col_major:
+                throw oneapi::mkl::unimplemented{"Unkown", "Unkown"};
+                break;
+            case oneapi::mkl::layout::row_major:
+                done = t2sp::blas::row_major::dot(fpga_queue, N, x.data(), incx, y.data(),
+                                                  incy, result_p, dependencies);
+                break;
+            default: break;
+        }
+        done.wait();
+    }
+    catch (exception const& e) {
+        std::cout << "Caught synchronous SYCL exception during DOT:\n" << e.what() << std::endl;
+        print_error_code(e);
+    }
+
+    catch (const oneapi::mkl::unimplemented& e) {
+        return test_skipped;
+    }
+
+    catch (const std::runtime_error& error) {
+        std::cout << "Error raised during execution of DOT:\n" << error.what() << std::endl;
+    }
+
+    // Compare the results of reference implementation and DPC++ implementation.
+    bool good = check_equal_ptr(main_queue, result_p, *result_ref, N, std::cout);
+
+    oneapi::mkl::free_usm(result_p, cxt);
+    oneapi::mkl::free_usm(result_ref, cxt);
+
+    return (int)good;
 }
 
-template <typename T>
-void test(int N, int incx, int incy) {
-    const char *name = nullptr;
-    if constexpr (std::is_same_v<float, T>)
-        name = "sdot";
-    else if constexpr (std::is_same_v<double, T>)
-        name = "ddot";
-    else
-        name = "unsupported data type";
-    std::cout << "\ntest for " << name << ":\n\t"
-              << "x: N = " << std::setw(4) << N << ", incx = " << std::setw(4) << incx << "\n\t"
-              << "y: N = " << std::setw(4) << N << ", incy = " << std::setw(4) << incy << "\n";
-              
-    std::cout << (test_internal<T, T>(N, incx, incy)
-            ? "\x1b[1;32mtest succeed\x1b[0m\n" : "\x1b[1;31mtest failed!!!\x1b[0m\n");
+class DotUsmTests
+        : public ::testing::TestWithParam<std::tuple<sycl::device*, oneapi::mkl::layout>> {};
+
+TEST_P(DotUsmTests, RealSinglePrecision) {
+    EXPECT_TRUEORSKIP(
+        (test<float, float>(std::get<0>(GetParam()), std::get<1>(GetParam()), 1356, 2, 3)));
+    EXPECT_TRUEORSKIP(
+        (test<float, float>(std::get<0>(GetParam()), std::get<1>(GetParam()), 1356, 1, 1)));
+    EXPECT_TRUEORSKIP(
+        (test<float, float>(std::get<0>(GetParam()), std::get<1>(GetParam()), 100, 1, 1)));
+    EXPECT_TRUEORSKIP(
+        (test<float, float>(std::get<0>(GetParam()), std::get<1>(GetParam()), 1356, -3, -2)));
 }
 
-void test_all(int N, int incx, int incy) {
-    test<float>(N, incx, incy);
-    test<double>(N, incx, incy);
+TEST_P(DotUsmTests, RealDoublePrecision) {
+    EXPECT_TRUEORSKIP(
+        (test<double, double>(std::get<0>(GetParam()), std::get<1>(GetParam()), 1356, 2, 3)));
+    EXPECT_TRUEORSKIP(
+        (test<double, double>(std::get<0>(GetParam()), std::get<1>(GetParam()), 1356, 1, 1)));
+    EXPECT_TRUEORSKIP(
+        (test<double, double>(std::get<0>(GetParam()), std::get<1>(GetParam()), 100, 1, 1)));
+    EXPECT_TRUEORSKIP(
+        (test<double, double>(std::get<0>(GetParam()), std::get<1>(GetParam()), 1356, -3, -2)));
 }
 
-int main() {
-    test_all(1360, 1, 1);
-    test_all(1360, 2, 3);
-    test_all(1360, -3, -2);
-}
+INSTANTIATE_TEST_SUITE_P(DotUsmTestSuite, DotUsmTests,
+                         ::testing::Combine(testing::ValuesIn(devices),
+                                            testing::Values(oneapi::mkl::layout::row_major)),
+                         ::LayoutDeviceNamePrint());
+
+} // anonymous namespace
