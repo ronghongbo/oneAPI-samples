@@ -270,15 +270,16 @@ set(PRECISIONS_BACKUP ${PRECISIONS})
 foreach(MATMUL ${MATMULS})
     list(GET PRECISIONS 0 PRECISION)
     list(REMOVE_AT PRECISIONS 0)
+    string(TOUPPER ${PRECISION} UPPER_PRECISION)
     foreach(SIZE "tiny" "large")
         string(TOUPPER ${SIZE} UPPER_SIZE)
         foreach(HW "a10" "s10")
             string(TOUPPER ${HW} UPPER_HW)
             add_custom_command(OUTPUT  ${CURRENT_KERNEL_PATH}/bin/demo_${PRECISION}${KERNEL}_${SIZE}_${HW}_emu
                                COMMAND ${CMAKE_CXX_COMPILER}
-                                       -I${HALIDE_TOOLS_PATH}/include -I$ENV{MKLROOT}/include -I${PRODUCTIVE_LIBRARIES_PATH}/include
+                                       -I${HALIDE_TOOLS_PATH}/include -I$ENV{MKLROOT}/include -I${PRODUCTIVE_LIBRARIES_PATH}/include -I${CPP_SYCL_FPGA_PATH}/include
                                        -I${GOOGLE_TEST_PATH}/include -I${GOOGLE_TEST_PATH}/googletest/include
-                                       -D${UPPER_SIZE} -D${UPPER_HW}
+                                       -D${UPPER_SIZE} -D${UPPER_HW} -DPREFIX_${UPPER_PRECISION}
                                        -DMKL_ILP64 -DT2SP_NDEBUG
                                        -DFPGA_EMULATOR -DCHECK_CORRECTNESS
                                        -fsycl -fintelfpga
@@ -288,9 +289,9 @@ foreach(MATMUL ${MATMULS})
                                        ${CURRENT_KERNEL_PATH}/demo.cpp
                                        ${RECONFIGURABLE_MATMUL_PATH}/oneapi/${MATMUL}_${SIZE}_${HW}.cpp
                                        ${PRODUCTIVE_LIBRARIES_PATH}/include/halide_runtime_etc.cpp
--                                      -L${TOOLS_PATH}/Halide/lib -L$ENV{MKLROOT}/lib/intel64
--                                      -lmkl_sycl -lmkl_intel_ilp64 -lmkl_sequential -lmkl_core -lsycl -lOpenCL -lpthread -lm -ldl -lz
--                                      -lHalide
+                                       -L${HALIDE_TOOLS_PATH}/lib -L$ENV{MKLROOT}/lib/intel64
+                                       -lmkl_sycl -lmkl_intel_ilp64 -lmkl_sequential -lmkl_core -lsycl -lOpenCL -lpthread -lm -ldl -lz
+                                       -lHalide
                                        -o ${CURRENT_KERNEL_PATH}/bin/demo_${PRECISION}${KERNEL}_${SIZE}_${HW}_emu
                                DEPENDS ${CURRENT_KERNEL_PATH}/demo.cpp
                                        ${RECONFIGURABLE_MATMUL_PATH}/oneapi/${MATMUL}_${SIZE}_${HW}.cpp

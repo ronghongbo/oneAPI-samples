@@ -73,7 +73,7 @@ int test(oneapi::mkl::uplo upper_lower,
 }
 
 int main() {
-#if defined(T2SP_CMATMUL)
+#if defined(PREFIX_C)
     const auto [KKK, JJJ, III, JJ, II, KK] = t2sp::blas::row_major::get_systolic_array_dimensions<std::complex<float>>();
     int64_t n = III * II * 4;
     int64_t k = KKK * KK * 4;
