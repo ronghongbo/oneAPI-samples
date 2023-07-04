@@ -1,28 +1,28 @@
 # `HERK`
 
-This reference design shows how to implement the standard HERK in BLAS as defined in the [oneMKL interface](https://oneapi-src.github.io/oneMKL/domains/blas/blas.html) with the following restrictions:
-* Matrix storage: row-major.
-* Data size: `n` and `k` must be multiples of the vectorized dimensions of the systolic array.
-
-The design is written in the [T2SP](https://github.com/IntelLabs/t2sp) DSL, which generates oneAPI code:
-
-* `herk.cpp` - The implementation of HERK using T2SP DSL.
-
-* `test.cpp` - Some correctness tests adapted from [oneMKL's test suite](https://github.com/oneapi-src/oneMKL/blob/develop/tests/unit_tests/blas/level3/herk_usm.cpp), using oneMKL's HERK as a reference.
-
-* `demo.cpp` - A demo showing how to compile HERK to FPGA hardware.
-
-## Purpose
-
-This FPGA reference design demonstrates a matrix-matrix product:
-
+This reference design implements the standard HERK in BLAS as defined in the [oneMKL interface](https://oneapi-src.github.io/oneMKL/domains/blas/blas.html):
 ```
 C := alpha*op(A)*op(A)<sup>H</sup> + beta*C
 ```
 
 where `op(X) = X` or `X<sup>H</sup>`, and matrix `C` is Hermitian.
 
-The kernel is implemented by configuring the [reconfigurable matrix multiplication](../recnfigurable_matmul/README.md), where the design details and performance metrics are described.
+The kernel is implemented by configuring the systolic array of [matrix multiply](../recnfigurable_matmul/README.md), where the design details and performance metrics are described.
+This kernel has the following restrictions in implementation:
+* Matrix storage: row-major.
+* Data size: `n` and `k` must be multiples of the vectorized dimensions of the systolic array.
+
+
+## `Files`
+
+api.hpp  bin  build  CMakeLists.txt  demo.cpp  README.md  test.cpp
+
+
+* `api.hpp` - The API to invoke the kernel in any C++ application.
+
+* `test.cpp` - Unit tests of correctness adapted from [oneMKL's test suite](https://github.com/oneapi-src/oneMKL/blob/develop/tests/unit_tests/blas/level3/herk_usm.cpp), with slight changes to respect the above restrictions.
+
+* `demo.cpp` - A demo showing how to compile HERK to FPGA hardware.
 
 ## Build and run on Linux
 
@@ -42,40 +42,27 @@ The kernel is implemented by configuring the [reconfigurable matrix multiplicati
    cmake .. -DFPGA_DEVICE=intel_s10sx_pac:pac_s10
    ```
 
-2. Compile the design.
+2. Test correctness (with a tiny-scale systolic array on an FPGA emulator).
 
-For example, to build a single-precision sysotolic array for an A10 FPGA, a typical process is as follows:
    ```shell
-   #
-
-
-   # Generate correctness tests. This will generate OneAPI source file from the T2SP specification with tiny size on an FPGA emulator.
    make tests
-
-   # Test for correctness
-   ../bin/test_0
-   ../bin/test_1
-   ../bin/test_2
-   ../bin/test_3
+   cd ../bin; ./test_0 && ./test_1 && ./test_2 && ./test_3; cd -
    ```
 
-Now that the correctness is verified, we can go with large size for performance:
-   ```shell
-   # Generate OneAPI source file from the T2SP specification
-   make oneapi_cherk_large_a10
+3. Test performance
 
+    ```shell
+    make (report|demo)_(cherk|zherk)_(tiny|large)_(a10|s10)
+    ```
+Take `cherk` for example:
+   ```shell
    # Generate the HTML performance report.
    make report_cherk_large_a10
 
-   # Synthesize a bitstream for FPGA hardware (This takes ~5 hrs).
-   make synthesize_sherk_large_a10
-   ```
-   These commands invoke the corresponding commands in `reconfigurable_matmul` to do the actual job. The generated OneAPI source files, report, and bitstream are located under `reconfigurable_matmul/oneapi, reports, bin`, respectively.
-
    ```shell
-   # Generate a demo application, which is linked with the above generated bitstream.
+   # Generate a demo application. If the large-scale reconfigurable systolic array has not been built yet, it will be built, and then linked with the demo application.
    make demo_cherk_large_a10
 
    # Demo on the hardware
    ../bin/demo_cherk_large_a10
-   ```
+   ``` 
