@@ -1,34 +1,37 @@
 cmake_minimum_required(VERSION 3.10)
 
-project(reconfigurable_matmul)
-set(CMAKE_CXX_COMPILER icpx)
-set(KERNEL "matmul")
-set(PRECISIONS "s" "d" "c" "z")
+set(TYPES "s" "d" "c" "z")
 set(OPENCL_1_2_1_BSP /opt/a10/inteldevstack/a10_gx_pac_ias_1_2_1_pv/opencl/opencl_bsp)
 
+get_filename_component(HALIDE_TOOLS_PATH          "${RECONFIGURABLE_MATMUL_PATH}/../../tools/Halide" ABSOLUTE)
+get_filename_component(CPP_SYCL_FPGA_PATH         "${RECONFIGURABLE_MATMUL_PATH}/../../../.." ABSOLUTE)
+get_filename_component(PRODUCTIVE_LIBRARIES_PATH  "${RECONFIGURABLE_MATMUL_PATH}/../.."       ABSOLUTE)
+get_filename_component(GOOGLE_TEST_PATH           "${RECONFIGURABLE_MATMUL_PATH}/../../test"  ABSOLUTE)
+
 # Due to restrictions of file size, we have split libHalide.a into parts. Join them into the original binary
-if(NOT EXISTS "${CMAKE_CURRENT_LIST_DIR}/../../tools/Halide/lib/libHalide.a")
+if(NOT EXISTS "${HALIDE_TOOLS_PATH}/lib/libHalide.a")
     execute_process(COMMAND cat libHalide.part.aa libHalide.part.ab libHalide.part.ac libHalide.part.ad libHalide.part.ae libHalide.part.af libHalide.part.ag
                     OUTPUT_FILE libHalide.a
-                    WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/../../tools/Halide/lib)
+                    WORKING_DIRECTORY ${HALIDE_TOOLS_PATH}/lib)
 endif()
-get_filename_component(TOOLS_PATH         "${CMAKE_SOURCE_DIR}/../../tools"         ABSOLUTE)
-get_filename_component(CPP_SYCL_FPGA_PATH "${CMAKE_SOURCE_DIR}/../../../../include" ABSOLUTE)
-get_filename_component(PRODUCTIVE_LIBRARIES_PATH "${CMAKE_SOURCE_DIR}/../.."       ABSOLUTE)
 
 # FPGA board selection
 if(NOT DEFINED FPGA_DEVICE)
     # For whatever reason, it is faster to synthesize with OpenCL 1.2.1 BSP.
     # set(FPGA_DEVICE "intel_a10gx_pac:pac_a10")
     set(FPGA_DEVICE "${OPENCL_1_2_1_BSP}:pac_a10")
-    message(STATUS "FPGA_DEVICE was not specified. "
+    message(STYPEATUS "FPGA_DEVICE was not specified. "
                    "Configuring the design to run on the default FPGA board ${FPGA_DEVICE} (Intel(R) PAC with Intel Arria(R) 10 GX FPGA). "
                    "Please refer to the README for information on board selection.")
 else()
     if((NOT("${FPGA_DEVICE}" STREQUAL "intel_s10sx_pac:pac_s10")) AND (NOT("${FPGA_DEVICE}" STREQUAL "${OPENCL_1_2_1_BSP}:pac_a10")))
-        message(FATAL_ERROR "Unsupported device ${FPGA_DEVICE}")
+        message(FATYPEAL_ERROR "Unsupported device ${FPGA_DEVICE}")
     endif()
-    message(STATUS "Configuring the design to run on FPGA board ${FPGA_DEVICE}")
+    message(STYPEATUS "Configuring the design to run on FPGA board ${FPGA_DEVICE}")
+endif()
+
+if(NOT DEFINED ENV{MKLROOT})
+    message(FATAL_ERROR "MKLROOT is not set")
 endif()
 
 # Seed for synthesis
@@ -39,87 +42,273 @@ endif()
 ###############################################################################
 ### Create results directories
 ###############################################################################
-file(MAKE_DIRECTORY ${CMAKE_SOURCE_DIR}/oneapi)
-file(MAKE_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
-file(MAKE_DIRECTORY ${CMAKE_SOURCE_DIR}/reports)
+file(MAKE_DIRECTORY ${RECONFIGURABLE_MATMUL_PATH}/oneapi)
+file(MAKE_DIRECTORY ${RECONFIGURABLE_MATMUL_PATH}/bin)
+file(MAKE_DIRECTORY ${RECONFIGURABLE_MATMUL_PATH}/reports)
 
-# Below we use add_custom_command and add_custom_target to make sure independent targets can be built concurrently without conflict,
-# even if they depend on the same file. This is inspired by an example from
-# https://cmake.org/cmake/help/latest/command/add_custom_command.html#example-generating-files-for-multiple-targets
-foreach(PRECISION ${PRECISIONS})
+function(get_halide_type symbol halide_type_name)
+    if("${symbol}" STREQUAL "s")
+        set(${halide_type_name} "Float(32)" PARENT_SCOPE)
+    elseif("${symbol}" STREQUAL "d")
+        set(${halide_type_name} "Float(64)" PARENT_SCOPE)
+    elseif("${symbol}" STREQUAL "c")
+        set(${halide_type_name} "Complex(32)" PARENT_SCOPE)
+    else()
+        set(${halide_type_name} "Complex(64)" PARENT_SCOPE)
+    endif()
+endfunction()
+
+function(get_c_type symbol c_type_name)
+    if("${symbol}" STREQUAL "s")
+        set(${c_type_name} "float" PARENT_SCOPE)
+    elseif("${symbol}" STREQUAL "d")
+        set(${c_type_name} "double" PARENT_SCOPE)
+    elseif("${symbol}" STREQUAL "c")
+        set(${c_type_name} "complex32_t" PARENT_SCOPE)
+    else()
+        set(${c_type_name} "complex64_t" PARENT_SCOPE)
+    endif()
+endfunction()
+
+# For generality, the script here assumes that matrix A, matrix B, matrix C, and the scalars (beta and alpha) can have different types,
+# and therefore generates all possible combinations of them. However, not all of the combinations are valid. It is up to the user to
+# invoke the right combinations.
+set(halide_type_name "unknown type")
+foreach(TYPEA ${TYPES})
+    get_halide_type(${TYPEA} halide_type_name)
+    set(TA ${halide_type_name})
+    foreach(TYPEB ${TYPES})
+        get_halide_type(${TYPEB} halide_type_name)
+        set(TB ${halide_type_name})
+        foreach(TYPEC ${TYPES})
+            get_halide_type(${TYPEC} halide_type_name)
+            set(TC ${halide_type_name})
+            string(TOUPPER ${TYPEC} UPPER_TYPEC)
+            foreach(TYPE_SCALAR ${TYPES})
+                get_c_type(${TYPE_SCALAR} c_type_name)
+                set(TS ${c_type_name})
+                string(TOUPPER ${TYPE_SCALAR} UPPER_TYPE_SCALAR)
+                foreach(SIZE "tiny" "large")
+                    foreach(HW "a10" "s10")
+                        string(TOUPPER ${SIZE}   UPPER_SIZE)
+                        string(TOUPPER ${HW}     UPPER_HW)
+            
+                        # Generate OneAPI files
+                        add_custom_command(OUTPUT  ${RECONFIGURABLE_MATMUL_PATH}/oneapi/${TYPEA}${TYPEB}${TYPEC}${TYPE_SCALAR}matmul_${SIZE}_${HW}.cpp
+                                           COMMAND ${CMAKE_CXX_COMPILER} -DTA=${TA} -DTB=${TB} -DTC=${TC} -DTS=${TS} -DTYPEC_${UPPER_TYPEC} -DTYPE_SCALAR_${UPPER_TYPE_SCALAR} -D${UPPER_SIZE} -D${UPPER_HW}
+                                                   -DKERNEL="t2sp::blas::row_major::${TYPEA}${TYPEB}${TYPEC}${TYPE_SCALAR}matmul::${TYPEA}${TYPEB}${TYPEC}${TYPE_SCALAR}matmul"
+                                                   -DOUTPUT_FILE="${TYPEA}${TYPEB}${TYPEC}${TYPE_SCALAR}matmul_${SIZE}_${HW}.cpp"
+                                                   -I${HALIDE_TOOLS_PATH}/include
+                                                   -std=gnu++11 -O0 -g
+                                                   ${RECONFIGURABLE_MATMUL_PATH}/matrix_multiply.cpp
+                                                   -L${HALIDE_TOOLS_PATH}/lib -lpthread -lz -ldl -lHalide
+                                                   -o ${RECONFIGURABLE_MATMUL_PATH}/bin/oneapi_${TYPEA}${TYPEB}${TYPEC}${TYPE_SCALAR}matmul_${SIZE}_${HW}
+                                           COMMAND env CLEARCODE=1 ${RECONFIGURABLE_MATMUL_PATH}/bin/oneapi_${TYPEA}${TYPEB}${TYPEC}${TYPE_SCALAR}matmul_${SIZE}_${HW}
+                                           COMMAND mv ${RECONFIGURABLE_MATMUL_PATH}/bin/${TYPEA}${TYPEB}${TYPEC}${TYPE_SCALAR}matmul_${SIZE}_${HW}.cpp ${RECONFIGURABLE_MATMUL_PATH}/oneapi/
+                                           DEPENDS ${RECONFIGURABLE_MATMUL_PATH}/matrix_multiply.cpp
+                                                   ${RECONFIGURABLE_MATMUL_PATH}/parameters.h
+                                                   ${HALIDE_TOOLS_PATH}/include/Halide.h
+                                           WORKING_DIRECTORY ${RECONFIGURABLE_MATMUL_PATH}/bin
+                                           COMMENT "Generating OneAPI files"
+                                           VERBATIM)
+                        add_custom_target(oneapi_${TYPEA}${TYPEB}${TYPEC}${TYPE_SCALAR}matmul_${SIZE}_${HW} DEPENDS ${RECONFIGURABLE_MATMUL_PATH}/oneapi/${TYPEA}${TYPEB}${TYPEC}${TYPE_SCALAR}matmul_${SIZE}_${HW}.cpp)
+            
+                        # Generate a report
+                        file(MAKE_DIRECTORY ${RECONFIGURABLE_MATMUL_PATH}/reports/${TYPEA}${TYPEB}${TYPEC}${TYPE_SCALAR}matmul_${SIZE}_${HW})
+                        add_custom_command(OUTPUT  ${RECONFIGURABLE_MATMUL_PATH}/reports/${TYPEA}${TYPEB}${TYPEC}${TYPE_SCALAR}matmul_${SIZE}_${HW}/report.html
+                                                   ${RECONFIGURABLE_MATMUL_PATH}/reports/${TYPEA}${TYPEB}${TYPEC}${TYPE_SCALAR}matmul_${SIZE}_${HW}/resources
+                                           COMMAND ${CMAKE_CXX_COMPILER}
+                                                   -I${RECONFIGURABLE_MATMUL_PATH}/oneapi -I${CPP_SYCL_FPGA_PATH}/include -I${PRODUCTIVE_LIBRARIES_PATH}/include -I${HALIDE_TOOLS_PATH}/include
+                                                   ${RECONFIGURABLE_MATMUL_PATH}/oneapi/${TYPEA}${TYPEB}${TYPEC}${TYPE_SCALAR}matmul_${SIZE}_${HW}.cpp
+                                                   ${PRODUCTIVE_LIBRARIES_PATH}/include/halide_runtime_etc.cpp
+                                                   -Xshardware -Xstarget=${FPGA_DEVICE}
+                                                   -Xsffp-reassociate -Xsffp-contract=fast -Xsdsp-mode=prefer-dsp -Xsprofile -Xsclock=360MHz
+                                                   -fsycl -fintelfpga -fsycl-link=early -o ${TYPEA}${TYPEB}${TYPEC}${TYPE_SCALAR}matmul_${SIZE}_${HW}.early
+                                           COMMAND cp -rf ${TYPEA}${TYPEB}${TYPEC}${TYPE_SCALAR}matmul_${SIZE}_${HW}.early.prj/reports/report.html ${RECONFIGURABLE_MATMUL_PATH}/reports/${TYPEA}${TYPEB}${TYPEC}${TYPE_SCALAR}matmul_${SIZE}_${HW}
+                                           COMMAND cp -rf ${TYPEA}${TYPEB}${TYPEC}${TYPE_SCALAR}matmul_${SIZE}_${HW}.early.prj/reports/resources   ${RECONFIGURABLE_MATMUL_PATH}/reports/${TYPEA}${TYPEB}${TYPEC}${TYPE_SCALAR}matmul_${SIZE}_${HW}
+                                           DEPENDS ${PRODUCTIVE_LIBRARIES_PATH}/include/halide_runtime_etc.cpp
+                                                   ${PRODUCTIVE_LIBRARIES_PATH}/include/halide_runtime_etc.hpp
+                                                   ${PRODUCTIVE_LIBRARIES_PATH}/include/complex_helper.hpp
+                                                   ${PRODUCTIVE_LIBRARIES_PATH}/include/pipe_wrapper.hpp
+                                                   oneapi_${TYPEA}${TYPEB}${TYPEC}${TYPE_SCALAR}matmul_${SIZE}_${HW}
+                                           WORKING_DIRECTORY ${RECONFIGURABLE_MATMUL_PATH}/bin
+                                           COMMENT "Generating a report"
+                                           VERBATIM)
+                        add_custom_target(report_${TYPEA}${TYPEB}${TYPEC}${TYPE_SCALAR}matmul_${SIZE}_${HW} DEPENDS ${RECONFIGURABLE_MATMUL_PATH}/reports/${TYPEA}${TYPEB}${TYPEC}${TYPE_SCALAR}matmul_${SIZE}_${HW}/report.html
+                                                                                                              ${RECONFIGURABLE_MATMUL_PATH}/reports/${TYPEA}${TYPEB}${TYPEC}${TYPE_SCALAR}matmul_${SIZE}_${HW}/resources)
+            
+                        # Generate an image
+                        add_custom_command(OUTPUT  ${RECONFIGURABLE_MATMUL_PATH}/bin/${TYPEA}${TYPEB}${TYPEC}${TYPE_SCALAR}matmul_${SIZE}_${HW}.a
+                                                   ${RECONFIGURABLE_MATMUL_PATH}/reports/${TYPEA}${TYPEB}${TYPEC}${TYPE_SCALAR}matmul_${SIZE}_${HW}/acl_quartus_report.txt
+                                           COMMAND ${CMAKE_CXX_COMPILER}
+                                                   -I${RECONFIGURABLE_MATMUL_PATH}/oneapi -I${CPP_SYCL_FPGA_PATH}/include -I${PRODUCTIVE_LIBRARIES_PATH}/include -I${HALIDE_TOOLS_PATH}/include
+                                                   ${RECONFIGURABLE_MATMUL_PATH}/oneapi/${TYPEA}${TYPEB}${TYPEC}${TYPE_SCALAR}matmul_${SIZE}_${HW}.cpp
+                                                   ${PRODUCTIVE_LIBRARIES_PATH}/include/halide_runtime_etc.cpp
+                                                   -Xshardware -Xstarget=${FPGA_DEVICE}
+                                                   -Xsffp-reassociate -Xsffp-contract=fast -Xsdsp-mode=prefer-dsp -Xsprofile -Xsclock=360MHz -Xsseed=${SEED}
+                                                   -fsycl -fintelfpga -fsycl-link=image -o ${TYPEA}${TYPEB}${TYPEC}${TYPE_SCALAR}matmul_${SIZE}_${HW}.a
+                                           COMMAND cp -rf ${TYPEA}${TYPEB}${TYPEC}${TYPE_SCALAR}matmul_${SIZE}_${HW}.a                          ${RECONFIGURABLE_MATMUL_PATH}/bin
+                                           COMMAND cp -rf ${TYPEA}${TYPEB}${TYPEC}${TYPE_SCALAR}matmul_${SIZE}_${HW}.prj/reports/report.html    ${RECONFIGURABLE_MATMUL_PATH}/reports/${TYPEA}${TYPEB}${TYPEC}${TYPE_SCALAR}matmul_${SIZE}_${HW}
+                                           COMMAND cp -rf ${TYPEA}${TYPEB}${TYPEC}${TYPE_SCALAR}matmul_${SIZE}_${HW}.prj/reports/resources      ${RECONFIGURABLE_MATMUL_PATH}/reports/${TYPEA}${TYPEB}${TYPEC}${TYPE_SCALAR}matmul_${SIZE}_${HW}
+                                           COMMAND cp -rf ${TYPEA}${TYPEB}${TYPEC}${TYPE_SCALAR}matmul_${SIZE}_${HW}.prj/acl_quartus_report.txt ${RECONFIGURABLE_MATMUL_PATH}/reports/${TYPEA}${TYPEB}${TYPEC}${TYPE_SCALAR}matmul_${SIZE}_${HW}
+                                           DEPENDS ${PRODUCTIVE_LIBRARIES_PATH}/include/halide_runtime_etc.cpp
+                                                   ${PRODUCTIVE_LIBRARIES_PATH}/include/halide_runtime_etc.hpp
+                                                   ${PRODUCTIVE_LIBRARIES_PATH}/include/complex_helper.hpp
+                                                   ${PRODUCTIVE_LIBRARIES_PATH}/include/pipe_wrapper.hpp
+                                                   oneapi_${TYPEA}${TYPEB}${TYPEC}${TYPE_SCALAR}matmul_${SIZE}_${HW}
+                                           WORKING_DIRECTORY ${RECONFIGURABLE_MATMUL_PATH}/bin
+                                           COMMENT "Generating an image"
+                                           VERBATIM)
+                        add_custom_target(synthesize_${TYPEA}${TYPEB}${TYPEC}${TYPE_SCALAR}matmul_${SIZE}_${HW} DEPENDS ${RECONFIGURABLE_MATMUL_PATH}/bin/${TYPEA}${TYPEB}${TYPEC}${TYPE_SCALAR}matmul_${SIZE}_${HW}.a)
+                    endforeach()
+                endforeach()
+            endforeach()
+        endforeach()
+    endforeach()
+endforeach()
+
+# Generate correctness tests for the current kernel. They assume a tiny systolic array on an FPGA emulator.
+# Note that not every kernel has up to 11 tests. It is up to the user to invoke the right tests
+function(oneapi_targets_for_tests ONEAPI_TARGETS)
+    foreach(MATMUL ${MATMULS})
+        set(${ONEAPI_TARGETS} ${ONEAPI_TARGETS}" "${RECONFIGURABLE_MATMUL_DIR}/bin/oneapi_${MATMUL}_tiny_a10 PARENT_SCOPE)
+    endforeach()
+endfunction()
+
+file(MAKE_DIRECTORY ${CURRENT_KERNEL_PATH}/bin)
+set(ONEAPI_TARGETS "")
+oneapi_targets_for_tests(ONEAPI_TARGETS)
+foreach(N RANGE 0 10)
+    add_custom_command(OUTPUT  ${CURRENT_KERNEL_PATH}/bin/test_${N}
+                       COMMAND ${CMAKE_CXX_COMPILER}
+                               -I${HALIDE_TOOLS_PATH}/include -I$ENV{MKLROOT}/include -I${PRODUCTIVE_LIBRARIES_PATH}/include
+                               -I${GOOGLE_TEST_PATH}/include -I${GOOGLE_TEST_PATH}/googletest/include
+                               -DTINY -DMKL_ILP64 -DT2SP_NDEBUG -DT2SP_TEST_${N} -DFPGA_EMULATOR
+                               -fsycl -fintelfpga -O0 -g
+                               -Wno-tautological-constant-compare
+                               ${CURRENT_KERNEL_PATH}/test.cpp
+                               ${PRODUCTIVE_LIBRARIES_PATH}/include/halide_runtime_etc.cpp
+                               ${ONEAPI_TARGETS}
+                               -L${HALIDE_TOOLS_PATH}/lib -L$ENV{MKLROOT}/lib/intel64
+                               -lmkl_sycl -lmkl_intel_ilp64 -lmkl_sequential -lmkl_core -lsycl -lOpenCL -lpthread -lm -ldl -lz
+                               -L${GOOGLE_TEST_PATH}/googletest/lib
+                               -lgtest -lgtest_main
+                               -lHalide
+                               -o ${CURRENT_KERNEL_PATH}/bin/test_${N}
+                       DEPENDS ${ONEAPI_TARGETS}
+                               ${CURRENT_KERNEL_PATH}/test.cpp
+                               ${CURRENT_KERNEL_PATH}/api.hpp
+                               ${RECONFIGURABLE_MATMUL_DIR}/api.hpp
+                               ${PRODUCTIVE_LIBRARIES_PATH}/include/halide_runtime_etc.cpp
+                               ${PRODUCTIVE_LIBRARIES_PATH}/include/halide_runtime_etc.hpp
+                               ${PRODUCTIVE_LIBRARIES_PATH}/include/complex_helper.hpp
+                               ${PRODUCTIVE_LIBRARIES_PATH}/include/pipe_wrapper.hpp
+                               ${HALIDE_TOOLS_PATH}/include/Halide.h
+                               ${HALIDE_TOOLS_PATH}/include/HalideRuntime.h
+                               ${HALIDE_TOOLS_PATH}/include/HalideBuffer.h
+                       WORKING_DIRECTORY ${CURRENT_KERNEL_PATH}/bin
+                       COMMENT "Generate tests"
+                       VERBATIM)
+endforeach()
+add_custom_target(tests DEPENDS ${CURRENT_KERNEL_PATH}/bin/test_0 ${CURRENT_KERNEL_PATH}/bin/test_1 ${CURRENT_KERNEL_PATH}/bin/test_2
+                                ${CURRENT_KERNEL_PATH}/bin/test_3 ${CURRENT_KERNEL_PATH}/bin/test_4 ${CURRENT_KERNEL_PATH}/bin/test_5
+                                ${CURRENT_KERNEL_PATH}/bin/test_6 ${CURRENT_KERNEL_PATH}/bin/test_7 ${CURRENT_KERNEL_PATH}/bin/test_8
+                                ${CURRENT_KERNEL_PATH}/bin/test_9
+)
+
+# Create targets for demonstrating how to run on real hardware
+set(PRECISIONS_BACKUP ${PRECISIONS})
+foreach(MATMUL ${MATMULS})
+    list(GET PRECISIONS 0 PRECISION)
+    list(REMOVE_AT PRECISIONS 0)
     foreach(SIZE "tiny" "large")
+        string(TOUPPER ${SIZE} UPPER_SIZE)
         foreach(HW "a10" "s10")
-            string(TOUPPER ${PRECISION} UPPER_PRECISION)
-            string(TOUPPER ${KERNEL}    UPPER_KERNEL)
-            string(TOUPPER ${SIZE}      UPPER_SIZE)
-            string(TOUPPER ${HW}        UPPER_HW)
-
-            # Generate OneAPI files
-            add_custom_command(OUTPUT  ${CMAKE_SOURCE_DIR}/oneapi/${PRECISION}${KERNEL}_${SIZE}_${HW}.cpp
-                               COMMAND ${CMAKE_CXX_COMPILER} -DT2SP_${UPPER_PRECISION}${UPPER_KERNEL} -D${UPPER_SIZE} -D${UPPER_HW}
-                               -DKERNEL="t2sp::blas::row_major::${PRECISION}${KERNEL}::${PRECISION}${KERNEL}" -DOUTPUT_FILE="${PRECISION}${KERNEL}_${SIZE}_${HW}.cpp"
-                                       -I${TOOLS_PATH}/Halide/include -I${CMAKE_SOURCE_DIR}
-                                       -std=gnu++11
-                                       ${CMAKE_SOURCE_DIR}/matrix_multiply.cpp
-                                       -L${TOOLS_PATH}/Halide/lib -lpthread -lz -ldl -lHalide
-                                       -o ${CMAKE_BINARY_DIR}/oneapi_${PRECISION}${KERNEL}_${SIZE}_${HW}
-                               COMMAND env CLEARCODE=1 ${CMAKE_BINARY_DIR}/oneapi_${PRECISION}${KERNEL}_${SIZE}_${HW}
-                               COMMAND cp ${CMAKE_BINARY_DIR}/${PRECISION}${KERNEL}_${SIZE}_${HW}.cpp ${CMAKE_SOURCE_DIR}/oneapi
-                               DEPENDS ${CMAKE_SOURCE_DIR}/matrix_multiply.cpp
-                                       ${CMAKE_SOURCE_DIR}/parameters.h
-                                       ${TOOLS_PATH}/Halide/include/Halide.h
-                               WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
-                               COMMENT "Generating OneAPI files"
-                               VERBATIM)
-            add_custom_target(oneapi_${PRECISION}${KERNEL}_${SIZE}_${HW} DEPENDS ${CMAKE_SOURCE_DIR}/oneapi/${PRECISION}${KERNEL}_${SIZE}_${HW}.cpp)
-
-            # Generate a report
-            file(MAKE_DIRECTORY ${CMAKE_SOURCE_DIR}/reports/${PRECISION}${KERNEL}_${SIZE}_${HW})
-            add_custom_command(OUTPUT  ${CMAKE_SOURCE_DIR}/reports/${PRECISION}${KERNEL}_${SIZE}_${HW}/report.html
-                                       ${CMAKE_SOURCE_DIR}/reports/${PRECISION}${KERNEL}_${SIZE}_${HW}/resources
+            string(TOUPPER ${HW} UPPER_HW)
+            add_custom_command(OUTPUT  ${CURRENT_KERNEL_PATH}/bin/demo_${PRECISION}${KERNEL}_${SIZE}_${HW}.o
                                COMMAND ${CMAKE_CXX_COMPILER}
-                                       -I${CMAKE_SOURCE_DIR}/oneapi -I${CPP_SYCL_FPGA_PATH} -I${PRODUCTIVE_LIBRARIES_PATH}/include -I${TOOLS_PATH}/Halide/include
-                                       ${CMAKE_SOURCE_DIR}/oneapi/${PRECISION}${KERNEL}_${SIZE}_${HW}.cpp
+                                       -I${HALIDE_TOOLS_PATH}/include -I$ENV{MKLROOT}/include -I${PRODUCTIVE_LIBRARIES_PATH}/include
+                                       -I${GOOGLE_TEST_PATH}/include -I${GOOGLE_TEST_PATH}/googletest/include
+                                       -D${UPPER_SIZE} -D${UPPER_HW}
+                                       -DMKL_ILP64 -DT2SP_NDEBUG
+                                       -fsycl -fintelfpga
+                                       -c ${CURRENT_KERNEL_PATH}/demo.cpp
+                                       -o ${CURRENT_KERNEL_PATH}/bin/demo_${PRECISION}${KERNEL}_${SIZE}_${HW}.o
+                               DEPENDS ${CURRENT_KERNEL_PATH}/demo.cpp
+                                       ${CURRENT_KERNEL_PATH}/api.hpp
+                                       ${RECONFIGURABLE_MATMUL_DIR}/api.hpp
+                                       ${HALIDE_TOOLS_PATH}/include/Halide.h
+                                       ${HALIDE_TOOLS_PATH}/include/HalideRuntime.h
+                                       ${HALIDE_TOOLS_PATH}/include/HalideBuffer.h
+                               WORKING_DIRECTORY ${CURRENT_KERNEL_PATH}/bin
+                               COMMENT "Generating a demo application on ${WHAT}"
+                               VERBATIM)
+            add_custom_command(OUTPUT  ${CURRENT_KERNEL_PATH}/bin/demo_${PRECISION}${KERNEL}_${SIZE}_${HW}
+                               COMMAND ${CMAKE_CXX_COMPILER}
+                                       -fsycl -fintelfpga
+                                       ${CURRENT_KERNEL_PATH}/bin/demo_${PRECISION}${KERNEL}_${SIZE}_${HW}.o
+                                       ${RECONFIGURABLE_MATMUL_DIR}/bin/${MATMUL}_${SIZE}_${HW}.a
                                        ${PRODUCTIVE_LIBRARIES_PATH}/include/halide_runtime_etc.cpp
-                                       -Xshardware -Xstarget=${FPGA_DEVICE}
-                                       -Xsffp-reassociate -Xsffp-contract=fast -Xsdsp-mode=prefer-dsp -Xsprofile -Xsclock=360MHz
-                                       -fsycl -fintelfpga -fsycl-link=early -o ${PRECISION}${KERNEL}_${SIZE}_${HW}.early
-                               COMMAND cp -rf ${PRECISION}${KERNEL}_${SIZE}_${HW}.early.prj/reports/report.html ${CMAKE_SOURCE_DIR}/reports/${PRECISION}${KERNEL}_${SIZE}_${HW}
-                               COMMAND cp -rf ${PRECISION}${KERNEL}_${SIZE}_${HW}.early.prj/reports/resources   ${CMAKE_SOURCE_DIR}/reports/${PRECISION}${KERNEL}_${SIZE}_${HW}
-                               DEPENDS ${PRODUCTIVE_LIBRARIES_PATH}/include/halide_runtime_etc.cpp
+                                       -L${HALIDE_TOOLS_PATH}/lib -lHalide -lpthread -lz
+                                       -o ${CURRENT_KERNEL_PATH}/bin/demo_${PRECISION}${KERNEL}_${SIZE}_${HW}
+                               DEPENDS ${CURRENT_KERNEL_PATH}/bin/demo_${PRECISION}${KERNEL}_${SIZE}_${HW}.o
+                                       ${PRODUCTIVE_LIBRARIES_PATH}/include/halide_runtime_etc.cpp
                                        ${PRODUCTIVE_LIBRARIES_PATH}/include/halide_runtime_etc.hpp
                                        ${PRODUCTIVE_LIBRARIES_PATH}/include/complex_helper.hpp
                                        ${PRODUCTIVE_LIBRARIES_PATH}/include/pipe_wrapper.hpp
-                                       oneapi_${PRECISION}${KERNEL}_${SIZE}_${HW}
-                               WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
-                               COMMENT "Generating a report"
+                                       synthesize_${MATMUL}_${SIZE}_${HW}
+                               WORKING_DIRECTORY ${CURRENT_KERNEL_PATH}/bin
+                               COMMENT "Linking the demo application with the device image"
                                VERBATIM)
-            add_custom_target(report_${PRECISION}${KERNEL}_${SIZE}_${HW} DEPENDS ${CMAKE_SOURCE_DIR}/reports/${PRECISION}${KERNEL}_${SIZE}_${HW}/report.html
-                                                                                 ${CMAKE_SOURCE_DIR}/reports/${PRECISION}${KERNEL}_${SIZE}_${HW}/resources)
+            add_custom_target(demo_${PRECISION}${KERNEL}_${SIZE}_${HW} DEPENDS ${CURRENT_KERNEL_PATH}/bin/demo_${PRECISION}${KERNEL}_${SIZE}_${HW})
+        endforeach()
+    endforeach()
+endforeach()
+set(PRECISIONS ${PRECISIONS_BACKUP}) 
 
-            # Generate an image
-            add_custom_command(OUTPUT  ${CMAKE_SOURCE_DIR}/bin/${PRECISION}${KERNEL}_${SIZE}_${HW}.a
-                                       ${CMAKE_SOURCE_DIR}/reports/${PRECISION}${KERNEL}_${SIZE}_${HW}/acl_quartus_report.txt
+# Create targets for demonstrating how to run on FPGA emulator (for correctness debugging only).
+set(PRECISIONS_BACKUP ${PRECISIONS})
+foreach(MATMUL ${MATMULS})
+    list(GET PRECISIONS 0 PRECISION)
+    list(REMOVE_AT PRECISIONS 0)
+    foreach(SIZE "tiny" "large")
+        string(TOUPPER ${SIZE} UPPER_SIZE)
+        foreach(HW "a10" "s10")
+            string(TOUPPER ${HW} UPPER_HW)
+            add_custom_command(OUTPUT  ${CURRENT_KERNEL_PATH}/bin/demo_${PRECISION}${KERNEL}_${SIZE}_${HW}_emu
                                COMMAND ${CMAKE_CXX_COMPILER}
-                                       -I${CMAKE_SOURCE_DIR}/oneapi -I${CPP_SYCL_FPGA_PATH} -I${PRODUCTIVE_LIBRARIES_PATH}/include -I${TOOLS_PATH}/Halide/include
-                                       ${CMAKE_SOURCE_DIR}/oneapi/${PRECISION}${KERNEL}_${SIZE}_${HW}.cpp
+                                       -I${HALIDE_TOOLS_PATH}/include -I$ENV{MKLROOT}/include -I${PRODUCTIVE_LIBRARIES_PATH}/include
+                                       -I${GOOGLE_TEST_PATH}/include -I${GOOGLE_TEST_PATH}/googletest/include
+                                       -D${UPPER_SIZE} -D${UPPER_HW}
+                                       -DMKL_ILP64 -DT2SP_NDEBUG
+                                       -DFPGA_EMULATOR -DCHECK_CORRECTNESS
+                                       -fsycl -fintelfpga
+                                       -D${UPPER_SIZE} -D${UPPER_HW}
+                                       -DMKL_ILP64 -DT2SP_NDEBUG
+                                       -fsycl -fintelfpga -O0 -g
+                                       ${CURRENT_KERNEL_PATH}/demo.cpp
+                                       ${RECONFIGURABLE_MATMUL_PATH}/oneapi/${MATMUL}_${SIZE}_${HW}.cpp
                                        ${PRODUCTIVE_LIBRARIES_PATH}/include/halide_runtime_etc.cpp
-                                       -Xshardware -Xstarget=${FPGA_DEVICE}
-                                       -Xsffp-reassociate -Xsffp-contract=fast -Xsdsp-mode=prefer-dsp -Xsprofile -Xsclock=360MHz -Xsseed=${SEED}
-                                       -fsycl -fintelfpga -fsycl-link=image -o ${PRECISION}${KERNEL}_${SIZE}_${HW}.a
-                               COMMAND cp -rf ${PRECISION}${KERNEL}_${SIZE}_${HW}.a                          ${CMAKE_SOURCE_DIR}/bin
-                               COMMAND cp -rf ${PRECISION}${KERNEL}_${SIZE}_${HW}.prj/reports/report.html    ${CMAKE_SOURCE_DIR}/reports/${PRECISION}${KERNEL}_${SIZE}_${HW}
-                               COMMAND cp -rf ${PRECISION}${KERNEL}_${SIZE}_${HW}.prj/reports/resources      ${CMAKE_SOURCE_DIR}/reports/${PRECISION}${KERNEL}_${SIZE}_${HW}
-                               COMMAND cp -rf ${PRECISION}${KERNEL}_${SIZE}_${HW}.prj/acl_quartus_report.txt ${CMAKE_SOURCE_DIR}/reports/${PRECISION}${KERNEL}_${SIZE}_${HW}
-                               DEPENDS ${PRODUCTIVE_LIBRARIES_PATH}/include/halide_runtime_etc.cpp
+-                                      -L${TOOLS_PATH}/Halide/lib -L$ENV{MKLROOT}/lib/intel64
+-                                      -lmkl_sycl -lmkl_intel_ilp64 -lmkl_sequential -lmkl_core -lsycl -lOpenCL -lpthread -lm -ldl -lz
+-                                      -lHalide
+                                       -o ${CURRENT_KERNEL_PATH}/bin/demo_${PRECISION}${KERNEL}_${SIZE}_${HW}_emu
+                               DEPENDS ${CURRENT_KERNEL_PATH}/demo.cpp
+                                       ${RECONFIGURABLE_MATMUL_PATH}/oneapi/${MATMUL}_${SIZE}_${HW}.cpp
+                                       ${CURRENT_KERNEL_PATH}/api.hpp
+                                       ${RECONFIGURABLE_MATMUL_DIR}/api.hpp
+                                       ${HALIDE_TOOLS_PATH}/include/Halide.h
+                                       ${HALIDE_TOOLS_PATH}/include/HalideRuntime.h
+                                       ${HALIDE_TOOLS_PATH}/include/HalideBuffer.h
+                                       ${PRODUCTIVE_LIBRARIES_PATH}/include/halide_runtime_etc.cpp
                                        ${PRODUCTIVE_LIBRARIES_PATH}/include/halide_runtime_etc.hpp
                                        ${PRODUCTIVE_LIBRARIES_PATH}/include/complex_helper.hpp
                                        ${PRODUCTIVE_LIBRARIES_PATH}/include/pipe_wrapper.hpp
-                                       oneapi_${PRECISION}${KERNEL}_${SIZE}_${HW}
-                               WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
-                               COMMENT "Generating an image"
+                                       oneapi_${MATMUL}_${SIZE}_${HW}
+                               WORKING_DIRECTORY ${CURRENT_KERNEL_PATH}/bin
+                               COMMENT "Generating a demo application on FPGA emulator"
                                VERBATIM)
-            add_custom_target(synthesize_${PRECISION}${KERNEL}_${SIZE}_${HW} DEPENDS ${CMAKE_SOURCE_DIR}/bin/${PRECISION}${KERNEL}_${SIZE}_${HW}.a)
+            add_custom_target(demo_${PRECISION}${KERNEL}_${SIZE}_${HW}_emu DEPENDS ${CURRENT_KERNEL_PATH}/bin/demo_${PRECISION}${KERNEL}_${SIZE}_${HW}_emu)
         endforeach()
     endforeach()
 endforeach()

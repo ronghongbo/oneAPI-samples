@@ -42,7 +42,8 @@
 using namespace sycl;
 using std::vector;
 
-extern std::vector<sycl::device*> devices;
+sycl::device d{sycl::cpu_selector_v};
+std::vector<sycl::device*> devices{&d};
 
 namespace {
 
@@ -53,7 +54,7 @@ int test(device* dev, oneapi::mkl::layout layout, oneapi::mkl::uplo upper_lower,
     // Catch asynchronous exceptions.
     auto exception_handler = [](exception_list exceptions) {
         for (std::exception_ptr const& e : exceptions) {
-            try {
+            try {https://oneapi-src.github.io/oneMKL/domains/blas/hemm.ht
                 std::rethrow_exception(e);
             }
             catch (exception const& e) {
@@ -74,7 +75,12 @@ int test(device* dev, oneapi::mkl::layout layout, oneapi::mkl::uplo upper_lower,
     auto ua = usm_allocator<fp, usm::alloc::shared, 64>(cxt, *dev);
     vector<fp, decltype(ua)> A(ua), C(ua);
     rand_matrix(A, layout, trans, n, k, lda);
+
     rand_matrix(C, layout, oneapi::mkl::transpose::nontrans, n, n, ldc);
+    // set the elements on the diagonal to real numbers
+    for (int i = 0; i < n; i++) {
+        C[i + i * lda] = C[i + i * lda].real();
+    }
 
     auto C_ref = C;
 

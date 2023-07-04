@@ -14,7 +14,7 @@ using namespace Halide;
 namespace t2sp::blas::row_major {
 // The API for SRYK. We choose the USM version of oneMKL DPC++ interface (https://oneapi-src.github.io/oneMKL/domains/blas/syrk.html).
 template<typename T, typename T_REAL>
-sycl::event syrk(sycl::queue &queue,
+sycl::event herk(sycl::queue &queue,
                  oneapi::mkl::uplo upper_lower,
                  oneapi::mkl::transpose trans,
                  std::int64_t n,

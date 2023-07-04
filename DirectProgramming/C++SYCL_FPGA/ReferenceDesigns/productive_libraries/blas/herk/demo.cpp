@@ -19,9 +19,9 @@
 
 using namespace std;
 
-template <typename T>
+template <typename T, typename T_REAL>
 int test(oneapi::mkl::uplo upper_lower,
-        oneapi::mkl::transpose trans, int n, int k, int lda, int ldc, T alpha, T beta) {
+        oneapi::mkl::transpose trans, int n, int k, int lda, int ldc, T_REAL alpha, T_REAL beta) {
     vector<T, allocator_helper<T, 64>> a;
     vector<T, allocator_helper<T, 64>> c, c_ref;
     rand_matrix(a, oneapi::mkl::layout::row_major, trans, n, k, lda);
@@ -73,41 +73,23 @@ int test(oneapi::mkl::uplo upper_lower,
 }
 
 int main() {
-#if defined(T2SP_SMATMUL)
-    const auto [KKK, JJJ, III, JJ, II, KK] = t2sp::blas::row_major::get_systolic_array_dimensions<float>();
+#if defined(T2SP_CMATMUL)
+    const auto [KKK, JJJ, III, JJ, II, KK] = t2sp::blas::row_major::get_systolic_array_dimensions<std::complex<float>>();
     int64_t n = III * II * 4;
     int64_t k = KKK * KK * 4;
     int64_t lda = k;
     int64_t ldc = n;
     float alpha = 2.0f;
     float beta  = 3.0f;
-    test<float>(oneapi::mkl::uplo::U, oneapi::mkl::transpose::N, n, k, lda, ldc, alpha, beta);
-#elif defined(T2SP_DMATMUL)
-    const auto [KKK, JJJ, III, JJ, II, KK] = t2sp::blas::row_major::get_systolic_array_dimensions<double>();
-    int64_t n = III * II * 32;
-    int64_t k = KKK * KK * 32;
+    test<std::complex<float>, float>(oneapi::mkl::uplo::U, oneapi::mkl::transpose::N, n, k, lda, ldc, alpha, beta);
+#else
+    const auto [KKK, JJJ, III, JJ, II, KK] = t2sp::blas::row_major::get_systolic_array_dimensions<std::complex<double>>();
+    int64_t n = III * II * 4;
+    int64_t k = KKK * KK * 4;
     int64_t lda = k;
     int64_t ldc = n;
     double alpha = 2.0f;
-    double beta = 3.0f;
-    test<double>(oneapi::mkl::uplo::U, oneapi::mkl::transpose:N, n, k, lda, ldc, alpha, beta);
-#elif defined(T2SP_CMATMUL)
-    const auto [KKK, JJJ, III, JJ, II, KK] = t2sp::blas::row_major::get_systolic_array_dimensions<std::complex<float>>();
-    int64_t n = III * II * 32;
-    int64_t k = KKK * KK * 32;
-    int64_t lda = k;
-    int64_t ldc = n;
-    std::complex<float> alpha = {2.0f, -0.5f};
-    std::complex<float> beta  = {3.0f, -1.5f};
-    test<std::complex<float>>(oneapi::mkl::uplo::U, oneapi::mkl::transpose:N, n, k, lda, ldc, alpha, beta);
-#else
-    const auto [KKK, JJJ, III, JJ, II, KK] = t2sp::blas::row_major::get_systolic_array_dimensions<std::complex<double>>();
-    int64_t n = III * II * 32;
-    int64_t k = KKK * KK * 32;
-    int64_t lda = k;
-    int64_t ldc = n;
-    std::complex<double> alpha = {2.0f, -0.5f};
-    std::complex<double> beta  = {3.0f, -1.5f};
-    test<std::complex<double>>(oneapi::mkl::uplo::U, oneapi::mkl::transpose:N, n, k, lda, ldc, alpha, beta);
+    double beta  = 3.0f;
+    test<std::complex<double>, double>(oneapi::mkl::uplo::U, oneapi::mkl::transpose::N, n, k, lda, ldc, alpha, beta);
 #endif
 }
