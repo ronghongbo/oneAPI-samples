@@ -5,7 +5,8 @@ set(CMAKE_CXX_COMPILER icpx)
 set(KERNEL             "herk")
 set(PRECISIONS         "c" "z")
 set(MATMULS            "cccsmatmul" "zzzdmatmul")
-    
+set(MAX_TEST_ID        3)
+        
 get_filename_component(CURRENT_KERNEL_PATH        "${CMAKE_SOURCE_DIR}" ABSOLUTE)
 get_filename_component(RECONFIGURABLE_MATMUL_PATH "${CURRENT_KERNEL_PATH}/../reconfigurable_matmul"  ABSOLUTE)
 

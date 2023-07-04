@@ -71,13 +71,13 @@ sycl::event herk(sycl::queue &queue,
 
     sycl::event done;
     if constexpr (std::is_same_v<std::complex<float>, T>) {
-        done = t2sp::blas::row_major::cmatmul::cmatmul(queue, Upper_From_Upper_A, Upper_From_Upper_B, Upper_From_Upper_C,
+        done = t2sp::blas::row_major::cccsmatmul::cccsmatmul(queue, Upper_From_Upper_A, Upper_From_Upper_B, Upper_From_Upper_C,
                                                               Lower_From_Lower_A, Lower_From_Lower_B, Lower_From_Lower_C,
                                                               ConjugateTransposedA, ConjugateTransposedB, ConjugateTransposedC,
                                                               HalfSpaceOut, alpha, beta,
                                                               A_buffer, A_buffer, C_buffer, Output_buffer);
     } else {
-        done = t2sp::blas::row_major::zmatmul::zmatmul(queue, Upper_From_Upper_A, Upper_From_Upper_B, Upper_From_Upper_C,
+        done = t2sp::blas::row_major::zzzdmatmul::zzzdmatmul(queue, Upper_From_Upper_A, Upper_From_Upper_B, Upper_From_Upper_C,
                                                               Lower_From_Lower_A, Lower_From_Lower_B, Lower_From_Lower_C,
                                                               ConjugateTransposedA, ConjugateTransposedB, ConjugateTransposedC,
                                                               HalfSpaceOut, alpha, beta,

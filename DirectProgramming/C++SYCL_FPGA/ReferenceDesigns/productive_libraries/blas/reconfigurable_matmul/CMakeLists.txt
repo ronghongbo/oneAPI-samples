@@ -168,37 +168,39 @@ foreach(TYPEA ${TYPES})
 endforeach()
 
 # Generate correctness tests for the current kernel. They assume a tiny systolic array on an FPGA emulator.
-# Note that not every kernel has up to 11 tests. It is up to the user to invoke the right tests
-function(oneapi_targets_for_tests ONEAPI_TARGETS)
-    foreach(MATMUL ${MATMULS})
-        set(${ONEAPI_TARGETS} ${ONEAPI_TARGETS}" "${RECONFIGURABLE_MATMUL_DIR}/bin/oneapi_${MATMUL}_tiny_a10 PARENT_SCOPE)
-    endforeach()
-endfunction()
+add_custom_target(oneapi_targets_for_tests)
+foreach(MATMUL ${MATMULS})
+    add_dependencies(oneapi_targets_for_tests oneapi_${MATMUL}_tiny_a10)
+endforeach()
 
+#set(GENERATED_ONEAPI_SOURCE_FILES_FOR_TESTS "")
+foreach(MATMUL ${MATMULS})
+    set(GENERATED_ONEAPI_SOURCE_FILES_FOR_TESTS ${GENERATED_ONEAPI_SOURCE_FILES_FOR_TESTS} ${RECONFIGURABLE_MATMUL_PATH}/oneapi/${MATMUL}_tiny_a10.cpp)
+endforeach()
+
+add_custom_target(tests)
 file(MAKE_DIRECTORY ${CURRENT_KERNEL_PATH}/bin)
-set(ONEAPI_TARGETS "")
-oneapi_targets_for_tests(ONEAPI_TARGETS)
-foreach(N RANGE 0 10)
+foreach(N RANGE 0 ${MAX_TEST_ID})
     add_custom_command(OUTPUT  ${CURRENT_KERNEL_PATH}/bin/test_${N}
                        COMMAND ${CMAKE_CXX_COMPILER}
-                               -I${HALIDE_TOOLS_PATH}/include -I$ENV{MKLROOT}/include -I${PRODUCTIVE_LIBRARIES_PATH}/include
+                               -I${HALIDE_TOOLS_PATH}/include -I$ENV{MKLROOT}/include -I${PRODUCTIVE_LIBRARIES_PATH}/include -I${CPP_SYCL_FPGA_PATH}/include
                                -I${GOOGLE_TEST_PATH}/include -I${GOOGLE_TEST_PATH}/googletest/include
                                -DTINY -DMKL_ILP64 -DT2SP_NDEBUG -DT2SP_TEST_${N} -DFPGA_EMULATOR
                                -fsycl -fintelfpga -O0 -g
                                -Wno-tautological-constant-compare
                                ${CURRENT_KERNEL_PATH}/test.cpp
                                ${PRODUCTIVE_LIBRARIES_PATH}/include/halide_runtime_etc.cpp
-                               ${ONEAPI_TARGETS}
+                               ${GENERATED_ONEAPI_SOURCE_FILES_FOR_TESTS}
                                -L${HALIDE_TOOLS_PATH}/lib -L$ENV{MKLROOT}/lib/intel64
                                -lmkl_sycl -lmkl_intel_ilp64 -lmkl_sequential -lmkl_core -lsycl -lOpenCL -lpthread -lm -ldl -lz
                                -L${GOOGLE_TEST_PATH}/googletest/lib
                                -lgtest -lgtest_main
                                -lHalide
                                -o ${CURRENT_KERNEL_PATH}/bin/test_${N}
-                       DEPENDS ${ONEAPI_TARGETS}
+                       DEPENDS oneapi_targets_for_tests
                                ${CURRENT_KERNEL_PATH}/test.cpp
                                ${CURRENT_KERNEL_PATH}/api.hpp
-                               ${RECONFIGURABLE_MATMUL_DIR}/api.hpp
+                               ${RECONFIGURABLE_MATMUL_PATH}/api.hpp
                                ${PRODUCTIVE_LIBRARIES_PATH}/include/halide_runtime_etc.cpp
                                ${PRODUCTIVE_LIBRARIES_PATH}/include/halide_runtime_etc.hpp
                                ${PRODUCTIVE_LIBRARIES_PATH}/include/complex_helper.hpp
@@ -209,12 +211,9 @@ foreach(N RANGE 0 10)
                        WORKING_DIRECTORY ${CURRENT_KERNEL_PATH}/bin
                        COMMENT "Generate tests"
                        VERBATIM)
+    add_custom_target(gen_test_${N} DEPENDS ${CURRENT_KERNEL_PATH}/bin/test_${N})
+    add_dependencies(tests gen_test_${N})
 endforeach()
-add_custom_target(tests DEPENDS ${CURRENT_KERNEL_PATH}/bin/test_0 ${CURRENT_KERNEL_PATH}/bin/test_1 ${CURRENT_KERNEL_PATH}/bin/test_2
-                                ${CURRENT_KERNEL_PATH}/bin/test_3 ${CURRENT_KERNEL_PATH}/bin/test_4 ${CURRENT_KERNEL_PATH}/bin/test_5
-                                ${CURRENT_KERNEL_PATH}/bin/test_6 ${CURRENT_KERNEL_PATH}/bin/test_7 ${CURRENT_KERNEL_PATH}/bin/test_8
-                                ${CURRENT_KERNEL_PATH}/bin/test_9
-)
 
 # Create targets for demonstrating how to run on real hardware
 set(PRECISIONS_BACKUP ${PRECISIONS})
@@ -236,7 +235,7 @@ foreach(MATMUL ${MATMULS})
                                        -o ${CURRENT_KERNEL_PATH}/bin/demo_${PRECISION}${KERNEL}_${SIZE}_${HW}.o
                                DEPENDS ${CURRENT_KERNEL_PATH}/demo.cpp
                                        ${CURRENT_KERNEL_PATH}/api.hpp
-                                       ${RECONFIGURABLE_MATMUL_DIR}/api.hpp
+                                       ${RECONFIGURABLE_MATMUL_PATH}/api.hpp
                                        ${HALIDE_TOOLS_PATH}/include/Halide.h
                                        ${HALIDE_TOOLS_PATH}/include/HalideRuntime.h
                                        ${HALIDE_TOOLS_PATH}/include/HalideBuffer.h
@@ -247,7 +246,7 @@ foreach(MATMUL ${MATMULS})
                                COMMAND ${CMAKE_CXX_COMPILER}
                                        -fsycl -fintelfpga
                                        ${CURRENT_KERNEL_PATH}/bin/demo_${PRECISION}${KERNEL}_${SIZE}_${HW}.o
-                                       ${RECONFIGURABLE_MATMUL_DIR}/bin/${MATMUL}_${SIZE}_${HW}.a
+                                       ${RECONFIGURABLE_MATMUL_PATH}/bin/${MATMUL}_${SIZE}_${HW}.a
                                        ${PRODUCTIVE_LIBRARIES_PATH}/include/halide_runtime_etc.cpp
                                        -L${HALIDE_TOOLS_PATH}/lib -lHalide -lpthread -lz
                                        -o ${CURRENT_KERNEL_PATH}/bin/demo_${PRECISION}${KERNEL}_${SIZE}_${HW}
@@ -296,7 +295,7 @@ foreach(MATMUL ${MATMULS})
                                DEPENDS ${CURRENT_KERNEL_PATH}/demo.cpp
                                        ${RECONFIGURABLE_MATMUL_PATH}/oneapi/${MATMUL}_${SIZE}_${HW}.cpp
                                        ${CURRENT_KERNEL_PATH}/api.hpp
-                                       ${RECONFIGURABLE_MATMUL_DIR}/api.hpp
+                                       ${RECONFIGURABLE_MATMUL_PATH}/api.hpp
                                        ${HALIDE_TOOLS_PATH}/include/Halide.h
                                        ${HALIDE_TOOLS_PATH}/include/HalideRuntime.h
                                        ${HALIDE_TOOLS_PATH}/include/HalideBuffer.h
