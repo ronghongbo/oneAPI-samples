@@ -42,18 +42,19 @@ int main()
     // Inputs
     ImageParam X("X", TTYPE, 2);
     ImageParam Y("Y", TTYPE, 2);
-    Param<int> incx("incx");
-    Param<int> incy("incy");
+    Param<int> IncX("IncX");
+    Param<int> IncY("IncY");
+    Param<bool> ConjugateX("ConjugateX");
 
-    X.dim(0).set_stride(incx);
-    Y.dim(0).set_stride(incy);
+    X.dim(0).set_stride(IncX);
+    Y.dim(0).set_stride(IncY);
 
     // UREs
     Var kkk("kkk"), kk("kk"), k("k"), b("b");
     URE uY("uY", TTYPE, {P_1}), uX("uX", TTYPE, {P_1}), uZ_1("uZ_1", TTYPE, {P_1}), Z("Z");
     URE uZ_2("uZ_2", TTYPE, {P_2}), Out("Out");
 
-    Expr Check_Load_X = select(addr_in_range, X(total_k, b), 0);
+    Expr Check_Load_X = select(addr_in_range, conditional_conjugate(ConjugateX, X(total_k, b)), 0);
     Expr Check_Load_Y = select(addr_in_range, Y(total_k, b), 0);
 
     uX(P_1) = Check_Load_X;
@@ -81,12 +82,15 @@ int main()
     // I/O network
     Func xLoader(Place::Device), yLoader(Place::Device);
     Func xSerializer(Place::Host), ySerializer(Place::Host);
+    xLoader.min_depth(256);
+    yLoader.min_depth(256);
     uX.isolate_producer_chain(Check_Load_X, xLoader);
     uX.isolate_producer_chain(Check_Load_Y, yLoader);
     xLoader.isolate_producer_chain(X, xSerializer);
     yLoader.isolate_producer_chain(Y, ySerializer);
 
     Func unloader(Place::Device), deserializer(Place::Host);
+    Out.min_depth(256);
     Out.isolate_consumer_chain(unloader, deserializer);
 
     // Compile the kernel to an FPGA bitstream, and expose a C interface for the host to invoke
@@ -95,7 +99,7 @@ int main()
     target.set_feature(Target::IntelFPGA);
     target.set_feature(Target::EnableSynthesis);
 
-    deserializer.compile_to_oneapi({incx, incy, X, Y}, KERNEL, target);
+    deserializer.compile_to_oneapi(OUTPUT_FILE, {ConjugateX, X, IncX, Y, IncY}, KERNEL, target);
     printf("Success\n");
     return 0;
 }
