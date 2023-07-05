@@ -48,17 +48,18 @@ sycl::event dot(sycl::queue &queue,
     }
 
     bool ConjugateX = false;
+    bool SqrtRet = false;
 
     sycl::event done;
 
     if constexpr (std::is_same_v<float, T>) {
         done = t2sp::blas::row_major::sdot::sdot(queue, ConjugateX,
                                                  X_buffer, std::abs(static_cast<int>(incx)),
-                                                 Y_buffer, std::abs(static_cast<int>(incy)), Res_buffer);
+                                                 Y_buffer, std::abs(static_cast<int>(incy)), SqrtRet, Res_buffer);
     } else {
         done = t2sp::blas::row_major::ddot::ddot(queue, ConjugateX,
                                                  X_buffer, std::abs(static_cast<int>(incx)),
-                                                 Y_buffer, std::abs(static_cast<int>(incy)), Res_buffer);
+                                                 Y_buffer, std::abs(static_cast<int>(incy)), SqrtRet, Res_buffer);
     }
     return done;
 }
