@@ -23,13 +23,13 @@ To reduce engineering efforts, kernels with similar computes are grouped so that
 
 ## `Level 3 kernels`
 
- Kernel          | Formula             | Description       |
-| --------------- | ------------------- | ----------------- |
-| $\mathbf{gemm}$ | $\alpha AB+\beta C$ |            |
-| $\mathbf{symm}$ | $\alpha AB+\beta C$ |  |
-| $\mathbf{hemm}$ | $\alpha HB+\beta C$ |  |
-| $\mathbf{syrk}$ | $\alpha AA^T+\beta C$ |    |
-| $\mathbf{herk}$ | $C \leftarrow alpha*op(A)*op(A)^H + beta*C$ |$op(X)=X$ or $op(X) = X^H$, C is a Hermitian matrix. |
+ Kernel          | Formula             | Data types | Description       |
+| --------------- | ------------------- | ----------|------- |
+| $\mathbf{gemm}$ | $\alpha op(A)op(B)+\beta C$ | s, d, c, z  |  $op(X)$ is one of $X$, $X^T$, and $X^H$ |
+| $\mathbf{symm}$ | $\alpha AB+\beta C$, or  $\alpha BA+\beta C$ |s, d, c, z | A is a symmetric matrix |
+| $\mathbf{hemm}$ |$\alpha AB+\beta C$, or  $\alpha BA+\beta C$ |s, d, c, z | A is a Hermitian matrix |
+| $\mathbf{syrk}$ | $C \leftarrow \alpha op(A)op(A)^T + \beta C$ | s, d, c, z |$op(X)=X$ or $op(X) = X^T$, C is a symmtric matrix. |
+| $\mathbf{herk}$ | $C \leftarrow \alpha op(A)op(A)^H + \beta C$ | c/z for the matrices, with s/d for the scalars |$op(X)=X$ or $op(X) = X^H$, C is a Hermitian matrix. |
  
 
 ## `File structure`
