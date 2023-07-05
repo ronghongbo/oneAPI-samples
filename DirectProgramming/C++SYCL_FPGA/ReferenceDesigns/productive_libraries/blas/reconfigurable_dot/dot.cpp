@@ -45,6 +45,7 @@ int main()
     Param<int> IncX("IncX");
     Param<int> IncY("IncY");
     Param<bool> ConjugateX("ConjugateX");
+    Param<bool> SqrtRet("SqrtRet");
 
     X.dim(0).set_stride(IncX);
     Y.dim(0).set_stride(IncY);
@@ -63,7 +64,7 @@ int main()
     Z(P_2) = select(k == K - 1 && kkk == KKK - 1, uZ_1(P_1));
 
     uZ_2(P_2) = select(kk == 0, 0, uZ_2(P_2_kk_minus_1)) + Z(P_2);
-    Out(P_out) = select(kk == KK - 1, uZ_2(P_2));
+    Out(P_out) = select(kk == KK - 1, conditional_sqrt(SqrtRet, uZ_2(P_2)));
 
     // Put all the UREs inside the same loop nest of X.
     uX.merge_ures(uY, uZ_1, Z);
@@ -99,7 +100,7 @@ int main()
     target.set_feature(Target::IntelFPGA);
     target.set_feature(Target::EnableSynthesis);
 
-    deserializer.compile_to_oneapi(OUTPUT_FILE, {ConjugateX, X, IncX, Y, IncY}, KERNEL, target);
+    deserializer.compile_to_oneapi(OUTPUT_FILE, {ConjugateX, X, IncX, Y, IncY, SqrtRet}, KERNEL, target);
     printf("Success\n");
     return 0;
 }

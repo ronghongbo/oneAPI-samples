@@ -57,6 +57,11 @@ class vec {
         for (size_t i = 0; i < N; i++) ret._arr[i] = std::conj(_arr[i]);
         return ret;
     }
+    vec sqrt() const {
+        vec ret{};
+        for (size_t i = 0; i < N; i++) ret._arr[i] = std::sqrt(_arr[i]);
+        return ret;
+    }
     friend vec operator+(const vec &arg) {
         return arg;
     }
