@@ -13,28 +13,28 @@
     #define KK          4
 #else // LARGE
     #if defined(S10)
-        #ifdef T2SP_SMATMUL
+        #ifdef TYPEC_S
             #define KKK         16
             #define JJJ         16
             #define III         14
             #define JJ          32
             #define II          32
             #define KK          32
-        #elif defined(T2SP_DMATMUL)
+        #elif TYPEC_D
             #define KKK         8
             #define JJJ         4
             #define III         8
             #define JJ          32
             #define II          32
             #define KK          32
-        #elif defined(T2SP_CMATMUL)
+        #elif TYPEC_C
             #define KKK         16
             #define JJJ         16
             #define III         14
             #define JJ          32
             #define II          32
             #define KK          32
-        #elif defined(T2SP_ZMATMUL)
+        #elif TYPEC_Z
             #define KKK         4
             #define JJJ         6
             #define III         4
@@ -42,31 +42,31 @@
             #define II          32
             #define KK          32
         #else
-            #error Precision is undefined. Define one of the following macros: T2SP_SMATMUL, T2SP_DMATMUL, T2SP_CMATMUL, and T2SP_ZMATMUL.
+            #error Precision of the output matrix is undefined.
         #endif
     #elif defined(A10)
-        #ifdef T2SP_SMATMUL
+        #ifdef TYPEC_S
             #define KKK         16
             #define JJJ         8
             #define III         10
             #define JJ          32
             #define II          32
             #define KK          32
-        #elif defined(T2SP_DMATMUL)
+        #elif TYPEC_D
             #define KKK         8
             #define JJJ         4
             #define III         8
             #define JJ          32
             #define II          32
             #define KK          32
-        #elif defined(T2SP_CMATMUL)
+        #elif TYPEC_C
             #define KKK         8
             #define JJJ         4
             #define III         10
             #define JJ          32
             #define II          32
             #define KK          32
-        #elif defined(T2SP_ZMATMUL)
+        #elif TYPEC_Z
             #define KKK         4
             #define JJJ         4
             #define III         4
@@ -74,31 +74,36 @@
             #define II          32
             #define KK          32
         #else
-            #error Precision is undefined. Define one of the following macros: T2SP_SMATMUL, T2SP_DMATMUL, T2SP_CMATMUL, and T2SP_ZMATMUL.
+            #error Precision of the output matrix is undefined.
         #endif
     #else
-        #error The size of the systolic array is undefined. Define a precision (T2SP_SMATMUL, T2SP_DMATMUL, T2SP_CMATMUL, or T2SP_ZMATMUL). Then define hardware (A10 or S10), or define TINY, which indidates a tiny systolic array regardless of hardware.
+        #error The size of the systolic array is undefined. Define the precision of the output matrix. Then define hardware (A10 or S10), or define TINY, which indidates a tiny systolic array regardless of hardware.
     #endif
 #endif
 
-#if defined(T2SP_SMATMUL)
+#if TYPEC_S
+    #define ZERO        0
+    #define SCALAR_ZERO 0
+#elif TYPEC_D
     #define ZERO       0
-    #define CONST_TYPE float
-    #define TTYPE      Float(32)
-#elif defined(T2SP_DMATMUL)
-    #define ZERO       0
-    #define CONST_TYPE double
-    #define TTYPE      Float(64)
-#elif defined(T2SP_CMATMUL)
+#elif TYPEC_C
     #define ZERO       complex32_t(0.0f, 0.0f)
-    #define CONST_TYPE complex32_t
-    #define TTYPE      Complex(32)
-#elif defined(T2SP_ZMATMUL)
+#elif TYPEC_Z
     #define ZERO       complex64_t(0.0, 0.0)
-    #define CONST_TYPE complex64_t
-    #define TTYPE      Complex(64)
 #else
-    #error Precision is undefined. Define one of the following macros: T2SP_SMATMUL, T2SP_DMATMUL, T2SP_CMATMUL, and T2SP_ZMATMUL.
+    #error Precision of the output matrix is undefined.
+#endif
+
+#if TYPE_SCALAR_S
+    #define SCALAR_ZERO 0
+#elif TYPE_SCALAR_D
+    #define SCALAR_ZERO 0
+#elif TYPE_SCALAR_C
+    #define SCALAR_ZERO complex32_t(0.0f, 0.0f)
+#elif TYPE_SCALAR_Z
+    #define SCALAR_ZERO complex64_t(0.0, 0.0)
+#else
+    #error Precision of beta and alpha is undefined.
 #endif
 
 #endif

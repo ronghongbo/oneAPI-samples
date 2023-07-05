@@ -5,38 +5,55 @@
 using namespace Halide;
 
 namespace t2sp::blas::row_major {
-namespace smatmul {
-extern sycl::event smatmul(sycl::queue &q_device, bool Upper_From_Upper_A, bool Upper_From_Upper_B, bool Upper_From_Upper_C,
+// All the legal combinations in the order of TA, TB, TC and TS.
+namespace ssssmatmul {
+extern sycl::event ssssmatmul(sycl::queue &q_device, bool Upper_From_Upper_A, bool Upper_From_Upper_B, bool Upper_From_Upper_C,
                            bool Lower_From_Lower_A, bool Lower_From_Lower_B, bool Lower_From_Lower_C,
                            bool ConjugateA, bool ConjugateB, bool ConjugateC, bool HalfSpaceOut, float alpha, float beta,
                            struct halide_buffer_t *A_buffer, struct halide_buffer_t *B_buffer, struct halide_buffer_t *C_buffer,
                            struct halide_buffer_t *Output_buffer);
 }
 
-namespace dmatmul {
-extern sycl::event dmatmul(sycl::queue &q_device, bool Upper_From_Upper_A, bool Upper_From_Upper_B, bool Upper_From_Upper_C,
+namespace ddddmatmul {
+extern sycl::event ddddmatmul(sycl::queue &q_device, bool Upper_From_Upper_A, bool Upper_From_Upper_B, bool Upper_From_Upper_C,
                            bool Lower_From_Lower_A, bool Lower_From_Lower_B, bool Lower_From_Lower_C,
                            bool ConjugateA, bool ConjugateB, bool ConjugateC, bool HalfSpaceOut, double alpha, double beta,
                            struct halide_buffer_t *A_buffer, struct halide_buffer_t *B_buffer, struct halide_buffer_t *C_buffer,
                            struct halide_buffer_t *Output_buffer);
 }
 
-namespace cmatmul {
-extern sycl::event cmatmul(sycl::queue &q_device, bool Upper_From_Upper_A, bool Upper_From_Upper_B, bool Upper_From_Upper_C,
+namespace ccccmatmul {
+extern sycl::event ccccmatmul(sycl::queue &q_device, bool Upper_From_Upper_A, bool Upper_From_Upper_B, bool Upper_From_Upper_C,
                            bool Lower_From_Lower_A, bool Lower_From_Lower_B, bool Lower_From_Lower_C,
                            bool ConjugateA, bool ConjugateB, bool ConjugateC, bool HalfSpaceOut, std::complex<float> alpha, std::complex<float> beta,
                            struct halide_buffer_t *A_buffer, struct halide_buffer_t *B_buffer, struct halide_buffer_t *C_buffer,
                            struct halide_buffer_t *Output_buffer);
 }
 
-namespace zmatmul {
-extern sycl::event zmatmul(sycl::queue &q_device, bool Upper_From_Upper_A, bool Upper_From_Upper_B, bool Upper_From_Upper_C,
+namespace zzzzmatmul {
+extern sycl::event zzzzmatmul(sycl::queue &q_device, bool Upper_From_Upper_A, bool Upper_From_Upper_B, bool Upper_From_Upper_C,
                            bool Lower_From_Lower_A, bool Lower_From_Lower_B, bool Lower_From_Lower_C,
                            bool ConjugateA, bool ConjugateB, bool ConjugateC, bool HalfSpaceOut, std::complex<double> alpha, std::complex<double> beta,
                            struct halide_buffer_t *A_buffer, struct halide_buffer_t *B_buffer, struct halide_buffer_t *C_buffer,
                            struct halide_buffer_t *Output_buffer);
 }
 
+// For HERK, the scalar type is real or double, different from the matrices' data types.
+namespace cccsmatmul {
+extern sycl::event cccsmatmul(sycl::queue &q_device, bool Upper_From_Upper_A, bool Upper_From_Upper_B, bool Upper_From_Upper_C,
+                           bool Lower_From_Lower_A, bool Lower_From_Lower_B, bool Lower_From_Lower_C,
+                           bool ConjugateA, bool ConjugateB, bool ConjugateC, bool HalfSpaceOut, float alpha, float beta,
+                           struct halide_buffer_t *A_buffer, struct halide_buffer_t *B_buffer, struct halide_buffer_t *C_buffer,
+                           struct halide_buffer_t *Output_buffer);
+}
+
+namespace zzzdmatmul {
+extern sycl::event zzzdmatmul(sycl::queue &q_device, bool Upper_From_Upper_A, bool Upper_From_Upper_B, bool Upper_From_Upper_C,
+                           bool Lower_From_Lower_A, bool Lower_From_Lower_B, bool Lower_From_Lower_C,
+                           bool ConjugateA, bool ConjugateB, bool ConjugateC, bool HalfSpaceOut, double alpha, double beta,
+                           struct halide_buffer_t *A_buffer, struct halide_buffer_t *B_buffer, struct halide_buffer_t *C_buffer,
+                           struct halide_buffer_t *Output_buffer);
+}
 
 
 // Query of the parameters of the systolic array (KKK, JJJ, III, JJ, II, KK) based on types

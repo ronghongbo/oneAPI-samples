@@ -2,6 +2,9 @@
 #include <complex>
 #include <array>
 
+using complexf = std::complex<float>;
+using complexd = std::complex<double>;
+
 namespace t2sp {
 namespace detail {
 template <typename T, size_t N>
@@ -140,11 +143,34 @@ class vec {
         return !(lhs == rhs);
     }
 };
-}
+
+template<size_t N>
+vec<complexf, N> operator*(const vec<complexf, N> &lhs, const float &rhs) {
+    vec<complexf, N> ret{};
+    for (size_t i = 0; i < N; i++) ret[i] = lhs[i] * rhs;
+    return ret;
 }
 
-using complexf = std::complex<float>;
-using complexd = std::complex<double>;
+template<size_t N>
+vec<complexf, N> operator*(const float &lhs, const vec<complexf, N> &rhs) {
+    return rhs * lhs;
+}
+
+template<size_t N>
+vec<complexd, N> operator*(const vec<complexd, N> &lhs, const double &rhs) {
+    vec<complexd, N> ret{};
+    for (size_t i = 0; i < N; i++) ret[i] = lhs[i] * rhs;
+    return ret;
+}
+
+template<size_t N>
+vec<complexd, N> operator*(const double &lhs, const vec<complexd, N> &rhs) {
+    return rhs * lhs;
+}
+
+} // namespace detail
+} // namespace t2sp
+
 using complexf2 = t2sp::detail::vec<complexf, 2>;
 using complexf4 = t2sp::detail::vec<complexf, 4>;
 using complexf8 = t2sp::detail::vec<complexf, 8>;

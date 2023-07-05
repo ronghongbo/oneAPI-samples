@@ -1,7 +1,7 @@
 #include "Halide.h"
 
 // Constant parameters and data types of the kernel (dimensions of the systolic array)
-#include "parameters.h"
+#include "./parameters.h"
 using namespace Halide;
 
 int main()
@@ -44,13 +44,13 @@ int main()
                                               // This "upper triangle of the output" is not strictly upper triangular: the output is composed of jjj-wide vectors, and thus for the vectors
                                               // crossing the diagonal, they can have left part in the lower triangle, and right part in the upper triangle (including the diagonal). We only
                                               // make sure the right part is correct.
-    Param<CONST_TYPE> alpha("alpha"), beta("beta");
-    ImageParam A("A", TTYPE, 2), B("B", TTYPE, 2), C("C", TTYPE, 2);
+    Param<TS> alpha("alpha"), beta("beta");
+    ImageParam A("A", TA, 2), B("B", TB, 2), C("C", TC, 2);
 
     // UREs
     Var kkk("kkk"), jjj("jjj"), iii("iii"), jj("jj"), ii("ii"), kk("kk"), k("k"), j("j"), i("i");
-    URE X("X", TTYPE, {P}), Y("Y", TTYPE, {P}), Z("Z", TTYPE, {P}), Product("Product");
-    URE Add("Add", TTYPE, {P_reorder}), Out("Out", TTYPE, {P_reorder});
+    URE X("X", TC, {P}), Y("Y", TC, {P}), Z("Z", TC, {P}), Product("Product");
+    URE Add("Add", TC, {P_reorder}), Out("Out", TC, {P_reorder});
 
     Expr Is_Upper_A = total_i <= total_k;
     Expr Transposed_A = select(Is_Upper_A, !Upper_From_Upper_A, !Lower_From_Lower_A);
@@ -83,7 +83,7 @@ int main()
     Expr Effective_dim1_C = select(Transposed_C, total_j, total_i);
     Expr Check_Load_C = conditional_conjugate(ConjugateTransposedC && Transposed_C, C(Effective_dim0_C, Effective_dim1_C));
 
-    Add(P_reorder) = alpha * Product(P_reorder) + select(beta == ZERO, ZERO, beta * Check_Load_C);
+    Add(P_reorder) = alpha * Product(P_reorder) + select(beta == SCALAR_ZERO, ZERO, beta * Check_Load_C);
     Out(P_reorder) = select(true, Add(P_reorder));
 
     // Put the UREs that compute A*B (i.e. X, Y, Z and Product) inside the same loop nest.

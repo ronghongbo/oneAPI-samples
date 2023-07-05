@@ -88911,7 +88911,7 @@ namespace Internal {
  * simply prints whatever the IR is, without doing any smart tricks. Not only this simplifies
  * the code generator, but also improves code readability, as no immediate variable would be
  * blindly generated. */
-extern Stmt standardize_ir_for_opencl_code_gen(Stmt s);
+extern Stmt standardize_ir_for_clear_code_gen(Stmt s);
 
 }
 }
