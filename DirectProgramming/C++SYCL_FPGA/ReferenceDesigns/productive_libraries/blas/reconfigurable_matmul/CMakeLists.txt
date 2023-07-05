@@ -100,12 +100,12 @@ foreach(TYPEA ${TYPES})
                                                    -DOUTPUT_FILE="${TYPEA}${TYPEB}${TYPEC}${TYPE_SCALAR}matmul_${SIZE}_${HW}.cpp"
                                                    -I${HALIDE_TOOLS_PATH}/include
                                                    -std=gnu++11 -O0 -g
-                                                   ${RECONFIGURABLE_MATMUL_PATH}/matrix_multiply.cpp
+                                                   ${RECONFIGURABLE_MATMUL_PATH}/spec.cpp
                                                    -L${HALIDE_TOOLS_PATH}/lib -lpthread -lz -ldl -lHalide
                                                    -o ${RECONFIGURABLE_MATMUL_PATH}/bin/oneapi_${TYPEA}${TYPEB}${TYPEC}${TYPE_SCALAR}matmul_${SIZE}_${HW}
                                            COMMAND env CLEARCODE=1 ${RECONFIGURABLE_MATMUL_PATH}/bin/oneapi_${TYPEA}${TYPEB}${TYPEC}${TYPE_SCALAR}matmul_${SIZE}_${HW}
                                            COMMAND mv ${RECONFIGURABLE_MATMUL_PATH}/bin/${TYPEA}${TYPEB}${TYPEC}${TYPE_SCALAR}matmul_${SIZE}_${HW}.cpp ${RECONFIGURABLE_MATMUL_PATH}/oneapi/
-                                           DEPENDS ${RECONFIGURABLE_MATMUL_PATH}/matrix_multiply.cpp
+                                           DEPENDS ${RECONFIGURABLE_MATMUL_PATH}/spec.cpp
                                                    ${RECONFIGURABLE_MATMUL_PATH}/parameters.h
                                                    ${HALIDE_TOOLS_PATH}/include/Halide.h
                                            WORKING_DIRECTORY ${RECONFIGURABLE_MATMUL_PATH}/bin

@@ -90,7 +90,7 @@ int main() {
     int64_t ldc = n;
     double alpha = 2.0f;
     double beta = 3.0f;
-    test<double>(oneapi::mkl::uplo::U, oneapi::mkl::transpose:N, n, k, lda, ldc, alpha, beta);
+    test<double>(oneapi::mkl::uplo::U, oneapi::mkl::transpose::N, n, k, lda, ldc, alpha, beta);
 #elif defined(T2SP_CMATMUL)
     const auto [KKK, JJJ, III, JJ, II, KK] = t2sp::blas::row_major::get_systolic_array_dimensions<std::complex<float>>();
     int64_t n = III * II * 32;
@@ -99,7 +99,7 @@ int main() {
     int64_t ldc = n;
     std::complex<float> alpha = {2.0f, -0.5f};
     std::complex<float> beta  = {3.0f, -1.5f};
-    test<std::complex<float>>(oneapi::mkl::uplo::U, oneapi::mkl::transpose:N, n, k, lda, ldc, alpha, beta);
+    test<std::complex<float>>(oneapi::mkl::uplo::U, oneapi::mkl::transpose::N, n, k, lda, ldc, alpha, beta);
 #else
     const auto [KKK, JJJ, III, JJ, II, KK] = t2sp::blas::row_major::get_systolic_array_dimensions<std::complex<double>>();
     int64_t n = III * II * 32;
@@ -108,6 +108,6 @@ int main() {
     int64_t ldc = n;
     std::complex<double> alpha = {2.0f, -0.5f};
     std::complex<double> beta  = {3.0f, -1.5f};
-    test<std::complex<double>>(oneapi::mkl::uplo::U, oneapi::mkl::transpose:N, n, k, lda, ldc, alpha, beta);
+    test<std::complex<double>>(oneapi::mkl::uplo::U, oneapi::mkl::transpose::N, n, k, lda, ldc, alpha, beta);
 #endif
 }

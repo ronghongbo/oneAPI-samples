@@ -132,19 +132,19 @@ TEST_P(HerkUsmTests, ComplexSinglePrecision) {
 #ifdef T2SP_TEST_0
     EXPECT_TRUEORSKIP((test<std::complex<float>, float>(
         std::get<0>(GetParam()), std::get<1>(GetParam()), oneapi::mkl::uplo::lower,
-        oneapi::mkl::transpose::nontrans, 72, 27, 101, 103, alpha, beta)));
+        oneapi::mkl::transpose::nontrans, 72, 28, 101, 103, alpha, beta)));
 #elif defined(T2SP_TEST_1)
     EXPECT_TRUEORSKIP((test<std::complex<float>, float>(
         std::get<0>(GetParam()), std::get<1>(GetParam()), oneapi::mkl::uplo::upper,
-        oneapi::mkl::transpose::nontrans, 72, 27, 101, 103, alpha, beta)));
+        oneapi::mkl::transpose::nontrans, 72, 28, 101, 103, alpha, beta)));
 #elif defined(T2SP_TEST_2)
     EXPECT_TRUEORSKIP((test<std::complex<float>, float>(
         std::get<0>(GetParam()), std::get<1>(GetParam()), oneapi::mkl::uplo::lower,
-        oneapi::mkl::transpose::conjtrans, 72, 27, 101, 103, alpha, beta)));
+        oneapi::mkl::transpose::conjtrans, 72, 28, 101, 103, alpha, beta)));
 #elif defined(T2SP_TEST_3)
     EXPECT_TRUEORSKIP((test<std::complex<float>, float>(
         std::get<0>(GetParam()), std::get<1>(GetParam()), oneapi::mkl::uplo::upper,
-        oneapi::mkl::transpose::conjtrans, 72, 27, 101, 103, alpha, beta)));
+        oneapi::mkl::transpose::conjtrans, 72, 28, 101, 103, alpha, beta)));
 #endif
 }
 TEST_P(HerkUsmTests, ComplexDoublePrecision) {
@@ -153,19 +153,19 @@ TEST_P(HerkUsmTests, ComplexDoublePrecision) {
 #ifdef T2SP_TEST_0
     EXPECT_TRUEORSKIP((test<std::complex<double>, double>(
         std::get<0>(GetParam()), std::get<1>(GetParam()), oneapi::mkl::uplo::lower,
-        oneapi::mkl::transpose::nontrans, 72, 27, 101, 103, alpha, beta)));
+        oneapi::mkl::transpose::nontrans, 72, 28, 101, 103, alpha, beta)));
 #elif defined(T2SP_TEST_1)
     EXPECT_TRUEORSKIP((test<std::complex<double>, double>(
         std::get<0>(GetParam()), std::get<1>(GetParam()), oneapi::mkl::uplo::upper,
-        oneapi::mkl::transpose::nontrans, 72, 27, 101, 103, alpha, beta)));
+        oneapi::mkl::transpose::nontrans, 72, 28, 101, 103, alpha, beta)));
 #elif defined(T2SP_TEST_2)
     EXPECT_TRUEORSKIP((test<std::complex<double>, double>(
         std::get<0>(GetParam()), std::get<1>(GetParam()), oneapi::mkl::uplo::lower,
-        oneapi::mkl::transpose::conjtrans, 72, 27, 101, 103, alpha, beta)));
+        oneapi::mkl::transpose::conjtrans, 72, 28, 101, 103, alpha, beta)));
 #elif defined(T2SP_TEST_3)
     EXPECT_TRUEORSKIP((test<std::complex<double>, double>(
         std::get<0>(GetParam()), std::get<1>(GetParam()), oneapi::mkl::uplo::upper,
-        oneapi::mkl::transpose::conjtrans, 72, 27, 101, 103, alpha, beta)));
+        oneapi::mkl::transpose::conjtrans, 72, 28, 101, 103, alpha, beta)));
 #endif
 }
 
