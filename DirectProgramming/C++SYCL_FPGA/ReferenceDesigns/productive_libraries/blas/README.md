@@ -7,13 +7,13 @@ To reduce engineering efforts, kernels with similar computes are grouped so that
 ## `Level 1 kernels`
 
 
-| Kernel            | Formula                           | Description                          |
-| ----------------- | --------------------------------- | ------------------------------------ |
-| $\mathbf{dot}$    | $\vec{X}\cdot \vec{Y}$            |           |
-| $\mathbf{sdsdot}$ | $sb+\vec{X}\cdot \vec{Y}$         |  |
-| $\mathbf{dotc}$   | $\overline{\vec{X}}\cdot \vec{Y}$ |        |
-| $\mathbf{dotu}$   | $\vec{X}\cdot \vec{Y}$            |         |
-| $\mathbf{nrm2}$   | $\|\vec{X}\|$                     |           |
+| Kernel            | Formula                           | Data types of (inputs, output)       | Description                          |
+| ----------------- | --------------------------------- | -------------------------------------|----------- |
+| $\mathbf{dot}$    | $\vec{X}\cdot \vec{Y}$            | (s, s), (d, d), (s, d) | Dot product. For the mixed precision version (inputs are float while result is double), the dot product is computed with double precision. |
+| $\mathbf{sdsdot}$ | $sb+\vec{X}\cdot \vec{Y}$         | (s, s)  | A dot product between two single-precision vectors , plus a single-precision float $sb$ |
+| $\mathbf{dotc}$   | $\overline{\vec{X}}\cdot \vec{Y}$ | (c, c), (z, z)    | A dot product between two complex vectors, conjugating the first of them  |
+| $\mathbf{dotu}$   | $\vec{X}\cdot \vec{Y}$            | (c, c), (z, z)    |  A dot product between two complex vectors  |
+| $\mathbf{nrm2}$   | $\|\vec{X}\|$                     |  (s, s), (d, d), (c, s),(z, d)|   Euclidean norm of a vector |
 
 
 
@@ -25,7 +25,7 @@ To reduce engineering efforts, kernels with similar computes are grouped so that
 
  Kernel          | Formula             | Data types | Description       |
 | --------------- | ------------------- | ----------|------- |
-| $\mathbf{gemm}$ | $\alpha op(A)op(B)+\beta C$ | s, d, c, z  |  $op(X)$ is one of $X$, $X^T$, and $X^H$ |
+| $\mathbf{gemm}$ | $\alpha op(A)op(B)+\beta C$ | s, d, c, z  | Multiplication of general matrices. $op(X)$ is one of $X$, $X^T$, and $X^H$ |
 | $\mathbf{symm}$ | $\alpha AB+\beta C$, or  $\alpha BA+\beta C$ |s, d, c, z | A is a symmetric matrix |
 | $\mathbf{hemm}$ |$\alpha AB+\beta C$, or  $\alpha BA+\beta C$ |s, d, c, z | A is a Hermitian matrix |
 | $\mathbf{syrk}$ | $C \leftarrow \alpha op(A)op(A)^T + \beta C$ | s, d, c, z |$op(X)=X$ or $op(X) = X^T$, C is a symmtric matrix. |
