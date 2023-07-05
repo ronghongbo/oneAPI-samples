@@ -4,7 +4,7 @@
 #include <sycl/sycl.hpp>
 #include "oneapi/mkl.hpp"
 
-// API of the reconfigurable dot. The interface will be invoked by the DOT implementation below.
+// API of the reconfigurable dot. The interface will be invoked by the DOTU implementation below.
 #include "../reconfigurable_dot/api.hpp"
 
 // Data structures, etc. in Halide/T2SP
@@ -12,11 +12,11 @@
 using namespace Halide;
 
 namespace t2sp::blas::row_major {
-// The API for DOT. We choose the USM version of oneMKL DPC++ interface (https://oneapi-src.github.io/oneMKL/domains/blas/dot.html) with the
-// restriction of standard data types (s, d) only. In this case, the matrices, alpha and beta all have the same data type according to the DPC++ interface.
-// So we define our DOT interface as a template with a single type T.
+// The API for DOTU. We choose the USM version of oneMKL DPC++ interface (https://oneapi-src.github.io/oneMKL/domains/blas/dotu.html) with the
+// restriction of standard data types (c, z) only. In this case, the matrices, alpha and beta all have the same data type according to the DPC++ interface.
+// So we define our DOTU interface as a template with a single type T.
 template<typename T>
-sycl::event dot(sycl::queue &queue,
+sycl::event dotu(sycl::queue &queue,
                  std::int64_t n,
                  const T *x,
                  std::int64_t incx,
@@ -25,8 +25,8 @@ sycl::event dot(sycl::queue &queue,
                  T *result,
                  const std::vector<sycl::event> &dependencies = {}) {
 
-    _halide_user_assert((std::is_same_v<float, T>) ||
-                        (std::is_same_v<double, T>)) << "Unsupported data type";
+    _halide_user_assert((std::is_same_v<std::complex<float>, T>) ||
+                        (std::is_same_v<std::complex<double>, T>)) << "Unsupported data type";
 
     const auto KKK = get_systolic_array_dimensions<T>();
 
@@ -52,12 +52,12 @@ sycl::event dot(sycl::queue &queue,
 
     sycl::event done;
 
-    if constexpr (std::is_same_v<float, T>) {
-        done = t2sp::blas::row_major::sdot::sdot(queue, ConjugateX,
+    if constexpr (std::is_same_v<std::complex<float>, T>) {
+        done = t2sp::blas::row_major::cdot::cdot(queue, ConjugateX,
                                                  X_buffer, std::abs(static_cast<int>(incx)),
                                                  Y_buffer, std::abs(static_cast<int>(incy)), SqrtRet, Res_buffer);
     } else {
-        done = t2sp::blas::row_major::ddot::ddot(queue, ConjugateX,
+        done = t2sp::blas::row_major::zdot::zdot(queue, ConjugateX,
                                                  X_buffer, std::abs(static_cast<int>(incx)),
                                                  Y_buffer, std::abs(static_cast<int>(incy)), SqrtRet, Res_buffer);
     }

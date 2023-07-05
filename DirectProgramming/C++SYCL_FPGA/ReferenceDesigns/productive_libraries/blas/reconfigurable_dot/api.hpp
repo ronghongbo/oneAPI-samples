@@ -6,19 +6,19 @@ using namespace Halide;
 
 namespace t2sp::blas::row_major {
 namespace sdot {
-extern sycl::event sdot(sycl::queue &, bool, halide_buffer_t *, int, halide_buffer_t *, int, halide_buffer_t *);
+extern sycl::event sdot(sycl::queue &, bool, halide_buffer_t *, int, halide_buffer_t *, int, bool, halide_buffer_t *);
 }
 
 namespace ddot {
-extern sycl::event ddot(sycl::queue &, bool, halide_buffer_t *, int, halide_buffer_t *, int, halide_buffer_t *);
+extern sycl::event ddot(sycl::queue &, bool, halide_buffer_t *, int, halide_buffer_t *, int, bool, halide_buffer_t *);
 }
 
 namespace cdot {
-extern sycl::event cdot(sycl::queue &, bool, halide_buffer_t *, int, halide_buffer_t *, int, halide_buffer_t *);
+extern sycl::event cdot(sycl::queue &, bool, halide_buffer_t *, int, halide_buffer_t *, int, bool, halide_buffer_t *);
 }
 
-namespace cdot {
-extern sycl::event zdot(sycl::queue &, bool, halide_buffer_t *, int, halide_buffer_t *, int, halide_buffer_t *);
+namespace zdot {
+extern sycl::event zdot(sycl::queue &, bool, halide_buffer_t *, int, halide_buffer_t *, int, bool, halide_buffer_t *);
 }
 
 // Query of the parameters of the systolic array (KKK) based on types
