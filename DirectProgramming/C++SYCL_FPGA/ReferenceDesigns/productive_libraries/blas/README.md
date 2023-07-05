@@ -29,7 +29,7 @@ To reduce engineering efforts, kernels with similar computes are grouped so that
 | $\mathbf{symm}$ | $\alpha AB+\beta C$ |  |
 | $\mathbf{hemm}$ | $\alpha HB+\beta C$ |  |
 | $\mathbf{syrk}$ | $\alpha AA^T+\beta C$ |    |
-| $\mathbf{herk}$ | $\alpha AA^H+\beta C$ |    |
+| $\mathbf{herk}$ | $C \leftarrow alpha*op(A)*op(A)^H + beta*C$ |$op(X)=X$ or $op(X) = X^H$, C is a Hermitian matrix. |
  
 
 ## `File structure`
@@ -53,21 +53,21 @@ The shared systolic arrays (named as `reconfigurable-*`) are also under the `bla
 
 1. Configure the build system.
 
-   ```shell
-   cd KERNEL # Replace this with the specific kernel's name, e.g. gemm
-   mkdir -p build
-   cd build
-   ```
+    ```shell
+    cd KERNEL # Replace this with the specific kernel's name, e.g. gemm
+    mkdir -p build
+    cd build
+    ```
    
-For Intel Arria® 10 GX FPGA:
-   ```shell  
-   cmake ..
-   ```
+    For Intel Arria® 10 GX FPGA:
+    ```shell  
+    cmake ..
+    ```
 
-For **Intel Stratix® 10 SX**:
-   ```shell
-   cmake .. -DFPGA_DEVICE=intel_s10sx_pac:pac_s10
-   ```
+    For **Intel Stratix® 10 SX**:
+    ```shell
+    cmake .. -DFPGA_DEVICE=intel_s10sx_pac:pac_s10
+    ```
 
 2. Test correctness.
 
@@ -76,11 +76,11 @@ For **Intel Stratix® 10 SX**:
    ../bin/test_* # Replace * with specific test ID like 0, 1, ...
    ```
 
-Each test builds a tiny-scale systolic array and runs on an FPGA emulator.
+    Each test builds a tiny-scale systolic array and runs on an FPGA emulator.
 
 3. Test performance
 
-Each kernel usually has several variations, depending on the the precision. For example, `gemm` has 4 precisions supported,  `s` (single-precision), `d`(double-precision), `c`(complex single-precision), and `z`(complex double-precision), and correspondingly, 4 variations: `sgemm`, `dgemm`, `cgemm` and `zgemm`.
+    Each kernel usually has several variations, depending on the the precision. For example, `gemm` has 4 precisions supported,  `s` (single-precision), `d`(double-precision), `c`(complex single-precision), and `z`(complex double-precision), and correspondingly, 4 variations: `sgemm`, `dgemm`, `cgemm` and `zgemm`.
 
     ```shell
     # Replace the VARIATION below with a specific variation of the kernel
@@ -88,12 +88,12 @@ Each kernel usually has several variations, depending on the the precision. For 
     ../bin/demo_VARIATION_(tiny|large)_(a10|s10)
     ```
 
-Take `sgemm` for example:
-   ```shell
-   # Generate a demo application.
-   make demo_sgemm_large_a10
+    Take `sgemm` for example:
+    ```shell
+    # Generate a demo application.
+    make demo_sgemm_large_a10
 
-   # Demo on the hardware
-   ../bin/demo_sgemm_large_a10
-   ``` 
-Note that `sgemm` actually involkes a reconfigurable systolic array. When building the demo for `sgemm` as shown above, that array will be automatically synthesized, if not yet.
+    # Demo on the hardware
+    ../bin/demo_sgemm_large_a10
+    ``` 
+    Note that `sgemm` actually involkes a reconfigurable systolic array. When building the demo for `sgemm` as shown above, that array will be automatically synthesized, if not yet.
