@@ -55,7 +55,7 @@ int test(device *dev, oneapi::mkl::layout layout, int N, int incx, int incy) {
                 std::rethrow_exception(e);
             }
             catch (exception const &e) {
-                std::cout << "Caught asynchronous SYCL exception during DOTU:\n"
+                std::cout << "Caught asynchronous SYCL exception during DOTC:\n"
                           << e.what() << std::endl;
                 print_error_code(e);
             }
@@ -76,11 +76,11 @@ int test(device *dev, oneapi::mkl::layout layout, int N, int incx, int incy) {
     rand_vector(x, N, incx);
     rand_vector(y, N, incy);
 
-    // Call DPC++ DOTU.
+    // Call DPC++ DOTC.
     oneapi::mkl::blas::row_major::dotc(main_queue, N, x.data(), incx, y.data(),
                                        incy, result_reference, dependencies).wait();
 
-    // Call T2SP DOTU.
+    // Call T2SP DOTC.
     auto result_p = (fp *)oneapi::mkl::malloc_shared(64, sizeof(fp), *dev, cxt);
     try {
         switch (layout) {
@@ -96,7 +96,7 @@ int test(device *dev, oneapi::mkl::layout layout, int N, int incx, int incy) {
         done.wait();
     }
     catch (exception const &e) {
-        std::cout << "Caught synchronous SYCL exception during DOTU:\n" << e.what() << std::endl;
+        std::cout << "Caught synchronous SYCL exception during DOTC:\n" << e.what() << std::endl;
         print_error_code(e);
     }
 
@@ -105,7 +105,7 @@ int test(device *dev, oneapi::mkl::layout layout, int N, int incx, int incy) {
     }
 
     catch (const std::runtime_error &error) {
-        std::cout << "Error raised during execution of DOTU:\n" << error.what() << std::endl;
+        std::cout << "Error raised during execution of DOTC:\n" << error.what() << std::endl;
     }
 
     // Compare the results of reference implementation and DPC++ implementation.
