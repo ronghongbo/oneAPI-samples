@@ -40,8 +40,8 @@ int main()
     #define addr_in_range (KKK * (kk + KK * k) < X.dim(0).extent())
 
     // Inputs
-    ImageParam X("X", TTYPE, 2);
-    ImageParam Y("Y", TTYPE, 2);
+    ImageParam X("X", ITYPE, 2);
+    ImageParam Y("Y", ITYPE, 2);
     Param<int> IncX("IncX");
     Param<int> IncY("IncY");
     Param<bool> ConjugateX("ConjugateX");
@@ -55,8 +55,8 @@ int main()
     URE uY("uY", TTYPE, {P_1}), uX("uX", TTYPE, {P_1}), uZ_1("uZ_1", TTYPE, {P_1}), Z("Z");
     URE uZ_2("uZ_2", TTYPE, {P_2}), Out("Out");
 
-    Expr Check_Load_X = select(addr_in_range, conditional_conjugate(ConjugateX, X(total_k, b)), 0);
-    Expr Check_Load_Y = select(addr_in_range, Y(total_k, b), 0);
+    Expr Check_Load_X = select(addr_in_range, conditional_conjugate(ConjugateX, cast(TTYPE, X(total_k, b))), 0);
+    Expr Check_Load_Y = select(addr_in_range, cast(TTYPE, Y(total_k, b)), 0);
 
     uX(P_1) = Check_Load_X;
     uY(P_1) = Check_Load_Y;

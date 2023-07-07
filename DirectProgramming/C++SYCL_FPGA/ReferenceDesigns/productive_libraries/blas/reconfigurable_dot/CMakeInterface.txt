@@ -2,7 +2,7 @@
 # NOTE: Before including this file, set the KERNEL variable as one of "gemm", "symm", "hemm", "syrk" and "herk".
 
 set(RECONFIGURABLE_DOT_DIR ${CMAKE_CURRENT_LIST_DIR})
-set(PRECISIONS                "s" "d" "c" "z")
+set(PRECISIONS                "s" "d" "c" "z" "sds_")
 
 # Create targets, which are interfaces of the same targets of reconfigurable_dot
 file(MAKE_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
@@ -13,7 +13,7 @@ foreach(PRECISION ${PRECISIONS})
             add_custom_command(OUTPUT  ${RECONFIGURABLE_DOT_DIR}/oneapi/${PRECISION}dot_${SIZE}_${HW}.cpp
                                COMMAND make oneapi_${PRECISION}dot_${SIZE}_${HW}
                                WORKING_DIRECTORY ${RECONFIGURABLE_DOT_DIR}/build
-                               DEPENDS ${RECONFIGURABLE_DOT_DIR}/dot.cpp
+                               DEPENDS ${RECONFIGURABLE_DOT_DIR}/spec.cpp
                                        ${RECONFIGURABLE_DOT_DIR}/parameters.h
                                        ${TOOLS_PATH}/Halide/include/Halide.h
                                COMMENT "Invoke the make of reconfigurable dot to generate OneAPI files"

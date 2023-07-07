@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.10)
 project(reconfigurable_dot)
 set(CMAKE_CXX_COMPILER icpx)
 set(KERNEL "dot")
-set(PRECISIONS "s" "d" "c" "z")
+set(PRECISIONS "s" "d" "c" "z" "sds_")
 set(OPENCL_1_2_1_BSP /opt/a10/inteldevstack/a10_gx_pac_ias_1_2_1_pv/opencl/opencl_bsp)
 
 # Due to restrictions of file size, we have split libHalide.a into parts. Join them into the original binary
@@ -60,12 +60,12 @@ foreach(PRECISION ${PRECISIONS})
                                -DKERNEL="t2sp::blas::row_major::${PRECISION}${KERNEL}::${PRECISION}${KERNEL}" -DOUTPUT_FILE="${PRECISION}${KERNEL}_${SIZE}_${HW}.cpp"
                                        -I${TOOLS_PATH}/Halide/include -I${CMAKE_SOURCE_DIR}
                                        -std=gnu++11
-                                       ${CMAKE_SOURCE_DIR}/dot.cpp
+                                       ${CMAKE_SOURCE_DIR}/spec.cpp
                                        -L${TOOLS_PATH}/Halide/lib -lpthread -lz -ldl -lHalide
                                        -o ${CMAKE_BINARY_DIR}/oneapi_${PRECISION}${KERNEL}_${SIZE}_${HW}
                                COMMAND env CLEARCODE=1 ${CMAKE_BINARY_DIR}/oneapi_${PRECISION}${KERNEL}_${SIZE}_${HW}
                                COMMAND cp ${CMAKE_BINARY_DIR}/${PRECISION}${KERNEL}_${SIZE}_${HW}.cpp ${CMAKE_SOURCE_DIR}/oneapi
-                               DEPENDS ${CMAKE_SOURCE_DIR}/dot.cpp
+                               DEPENDS ${CMAKE_SOURCE_DIR}/spec.cpp
                                        ${CMAKE_SOURCE_DIR}/parameters.h
                                        ${TOOLS_PATH}/Halide/include/Halide.h
                                WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
