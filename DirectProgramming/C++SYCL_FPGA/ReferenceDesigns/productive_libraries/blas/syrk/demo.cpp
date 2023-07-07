@@ -73,7 +73,7 @@ int test(oneapi::mkl::uplo upper_lower,
 }
 
 int main() {
-#if defined(T2SP_SMATMUL)
+#if defined(PREFIX_S)
     const auto [KKK, JJJ, III, JJ, II, KK] = t2sp::blas::row_major::get_systolic_array_dimensions<float>();
     int64_t n = III * II * 4;
     int64_t k = KKK * KK * 4;
@@ -82,7 +82,7 @@ int main() {
     float alpha = 2.0f;
     float beta  = 3.0f;
     test<float>(oneapi::mkl::uplo::U, oneapi::mkl::transpose::N, n, k, lda, ldc, alpha, beta);
-#elif defined(T2SP_DMATMUL)
+#elif defined(PREFIX_D)
     const auto [KKK, JJJ, III, JJ, II, KK] = t2sp::blas::row_major::get_systolic_array_dimensions<double>();
     int64_t n = III * II * 32;
     int64_t k = KKK * KK * 32;
@@ -91,7 +91,7 @@ int main() {
     double alpha = 2.0f;
     double beta = 3.0f;
     test<double>(oneapi::mkl::uplo::U, oneapi::mkl::transpose::N, n, k, lda, ldc, alpha, beta);
-#elif defined(T2SP_CMATMUL)
+#elif defined(PREFIX_C)
     const auto [KKK, JJJ, III, JJ, II, KK] = t2sp::blas::row_major::get_systolic_array_dimensions<std::complex<float>>();
     int64_t n = III * II * 32;
     int64_t k = KKK * KK * 32;

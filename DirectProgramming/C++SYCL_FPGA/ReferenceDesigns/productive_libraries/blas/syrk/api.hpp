@@ -73,25 +73,25 @@ sycl::event syrk(sycl::queue &queue,
 
     sycl::event done;
     if constexpr (std::is_same_v<float, T>) {
-        done = t2sp::blas::row_major::smatmul::smatmul(queue, Upper_From_Upper_A, Upper_From_Upper_B, Upper_From_Upper_C,
+        done = t2sp::blas::row_major::ssssmatmul::ssssmatmul(queue, Upper_From_Upper_A, Upper_From_Upper_B, Upper_From_Upper_C,
                                                               Lower_From_Lower_A, Lower_From_Lower_B, Lower_From_Lower_C,
                                                               ConjugateTransposedA, ConjugateTransposedB, ConjugateTransposedC,
                                                               HalfSpaceOut, alpha, beta,
                                                               A_buffer, A_buffer, C_buffer, Output_buffer);
     } else if constexpr (std::is_same_v<double, T>) {
-        done = t2sp::blas::row_major::dmatmul::dmatmul(queue, Upper_From_Upper_A, Upper_From_Upper_B, Upper_From_Upper_C,
+        done = t2sp::blas::row_major::ddddmatmul::ddddmatmul(queue, Upper_From_Upper_A, Upper_From_Upper_B, Upper_From_Upper_C,
                                                               Lower_From_Lower_A, Lower_From_Lower_B, Lower_From_Lower_C,
                                                               ConjugateTransposedA, ConjugateTransposedB, ConjugateTransposedC,
                                                               HalfSpaceOut, alpha, beta,
                                                               A_buffer, A_buffer, C_buffer, Output_buffer);
     } else if constexpr (std::is_same_v<std::complex<float>, T>) {
-        done = t2sp::blas::row_major::cmatmul::cmatmul(queue, Upper_From_Upper_A, Upper_From_Upper_B, Upper_From_Upper_C,
+        done = t2sp::blas::row_major::ccccmatmul::ccccmatmul(queue, Upper_From_Upper_A, Upper_From_Upper_B, Upper_From_Upper_C,
                                                               Lower_From_Lower_A, Lower_From_Lower_B, Lower_From_Lower_C,
                                                               ConjugateTransposedA, ConjugateTransposedB, ConjugateTransposedC,
                                                               HalfSpaceOut, alpha, beta,
                                                               A_buffer, A_buffer, C_buffer, Output_buffer);
     } else {
-        done = t2sp::blas::row_major::zmatmul::zmatmul(queue, Upper_From_Upper_A, Upper_From_Upper_B, Upper_From_Upper_C,
+        done = t2sp::blas::row_major::zzzzmatmul::zzzzmatmul(queue, Upper_From_Upper_A, Upper_From_Upper_B, Upper_From_Upper_C,
                                                               Lower_From_Lower_A, Lower_From_Lower_B, Lower_From_Lower_C,
                                                               ConjugateTransposedA, ConjugateTransposedB, ConjugateTransposedC,
                                                               HalfSpaceOut, alpha, beta,

@@ -19,13 +19,38 @@
 
 using namespace std;
 
+template <typename T>
+std::complex<T> row_col_indices(int x,  int y) { return std::complex<T>(x, y); }
+
+template <typename fp, typename vec>
+void init_matrix_with_indices(vec &M, oneapi::mkl::layout layout, oneapi::mkl::transpose trans, int m, int n,
+                              int ld) {
+   // __assert(std::is_same<fp, float>::value || std::is_same<fp, double>::value);
+
+    M.resize(matrix_size(layout, trans, m, n, ld));
+
+    if (((trans == oneapi::mkl::transpose::nontrans) &&
+         (layout == oneapi::mkl::layout::col_major)) ||
+        ((trans != oneapi::mkl::transpose::nontrans) &&
+         (layout == oneapi::mkl::layout::row_major))) {
+        for (int j = 0; j < n; j++)
+            for (int i = 0; i < m; i++)
+                M[i + j * ld] = row_col_indices<fp>(j, i);
+    }
+    else {
+        for (int i = 0; i < m; i++)
+            for (int j = 0; j < n; j++)
+                M[j + i * ld] = row_col_indices<fp>(i, j);
+    }
+}
+
 template <typename T, typename T_REAL>
 int test(oneapi::mkl::uplo upper_lower,
         oneapi::mkl::transpose trans, int n, int k, int lda, int ldc, T_REAL alpha, T_REAL beta) {
     vector<T, allocator_helper<T, 64>> a;
     vector<T, allocator_helper<T, 64>> c, c_ref;
-    rand_matrix(a, oneapi::mkl::layout::row_major, trans, n, k, lda);
-    rand_matrix(c, oneapi::mkl::layout::row_major, oneapi::mkl::transpose::nontrans, n, n, ldc);
+    init_matrix_with_indices<T_REAL, vector<T, allocator_helper<T, 64>>>(a, oneapi::mkl::layout::row_major, trans, n, k, lda);
+    init_matrix_with_indices<T_REAL, vector<T, allocator_helper<T, 64>>>(c, oneapi::mkl::layout::row_major, oneapi::mkl::transpose::nontrans, n, n, ldc);
     c_ref = c;
 
 // Create a queue bound to either the FPGA emulator or FPGA device.

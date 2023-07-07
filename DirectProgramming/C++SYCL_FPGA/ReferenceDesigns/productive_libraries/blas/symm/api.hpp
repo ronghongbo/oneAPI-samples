@@ -75,7 +75,7 @@ sycl::event symm(sycl::queue &queue,
 
     sycl::event done;
     if constexpr (std::is_same_v<float, T>) {
-        done = t2sp::blas::row_major::smatmul::smatmul(queue, left_right == oneapi::mkl::side::L ? Upper_From_Upper_A : Upper_From_Upper_B,
+        done = t2sp::blas::row_major::ssssmatmul::ssssmatmul(queue, left_right == oneapi::mkl::side::L ? Upper_From_Upper_A : Upper_From_Upper_B,
                                                               left_right == oneapi::mkl::side::L ? Upper_From_Upper_B : Upper_From_Upper_A,
                                                               Upper_From_Upper_C,
                                                               left_right == oneapi::mkl::side::L ? Lower_From_Lower_A : Lower_From_Lower_B,
@@ -88,7 +88,7 @@ sycl::event symm(sycl::queue &queue,
                                                               left_right == oneapi::mkl::side::L ? B_buffer : A_buffer,
                                                               C_buffer, Output_buffer);
     } else if constexpr (std::is_same_v<double, T>) {
-        done = t2sp::blas::row_major::dmatmul::dmatmul(queue, left_right == oneapi::mkl::side::L ? Upper_From_Upper_A : Upper_From_Upper_B,
+        done = t2sp::blas::row_major::ddddmatmul::ddddmatmul(queue, left_right == oneapi::mkl::side::L ? Upper_From_Upper_A : Upper_From_Upper_B,
                                                               left_right == oneapi::mkl::side::L ? Upper_From_Upper_B : Upper_From_Upper_A,
                                                               Upper_From_Upper_C,
                                                               left_right == oneapi::mkl::side::L ? Lower_From_Lower_A : Lower_From_Lower_B,
@@ -101,7 +101,7 @@ sycl::event symm(sycl::queue &queue,
                                                               left_right == oneapi::mkl::side::L ? B_buffer : A_buffer,
                                                               C_buffer, Output_buffer);
     } else if constexpr (std::is_same_v<std::complex<float>, T>) {
-        done = t2sp::blas::row_major::cmatmul::cmatmul(queue, left_right == oneapi::mkl::side::L ? Upper_From_Upper_A : Upper_From_Upper_B,
+        done = t2sp::blas::row_major::ccccmatmul::ccccmatmul(queue, left_right == oneapi::mkl::side::L ? Upper_From_Upper_A : Upper_From_Upper_B,
                                                               left_right == oneapi::mkl::side::L ? Upper_From_Upper_B : Upper_From_Upper_A,
                                                               Upper_From_Upper_C,
                                                               left_right == oneapi::mkl::side::L ? Lower_From_Lower_A : Lower_From_Lower_B,
@@ -114,7 +114,7 @@ sycl::event symm(sycl::queue &queue,
                                                               left_right == oneapi::mkl::side::L ? B_buffer : A_buffer,
                                                               C_buffer, Output_buffer);
     } else {
-        done = t2sp::blas::row_major::zmatmul::zmatmul(queue, left_right == oneapi::mkl::side::L ? Upper_From_Upper_A : Upper_From_Upper_B,
+        done = t2sp::blas::row_major::zzzzmatmul::zzzzmatmul(queue, left_right == oneapi::mkl::side::L ? Upper_From_Upper_A : Upper_From_Upper_B,
                                                               left_right == oneapi::mkl::side::L ? Upper_From_Upper_B : Upper_From_Upper_A,
                                                               Upper_From_Upper_C,
                                                               left_right == oneapi::mkl::side::L ? Lower_From_Lower_A : Lower_From_Lower_B,

@@ -1,7 +1,6 @@
 cmake_minimum_required(VERSION 3.10)
 
 project(syrk)
-set(CMAKE_CXX_COMPILER icpx)
 set(KERNEL             "syrk")
 set(PRECISIONS         "s" "d" "c" "z")
 set(MATMULS            "ssssmatmul" "ddddmatmul" "ccccmatmul" "zzzzmatmul")
