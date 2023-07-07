@@ -46,8 +46,7 @@ std::vector<sycl::device*> devices{&d};
 
 namespace {
 
-template <typename fp>
-int test(device *dev, oneapi::mkl::layout layout, int N, int incx, int incy) {
+int test(device *dev, oneapi::mkl::layout layout, int N, int incx, int incy, float alpha) {
     // Catch asynchronous exceptions.
     auto exception_handler = [](exception_list exceptions) {
         for (std::exception_ptr const &e : exceptions) {
@@ -55,7 +54,7 @@ int test(device *dev, oneapi::mkl::layout layout, int N, int incx, int incy) {
                 std::rethrow_exception(e);
             }
             catch (exception const &e) {
-                std::cout << "Caught asynchronous SYCL exception during DOTC:\n"
+                std::cout << "Caught asynchronous SYCL exception during SDSDOT:\n"
                           << e.what() << std::endl;
                 print_error_code(e);
             }
@@ -69,34 +68,34 @@ int test(device *dev, oneapi::mkl::layout layout, int N, int incx, int incy) {
     std::vector<event> dependencies;
 
     // Prepare data.
-    auto ua = usm_allocator<fp, usm::alloc::shared, 64>(cxt, *dev);
-    vector<fp, decltype(ua)> x(ua), y(ua);
-    fp *result_reference = (fp *)oneapi::mkl::malloc_shared(64, sizeof(fp), *dev, cxt);
+    auto ua = usm_allocator<float, usm::alloc::shared, 64>(cxt, *dev);
+    vector<float, decltype(ua)> x(ua), y(ua);
+    float *result_reference = (float *)oneapi::mkl::malloc_shared(64, sizeof(float), *dev, cxt);
 
     rand_vector(x, N, incx);
     rand_vector(y, N, incy);
 
-    // Call DPC++ DOTC.
-    oneapi::mkl::blas::row_major::dotc(main_queue, N, x.data(), incx, y.data(),
-                                       incy, result_reference, dependencies).wait();
+    // Call DPC++ SDSDOT.
+    oneapi::mkl::blas::row_major::sdsdot(main_queue, N, alpha, x.data(), incx, y.data(),
+                                         incy, result_reference, dependencies).wait();
 
-    // Call T2SP DOTC.
-    auto result_p = (fp *)oneapi::mkl::malloc_shared(64, sizeof(fp), *dev, cxt);
+    // Call T2SP SDSDOT.
+    auto result_p = (float *)oneapi::mkl::malloc_shared(64, sizeof(float), *dev, cxt);
     try {
         switch (layout) {
             case oneapi::mkl::layout::col_major:
                 throw oneapi::mkl::unimplemented{"Unkown", "Unkown"};
                 break;
             case oneapi::mkl::layout::row_major:
-                done = t2sp::blas::row_major::dotc(fpga_queue, N, x.data(), incx, y.data(),
-                                                   incy, result_p, dependencies);
+                done = t2sp::blas::row_major::sdsdot(fpga_queue, N, alpha, x.data(), incx, y.data(),
+                                                     incy, result_p, dependencies);
                 break;
             default: break;
         }
         done.wait();
     }
     catch (exception const &e) {
-        std::cout << "Caught synchronous SYCL exception during DOTC:\n" << e.what() << std::endl;
+        std::cout << "Caught synchronous SYCL exception during SDSDOT:\n" << e.what() << std::endl;
         print_error_code(e);
     }
 
@@ -105,7 +104,7 @@ int test(device *dev, oneapi::mkl::layout layout, int N, int incx, int incy) {
     }
 
     catch (const std::runtime_error &error) {
-        std::cout << "Error raised during execution of DOTC:\n" << error.what() << std::endl;
+        std::cout << "Error raised during execution of SDSDOT:\n" << error.what() << std::endl;
     }
 
     // Compare the results of reference implementation and DPC++ implementation.
@@ -117,30 +116,18 @@ int test(device *dev, oneapi::mkl::layout layout, int N, int incx, int incy) {
     return (int)good;
 }
 
-
-class DotcUsmTests
+class SdsdotUsmTests
         : public ::testing::TestWithParam<std::tuple<sycl::device *, oneapi::mkl::layout>> {};
 
-TEST_P(DotcUsmTests, ComplexSinglePrecision) {
-    EXPECT_TRUEORSKIP(
-        test<std::complex<float>>(std::get<0>(GetParam()), std::get<1>(GetParam()), 1356, 2, 3));
-    EXPECT_TRUEORSKIP(
-        test<std::complex<float>>(std::get<0>(GetParam()), std::get<1>(GetParam()), 1356, 1, 1));
-    EXPECT_TRUEORSKIP(
-        test<std::complex<float>>(std::get<0>(GetParam()), std::get<1>(GetParam()), 1356, -3, -2));
-}
-TEST_P(DotcUsmTests, ComplexDoublePrecision) {
-    EXPECT_TRUEORSKIP(
-        test<std::complex<double>>(std::get<0>(GetParam()), std::get<1>(GetParam()), 1356, 2, 3));
-    EXPECT_TRUEORSKIP(
-        test<std::complex<double>>(std::get<0>(GetParam()), std::get<1>(GetParam()), 1356, 1, 1));
-    EXPECT_TRUEORSKIP(
-        test<std::complex<double>>(std::get<0>(GetParam()), std::get<1>(GetParam()), 1356, -3, -2));
+TEST_P(SdsdotUsmTests, RealSinglePrecision) {
+    EXPECT_TRUEORSKIP(test(std::get<0>(GetParam()), std::get<1>(GetParam()), 1356, 2, 3, 2.0));
+    EXPECT_TRUEORSKIP(test(std::get<0>(GetParam()), std::get<1>(GetParam()), 1356, -2, -3, 2.0));
+    EXPECT_TRUEORSKIP(test(std::get<0>(GetParam()), std::get<1>(GetParam()), 1356, 1, 1, 2.0));
 }
 
-INSTANTIATE_TEST_SUITE_P(DotcUsmTestSuite, DotcUsmTests,
+INSTANTIATE_TEST_SUITE_P(SdsdotUsmTestSuite, SdsdotUsmTests,
                          ::testing::Combine(testing::ValuesIn(devices),
                                             testing::Values(oneapi::mkl::layout::row_major)),
                          ::LayoutDeviceNamePrint());
 
-}
+} // anonymous namespace

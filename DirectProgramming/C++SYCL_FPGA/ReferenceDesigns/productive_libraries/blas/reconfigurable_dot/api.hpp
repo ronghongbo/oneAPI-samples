@@ -21,6 +21,11 @@ namespace zdot {
 extern sycl::event zdot(sycl::queue &, bool, halide_buffer_t *, int, halide_buffer_t *, int, bool, halide_buffer_t *);
 }
 
+// To avoid duplicate symbols (which can lead to name conflicts), use sds_dot instead of sdsdot
+namespace sds_dot {
+extern sycl::event sds_dot(sycl::queue &, bool, halide_buffer_t *, int, halide_buffer_t *, int, bool, halide_buffer_t *);
+}
+
 // Query of the parameters of the systolic array (KKK) based on types
 template <typename T>
 constexpr auto get_systolic_array_dimensions() {

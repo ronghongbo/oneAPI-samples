@@ -29,9 +29,9 @@ void test(int N, int incx, int incy) {
 
 // Create a queue bound to either the FPGA emulator or FPGA device.
 #if defined(FPGA_EMULATOR)
-    sycl::queue q_device(sycl::ext::intel::fpga_emulator_selector_v, fpga_tools::exception_handler);
+    sycl::queue q_device(sycl::ext::intel::fpga_emulator_selector_v, fpga_tools::exception_handler, sycl::property::queue::enable_profiling());
 #else
-    sycl::queue q_device(sycl::ext::intel::fpga_selector_v, fpga_tools::exception_handler);
+    sycl::queue q_device(sycl::ext::intel::fpga_selector_v, fpga_tools::exception_handler, sycl::property::queue::enable_profiling());
 #endif
 
     auto done = t2sp::blas::row_major::dot(q_device, N, x.data(), incx, y.data(),
