@@ -5,7 +5,7 @@
 #include "oneapi/mkl.hpp"
 
 // API of the reconfigurable dot. The interface will be invoked by the DOT implementation below.
-#include "../reconfigurable_dot/api.hpp"
+#include "../reconfigurable_dotprod/api.hpp"
 
 // Data structures, etc. in Halide/T2SP
 #include "Halide.h"
@@ -53,11 +53,11 @@ sycl::event dot(sycl::queue &queue,
     sycl::event done;
 
     if constexpr (std::is_same_v<float, T>) {
-        done = t2sp::blas::row_major::sdot::sdot(queue, ConjugateX,
+        done = t2sp::blas::row_major::sdotprod::sdotprod(queue, ConjugateX,
                                                  X_buffer, std::abs(static_cast<int>(incx)),
                                                  Y_buffer, std::abs(static_cast<int>(incy)), SqrtRet, Res_buffer);
     } else {
-        done = t2sp::blas::row_major::ddot::ddot(queue, ConjugateX,
+        done = t2sp::blas::row_major::ddotprod::ddotprod(queue, ConjugateX,
                                                  X_buffer, std::abs(static_cast<int>(incx)),
                                                  Y_buffer, std::abs(static_cast<int>(incy)), SqrtRet, Res_buffer);
     }

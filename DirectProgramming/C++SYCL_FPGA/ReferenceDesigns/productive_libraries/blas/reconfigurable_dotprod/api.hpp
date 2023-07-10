@@ -5,25 +5,24 @@
 using namespace Halide;
 
 namespace t2sp::blas::row_major {
-namespace sdot {
-extern sycl::event sdot(sycl::queue &, bool, halide_buffer_t *, int, halide_buffer_t *, int, bool, halide_buffer_t *);
+namespace sdotprod {
+extern sycl::event sdotprod(sycl::queue &, bool, halide_buffer_t *, int, halide_buffer_t *, int, bool, halide_buffer_t *);
 }
 
-namespace ddot {
-extern sycl::event ddot(sycl::queue &, bool, halide_buffer_t *, int, halide_buffer_t *, int, bool, halide_buffer_t *);
+namespace ddotprod {
+extern sycl::event ddotprod(sycl::queue &, bool, halide_buffer_t *, int, halide_buffer_t *, int, bool, halide_buffer_t *);
 }
 
-namespace cdot {
-extern sycl::event cdot(sycl::queue &, bool, halide_buffer_t *, int, halide_buffer_t *, int, bool, halide_buffer_t *);
+namespace cdotprod {
+extern sycl::event cdotprod(sycl::queue &, bool, halide_buffer_t *, int, halide_buffer_t *, int, bool, halide_buffer_t *);
 }
 
-namespace zdot {
-extern sycl::event zdot(sycl::queue &, bool, halide_buffer_t *, int, halide_buffer_t *, int, bool, halide_buffer_t *);
+namespace zdotprod {
+extern sycl::event zdotprod(sycl::queue &, bool, halide_buffer_t *, int, halide_buffer_t *, int, bool, halide_buffer_t *);
 }
 
-// To avoid duplicate symbols (which can lead to name conflicts), use sds_dot instead of sdsdot
-namespace sds_dot {
-extern sycl::event sds_dot(sycl::queue &, bool, halide_buffer_t *, int, halide_buffer_t *, int, bool, halide_buffer_t *);
+namespace sdsdotprod {
+extern sycl::event sdsdotprod(sycl::queue &, bool, halide_buffer_t *, int, halide_buffer_t *, int, bool, halide_buffer_t *);
 }
 
 // Query of the parameters of the systolic array (KKK) based on types
