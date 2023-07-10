@@ -1,28 +1,28 @@
-# `NRM2`
+# `AXPY`
 
-This reference design shows how to implement the standard NRM2 in BLAS as defined in the [oneMKL interface](https://oneapi-src.github.io/oneMKL/domains/blas/blas.html) with the following restrictions:
+This reference design shows how to implement the standard AXPY in BLAS as defined in the [oneMKL interface](https://oneapi-src.github.io/oneMKL/domains/blas/blas.html) with the following restrictions:
 * Matrix storage: row-major.
-* Data types: `s` (single-precision), `d`(double-precision), `c`(complex single-precision), `z`(complex double-precision).
+* Data types: `s` (single-precision), `d`(double-precision).
 * Data size: `n` must be multiples of the vectorized dimensions of the systolic array.
 
 The design is written in the [T2SP](https://github.com/IntelLabs/t2sp) DSL, which generates oneAPI code:
 
-* `dot.cpp` - The implementation of NRM2 using T2SP DSL.
+* `axpy.cpp` - The implementation of AXPY using T2SP DSL.
 
-* `test.cpp` - Some correctness tests adapted from [oneMKL's test suite](https://github.com/oneapi-src/oneMKL/blob/develop/tests/unit_tests/blas/level3/nrm2_usm.cpp), using oneMKL's NRM2 as a reference.
+* `test.cpp` - Some correctness tests adapted from [oneMKL's test suite](https://github.com/oneapi-src/oneMKL/blob/develop/tests/unit_tests/blas/level3/axpy_usm.cpp), using oneMKL's AXPY as a reference.
 
-* `demo.cpp` - A demo showing how to compile NRM2 to FPGA hardware.
+* `demo.cpp` - A demo showing how to compile AXPY to FPGA hardware.
 
 ## Purpose
 
-This FPGA reference design demonstrates NRM2:
+This FPGA reference design demonstrates AXPY:
 
 ```
-C := ||X||
+Y := aX*Y
 ```
-where `X` are vectors.
+where `X`, `Y` are vectors, `a` is a scalar.
 
-The kernel is implemented by configuring the [reconfigurable vector dot](../reconfigurable_dotprod/README.md), where the design details and performance metrics are described.
+The kernel is implemented by configuring the [reconfigurable vector addition](../reconfigurable_vecadd/README.md), where the design details and performance metrics are described.
 
 ## Build and run on Linux
 
@@ -59,20 +59,20 @@ For example, to build a single-precision sysotolic array for an A10 FPGA, a typi
 Now that the correctness is verified, we can go with large size for performance:
    ```shell
    # Generate OneAPI source file from the T2SP specification
-   make oneapi_sdot_large_a10
+   make oneapi_saxpy_large_a10
 
    # Generate the HTML performance report.
-   make report_sdot_large_a10
+   make report_saxpy_large_a10
 
    # Synthesize a bitstream for FPGA hardware (This takes ~5 hrs).
-   make synthesize_sdot_large_a10
+   make synthesize_saxpy_large_a10
    ```
-   These commands invoke the corresponding commands in `reconfigurable_dotprod` to do the actual job. The generated OneAPI source files, report, and bitstream are located under `reconfigurable_dotprod/oneapi, reports, bin`, respectively.
+   These commands invoke the corresponding commands in `reconfigurable_axpy` to do the actual job. The generated OneAPI source files, report, and bitstream are located under `reconfigurable_axpy/oneapi, reports, bin`, respectively.
 
    ```shell
    # Generate a demo application, which is linked with the above generated bitstream.
-   make demo_sdot_large_a10
+   make demo_saxpy_large_a10
 
    # Demo on the hardware
-   ../bin/demo_sdot_large_a10
+   ../bin/demo_saxpy_large_a10
    ```
