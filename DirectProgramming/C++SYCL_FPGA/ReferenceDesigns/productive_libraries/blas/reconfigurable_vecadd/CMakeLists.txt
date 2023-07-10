@@ -1,13 +1,13 @@
 cmake_minimum_required(VERSION 3.10)
 
-set(TYPES "s" "d" "c" "z" "sds")
+set(TYPES "s" "d" "c" "z")
 set(CMAKE_CXX_COMPILER icpx)
 set(OPENCL_1_2_1_BSP /opt/a10/inteldevstack/a10_gx_pac_ias_1_2_1_pv/opencl/opencl_bsp)
 
-get_filename_component(HALIDE_TOOLS_PATH          "${RECONFIGURABLE_DOTPROD_PATH}/../../tools/Halide" ABSOLUTE)
-get_filename_component(CPP_SYCL_FPGA_PATH         "${RECONFIGURABLE_DOTPROD_PATH}/../../../.." ABSOLUTE)
-get_filename_component(PRODUCTIVE_LIBRARIES_PATH  "${RECONFIGURABLE_DOTPROD_PATH}/../.."       ABSOLUTE)
-get_filename_component(GOOGLE_TEST_PATH           "${RECONFIGURABLE_DOTPROD_PATH}/../../test"  ABSOLUTE)
+get_filename_component(HALIDE_TOOLS_PATH          "${RECONFIGURABLE_VECADD_PATH}/../../tools/Halide" ABSOLUTE)
+get_filename_component(CPP_SYCL_FPGA_PATH         "${RECONFIGURABLE_VECADD_PATH}/../../../.." ABSOLUTE)
+get_filename_component(PRODUCTIVE_LIBRARIES_PATH  "${RECONFIGURABLE_VECADD_PATH}/../.."       ABSOLUTE)
+get_filename_component(GOOGLE_TEST_PATH           "${RECONFIGURABLE_VECADD_PATH}/../../test"  ABSOLUTE)
 
 # Due to restrictions of file size, we have split libHalide.a into parts. Join them into the original binary
 if(NOT EXISTS "${HALIDE_TOOLS_PATH}/lib/libHalide.a")
@@ -43,9 +43,9 @@ endif()
 ###############################################################################
 ### Create results directories
 ###############################################################################
-file(MAKE_DIRECTORY ${RECONFIGURABLE_DOTPROD_PATH}/oneapi)
-file(MAKE_DIRECTORY ${RECONFIGURABLE_DOTPROD_PATH}/bin)
-file(MAKE_DIRECTORY ${RECONFIGURABLE_DOTPROD_PATH}/reports)
+file(MAKE_DIRECTORY ${RECONFIGURABLE_VECADD_PATH}/oneapi)
+file(MAKE_DIRECTORY ${RECONFIGURABLE_VECADD_PATH}/bin)
+file(MAKE_DIRECTORY ${RECONFIGURABLE_VECADD_PATH}/reports)
 
 foreach(TYPEA ${TYPES})
     foreach(SIZE "tiny" "large")
@@ -55,74 +55,74 @@ foreach(TYPEA ${TYPES})
             string(TOUPPER ${TYPEA}  UPPER_TYPE)
     
             # Generate OneAPI files
-            add_custom_command(OUTPUT  ${RECONFIGURABLE_DOTPROD_PATH}/oneapi/${TYPEA}dotprod_${SIZE}_${HW}.cpp
+            add_custom_command(OUTPUT  ${RECONFIGURABLE_VECADD_PATH}/oneapi/${TYPEA}vecadd_${SIZE}_${HW}.cpp
                                COMMAND ${CMAKE_CXX_COMPILER} 
-                                       -DKERNEL="t2sp::blas::row_major::${TYPEA}dotprod::${TYPEA}dotprod"
-                                       -DOUTPUT_FILE="${TYPEA}dotprod_${SIZE}_${HW}.cpp"
+                                       -DKERNEL="t2sp::blas::row_major::${TYPEA}vecadd::${TYPEA}vecadd"
+                                       -DOUTPUT_FILE="${TYPEA}vecadd_${SIZE}_${HW}.cpp"
                                        -I${HALIDE_TOOLS_PATH}/include
                                        -std=gnu++11 -O0 -g
                                        -Wno-tautological-constant-compare
-                                       ${RECONFIGURABLE_DOTPROD_PATH}/spec.cpp
+                                       ${RECONFIGURABLE_VECADD_PATH}/spec.cpp
                                        -L${HALIDE_TOOLS_PATH}/lib -lpthread -lz -ldl -lHalide
-                                       -D${UPPER_SIZE} -DT2SP_${UPPER_TYPE}DOTPROD
-                                       -o ${RECONFIGURABLE_DOTPROD_PATH}/bin/oneapi_${TYPEA}dotprod_${SIZE}_${HW}
-                               COMMAND env CLEARCODE=1 ${RECONFIGURABLE_DOTPROD_PATH}/bin/oneapi_${TYPEA}dotprod_${SIZE}_${HW}
-                               COMMAND mv ${RECONFIGURABLE_DOTPROD_PATH}/bin/${TYPEA}dotprod_${SIZE}_${HW}.cpp ${RECONFIGURABLE_DOTPROD_PATH}/oneapi/
-                               DEPENDS ${RECONFIGURABLE_DOTPROD_PATH}/spec.cpp
-                                       ${RECONFIGURABLE_DOTPROD_PATH}/parameters.h
+                                       -D${UPPER_SIZE} -DT2SP_${UPPER_TYPE}VECADD
+                                       -o ${RECONFIGURABLE_VECADD_PATH}/bin/oneapi_${TYPEA}vecadd_${SIZE}_${HW}
+                               COMMAND env CLEARCODE=1 ${RECONFIGURABLE_VECADD_PATH}/bin/oneapi_${TYPEA}vecadd_${SIZE}_${HW}
+                               COMMAND mv ${RECONFIGURABLE_VECADD_PATH}/bin/${TYPEA}vecadd_${SIZE}_${HW}.cpp ${RECONFIGURABLE_VECADD_PATH}/oneapi/
+                               DEPENDS ${RECONFIGURABLE_VECADD_PATH}/spec.cpp
+                                       ${RECONFIGURABLE_VECADD_PATH}/parameters.h
                                        ${HALIDE_TOOLS_PATH}/include/Halide.h
-                               WORKING_DIRECTORY ${RECONFIGURABLE_DOTPROD_PATH}/bin
+                               WORKING_DIRECTORY ${RECONFIGURABLE_VECADD_PATH}/bin
                                COMMENT "Generating OneAPI files"
                                VERBATIM)
-            add_custom_target(oneapi_${TYPEA}dotprod_${SIZE}_${HW} DEPENDS ${RECONFIGURABLE_DOTPROD_PATH}/oneapi/${TYPEA}dotprod_${SIZE}_${HW}.cpp)
+            add_custom_target(oneapi_${TYPEA}vecadd_${SIZE}_${HW} DEPENDS ${RECONFIGURABLE_VECADD_PATH}/oneapi/${TYPEA}vecadd_${SIZE}_${HW}.cpp)
     
             # Generate a report
-            file(MAKE_DIRECTORY ${RECONFIGURABLE_DOTPROD_PATH}/reports/${TYPEA}dotprod_${SIZE}_${HW})
-            add_custom_command(OUTPUT  ${RECONFIGURABLE_DOTPROD_PATH}/reports/${TYPEA}dotprod_${SIZE}_${HW}/report.html
-                                       ${RECONFIGURABLE_DOTPROD_PATH}/reports/${TYPEA}dotprod_${SIZE}_${HW}/resources
+            file(MAKE_DIRECTORY ${RECONFIGURABLE_VECADD_PATH}/reports/${TYPEA}vecadd_${SIZE}_${HW})
+            add_custom_command(OUTPUT  ${RECONFIGURABLE_VECADD_PATH}/reports/${TYPEA}vecadd_${SIZE}_${HW}/report.html
+                                       ${RECONFIGURABLE_VECADD_PATH}/reports/${TYPEA}vecadd_${SIZE}_${HW}/resources
                                COMMAND ${CMAKE_CXX_COMPILER}
-                                       -I${RECONFIGURABLE_DOTPROD_PATH}/oneapi -I${CPP_SYCL_FPGA_PATH}/include -I${PRODUCTIVE_LIBRARIES_PATH}/include -I${HALIDE_TOOLS_PATH}/include
-                                       ${RECONFIGURABLE_DOTPROD_PATH}/oneapi/${TYPEA}dotprod_${SIZE}_${HW}.cpp
+                                       -I${RECONFIGURABLE_VECADD_PATH}/oneapi -I${CPP_SYCL_FPGA_PATH}/include -I${PRODUCTIVE_LIBRARIES_PATH}/include -I${HALIDE_TOOLS_PATH}/include
+                                       ${RECONFIGURABLE_VECADD_PATH}/oneapi/${TYPEA}vecadd_${SIZE}_${HW}.cpp
                                        ${PRODUCTIVE_LIBRARIES_PATH}/include/halide_runtime_etc.cpp
                                        -Xshardware -Xstarget=${FPGA_DEVICE}
                                        -Xsffp-reassociate -Xsffp-contract=fast -Xsdsp-mode=prefer-dsp -Xsprofile -Xsclock=360MHz
-                                       -fsycl -fintelfpga -fsycl-link=early -o ${TYPEA}dotprod_${SIZE}_${HW}.early
-                               COMMAND cp -rf ${TYPEA}dotprod_${SIZE}_${HW}.early.prj/reports/report.html ${RECONFIGURABLE_DOTPROD_PATH}/reports/${TYPEA}dotprod_${SIZE}_${HW}
-                               COMMAND cp -rf ${TYPEA}dotprod_${SIZE}_${HW}.early.prj/reports/resources   ${RECONFIGURABLE_DOTPROD_PATH}/reports/${TYPEA}dotprod_${SIZE}_${HW}
+                                       -fsycl -fintelfpga -fsycl-link=early -o ${TYPEA}vecadd_${SIZE}_${HW}.early
+                               COMMAND cp -rf ${TYPEA}vecadd_${SIZE}_${HW}.early.prj/reports/report.html ${RECONFIGURABLE_VECADD_PATH}/reports/${TYPEA}vecadd_${SIZE}_${HW}
+                               COMMAND cp -rf ${TYPEA}vecadd_${SIZE}_${HW}.early.prj/reports/resources   ${RECONFIGURABLE_VECADD_PATH}/reports/${TYPEA}vecadd_${SIZE}_${HW}
                                DEPENDS ${PRODUCTIVE_LIBRARIES_PATH}/include/halide_runtime_etc.cpp
                                        ${PRODUCTIVE_LIBRARIES_PATH}/include/halide_runtime_etc.hpp
                                        ${PRODUCTIVE_LIBRARIES_PATH}/include/complex_helper.hpp
                                        ${PRODUCTIVE_LIBRARIES_PATH}/include/pipe_wrapper.hpp
-                                       oneapi_${TYPEA}dotprod_${SIZE}_${HW}
-                               WORKING_DIRECTORY ${RECONFIGURABLE_DOTPROD_PATH}/bin
+                                       oneapi_${TYPEA}vecadd_${SIZE}_${HW}
+                               WORKING_DIRECTORY ${RECONFIGURABLE_VECADD_PATH}/bin
                                COMMENT "Generating a report"
                                VERBATIM)
-            add_custom_target(report_${TYPEA}dotprod_${SIZE}_${HW} DEPENDS ${RECONFIGURABLE_DOTPROD_PATH}/reports/${TYPEA}dotprod_${SIZE}_${HW}/report.html
-                                                                                                  ${RECONFIGURABLE_DOTPROD_PATH}/reports/${TYPEA}dotprod_${SIZE}_${HW}/resources)
+            add_custom_target(report_${TYPEA}vecadd_${SIZE}_${HW} DEPENDS ${RECONFIGURABLE_VECADD_PATH}/reports/${TYPEA}vecadd_${SIZE}_${HW}/report.html
+                                                                                                  ${RECONFIGURABLE_VECADD_PATH}/reports/${TYPEA}vecadd_${SIZE}_${HW}/resources)
     
             # Generate an image
-            add_custom_command(OUTPUT  ${RECONFIGURABLE_DOTPROD_PATH}/bin/${TYPEA}dotprod_${SIZE}_${HW}.a
-                                       ${RECONFIGURABLE_DOTPROD_PATH}/reports/${TYPEA}dotprod_${SIZE}_${HW}/acl_quartus_report.txt
+            add_custom_command(OUTPUT  ${RECONFIGURABLE_VECADD_PATH}/bin/${TYPEA}vecadd_${SIZE}_${HW}.a
+                                       ${RECONFIGURABLE_VECADD_PATH}/reports/${TYPEA}vecadd_${SIZE}_${HW}/acl_quartus_report.txt
                                COMMAND ${CMAKE_CXX_COMPILER}
-                                       -I${RECONFIGURABLE_DOTPROD_PATH}/oneapi -I${CPP_SYCL_FPGA_PATH}/include -I${PRODUCTIVE_LIBRARIES_PATH}/include -I${HALIDE_TOOLS_PATH}/include
-                                       ${RECONFIGURABLE_DOTPROD_PATH}/oneapi/${TYPEA}dotprod_${SIZE}_${HW}.cpp
+                                       -I${RECONFIGURABLE_VECADD_PATH}/oneapi -I${CPP_SYCL_FPGA_PATH}/include -I${PRODUCTIVE_LIBRARIES_PATH}/include -I${HALIDE_TOOLS_PATH}/include
+                                       ${RECONFIGURABLE_VECADD_PATH}/oneapi/${TYPEA}vecadd_${SIZE}_${HW}.cpp
                                        ${PRODUCTIVE_LIBRARIES_PATH}/include/halide_runtime_etc.cpp
                                        -Xshardware -Xstarget=${FPGA_DEVICE}
                                        -Xsffp-reassociate -Xsffp-contract=fast -Xsdsp-mode=prefer-dsp -Xsprofile -Xsclock=360MHz -Xsseed=${SEED}
-                                       -fsycl -fintelfpga -fsycl-link=image -o ${TYPEA}dotprod_${SIZE}_${HW}.a
-                               COMMAND cp -rf ${TYPEA}dotprod_${SIZE}_${HW}.a                          ${RECONFIGURABLE_DOTPROD_PATH}/bin
-                               COMMAND cp -rf ${TYPEA}dotprod_${SIZE}_${HW}.prj/reports/report.html    ${RECONFIGURABLE_DOTPROD_PATH}/reports/${TYPEA}dotprod_${SIZE}_${HW}
-                               COMMAND cp -rf ${TYPEA}dotprod_${SIZE}_${HW}.prj/reports/resources      ${RECONFIGURABLE_DOTPROD_PATH}/reports/${TYPEA}dotprod_${SIZE}_${HW}
-                               COMMAND cp -rf ${TYPEA}dotprod_${SIZE}_${HW}.prj/acl_quartus_report.txt ${RECONFIGURABLE_DOTPROD_PATH}/reports/${TYPEA}dotprod_${SIZE}_${HW}
+                                       -fsycl -fintelfpga -fsycl-link=image -o ${TYPEA}vecadd_${SIZE}_${HW}.a
+                               COMMAND cp -rf ${TYPEA}vecadd_${SIZE}_${HW}.a                          ${RECONFIGURABLE_VECADD_PATH}/bin
+                               COMMAND cp -rf ${TYPEA}vecadd_${SIZE}_${HW}.prj/reports/report.html    ${RECONFIGURABLE_VECADD_PATH}/reports/${TYPEA}vecadd_${SIZE}_${HW}
+                               COMMAND cp -rf ${TYPEA}vecadd_${SIZE}_${HW}.prj/reports/resources      ${RECONFIGURABLE_VECADD_PATH}/reports/${TYPEA}vecadd_${SIZE}_${HW}
+                               COMMAND cp -rf ${TYPEA}vecadd_${SIZE}_${HW}.prj/acl_quartus_report.txt ${RECONFIGURABLE_VECADD_PATH}/reports/${TYPEA}vecadd_${SIZE}_${HW}
                                DEPENDS ${PRODUCTIVE_LIBRARIES_PATH}/include/halide_runtime_etc.cpp
                                        ${PRODUCTIVE_LIBRARIES_PATH}/include/halide_runtime_etc.hpp
                                        ${PRODUCTIVE_LIBRARIES_PATH}/include/complex_helper.hpp
                                        ${PRODUCTIVE_LIBRARIES_PATH}/include/pipe_wrapper.hpp
-                                       oneapi_${TYPEA}dotprod_${SIZE}_${HW}
-                               WORKING_DIRECTORY ${RECONFIGURABLE_DOTPROD_PATH}/bin
+                                       oneapi_${TYPEA}vecadd_${SIZE}_${HW}
+                               WORKING_DIRECTORY ${RECONFIGURABLE_VECADD_PATH}/bin
                                COMMENT "Generating an image"
                                VERBATIM)
-            add_custom_target(synthesize_${TYPEA}dotprod_${SIZE}_${HW} DEPENDS ${RECONFIGURABLE_DOTPROD_PATH}/bin/${TYPEA}dotprod_${SIZE}_${HW}.a)
+            add_custom_target(synthesize_${TYPEA}vecadd_${SIZE}_${HW} DEPENDS ${RECONFIGURABLE_VECADD_PATH}/bin/${TYPEA}vecadd_${SIZE}_${HW}.a)
         endforeach()
     endforeach()
 endforeach()
@@ -130,11 +130,11 @@ endforeach()
 # Generate correctness tests for the current kernel. They assume a tiny systolic array on an FPGA emulator.
 add_custom_target(oneapi_targets_for_tests)
 foreach(PRECISION ${PRECISIONS})
-    add_dependencies(oneapi_targets_for_tests oneapi_${PRECISION}dotprod_tiny_a10)
+    add_dependencies(oneapi_targets_for_tests oneapi_${PRECISION}vecadd_tiny_a10)
 endforeach()
 
 foreach(PRECISION ${PRECISIONS})
-    set(GENERATED_ONEAPI_SOURCE_FILES_FOR_TESTS ${GENERATED_ONEAPI_SOURCE_FILES_FOR_TESTS} ${RECONFIGURABLE_DOTPROD_PATH}/oneapi/${PRECISION}dotprod_tiny_a10.cpp)
+    set(GENERATED_ONEAPI_SOURCE_FILES_FOR_TESTS ${GENERATED_ONEAPI_SOURCE_FILES_FOR_TESTS} ${RECONFIGURABLE_VECADD_PATH}/oneapi/${PRECISION}vecadd_tiny_a10.cpp)
 endforeach()
 
 file(MAKE_DIRECTORY ${CURRENT_KERNEL_PATH}/bin)
@@ -157,7 +157,7 @@ add_custom_command(OUTPUT  ${CURRENT_KERNEL_PATH}/bin/test
                    DEPENDS oneapi_targets_for_tests
                            ${CURRENT_KERNEL_PATH}/test.cpp
                            ${CURRENT_KERNEL_PATH}/api.hpp
-                           ${RECONFIGURABLE_DOTPROD_PATH}/api.hpp
+                           ${RECONFIGURABLE_VECADD_PATH}/api.hpp
                            ${PRODUCTIVE_LIBRARIES_PATH}/include/halide_runtime_etc.cpp
                            ${PRODUCTIVE_LIBRARIES_PATH}/include/halide_runtime_etc.hpp
                            ${PRODUCTIVE_LIBRARIES_PATH}/include/complex_helper.hpp
@@ -188,7 +188,7 @@ foreach(PRECISION ${PRECISIONS})
                                        -o ${CURRENT_KERNEL_PATH}/bin/demo_${PRECISION}${KERNEL}_${SIZE}_${HW}.o
                                DEPENDS ${CURRENT_KERNEL_PATH}/demo.cpp
                                        ${CURRENT_KERNEL_PATH}/api.hpp
-                                       ${RECONFIGURABLE_DOTPROD_PATH}/api.hpp
+                                       ${RECONFIGURABLE_VECADD_PATH}/api.hpp
                                        ${HALIDE_TOOLS_PATH}/include/Halide.h
                                        ${HALIDE_TOOLS_PATH}/include/HalideRuntime.h
                                        ${HALIDE_TOOLS_PATH}/include/HalideBuffer.h
@@ -199,7 +199,7 @@ foreach(PRECISION ${PRECISIONS})
                                COMMAND ${CMAKE_CXX_COMPILER}
                                        -fsycl -fintelfpga
                                        ${CURRENT_KERNEL_PATH}/bin/demo_${PRECISION}${KERNEL}_${SIZE}_${HW}.o
-                                       ${RECONFIGURABLE_DOTPROD_PATH}/bin/${PRECISION}dotprod_${SIZE}_${HW}.a
+                                       ${RECONFIGURABLE_VECADD_PATH}/bin/${PRECISION}vecadd_${SIZE}_${HW}.a
                                        ${PRODUCTIVE_LIBRARIES_PATH}/include/halide_runtime_etc.cpp
                                        -L${HALIDE_TOOLS_PATH}/lib -lHalide -lpthread -lz
                                        -Wno-tautological-constant-compare
@@ -209,7 +209,7 @@ foreach(PRECISION ${PRECISIONS})
                                        ${PRODUCTIVE_LIBRARIES_PATH}/include/halide_runtime_etc.hpp
                                        ${PRODUCTIVE_LIBRARIES_PATH}/include/complex_helper.hpp
                                        ${PRODUCTIVE_LIBRARIES_PATH}/include/pipe_wrapper.hpp
-                                       synthesize_${PRECISION}dotprod_${SIZE}_${HW}
+                                       synthesize_${PRECISION}vecadd_${SIZE}_${HW}
                                WORKING_DIRECTORY ${CURRENT_KERNEL_PATH}/bin
                                COMMENT "Linking the demo application with the device image"
                                VERBATIM)
@@ -234,16 +234,16 @@ foreach(PRECISION ${PRECISIONS})
                                        -fsycl -fintelfpga
                                        -Wno-tautological-constant-compare
                                        ${CURRENT_KERNEL_PATH}/demo.cpp
-                                       ${RECONFIGURABLE_DOTPROD_PATH}/oneapi/${PRECISION}dotprod_${SIZE}_${HW}.cpp
+                                       ${RECONFIGURABLE_VECADD_PATH}/oneapi/${PRECISION}vecadd_${SIZE}_${HW}.cpp
                                        ${PRODUCTIVE_LIBRARIES_PATH}/include/halide_runtime_etc.cpp
                                        -L${HALIDE_TOOLS_PATH}/lib -L$ENV{MKLROOT}/lib/intel64
                                        -lmkl_sycl -lmkl_intel_ilp64 -lmkl_sequential -lmkl_core -lsycl -lOpenCL -lpthread -lm -ldl -lz
                                        -lHalide
                                        -o ${CURRENT_KERNEL_PATH}/bin/demo_${PRECISION}${KERNEL}_${SIZE}_${HW}_emu
                                DEPENDS ${CURRENT_KERNEL_PATH}/demo.cpp
-                               ${RECONFIGURABLE_DOTPROD_PATH}/oneapi/${PRECISION}dotprod_${SIZE}_${HW}.cpp
+                               ${RECONFIGURABLE_VECADD_PATH}/oneapi/${PRECISION}vecadd_${SIZE}_${HW}.cpp
                                        ${CURRENT_KERNEL_PATH}/api.hpp
-                                       ${RECONFIGURABLE_DOTPROD_PATH}/api.hpp
+                                       ${RECONFIGURABLE_VECADD_PATH}/api.hpp
                                        ${HALIDE_TOOLS_PATH}/include/Halide.h
                                        ${HALIDE_TOOLS_PATH}/include/HalideRuntime.h
                                        ${HALIDE_TOOLS_PATH}/include/HalideBuffer.h
@@ -251,7 +251,7 @@ foreach(PRECISION ${PRECISIONS})
                                        ${PRODUCTIVE_LIBRARIES_PATH}/include/halide_runtime_etc.hpp
                                        ${PRODUCTIVE_LIBRARIES_PATH}/include/complex_helper.hpp
                                        ${PRODUCTIVE_LIBRARIES_PATH}/include/pipe_wrapper.hpp
-                                       oneapi_${PRECISION}dotprod_${SIZE}_${HW}
+                                       oneapi_${PRECISION}vecadd_${SIZE}_${HW}
                                WORKING_DIRECTORY ${CURRENT_KERNEL_PATH}/bin
                                COMMENT "Generating a demo application on FPGA emulator"
                                VERBATIM)
