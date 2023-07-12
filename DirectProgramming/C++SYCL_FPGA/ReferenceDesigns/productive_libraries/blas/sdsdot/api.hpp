@@ -5,7 +5,7 @@
 #include "oneapi/mkl.hpp"
 
 // API of the reconfigurable dot. The interface will be invoked by the SDSDOT implementation below.
-#include "../reconfigurable_dot/api.hpp"
+#include "../reconfigurable_dotprod/api.hpp"
 
 // Data structures, etc. in Halide/T2SP
 #include "Halide.h"
@@ -49,7 +49,7 @@ sycl::event sdsdot(sycl::queue &queue,
 
     sycl::event done;
 
-    done = t2sp::blas::row_major::sds_dot::sds_dot(queue, ConjugateX,
+    done = t2sp::blas::row_major::sdsdotprod::sdsdotprod(queue, ConjugateX,
                                                    X_buffer, std::abs(static_cast<int>(incx)),
                                                    Y_buffer, std::abs(static_cast<int>(incy)), SqrtRet, Res_buffer);
     done.wait();

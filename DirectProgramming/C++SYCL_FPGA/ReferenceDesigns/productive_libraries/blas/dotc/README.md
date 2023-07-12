@@ -22,7 +22,7 @@ C := op(X)*Y
 ```
 where `X`, `Y` are vectors, `op(X)` is conjugate.
 
-The kernel is implemented by configuring the [reconfigurable vector dot](../recnfigurable_dot/README.md), where the design details and performance metrics are described.
+The kernel is implemented by configuring the [reconfigurable vector dot](../reconfigurable_dotprod/README.md), where the design details and performance metrics are described.
 
 ## Build and run on Linux
 
@@ -67,7 +67,7 @@ Now that the correctness is verified, we can go with large size for performance:
    # Synthesize a bitstream for FPGA hardware (This takes ~5 hrs).
    make synthesize_sdot_large_a10
    ```
-   These commands invoke the corresponding commands in `reconfigurable_dot` to do the actual job. The generated OneAPI source files, report, and bitstream are located under `reconfigurable_dot/oneapi, reports, bin`, respectively.
+   These commands invoke the corresponding commands in `reconfigurable_dotprod` to do the actual job. The generated OneAPI source files, report, and bitstream are located under `reconfigurable_dotprod/oneapi, reports, bin`, respectively.
 
    ```shell
    # Generate a demo application, which is linked with the above generated bitstream.

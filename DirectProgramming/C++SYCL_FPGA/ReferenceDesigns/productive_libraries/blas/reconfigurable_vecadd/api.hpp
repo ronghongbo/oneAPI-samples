@@ -1,29 +1,25 @@
 #pragma once
 
 #include <sycl/sycl.hpp>
+#include <complex>
 #include "Halide.h"
 using namespace Halide;
 
 namespace t2sp::blas::row_major {
-namespace sdot {
-extern sycl::event sdot(sycl::queue &, bool, halide_buffer_t *, int, halide_buffer_t *, int, bool, halide_buffer_t *);
+namespace svecadd {
+extern sycl::event svecadd(sycl::queue &, float, halide_buffer_t *, int, float, halide_buffer_t *, int, halide_buffer_t *);
 }
 
-namespace ddot {
-extern sycl::event ddot(sycl::queue &, bool, halide_buffer_t *, int, halide_buffer_t *, int, bool, halide_buffer_t *);
+namespace dvecadd {
+extern sycl::event dvecadd(sycl::queue &, double, halide_buffer_t *, int, double, halide_buffer_t *, int, halide_buffer_t *);
 }
 
-namespace cdot {
-extern sycl::event cdot(sycl::queue &, bool, halide_buffer_t *, int, halide_buffer_t *, int, bool, halide_buffer_t *);
+namespace cvecadd {
+extern sycl::event cvecadd(sycl::queue &, std::complex<float>, halide_buffer_t *, int, std::complex<float>, halide_buffer_t *, int, halide_buffer_t *);
 }
 
-namespace zdot {
-extern sycl::event zdot(sycl::queue &, bool, halide_buffer_t *, int, halide_buffer_t *, int, bool, halide_buffer_t *);
-}
-
-// To avoid duplicate symbols (which can lead to name conflicts), use sds_dot instead of sdsdot
-namespace sds_dot {
-extern sycl::event sds_dot(sycl::queue &, bool, halide_buffer_t *, int, halide_buffer_t *, int, bool, halide_buffer_t *);
+namespace zvecadd {
+extern sycl::event zvecadd(sycl::queue &, std::complex<double>, halide_buffer_t *, int, std::complex<double>, halide_buffer_t *, int, halide_buffer_t *);
 }
 
 // Query of the parameters of the systolic array (KKK) based on types
@@ -34,7 +30,7 @@ constexpr auto get_systolic_array_dimensions() {
                         (std::is_same_v<std::complex<float>, T>) ||
                         (std::is_same_v<std::complex<double>, T>)) << "Unsupported data type";
 #ifdef TINY
-    return 4;
+    return std::tuple{4, 4};
 #else
 #ifdef S10
     constexpr bool run_on_s10 = true;
