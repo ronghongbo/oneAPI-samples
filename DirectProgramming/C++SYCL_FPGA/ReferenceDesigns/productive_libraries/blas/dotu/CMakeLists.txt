@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.10)
 
-project(dot)
+project(dotu)
 set(KERNEL             "dotu")
 set(PRECISIONS         "c" "z")
 

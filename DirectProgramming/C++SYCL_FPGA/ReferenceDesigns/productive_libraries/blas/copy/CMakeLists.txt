@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.10)
 
-project(axpy)
-set(KERNEL             "axpy")
+project(copy)
+set(KERNEL             "copy")
 set(PRECISIONS         "s" "d" "c" "z")
 
 get_filename_component(CURRENT_KERNEL_PATH        "${CMAKE_SOURCE_DIR}" ABSOLUTE)

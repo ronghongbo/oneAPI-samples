@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.10)
 
-project(dot)
+project(sdsdot)
 set(KERNEL             "sdsdot")
 set(PRECISIONS         "sds")
 

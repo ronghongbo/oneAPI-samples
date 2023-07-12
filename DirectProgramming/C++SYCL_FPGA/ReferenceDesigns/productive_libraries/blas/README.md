@@ -14,6 +14,8 @@ To reduce engineering efforts, kernels with similar computes are grouped so that
 | $\mathbf{dotu}$   | $\vec{X}\cdot \vec{Y}$            | (c, c), (z, z)                 | A dot product between two complex vectors                                                                                                  |
 | $\mathbf{nrm2}$   | $\|\vec{X}\|$                     | (s, s), (d, d), (c, s),(z, d)  | Euclidean norm of a vector                                                                                                                 |
 | $\mathbf{axpy}$   | $\alpha\vec{X}+\vec{Y}$           | (s, s),(d, d),(c, c),(z, z)    | Vector addition                                                                                                                            |
+| $\mathbf{scal}$   | $\alpha\vec{X}$                   | (s, s),(d, d),(c, c),(z, z)    | Scalar Multiplication of Vector                                                                                                            |
+| $\mathbf{copy}$   | $\vec{Y}\leftarrow\vec{X}$        | (s, s),(d, d),(c, c),(z, z)    | Copy a vector                                                                                                                              |
 
 ## `Level 2 kernels`
 
