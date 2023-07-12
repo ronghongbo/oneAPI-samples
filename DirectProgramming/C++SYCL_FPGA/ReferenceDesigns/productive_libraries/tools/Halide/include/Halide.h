@@ -12006,6 +12006,9 @@ Expr atanh(Expr x);
  * vectorizes cleanly. */
 Expr sqrt(Expr x);
 
+/* Return the square root of the expression x if the condition is true. */
+Expr conditional_sqrt(Expr condition, Expr x);
+
 /** Return the square root of the sum of the squares of two
  * floating-point expressions. If the argument is not floating-point,
  * it is cast to Float(32). Vectorizes cleanly. */
@@ -32832,6 +32835,7 @@ protected:
             std::string halide_device_and_host_malloc(const Call *op);
             std::string halide_opencl_wait_for_kernels_finish(const Call *op);
             std::string conditional_conjugate(const Call *op);
+            std::string conditional_sqrt(const Call *op);
 
             // Defined in DeviceInterface.cpp
             std::string halide_oneapi_device_interface(const Call *op){
@@ -32857,7 +32861,11 @@ protected:
             {"halide_opencl_wait_for_kernels_finish" , &ExternCallFuncs::halide_opencl_wait_for_kernels_finish},
             {"halide_oneapi_device_interface", &ExternCallFuncs::halide_oneapi_device_interface},
             {"conditional_conjugate_c32", &ExternCallFuncs::conditional_conjugate},
-            {"conditional_conjugate_c64", &ExternCallFuncs::conditional_conjugate}
+            {"conditional_conjugate_c64", &ExternCallFuncs::conditional_conjugate},
+            {"conditional_sqrt_f32", &ExternCallFuncs::conditional_sqrt},
+            {"conditional_sqrt_f64", &ExternCallFuncs::conditional_sqrt},
+            {"conditional_sqrt_c32", &ExternCallFuncs::conditional_sqrt},
+            {"conditional_sqrt_c64", &ExternCallFuncs::conditional_sqrt}
         };
 
         // Create a simple assert(false) depending on the id_cond passed in
@@ -56515,6 +56523,9 @@ Expr atanh(Expr x);
  * argument is not floating-point, it is cast to Float(32). Typically
  * vectorizes cleanly. */
 Expr sqrt(Expr x);
+
+/* Return the square root of the expression x if the condition is true. */
+Expr conditional_sqrt(Expr condition, Expr x);
 
 /** Return the square root of the sum of the squares of two
  * floating-point expressions. If the argument is not floating-point,
