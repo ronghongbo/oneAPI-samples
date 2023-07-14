@@ -2414,3 +2414,15 @@ extern void halide_sycl_host_free(halide_buffer_t *buf);
 extern void halide_sycl_device_and_host_free(halide_buffer_t *buf, const sycl::queue &q_device);
 extern void halide_sycl_buffer_copy(halide_buffer_t *buf, bool to_host, sycl::queue &q_device);
 
+#ifdef __SYCL_DEVICE_ONLY__
+#define CL_CONSTANT __attribute__((opencl_constant))
+#else
+#define CL_CONSTANT
+#endif
+
+#define PRINTF(format, ...)                                                    \
+    {                                                                          \
+        static const CL_CONSTANT char _format[] = format;                      \
+        sycl::ext::oneapi::experimental::printf(_format, ##__VA_ARGS__);             \
+    }
+

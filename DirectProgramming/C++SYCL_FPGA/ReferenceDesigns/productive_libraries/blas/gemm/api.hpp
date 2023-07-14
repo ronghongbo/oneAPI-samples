@@ -31,18 +31,28 @@ sycl::event gemm(sycl::queue &queue,
                  T *c,
                  std::int64_t ldc,
                  const std::vector<sycl::event> &dependencies = {}) {
-    bool transpose_a = (transa == oneapi::mkl::transpose::T || transa == oneapi::mkl::transpose::C);
-    bool transpose_b = (transb == oneapi::mkl::transpose::T || transb == oneapi::mkl::transpose::C);
-    bool conjugate_a = (transa == oneapi::mkl::transpose::C);
-    bool conjugate_b = (transb == oneapi::mkl::transpose::C);
+    bool TransposeA   = (transa == oneapi::mkl::transpose::T || transa == oneapi::mkl::transpose::C);
+    bool TransposeB   = (transb == oneapi::mkl::transpose::T || transb == oneapi::mkl::transpose::C);
+    bool ConjugateA   = (transa == oneapi::mkl::transpose::C);
+    bool ConjugateB   = (transb == oneapi::mkl::transpose::C);
+    bool SymmetricA   = false;
+    bool HermitianA   = false;
+    bool UpA          = false;
+    bool SymmetricB   = false;
+    bool HermitianB   = false;
+    bool UpB          = false;
+    bool SymmetricC   = false;
+    bool HermitianC   = false;
+    bool UpC          = false;
+    bool HalfSpaceOut = false;
 
     // Check parameters for constraints set by oneMKL DPC++ interface
     _halide_user_assert(m >= 0 && n >= 0 && k >= 0) << "m = " << m << ", n = " << n << ", k = " << k;
     _halide_user_assert(a && b && c) << "a = " << (const void *)a << ", b = " << (const void *)b << ", c = " << (const void *)c;
-    _halide_user_assert(!transpose_a && lda >= k || transpose_a && lda >= m)
-        << std::boolalpha << "transa = " << transpose_a << ", lda = " << lda << ", m = " << m << ", k = " << k;
-    _halide_user_assert(!transpose_b && ldb >= n || transpose_b && ldb >= k)
-        << std::boolalpha << "transb = " << transpose_b<< ", ldb = " << ldb << ", n = " << n << ", k = " << k;
+    _halide_user_assert(!TransposeA && lda >= k || TransposeA && lda >= m)
+        << std::boolalpha << "TransposeA = " << TransposeA << ", lda = " << lda << ", m = " << m << ", k = " << k;
+    _halide_user_assert(!TransposeB && ldb >= n || TransposeB && ldb >= k)
+        << std::boolalpha << "TransposeB = " << TransposeB << ", ldb = " << ldb << ", n = " << n << ", k = " << k;
     _halide_user_assert(ldc >= n) << "ldc = " << ldc << ", n = " << n;
 
     _halide_user_assert((std::is_same_v<float, T>) ||
@@ -53,15 +63,15 @@ sycl::event gemm(sycl::queue &queue,
     const auto [KKK, JJJ, III, JJ, II, KK] = get_systolic_array_dimensions<T>();
 
     // TOREMOVE: These two constraints below should be checked by the reconfigurable matmul instead.
-    _halide_user_assert(n % JJJ == 0) << "For performance reasons, the current implementation requires that n must be a multiple of " << JJJ
-                              << "(the vectorized dimension for the output matrix), but n = " << n;
-    _halide_user_assert(k % KKK == 0) << "For performance reasons, the current implementation requires that k must be a multiple of " << KKK
-                              << "(the vectorized dimension for the input matrices), but k = " << k;
+    _halide_user_assert(n % JJJ == 0) << "The current implementation requires that n must be a multiple of " << JJJ
+                              << "(the output matrix is stored in " << JJJ << "-wide vectors for memory efficiency), but n = " << n;
+    _halide_user_assert(k % KKK == 0) << "The current implementation requires that k must be a multiple of " << KKK
+                              << "(the input matrices are loaded in " << KKK << "-wide vectors for memory efficiency), but k = " << k;
 
     using Halide::Runtime::Buffer;
-    halide_dimension_t dim_a[]{{0, k, 1}, {0, m, lda}};
+    halide_dimension_t dim_a[]{{0, TransposeA ? m : k, 1}, {0, TransposeA ? k : m, lda}};
     Buffer<T> A_buffer{const_cast<T *>(a), 2, dim_a};
-    halide_dimension_t dim_b[]{{0, n, 1}, {0, k, ldb}};
+    halide_dimension_t dim_b[]{{0, TransposeB ? k : n, 1}, {0, TransposeA ? n : k, ldb}};
     Buffer<T> B_buffer{const_cast<T *>(b), 2, dim_b};
     halide_dimension_t dim_c[]{{0, n, 1}, {0, m, ldc}};
     Buffer<T> C_buffer{c, 2, dim_c};
@@ -71,38 +81,27 @@ sycl::event gemm(sycl::queue &queue,
         e.wait();
     }
 
-    bool Upper_From_Upper_A = !transpose_a;
-    bool Upper_From_Upper_B = !transpose_b;
-    bool Upper_From_Upper_C = true;
-    bool Lower_From_Lower_A = !transpose_a;
-    bool Lower_From_Lower_B = !transpose_b;
-    bool Lower_From_Lower_C = true;
-    bool ConjugateA = conjugate_a;
-    bool ConjugateB = conjugate_b;
-    bool ConjugateC = false;
-    bool HalfSpaceOut = false;
     sycl::event done;
-
     if constexpr (std::is_same_v<float, T>) {
-        done = t2sp::blas::row_major::ssssmatmul::ssssmatmul(queue, Upper_From_Upper_A, Upper_From_Upper_B, Upper_From_Upper_C,
-                                                       Lower_From_Lower_A, Lower_From_Lower_B, Lower_From_Lower_C,
-                                                       ConjugateA, ConjugateB, ConjugateC, HalfSpaceOut, alpha, beta,
-                                                       A_buffer, B_buffer, C_buffer, Output_buffer);
+        done = t2sp::blas::row_major::ssssmatmul::ssssmatmul(queue, A_buffer, TransposeA, ConjugateA, SymmetricA, HermitianA, UpA,
+                                                                    B_buffer, TransposeB, ConjugateB, SymmetricB, HermitianB, UpB,
+                                                                    C_buffer,                         SymmetricC, HermitianC, UpC,
+                                                                    HalfSpaceOut, alpha, beta, Output_buffer);
     } else if constexpr (std::is_same_v<double, T>) {
-        done = t2sp::blas::row_major::ddddmatmul::ddddmatmul(queue, Upper_From_Upper_A, Upper_From_Upper_B, Upper_From_Upper_C,
-                                                       Lower_From_Lower_A, Lower_From_Lower_B, Lower_From_Lower_C,
-                                                       ConjugateA, ConjugateB, ConjugateC, HalfSpaceOut, alpha, beta,
-                                                       A_buffer, B_buffer, C_buffer, Output_buffer);
+        done = t2sp::blas::row_major::ddddmatmul::ddddmatmul(queue, A_buffer, TransposeA, ConjugateA, SymmetricA, HermitianA, UpA,
+                                                                    B_buffer, TransposeB, ConjugateB, SymmetricB, HermitianB, UpB,
+                                                                    C_buffer,                         SymmetricC, HermitianC, UpC,
+                                                                    HalfSpaceOut, alpha, beta, Output_buffer);
     } else if constexpr (std::is_same_v<std::complex<float>, T>) {
-        done = t2sp::blas::row_major::ccccmatmul::ccccmatmul(queue, Upper_From_Upper_A, Upper_From_Upper_B, Upper_From_Upper_C,
-                                                       Lower_From_Lower_A, Lower_From_Lower_B, Lower_From_Lower_C,
-                                                       ConjugateA, ConjugateB, ConjugateC, HalfSpaceOut, alpha, beta,
-                                                       A_buffer, B_buffer, C_buffer, Output_buffer);
+        done = t2sp::blas::row_major::ccccmatmul::ccccmatmul(queue, A_buffer, TransposeA, ConjugateA, SymmetricA, HermitianA, UpA,
+                                                                    B_buffer, TransposeB, ConjugateB, SymmetricB, HermitianB, UpB,
+                                                                    C_buffer,                         SymmetricC, HermitianC, UpC,
+                                                                    HalfSpaceOut, alpha, beta, Output_buffer);
     } else {
-        done = t2sp::blas::row_major::zzzzmatmul::zzzzmatmul(queue, Upper_From_Upper_A, Upper_From_Upper_B, Upper_From_Upper_C,
-                                                       Lower_From_Lower_A, Lower_From_Lower_B, Lower_From_Lower_C,
-                                                       ConjugateA, ConjugateB, ConjugateC, HalfSpaceOut, alpha, beta,
-                                                       A_buffer, B_buffer, C_buffer, Output_buffer);
+        done = t2sp::blas::row_major::zzzzmatmul::zzzzmatmul(queue, A_buffer, TransposeA, ConjugateA, SymmetricA, HermitianA, UpA,
+                                                                    B_buffer, TransposeB, ConjugateB, SymmetricB, HermitianB, UpB,
+                                                                    C_buffer,                         SymmetricC, HermitianC, UpC,
+                                                                    HalfSpaceOut, alpha, beta, Output_buffer);
     }
     for (int i = 0; i < (m + (III * II - 1)) / (III * II); i++) {
         for (int j = 0; j < (n + (JJJ * JJ - 1)) / (JJJ * JJ); j++) {

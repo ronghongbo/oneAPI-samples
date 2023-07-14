@@ -1,3 +1,7 @@
+// This is a specification for the following computation:
+//    C = alpha * op(A) * op(B) + beta * C
+// where A, B  and C might be general, symmetric or Hermitian matrices, and op(X) can be X, transpose of X, or conjugate transpose of X.
+
 #include "Halide.h"
 
 // Constant parameters and data types of the kernel (dimensions of the systolic array)
@@ -6,65 +10,96 @@ using namespace Halide;
 
 int main()
 {
-    // Loop indices
-    #define P               kkk,      jjj,  iii,  jj, ii, kk,     k,  j,i
-    #define P_kkk_minus_1   kkk-1,    jjj,  iii,  jj, ii, kk,     k,  j,i
-    #define P_kk_minus_1    kkk+KKK-1,jjj,  iii,  jj, ii, kk-1,   k,  j,i
-    #define P_k_minus_1     kkk+KKK-1,jjj,  iii,  jj, ii, kk+KK-1,k-1,j,i
-    #define P_jjj_minus_1   kkk,      jjj-1,iii,  jj, ii, kk,     k,  j,i
-    #define P_iii_minus_1   kkk,      jjj,  iii-1,jj, ii, kk,     k,  j,i
-    #define P_reduced                 jjj,  iii,  jj, ii,             j,i // This specifies the order of the resulting data after reduction is done
-    #define P_reorder                 jjj,        jj, ii, iii,        j,i // This specifies the order of the resulting data when writing to the device DRAM
+    // Loop indices. Loop iii, ii, and i iterate the output matrix's rows; loop jjj, jj, and j iterate the output matrix's columns;
+    // loop kkk, kk, and k iterate the reduction dimension. The outermost loop j and i iterate the output matrix in "tiles".
+    #define P                  kkk,      jjj,  iii,  jj, ii, kk,     k,  j,i
+    #define P_kkk_minus_1      kkk-1,    jjj,  iii,  jj, ii, kk,     k,  j,i
+    #define P_kk_minus_1       kkk+KKK-1,jjj,  iii,  jj, ii, kk-1,   k,  j,i
+    #define P_k_minus_1        kkk+KKK-1,jjj,  iii,  jj, ii, kk+KK-1,k-1,j,i
+    #define P_jjj_minus_1      kkk,      jjj-1,iii,  jj, ii, kk,     k,  j,i
+    #define P_iii_minus_1      kkk,      jjj,  iii-1,jj, ii, kk,     k,  j,i
+    #define P_reduced                    jjj,  iii,  jj, ii,             j,i // The order of the resulting data after reduction is done
+    #define P_reorder                    jjj,        jj, ii, iii,        j,i // The order of the resulting data when writing to the device DRAM
 
-    // Loop indices before tiling. They might be bigger than the matrices' actual dimensions, due to the fix dimensions of the systolic array.
-    #define total_i         (iii + III * ii + III * II * i)
-    #define total_j         (jjj + JJJ * jj + JJJ * JJ * j)
-    #define total_k         (kkk + KKK * kk + KKK * KK * k)
+    // The location of the C element under reduction, and the step of the reduction
+    #define C_row_idx          (iii + III * ii + III * II * i)
+    #define C_col_idx          (jjj + JJJ * jj + JJJ * JJ * j)
+    #define reduction_idx      (kkk + KKK * kk + KKK * KK * k)
 
-    // Matrices' dimensions.
-    #define MATRICES_I      (A.dim(1).extent())
-    #define MATRICES_K      (B.dim(1).extent())
-    #define MATRICES_J      (B.dim(0).extent())
+    // Matrices' dimensions. In Halide style, column is the first dimension, and row the second. It is up to the user to ensure that the matrices' dimensions match,
+    // for example, when there is no transpose, matrix A's rows should equal to matrix C's rows, matrix A's columns should equal to matrix B's rows, and matrix B's
+    // columns should equal to matrix C's columns.
+    #define C_COLS             (C.dim(0).extent())
+    #define C_ROWS             (C.dim(1).extent())
+    #define A_COLS             (A.dim(0).extent())
+    #define A_ROWS             (A.dim(1).extent())
+    #define B_COLS             (B.dim(0).extent())
+    #define B_ROWS             (B.dim(1).extent())
+    #define REDUCTIOIN_LEN     select(TransposeA, A_ROWS, A_COLS)
 
-    // Are the loop indices outside of the valid range of the matrices' dimensions? In this implementation, we load the input matrix A and B in KKK-wide vectors,
-    // load the input matrix C and store the output matrix in JJJ-wide vectors. Thus we require the matrices' dimensions must be multiples of KKK and JJJ, respectively.
-    #define addr_A_out_of_range total_i >= MATRICES_I || KKK * (kk + KK * k) >= MATRICES_K
-    #define addr_B_out_of_range JJJ * (jj + JJ * j) >= MATRICES_J || KKK * (kk + KK * k) >= MATRICES_K
+    // Outer loop bounds, which are determined by the matrices' dimensions.
+    #define I                  ((C_ROWS    + (III * II - 1)) / (III * II))
+    #define J                  ((C_COLS    + (JJJ * JJ - 1)) / (JJJ * JJ))
+    #define K                  ((REDUCTIOIN_LEN + (KKK * KK - 1)) / (KKK * KK))
 
-    // Outer loop bounds, which are determined by the matrices' dimensions
-    #define I ((MATRICES_I + (III * II - 1)) / (III * II))
-    #define J ((MATRICES_J + (JJJ * JJ - 1)) / (JJJ * JJ))
-    #define K ((MATRICES_K + (KKK * KK - 1)) / (KKK * KK))
+    // Are we accessing the matrices in their valid ranges? As can be seen above, the outer loop bounds are determined by rounding, thus the
+    // addresses of the matrices can be out of valid ranges. In this design, for memory efficiency, the reduction dimension is loaded in KKK-wide vectors,
+    // and the column dimension of the output matrix C is stored in JJJ-wide vectors. It is up to the user to ensure that the reduction dimension is
+    // a multiple of KKK, and the column dimension of C is a multiple of JJJ.
+    #define REDUCTION_IN_RANGE (KKK * (kk + KK * k) < REDUCTIOIN_LEN)
+    #define COL_IN_RANGE       (JJJ * (jj + JJ * j) < C_COLS)
+    #define ROW_IN_RANGE       (C_row_idx   < C_ROWS)
 
-    // Inputs. Depending if an input matrix is symmetric or is general but transposed, we may read, e.g., the upper triangle from the upper triangle directly or from the corresponding lower triangle.
-    Param<bool> Upper_From_Upper_A("Upper_From_Upper_A"), Upper_From_Upper_B("Upper_From_Upper_B"), Upper_From_Upper_C("Upper_From_Upper_C");
-    Param<bool> Lower_From_Lower_A("Lower_From_Lower_A"), Lower_From_Lower_B("Lower_From_Lower_B"), Lower_From_Lower_C("Lower_From_Lower_C");
-    Param<bool> ConjugateTransposedA("ConjugateTransposedA"), ConjugateTransposedB("ConjugateTransposedB"), ConjugateTransposedC("ConjugateTransposedC"); // Conjugate transposed values
-    Param<bool> HalfSpaceOut("HalfSpaceOut"); // Compute only half output? This is true when the output is symmetric. In this case, we compute only the upper triangle of the output.
-                                              // This "upper triangle of the output" is not strictly upper triangular: the output is composed of jjj-wide vectors, and thus for the vectors
-                                              // crossing the diagonal, they can have left part in the lower triangle, and right part in the upper triangle (including the diagonal). We only
-                                              // make sure the right part is correct.
-    Param<TS> alpha("alpha"), beta("beta");
-    ImageParam A("A", TA, 2), B("B", TB, 2), C("C", TC, 2);
+    // Parameters.
+    Param<bool> TransposeA("TransposeA"), ConjugateA("ConjugateA"); // Is matrix A to be transposed? Is it to be conjugated?
+    Param<bool> SymmetricA("SymmetricA"), HermitianA("HermitianA"); // Is matrix A symmetric? Is it Hermitian?
+    Param<bool> UpA("UpA");                                         // Given matrix A as symmetric or Hermitian, is its upper triangle stored?
+    Param<bool> TransposeB("TransposeB"), ConjugateB("ConjugateB");
+    Param<bool> SymmetricB("SymmetricB"), HermitianB("HermitianB"), UpB("UpB");
+    Param<bool> SymmetricC("SymmetricC"), HermitianC("HermitianC"), UpC("UpC");
+    Param<bool> HalfSpaceOut("HalfSpaceOut"); // Compute only half output? This is true when the output is symmetric or Hermitian. In this case, we compute
+                                              // only the upper triangle of the output, in terms of tiles. For the tiles crossing the diagonal, we ensure
+                                              // the correctness of only their data above or on the diagonal.
+    Param<TS>   alpha("alpha"), beta("beta");
+    ImageParam  A("A", TA, 2), B("B", TB, 2), C("C", TC, 2);
 
     // UREs
     Var kkk("kkk"), jjj("jjj"), iii("iii"), jj("jj"), ii("ii"), kk("kk"), k("k"), j("j"), i("i");
     URE X("X", TC, {P}), Y("Y", TC, {P}), Z("Z", TC, {P}), Product("Product");
     URE Add("Add", TC, {P_reorder}), Out("Out", TC, {P_reorder});
 
-    Expr Is_Upper_A = total_i <= total_k;
-    Expr Transposed_A = select(Is_Upper_A, !Upper_From_Upper_A, !Lower_From_Lower_A);
-    Expr Effective_dim0_A = select(Transposed_A, total_i, total_k);
-    Expr Effective_dim1_A = select(Transposed_A, total_k, total_i);
-    Expr Check_Load_A = select(addr_A_out_of_range, ZERO,
-                               conditional_conjugate(ConjugateTransposedA && Transposed_A, A(Effective_dim0_A, Effective_dim1_A)));
+    // Logically, the location of the matrix A to read from
+    Expr A_col_idx                 = select(TransposeA, C_row_idx,     reduction_idx);
+    Expr A_row_idx                 = select(TransposeA, reduction_idx, C_row_idx);
+    // Physically, when A is symmetric/Hermitian, if its upper triangle is stored and we want to read the lower triangle or
+    // if its lower triangle is stored and we want to read the upper triangle, we have to read from the symmetric location.
+    Expr Read_Upper_A              = (A_row_idx <= A_col_idx);
+    Expr Read_A_from_symmetric_loc = (SymmetricA || HermitianA) && (UpA != Read_Upper_A);
+    // The actual location of A to read.
+    Expr A_actual_col_idx          = select(Read_A_from_symmetric_loc, A_row_idx, A_col_idx);
+    Expr A_actual_row_idx          = select(Read_A_from_symmetric_loc, A_col_idx, A_row_idx);
+    // If we read from the symmetric position, we might need conjugate the value read.
+    Expr Do_conjugate_A            = select(HermitianA, Read_A_from_symmetric_loc != ConjugateA, ConjugateA);
+    Expr A_value                   = conditional_conjugate(Do_conjugate_A, A(A_actual_col_idx, A_actual_row_idx));
+    // If in range, read; otherwise, pad 0.
+    Expr Check_Load_A              = select(ROW_IN_RANGE && REDUCTION_IN_RANGE, A_value, ZERO);
 
-    Expr Is_Upper_B = total_k <= total_j;
-    Expr Transposed_B = select(Is_Upper_B, !Upper_From_Upper_B, !Lower_From_Lower_B);
-    Expr Effective_dim0_B = select(Transposed_B, total_k, total_j);
-    Expr Effective_dim1_B = select(Transposed_B, total_j, total_k);
-    Expr Check_Load_B = select(addr_B_out_of_range, ZERO,
-                               conditional_conjugate(ConjugateTransposedB && Transposed_B, B(Effective_dim0_B, Effective_dim1_B)));
+    // B is read similarly
+    // Logically, the location of the matrix B to read from
+    Expr B_col_idx                 = select(TransposeB, reduction_idx, C_col_idx);
+    Expr B_row_idx                 = select(TransposeB, C_col_idx,     reduction_idx);
+    // Physically, when B is symmetric/Hermitian, if its upper triangle is stored and we want to read the lower triangle or
+    // if its lower triangle is stored and we want to read the upper triangle, we have to read from the symmetric location.
+    Expr Read_Upper_B              = (B_row_idx <= B_col_idx);
+    Expr Read_B_from_symmetric_loc = (SymmetricB || HermitianB) && (UpB != Read_Upper_B);
+    // The actual location of B to read.
+    Expr B_actual_col_idx          = select(Read_B_from_symmetric_loc, B_row_idx, B_col_idx);
+    Expr B_actual_row_idx          = select(Read_B_from_symmetric_loc, B_col_idx, B_row_idx);
+    // If we read from the symmetric position, we might need conjugate the value read.
+    Expr Do_conjugate_B            = select(HermitianB, Read_B_from_symmetric_loc != ConjugateB, ConjugateB);
+    Expr B_value                   = conditional_conjugate(Do_conjugate_B, B(B_actual_col_idx, B_actual_row_idx));
+    // If in range, read; otherwise, pad 0.
+    Expr Check_Load_B              = select(REDUCTION_IN_RANGE && COL_IN_RANGE, B_value, ZERO);
 
     X(P) = select(jjj == 0, Check_Load_A, X(P_jjj_minus_1));
     Y(P) = select(iii == 0, Check_Load_B, Y(P_iii_minus_1));
@@ -73,17 +108,21 @@ int main()
                 + X(P) * Y(P);
     Product(P_reduced) = select(k == K-1 && kk == KK-1 && kkk == KKK-1, Z(P));
 
-    // For C, we do not need check its range: the loading of C happens only when adding C with the product, and the product is ensured to be in the valid range.
-    // If C is general, the parameters should be such that Upper_From_Upper_C == Lower_From_Lower_C == true, and thus Transposed_C below is always false.
-    // If C is symmetric or hermitian, the expressions below are correct only for values that are truly in the upper triangle (including the diagonal),
-    // as we care only that part.
-    Expr Is_Upper_C = total_i < JJJ * (jj + 1 + JJ * j);
-    Expr Transposed_C = select(Is_Upper_C, !Upper_From_Upper_C, !Lower_From_Lower_C);
-    Expr Effective_dim0_C = select(Transposed_C, total_i, total_j);
-    Expr Effective_dim1_C = select(Transposed_C, total_j, total_i);
-    Expr Check_Load_C = conditional_conjugate(ConjugateTransposedC && Transposed_C, C(Effective_dim0_C, Effective_dim1_C));
+    // C is read similarly, except that C is never transposed or conjugated
+    // Physically, when C is symmetric/Hermitian, if its upper triangle is stored and we want to read the lower triangle or
+    // if its lower triangle is stored and we want to read the upper triangle, we have to read from the symmetric location.
+    Expr Read_Upper_C              = (C_row_idx <= C_col_idx);
+    Expr Read_C_from_symmetric_loc = (SymmetricC || HermitianC) && (UpC != Read_Upper_C);
+    // The actual location of C to read.
+    Expr C_actual_col_idx          = select(Read_C_from_symmetric_loc, C_row_idx, C_col_idx);
+    Expr C_actual_row_idx          = select(Read_C_from_symmetric_loc, C_col_idx, C_row_idx);
+    // If we read from the symmetric position, we might need conjugate the value read.
+    Expr Do_conjugate_C            = (HermitianC && Read_C_from_symmetric_loc);
+    Expr C_value                   = conditional_conjugate(Do_conjugate_C, C(C_actual_col_idx, C_actual_row_idx));
+    // If in range, read; otherwise, pad 0.
+    Expr Check_Load_C              = select(beta != SCALAR_ZERO && ROW_IN_RANGE && COL_IN_RANGE, beta * C_value, ZERO);
 
-    Add(P_reorder) = alpha * Product(P_reorder) + select(beta == SCALAR_ZERO, ZERO, beta * Check_Load_C);
+    Add(P_reorder) = alpha * Product(P_reorder) + Check_Load_C;
     Out(P_reorder) = select(true, Add(P_reorder));
 
     // Put the UREs that compute A*B (i.e. X, Y, Z and Product) inside the same loop nest.
@@ -91,9 +130,9 @@ int main()
     Add.merge_ures(Out);
 
     // Explicitly set the loop bounds: every loop has a min, and an extent (number of iterations).
-    // If HalfSpaceOut is true, we generate the upper half output. However, since every invocation of the systolic array produces a rectangular tile,
-    // the output is "upper half" in terms of tiles. For the tiles at the diagonal, post-processing is needed to remove values that are within the tiles but
-    // are below the diagonal, so that the output is "upper half" in terms of elements.
+    // If HalfSpaceOut is true, we generate the upper triangular output. However, since every invocation of the systolic array produces a rectangular tile,
+    // the output is "upper triangular" only in terms of tiles. For the tiles at the diagonal, post-processing is needed to remove values that are within the tiles
+    // but are below the diagonal.
     X.set_bounds(jjj, 0, JJJ, iii, 0, III, kkk, 0, KKK)
      .set_bounds(jj,  0, JJ,  ii,  0, II,  kk,  0, KK)
      .set_bounds(j,   select(HalfSpaceOut, i, 0), select(HalfSpaceOut, J-i, J))
@@ -115,15 +154,13 @@ int main()
     Check_Load_B >> DB.out(kkk) >> FIFO(256) >> SB.scope(k).out(kkk, jjj) >> FIFO(256);
     Check_Load_C >> DC.out(jjj) >> FIFO(256);
     Product >> RCollector.scope(iii).out(jjj) >> FIFO(256) >> SCollector >> FIFO(256);
-    Out >> FIFO(256) >> DOut >> Output(total_j, total_i);
-
-    // For performance, we require that MATRICES_K and MATRIX_J must be multiples of KKK and JJJ, respectively (i.e. the vector lengths of the input and output data)
-    Output.require(MATRICES_K % KKK == 0)
-          .require(MATRICES_J % JJJ == 0);
+    Out >> FIFO(256) >> DOut >> Output(C_col_idx, C_row_idx);
 
     // Compile the kernel to an oneAPI impl, and expose a C interface for the host to invoke
-    Output.compile_to_oneapi(OUTPUT_FILE, {Upper_From_Upper_A, Upper_From_Upper_B, Upper_From_Upper_C, Lower_From_Lower_A, Lower_From_Lower_B, Lower_From_Lower_C,
-                                           ConjugateTransposedA, ConjugateTransposedB, ConjugateTransposedC, HalfSpaceOut, alpha, beta, A, B, C}, KERNEL, IntelFPGA);
+    Output.compile_to_oneapi(OUTPUT_FILE, {A, TransposeA, ConjugateA, SymmetricA, HermitianA, UpA,
+                                           B, TransposeB, ConjugateB, SymmetricB, HermitianB, UpB,
+                                           C,                         SymmetricC, HermitianC, UpC,
+                                           HalfSpaceOut, alpha, beta}, KERNEL, IntelFPGA);
 
     return 0;
 }
