@@ -31,6 +31,9 @@ class vec {
     const T &operator[](size_t n) const {
         return _arr[n];
     }
+    constexpr static size_t size() noexcept {
+        return N;
+    }
     vec &operator+=(const vec &rhs) {
         for (size_t i = 0; i < N; i++) _arr[i] += rhs._arr[i];
         return *this;
@@ -58,11 +61,6 @@ class vec {
     vec conj() const {
         vec ret{};
         for (size_t i = 0; i < N; i++) ret._arr[i] = std::conj(_arr[i]);
-        return ret;
-    }
-    vec sqrt() const {
-        vec ret{};
-        for (size_t i = 0; i < N; i++) ret._arr[i] = std::sqrt(_arr[i]);
         return ret;
     }
     friend vec operator+(const vec &arg) {

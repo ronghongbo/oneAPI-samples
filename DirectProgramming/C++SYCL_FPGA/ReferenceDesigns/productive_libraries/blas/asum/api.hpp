@@ -4,7 +4,7 @@
 #include <sycl/sycl.hpp>
 #include "oneapi/mkl.hpp"
 
-// API of the reconfigurable dot. The interface will be invoked by the NRM2 implementation below.
+// API of the reconfigurable dot. The interface will be invoked by the ASUM implementation below.
 #include "../reconfigurable_dotprod/api.hpp"
 
 // Data structures, etc. in Halide/T2SP
@@ -12,10 +12,10 @@
 using namespace Halide;
 
 namespace t2sp::blas::row_major {
-// The API for NRM2. We choose the USM version of oneMKL DPC++ interface (https://oneapi-src.github.io/oneMKL/domains/blas/nrm2.html) with the
+// The API for ASUM. We choose the USM version of oneMKL DPC++ interface (https://oneapi-src.github.io/oneMKL/domains/blas/asum.html) with the
 // restriction of standard data types (s, d, c, z) only.
 template<typename T, typename T_res>
-sycl::event nrm2(sycl::queue &queue,
+sycl::event asum(sycl::queue &queue,
                  std::int64_t n,
                  const T *x,
                  std::int64_t incx,
@@ -46,9 +46,9 @@ sycl::event nrm2(sycl::queue &queue,
         e.wait();
     }
 
-    bool ConjugateX = true;
-    bool SignBitY = false;
-    bool SqrtRet = true;
+    bool ConjugateX = false;
+    bool SignBitY = true;
+    bool SqrtRet = false;
 
     sycl::event done;
 

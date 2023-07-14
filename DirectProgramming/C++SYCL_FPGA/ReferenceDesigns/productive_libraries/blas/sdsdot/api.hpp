@@ -45,12 +45,13 @@ sycl::event sdsdot(sycl::queue &queue,
     }
 
     bool ConjugateX = false;
+    bool SignBitY = false;
     bool SqrtRet = false;
 
     sycl::event done;
 
     done = t2sp::blas::row_major::sdsdotprod::sdsdotprod(queue, ConjugateX,
-                                                   X_buffer, std::abs(static_cast<int>(incx)),
+                                                   X_buffer, std::abs(static_cast<int>(incx)), SignBitY,
                                                    Y_buffer, std::abs(static_cast<int>(incy)), SqrtRet, Res_buffer);
     done.wait();
     Res_buffer(0) += sb;
