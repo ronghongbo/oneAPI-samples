@@ -45,6 +45,7 @@ int main()
     Param<int> IncX("IncX");
     Param<int> IncY("IncY");
     Param<bool> ConjugateX("ConjugateX");
+    Param<bool> SignBitY("SignBitY");
     Param<bool> SqrtRet("SqrtRet");
 
     X.dim(0).set_stride(IncX);
@@ -56,7 +57,7 @@ int main()
     URE uZ_2("uZ_2", TTYPE, {P_2}), Out("Out");
 
     Expr Check_Load_X = select(addr_in_range, conditional_conjugate(ConjugateX, cast(TTYPE, X(total_k, b))), 0);
-    Expr Check_Load_Y = select(addr_in_range, cast(TTYPE, Y(total_k, b)), 0);
+    Expr Check_Load_Y = select(addr_in_range, conditional_signbit(SignBitY, cast(TTYPE, Y(total_k, b))), 0);
 
     uX(P_1) = Check_Load_X;
     uY(P_1) = Check_Load_Y;
@@ -100,7 +101,7 @@ int main()
     target.set_feature(Target::IntelFPGA);
     target.set_feature(Target::EnableSynthesis);
 
-    deserializer.compile_to_oneapi(OUTPUT_FILE, {ConjugateX, X, IncX, Y, IncY, SqrtRet}, KERNEL, target);
+    deserializer.compile_to_oneapi(OUTPUT_FILE, {ConjugateX, X, IncX, SignBitY, Y, IncY, SqrtRet}, KERNEL, target);
     printf("Success\n");
     return 0;
 }

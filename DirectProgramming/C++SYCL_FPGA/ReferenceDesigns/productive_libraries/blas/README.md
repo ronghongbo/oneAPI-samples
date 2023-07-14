@@ -6,16 +6,17 @@ To reduce engineering efforts, kernels with similar computes are grouped so that
 
 ## `Level 1 kernels`
 
-| Kernel            | Formula                           | Data types of (inputs, output) | Description                                                                                                                                |
-| ----------------- | --------------------------------- | ------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------ |
-| $\mathbf{dot}$    | $\vec{X}\cdot \vec{Y}$            | (s, s), (d, d), (s, d)         | Dot product. For the mixed precision version (inputs are float while result is double), the dot product is computed with double precision. |
-| $\mathbf{sdsdot}$ | $sb+\vec{X}\cdot \vec{Y}$         | (s, s)                         | A dot product between two single-precision vectors , plus a single-precision float $sb$                                                    |
-| $\mathbf{dotc}$   | $\overline{\vec{X}}\cdot \vec{Y}$ | (c, c), (z, z)                 | A dot product between two complex vectors, conjugating the first of them                                                                   |
-| $\mathbf{dotu}$   | $\vec{X}\cdot \vec{Y}$            | (c, c), (z, z)                 | A dot product between two complex vectors                                                                                                  |
-| $\mathbf{nrm2}$   | $\|\vec{X}\|$                     | (s, s), (d, d), (c, s),(z, d)  | Euclidean norm of a vector                                                                                                                 |
-| $\mathbf{axpy}$   | $\alpha\vec{X}+\vec{Y}$           | (s, s),(d, d),(c, c),(z, z)    | Vector addition                                                                                                                            |
-| $\mathbf{scal}$   | $\alpha\vec{X}$                   | (s, s),(d, d),(c, c),(z, z)    | Scalar Multiplication of Vector                                                                                                            |
-| $\mathbf{copy}$   | $\vec{Y}\leftarrow\vec{X}$        | (s, s),(d, d),(c, c),(z, z)    | Copy a vector                                                                                                                              |
+| Kernel            | Formula                                           | Data types of (inputs, output) | Description                                                                                                                                |
+| ----------------- | ------------------------------------------------- | ------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| $\mathbf{dot}$    | $\vec{X}\cdot \vec{Y}$                            | (s, s), (d, d), (s, d)         | Dot product. For the mixed precision version (inputs are float while result is double), the dot product is computed with double precision. |
+| $\mathbf{sdsdot}$ | $sb+\vec{X}\cdot \vec{Y}$                         | (s, s)                         | A dot product between two single-precision vectors , plus a single-precision float $sb$                                                    |
+| $\mathbf{dotc}$   | $\overline{\vec{X}}\cdot \vec{Y}$                 | (c, c), (z, z)                 | A dot product between two complex vectors, conjugating the first of them                                                                   |
+| $\mathbf{dotu}$   | $\vec{X}\cdot \vec{Y}$                            | (c, c), (z, z)                 | A dot product between two complex vectors                                                                                                  |
+| $\mathbf{nrm2}$   | $\|\vec{X}\|$                                     | (s, s), (d, d), (c, s),(z, d)  | Euclidean norm of a vector                                                                                                                 |
+| $\mathbf{axpy}$   | $\alpha\vec{X}+\vec{Y}$                           | (s, s),(d, d),(c, c),(z, z)    | Vector addition                                                                                                                            |
+| $\mathbf{scal}$   | $\alpha\vec{X}$                                   | (s, s),(d, d),(c, c),(z, z)    | Scalar Multiplication of Vector                                                                                                            |
+| $\mathbf{copy}$   | $\vec{Y}\leftarrow\vec{X}$                        | (s, s),(d, d),(c, c),(z, z)    | Copy a vector                                                                                                                              |
+| $\mathbf{asum}$   | $\sum_{i=0}^N(\mid Re(x_i)\mid+\mid Im(x_i)\mid)$ | (s, s),(d, d),(c, c),(z, z)    | Sum of the magnitudes of elements                                                                                                          |
 
 ## `Level 2 kernels`
 

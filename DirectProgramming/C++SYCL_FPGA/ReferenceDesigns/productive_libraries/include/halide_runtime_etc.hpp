@@ -141,6 +141,25 @@ inline auto quiet_mod(const A &a, const B &b) -> decltype(a % b) {
     return b == 0 ? static_cast<decltype(a % b)>(0) : (a % b);
 }
 
+template<typename T>
+inline auto halide_conditional_signbit(bool cond, T val) {
+    if (cond) {
+        if constexpr (std::is_same_v<float, T> || std::is_same_v<double, T>) {
+            return val < 0.0 ? static_cast<T>(-1.0) : static_cast<T>(1.0);
+        } else if constexpr (std::is_same_v<std::complex<float>, T>
+                || std::is_same_v<std::complex<double>, T>) {
+            return T{halide_conditional_signbit(cond, val.real()), -halide_conditional_signbit(cond, val.imag())};
+        } else {
+            T ret_val{};
+            for (size_t i = 0; i < T::size(); i++)
+                ret_val[i] = halide_conditional_signbit(cond, val[i]);
+            return ret_val;
+        }
+    } else {
+        return val;
+    }
+}
+
 namespace {
 class HalideFreeHelper {
     typedef void (*FreeFunction)(void *user_context, void *p);
