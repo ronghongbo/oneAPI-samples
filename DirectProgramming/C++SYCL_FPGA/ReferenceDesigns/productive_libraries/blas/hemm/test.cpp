@@ -74,19 +74,7 @@ int test(device* dev, oneapi::mkl::layout layout, oneapi::mkl::side left_right,
     // Prepare data.
     auto ua = usm_allocator<fp, usm::alloc::shared, 64>(cxt, *dev);
     vector<fp, decltype(ua)> A(ua), B(ua), C(ua);
-    if (left_right == oneapi::mkl::side::left) {
-        rand_matrix(A, layout, oneapi::mkl::transpose::nontrans, m, m, lda);
-        // set the elements on the diagonal to real numbers
-        for (int i = 0; i < m; i++) {
-            A[i + i * lda] = A[i + i * lda].real();
-        }
-    } else {
-        rand_matrix(A, layout, oneapi::mkl::transpose::nontrans, n, n, lda);
-        // set the elements on the diagonal to real numbers
-        for (int i = 0; i < n; i++) {
-            A[i + i * lda] = A[i + i * lda].real();
-        }
-    }
+    rand_hermitian_matrix(A, layout, oneapi::mkl::transpose::nontrans, left_right == oneapi::mkl::side::left ? m : n, lda, true);
     rand_matrix(B, layout, oneapi::mkl::transpose::nontrans, m, n, ldb);
     rand_matrix(C, layout, oneapi::mkl::transpose::nontrans, m, n, ldc);
 

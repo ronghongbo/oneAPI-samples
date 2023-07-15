@@ -325,6 +325,57 @@ void rand_matrix(fp *M, oneapi::mkl::layout layout, oneapi::mkl::transpose trans
     }
 }
 
+// Create a Hermitian matrix. If for debugging, every element's data reflects its location: element (i, j) in the upper triangle equals (0.i, 0.j),
+// while the corresponding element (j, i) that is in the lower triangle equals (0.i, -0.j)
+template <typename vec>
+void rand_hermitian_matrix(vec &M, oneapi::mkl::layout layout, oneapi::mkl::transpose trans, int n, int ld, bool for_debugging) {
+    using fp = typename vec::value_type;
+    if (!(std::is_same_v<std::complex<float>, fp>) && !(std::is_same_v<std::complex<double>, fp>)) {
+        throw std::invalid_argument("Data type must be std::complex<float> or std::complex<double>");
+    }
+
+    if (!for_debugging) {
+        rand_matrix(M, layout, trans, n, n, ld);
+        // Set the diagonal data as real
+        for (int i = 0; i < n; i++) {
+            M[i + i * ld] = M[i + i * ld].real();
+        }
+        return;
+    }
+
+    M.resize(matrix_size(layout, trans, n, n, ld));
+
+    if (((trans == oneapi::mkl::transpose::nontrans) &&
+         (layout == oneapi::mkl::layout::col_major)) ||
+        ((trans != oneapi::mkl::transpose::nontrans) &&
+         (layout == oneapi::mkl::layout::row_major))) {
+        for (int i = 0; i < n; i++) {
+            for (int j = i; j < n; j++) {
+                if (j == i)  {
+                    M[i + i * ld] = (fp){(float)(0.1 * i), 0.0};
+                }
+                else {
+                    M[j + i * ld] = (fp){(float)(0.1 * i), (float)(0.1 * j)};  // Upper triangle element (i, j)
+                    M[i + j * ld] = (fp){(float)(0.1 * i), (float)(-0.1 * j)}; // Lower triangle element (j, i)
+                }
+            }
+        }
+    }
+    else {
+        for (int i = 0; i < n; i++) {
+            for (int j = i; j < n; j++) {
+                if (j == i) {
+                    M[i + i * ld] = (fp){(float)(0.1 * i), 0.0};
+                }
+                else {
+                    M[j + i * ld] = (fp){(float)(0.1 * i), (float)(-0.1 * j)}; // Lower triangle element (j, i)
+                    M[i + j * ld] = (fp){(float)(0.1 * i), (float)(0.1 * j)};  // Upper triangle element (i, j)
+                }
+            }
+        }
+    }
+}
+
 template <typename vec>
 void rand_trsm_matrix(vec &M, oneapi::mkl::layout layout, oneapi::mkl::transpose trans, int m,
                       int n, int ld) {
