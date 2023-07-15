@@ -43,11 +43,10 @@ sycl::event symm(sycl::queue &queue,
     const auto [KKK, JJJ, III, JJ, II, KK] = get_systolic_array_dimensions<T>();
 
     // TOREMOVE: These two constraints below should be checked by the reconfigurable matmul instead.
-    _halide_user_assert(n % JJJ == 0) << "For performance reasons, the current implementation requires that n must be a multiple of " << JJJ
-                              << "(the vectorized dimension for the output matrix), but n = " << n;
-    _halide_user_assert((left_right == oneapi::mkl::side::L ? m : n) % KKK == 0)
-                              << "For performance reasons, the current implementation requires that the reduction dimension must be a multiple of " << KKK
-                              << "(the vectorized dimension for the input matrices), but the reduction dimension = " << (left_right == oneapi::mkl::side::L ? m : n);
+    _halide_user_assert(n % JJJ == 0) << "The current implementation requires that n must be a multiple of " << JJJ
+                              << "(the output matrix is stored in " << JJJ << "-wide vectors for memory efficiency), but n = " << n;
+    _halide_user_assert((left_right == oneapi::mkl::side::L ? m : n) % KKK == 0) << "The current implementation requires that reduction dimension must be a multiple of " << KKK
+                              << "(the input matrices are loaded in " << KKK << "-wide vectors for memory efficiency), but the reduction dimension = " << (left_right == oneapi::mkl::side::L ? m : n);
 
     using Halide::Runtime::Buffer;
     halide_dimension_t dim_a[]{{0, left_right == oneapi::mkl::side::L ? m : n, 1}, {0, left_right == oneapi::mkl::side::L ? m : n, lda}};
@@ -62,70 +61,70 @@ sycl::event symm(sycl::queue &queue,
         e.wait();
     }
 
-    bool Upper_From_Upper_A = (upper_lower == oneapi::mkl::uplo::U ? true : false);
-    bool Upper_From_Upper_B = true;
-    bool Upper_From_Upper_C = true;
-    bool Lower_From_Lower_A = (upper_lower == oneapi::mkl::uplo::U ? false : true);
-    bool Lower_From_Lower_B = true;
-    bool Lower_From_Lower_C = true;
-    bool ConjugateTransposedA = false;
-    bool ConjugateTransposedB = false;
-    bool ConjugateTransposedC = false;
+    bool TransposeA   = false;
+    bool ConjugateA   = false;
+    bool SymmetricA   = true;
+    bool HermitianA   = false;
+    bool UpA          = (upper_lower == oneapi::mkl::uplo::U);
+    bool TransposeB   = false;
+    bool ConjugateB   = false;
+    bool SymmetricB   = false;
+    bool HermitianB   = false;
+    bool UpB          = false;
+    bool SymmetricC   = false;
+    bool HermitianC   = false;
+    bool UpC          = false;
     bool HalfSpaceOut = false;
 
     sycl::event done;
     if constexpr (std::is_same_v<float, T>) {
-        done = t2sp::blas::row_major::ssssmatmul::ssssmatmul(queue, left_right == oneapi::mkl::side::L ? Upper_From_Upper_A : Upper_From_Upper_B,
-                                                              left_right == oneapi::mkl::side::L ? Upper_From_Upper_B : Upper_From_Upper_A,
-                                                              Upper_From_Upper_C,
-                                                              left_right == oneapi::mkl::side::L ? Lower_From_Lower_A : Lower_From_Lower_B,
-                                                              left_right == oneapi::mkl::side::L ? Lower_From_Lower_B : Lower_From_Lower_A,
-                                                              Lower_From_Lower_C,
-                                                              left_right == oneapi::mkl::side::L ? ConjugateTransposedA : ConjugateTransposedB,
-                                                              left_right == oneapi::mkl::side::L ? ConjugateTransposedB : ConjugateTransposedA,
-                                                              ConjugateTransposedC, HalfSpaceOut, alpha, beta,
-                                                              left_right == oneapi::mkl::side::L ? A_buffer : B_buffer,
-                                                              left_right == oneapi::mkl::side::L ? B_buffer : A_buffer,
-                                                              C_buffer, Output_buffer);
+        if (left_right == oneapi::mkl::side::L) {
+            done = t2sp::blas::row_major::ssssmatmul::ssssmatmul(queue, A_buffer, TransposeA, ConjugateA, SymmetricA, HermitianA, UpA,
+                                                                        B_buffer, TransposeB, ConjugateB, SymmetricB, HermitianB, UpB,
+                                                                        C_buffer,                         SymmetricC, HermitianC, UpC,
+                                                                        HalfSpaceOut, alpha, beta, Output_buffer);
+        } else {
+            done = t2sp::blas::row_major::ssssmatmul::ssssmatmul(queue, B_buffer, TransposeB, ConjugateB, SymmetricB, HermitianB, UpB,
+                                                                        A_buffer, TransposeA, ConjugateA, SymmetricA, HermitianA, UpA,
+                                                                        C_buffer,                         SymmetricC, HermitianC, UpC,
+                                                                        HalfSpaceOut, alpha, beta, Output_buffer);
+        }
     } else if constexpr (std::is_same_v<double, T>) {
-        done = t2sp::blas::row_major::ddddmatmul::ddddmatmul(queue, left_right == oneapi::mkl::side::L ? Upper_From_Upper_A : Upper_From_Upper_B,
-                                                              left_right == oneapi::mkl::side::L ? Upper_From_Upper_B : Upper_From_Upper_A,
-                                                              Upper_From_Upper_C,
-                                                              left_right == oneapi::mkl::side::L ? Lower_From_Lower_A : Lower_From_Lower_B,
-                                                              left_right == oneapi::mkl::side::L ? Lower_From_Lower_B : Lower_From_Lower_A,
-                                                              Lower_From_Lower_C,
-                                                              left_right == oneapi::mkl::side::L ? ConjugateTransposedA : ConjugateTransposedB,
-                                                              left_right == oneapi::mkl::side::L ? ConjugateTransposedB : ConjugateTransposedA,
-                                                              ConjugateTransposedC, HalfSpaceOut, alpha, beta,
-                                                              left_right == oneapi::mkl::side::L ? A_buffer : B_buffer,
-                                                              left_right == oneapi::mkl::side::L ? B_buffer : A_buffer,
-                                                              C_buffer, Output_buffer);
+        if (left_right == oneapi::mkl::side::L) {
+            done = t2sp::blas::row_major::ddddmatmul::ddddmatmul(queue, A_buffer, TransposeA, ConjugateA, SymmetricA, HermitianA, UpA,
+                                                                        B_buffer, TransposeB, ConjugateB, SymmetricB, HermitianB, UpB,
+                                                                        C_buffer,                         SymmetricC, HermitianC, UpC,
+                                                                        HalfSpaceOut, alpha, beta, Output_buffer);
+        } else {
+            done = t2sp::blas::row_major::ddddmatmul::ddddmatmul(queue, B_buffer, TransposeB, ConjugateB, SymmetricB, HermitianB, UpB,
+                                                                        A_buffer, TransposeA, ConjugateA, SymmetricA, HermitianA, UpA,
+                                                                        C_buffer,                         SymmetricC, HermitianC, UpC,
+                                                                        HalfSpaceOut, alpha, beta, Output_buffer);
+        }
     } else if constexpr (std::is_same_v<std::complex<float>, T>) {
-        done = t2sp::blas::row_major::ccccmatmul::ccccmatmul(queue, left_right == oneapi::mkl::side::L ? Upper_From_Upper_A : Upper_From_Upper_B,
-                                                              left_right == oneapi::mkl::side::L ? Upper_From_Upper_B : Upper_From_Upper_A,
-                                                              Upper_From_Upper_C,
-                                                              left_right == oneapi::mkl::side::L ? Lower_From_Lower_A : Lower_From_Lower_B,
-                                                              left_right == oneapi::mkl::side::L ? Lower_From_Lower_B : Lower_From_Lower_A,
-                                                              Lower_From_Lower_C,
-                                                              left_right == oneapi::mkl::side::L ? ConjugateTransposedA : ConjugateTransposedB,
-                                                              left_right == oneapi::mkl::side::L ? ConjugateTransposedB : ConjugateTransposedA,
-                                                              ConjugateTransposedC, HalfSpaceOut, alpha, beta,
-                                                              left_right == oneapi::mkl::side::L ? A_buffer : B_buffer,
-                                                              left_right == oneapi::mkl::side::L ? B_buffer : A_buffer,
-                                                              C_buffer, Output_buffer);
+        if (left_right == oneapi::mkl::side::L) {
+            done = t2sp::blas::row_major::ccccmatmul::ccccmatmul(queue, A_buffer, TransposeA, ConjugateA, SymmetricA, HermitianA, UpA,
+                                                                        B_buffer, TransposeB, ConjugateB, SymmetricB, HermitianB, UpB,
+                                                                        C_buffer,                         SymmetricC, HermitianC, UpC,
+                                                                        HalfSpaceOut, alpha, beta, Output_buffer);
+        } else {
+            done = t2sp::blas::row_major::ccccmatmul::ccccmatmul(queue, B_buffer, TransposeB, ConjugateB, SymmetricB, HermitianB, UpB,
+                                                                        A_buffer, TransposeA, ConjugateA, SymmetricA, HermitianA, UpA,
+                                                                        C_buffer,                         SymmetricC, HermitianC, UpC,
+                                                                        HalfSpaceOut, alpha, beta, Output_buffer);
+        }
     } else {
-        done = t2sp::blas::row_major::zzzzmatmul::zzzzmatmul(queue, left_right == oneapi::mkl::side::L ? Upper_From_Upper_A : Upper_From_Upper_B,
-                                                              left_right == oneapi::mkl::side::L ? Upper_From_Upper_B : Upper_From_Upper_A,
-                                                              Upper_From_Upper_C,
-                                                              left_right == oneapi::mkl::side::L ? Lower_From_Lower_A : Lower_From_Lower_B,
-                                                              left_right == oneapi::mkl::side::L ? Lower_From_Lower_B : Lower_From_Lower_A,
-                                                              Lower_From_Lower_C,
-                                                              left_right == oneapi::mkl::side::L ? ConjugateTransposedA : ConjugateTransposedB,
-                                                              left_right == oneapi::mkl::side::L ? ConjugateTransposedB : ConjugateTransposedA,
-                                                              ConjugateTransposedC, HalfSpaceOut, alpha, beta,
-                                                              left_right == oneapi::mkl::side::L ? A_buffer : B_buffer,
-                                                              left_right == oneapi::mkl::side::L ? B_buffer : A_buffer,
-                                                              C_buffer, Output_buffer);
+        if (left_right == oneapi::mkl::side::L) {
+            done = t2sp::blas::row_major::zzzzmatmul::zzzzmatmul(queue, A_buffer, TransposeA, ConjugateA, SymmetricA, HermitianA, UpA,
+                                                                        B_buffer, TransposeB, ConjugateB, SymmetricB, HermitianB, UpB,
+                                                                        C_buffer,                         SymmetricC, HermitianC, UpC,
+                                                                        HalfSpaceOut, alpha, beta, Output_buffer);
+        } else {
+            done = t2sp::blas::row_major::zzzzmatmul::zzzzmatmul(queue, B_buffer, TransposeB, ConjugateB, SymmetricB, HermitianB, UpB,
+                                                                        A_buffer, TransposeA, ConjugateA, SymmetricA, HermitianA, UpA,
+                                                                        C_buffer,                         SymmetricC, HermitianC, UpC,
+                                                                        HalfSpaceOut, alpha, beta, Output_buffer);
+        }
     }
     for (int i = 0; i < (m + (III * II - 1)) / (III * II); i++) {
         for (int j = 0; j < (n + (JJJ * JJ - 1)) / (JJJ * JJ); j++) {
