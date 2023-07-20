@@ -325,6 +325,36 @@ void rand_matrix(fp *M, oneapi::mkl::layout layout, oneapi::mkl::transpose trans
     }
 }
 
+// Create a complex matrix. If for debugging, every element's data reflects its location: element (i, j) equals (0.1*i, 0.1*j)
+template <typename vec>
+void rand_complex_matrix(vec &M, oneapi::mkl::layout layout, oneapi::mkl::transpose trans, int m, int n,
+                         int ld, bool for_debugging = false) {
+    using fp = typename vec::value_type;
+    if (!(std::is_same_v<std::complex<float>, fp>) && !(std::is_same_v<std::complex<double>, fp>)) {
+        throw std::invalid_argument("For debugging, currently data type must be std::complex<float> or std::complex<double>");
+    }
+    if (!for_debugging) {
+        rand_matrix(M, layout, trans, m, n, ld);
+        return;
+    }
+
+    M.resize(matrix_size(layout, trans, m, n, ld));
+
+    if (((trans == oneapi::mkl::transpose::nontrans) &&
+         (layout == oneapi::mkl::layout::col_major)) ||
+        ((trans != oneapi::mkl::transpose::nontrans) &&
+         (layout == oneapi::mkl::layout::row_major))) {
+        for (int j = 0; j < n; j++)
+            for (int i = 0; i < m; i++)
+                M[i + j * ld] = (fp){(float)(0.1 * j), (float)(0.1 * i)};
+    }
+    else {
+        for (int i = 0; i < m; i++)
+            for (int j = 0; j < n; j++)
+                M[j + i * ld] = (fp){(float)(0.1 * i), (float)(0.1 * j)};
+    }
+}
+
 // Create a Hermitian matrix. If for debugging, every element's data reflects its location: element (i, j) in the upper triangle equals (0.i, 0.j),
 // while the corresponding element (j, i) that is in the lower triangle equals (0.i, -0.j)
 template <typename vec>

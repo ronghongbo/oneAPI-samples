@@ -74,7 +74,7 @@ The shared systolic arrays (named as `reconfigurable-*`) are also under the `bla
    
    ```shell
    make tests
-   ../bin/test_* # Replace * with specific test ID like 0, 1, ...
+   ../bin/tests.sh
    ```
    
     Each test builds a tiny-scale systolic array and runs on an FPGA emulator.

@@ -9,26 +9,19 @@ get_filename_component(CPP_SYCL_FPGA_PATH         "${RECONFIGURABLE_MATMUL_PATH}
 get_filename_component(PRODUCTIVE_LIBRARIES_PATH  "${RECONFIGURABLE_MATMUL_PATH}/../.."       ABSOLUTE)
 get_filename_component(GOOGLE_TEST_PATH           "${RECONFIGURABLE_MATMUL_PATH}/../../test"  ABSOLUTE)
 
-# Due to restrictions of file size, we have split libHalide.a into parts. Join them into the original binary
-if(NOT EXISTS "${HALIDE_TOOLS_PATH}/lib/libHalide.a")
-    execute_process(COMMAND cat libHalide.part.aa libHalide.part.ab libHalide.part.ac libHalide.part.ad libHalide.part.ae libHalide.part.af libHalide.part.ag
-                    OUTPUT_FILE libHalide.a
-                    WORKING_DIRECTORY ${HALIDE_TOOLS_PATH}/lib)
-endif()
-
 # FPGA board selection
 if(NOT DEFINED FPGA_DEVICE)
     # For whatever reason, it is faster to synthesize with OpenCL 1.2.1 BSP.
     # set(FPGA_DEVICE "intel_a10gx_pac:pac_a10")
     set(FPGA_DEVICE "${OPENCL_1_2_1_BSP}:pac_a10")
-    message(STYPEATUS "FPGA_DEVICE was not specified. "
+    message(STATUS "FPGA_DEVICE was not specified. "
                    "Configuring the design to run on the default FPGA board ${FPGA_DEVICE} (Intel(R) PAC with Intel Arria(R) 10 GX FPGA). "
                    "Please refer to the README for information on board selection.")
 else()
     if((NOT("${FPGA_DEVICE}" STREQUAL "intel_s10sx_pac:pac_s10")) AND (NOT("${FPGA_DEVICE}" STREQUAL "${OPENCL_1_2_1_BSP}:pac_a10")))
-        message(FATYPEAL_ERROR "Unsupported device ${FPGA_DEVICE}")
+        message(FATAL_ERROR "Unsupported device ${FPGA_DEVICE}")
     endif()
-    message(STYPEATUS "Configuring the design to run on FPGA board ${FPGA_DEVICE}")
+    message(STATUS "Configuring the design to run on FPGA board ${FPGA_DEVICE}")
 endif()
 
 if(NOT DEFINED ENV{MKLROOT})
@@ -71,6 +64,22 @@ function(get_c_type symbol c_type_name)
     endif()
 endfunction()
 
+# Due to restrictions of file size, we have split libHalide.a into parts. Join them into the original binary
+add_custom_command(OUTPUT  ${HALIDE_TOOLS_PATH}/lib/libHalide.a
+                   COMMAND rm -f libHalide.a
+                   COMMAND cat libHalide.part.aa libHalide.part.ab libHalide.part.ac libHalide.part.ad libHalide.part.ae libHalide.part.af libHalide.part.ag >> libHalide.a
+                   WORKING_DIRECTORY ${HALIDE_TOOLS_PATH}/lib
+                   DEPENDS ${HALIDE_TOOLS_PATH}/lib/libHalide.part.aa
+                           ${HALIDE_TOOLS_PATH}/lib/libHalide.part.ab
+                           ${HALIDE_TOOLS_PATH}/lib/libHalide.part.ac
+                           ${HALIDE_TOOLS_PATH}/lib/libHalide.part.ad
+                           ${HALIDE_TOOLS_PATH}/lib/libHalide.part.ae
+                           ${HALIDE_TOOLS_PATH}/lib/libHalide.part.af
+                           ${HALIDE_TOOLS_PATH}/lib/libHalide.part.ag
+                   COMMENT "Getting T2S compiler ready"
+                   VERBATIM)
+add_custom_target(compiler_tools DEPENDS ${HALIDE_TOOLS_PATH}/lib/libHalide.a)
+
 # For generality, the script here assumes that matrix A, matrix B, matrix C, and the scalars (beta and alpha) can have different types,
 # and therefore generates all possible combinations of them. However, not all of the combinations are valid. It is up to the user to
 # invoke the right combinations.
@@ -112,7 +121,8 @@ foreach(TYPEA ${TYPES})
                                            WORKING_DIRECTORY ${RECONFIGURABLE_MATMUL_PATH}/bin
                                            COMMENT "Generating OneAPI files"
                                            VERBATIM)
-                        add_custom_target(oneapi_${TYPEA}${TYPEB}${TYPEC}${TYPE_SCALAR}matmul_${SIZE}_${HW} DEPENDS ${RECONFIGURABLE_MATMUL_PATH}/oneapi/${TYPEA}${TYPEB}${TYPEC}${TYPE_SCALAR}matmul_${SIZE}_${HW}.cpp)
+                        add_custom_target(oneapi_${TYPEA}${TYPEB}${TYPEC}${TYPE_SCALAR}matmul_${SIZE}_${HW} DEPENDS ${RECONFIGURABLE_MATMUL_PATH}/oneapi/${TYPEA}${TYPEB}${TYPEC}${TYPE_SCALAR}matmul_${SIZE}_${HW}.cpp
+                                                                                                                    compiler_tools)
             
                         # Generate a report
                         file(MAKE_DIRECTORY ${RECONFIGURABLE_MATMUL_PATH}/reports/${TYPEA}${TYPEB}${TYPEC}${TYPE_SCALAR}matmul_${SIZE}_${HW})
@@ -181,6 +191,9 @@ endforeach()
 
 add_custom_target(tests)
 file(MAKE_DIRECTORY ${CURRENT_KERNEL_PATH}/bin)
+execute_process(COMMAND rm -f tests.sh
+                COMMAND chmod a+x tests.sh
+                WORKING_DIRECTORY ${CURRENT_KERNEL_PATH}/bin)
 foreach(N RANGE 0 ${MAX_TEST_ID})
     add_custom_command(OUTPUT  ${CURRENT_KERNEL_PATH}/bin/test_${N}
                        COMMAND ${CMAKE_CXX_COMPILER}
@@ -198,6 +211,7 @@ foreach(N RANGE 0 ${MAX_TEST_ID})
                                -lgtest -lgtest_main
                                -lHalide
                                -o ${CURRENT_KERNEL_PATH}/bin/test_${N}
+                       COMMAND echo ${CURRENT_KERNEL_PATH}/bin/test_${N} >> tests.sh
                        DEPENDS oneapi_targets_for_tests
                                ${CURRENT_KERNEL_PATH}/test.cpp
                                ${CURRENT_KERNEL_PATH}/api.hpp
