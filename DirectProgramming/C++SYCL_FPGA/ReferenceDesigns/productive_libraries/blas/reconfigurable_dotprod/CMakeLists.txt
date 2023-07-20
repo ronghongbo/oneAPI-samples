@@ -9,13 +9,6 @@ get_filename_component(CPP_SYCL_FPGA_PATH         "${RECONFIGURABLE_DOTPROD_PATH
 get_filename_component(PRODUCTIVE_LIBRARIES_PATH  "${RECONFIGURABLE_DOTPROD_PATH}/../.."       ABSOLUTE)
 get_filename_component(GOOGLE_TEST_PATH           "${RECONFIGURABLE_DOTPROD_PATH}/../../test"  ABSOLUTE)
 
-# Due to restrictions of file size, we have split libHalide.a into parts. Join them into the original binary
-if(NOT EXISTS "${HALIDE_TOOLS_PATH}/lib/libHalide.a")
-    execute_process(COMMAND cat libHalide.part.aa libHalide.part.ab libHalide.part.ac libHalide.part.ad libHalide.part.ae libHalide.part.af libHalide.part.ag
-                    OUTPUT_FILE libHalide.a
-                    WORKING_DIRECTORY ${HALIDE_TOOLS_PATH}/lib)
-endif()
-
 # FPGA board selection
 if(NOT DEFINED FPGA_DEVICE)
     # For whatever reason, it is faster to synthesize with OpenCL 1.2.1 BSP.
@@ -26,9 +19,9 @@ if(NOT DEFINED FPGA_DEVICE)
                    "Please refer to the README for information on board selection.")
 else()
     if((NOT("${FPGA_DEVICE}" STREQUAL "intel_s10sx_pac:pac_s10")) AND (NOT("${FPGA_DEVICE}" STREQUAL "${OPENCL_1_2_1_BSP}:pac_a10")))
-        message(FATYPEAL_ERROR "Unsupported device ${FPGA_DEVICE}")
+        message(FATAL_ERROR "Unsupported device ${FPGA_DEVICE}")
     endif()
-    message(STYPEATUS "Configuring the design to run on FPGA board ${FPGA_DEVICE}")
+    message(STATUS "Configuring the design to run on FPGA board ${FPGA_DEVICE}")
 endif()
 
 if(NOT DEFINED ENV{MKLROOT})
@@ -46,6 +39,22 @@ endif()
 file(MAKE_DIRECTORY ${RECONFIGURABLE_DOTPROD_PATH}/oneapi)
 file(MAKE_DIRECTORY ${RECONFIGURABLE_DOTPROD_PATH}/bin)
 file(MAKE_DIRECTORY ${RECONFIGURABLE_DOTPROD_PATH}/reports)
+
+# Due to restrictions of file size, we have split libHalide.a into parts. Join them into the original binary
+add_custom_command(OUTPUT  ${HALIDE_TOOLS_PATH}/lib/libHalide.a
+                   COMMAND rm -f libHalide.a
+                   COMMAND cat libHalide.part.aa libHalide.part.ab libHalide.part.ac libHalide.part.ad libHalide.part.ae libHalide.part.af libHalide.part.ag >> libHalide.a
+                   WORKING_DIRECTORY ${HALIDE_TOOLS_PATH}/lib
+                   DEPENDS ${HALIDE_TOOLS_PATH}/lib/libHalide.part.aa
+                           ${HALIDE_TOOLS_PATH}/lib/libHalide.part.ab
+                           ${HALIDE_TOOLS_PATH}/lib/libHalide.part.ac
+                           ${HALIDE_TOOLS_PATH}/lib/libHalide.part.ad
+                           ${HALIDE_TOOLS_PATH}/lib/libHalide.part.ae
+                           ${HALIDE_TOOLS_PATH}/lib/libHalide.part.af
+                           ${HALIDE_TOOLS_PATH}/lib/libHalide.part.ag
+                   COMMENT "Getting T2S compiler ready"
+                   VERBATIM)
+add_custom_target(compiler_tools DEPENDS ${HALIDE_TOOLS_PATH}/lib/libHalide.a)
 
 foreach(TYPEA ${TYPES})
     foreach(SIZE "tiny" "large")
@@ -74,7 +83,8 @@ foreach(TYPEA ${TYPES})
                                WORKING_DIRECTORY ${RECONFIGURABLE_DOTPROD_PATH}/bin
                                COMMENT "Generating OneAPI files"
                                VERBATIM)
-            add_custom_target(oneapi_${TYPEA}dotprod_${SIZE}_${HW} DEPENDS ${RECONFIGURABLE_DOTPROD_PATH}/oneapi/${TYPEA}dotprod_${SIZE}_${HW}.cpp)
+            add_custom_target(oneapi_${TYPEA}dotprod_${SIZE}_${HW} DEPENDS ${RECONFIGURABLE_DOTPROD_PATH}/oneapi/${TYPEA}dotprod_${SIZE}_${HW}.cpp
+                                                                           compiler_tools)
     
             # Generate a report
             file(MAKE_DIRECTORY ${RECONFIGURABLE_DOTPROD_PATH}/reports/${TYPEA}dotprod_${SIZE}_${HW})
@@ -138,6 +148,9 @@ foreach(PRECISION ${PRECISIONS})
 endforeach()
 
 file(MAKE_DIRECTORY ${CURRENT_KERNEL_PATH}/bin)
+file(WRITE ${CURRENT_KERNEL_PATH}/bin/tests.sh "")
+execute_process(COMMAND chmod a+x tests.sh
+                WORKING_DIRECTORY ${CURRENT_KERNEL_PATH}/bin)
 add_custom_command(OUTPUT  ${CURRENT_KERNEL_PATH}/bin/test
                    COMMAND ${CMAKE_CXX_COMPILER}
                            -I${HALIDE_TOOLS_PATH}/include -I$ENV{MKLROOT}/include -I${PRODUCTIVE_LIBRARIES_PATH}/include -I${CPP_SYCL_FPGA_PATH}/include
@@ -154,6 +167,7 @@ add_custom_command(OUTPUT  ${CURRENT_KERNEL_PATH}/bin/test
                            -lgtest -lgtest_main
                            -lHalide
                            -o ${CURRENT_KERNEL_PATH}/bin/test
+                   COMMAND echo ${CURRENT_KERNEL_PATH}/bin/test >> tests.sh
                    DEPENDS oneapi_targets_for_tests
                            ${CURRENT_KERNEL_PATH}/test.cpp
                            ${CURRENT_KERNEL_PATH}/api.hpp
