@@ -18,7 +18,7 @@ if(NOT DEFINED FPGA_DEVICE)
                    "Configuring the design to run on the default FPGA board ${FPGA_DEVICE} (Intel(R) PAC with Intel Arria(R) 10 GX FPGA). "
                    "Please refer to the README for information on board selection.")
 else()
-    if((NOT("${FPGA_DEVICE}" STREQUAL "intel_s10sx_pac:pac_s10")) AND (NOT("${FPGA_DEVICE}" STREQUAL "${OPENCL_1_2_1_BSP}:pac_a10")))
+    if((NOT("${FPGA_DEVICE}" STREQUAL "intel_s10sx_pac:pac_s10")) AND (NOT("${FPGA_DEVICE}" STREQUAL "${OPENCL_1_2_1_BSP}:pac_a10")) AND (NOT("${FPGA_DEVICE}" STREQUAL "agilex7")))
         message(FATAL_ERROR "Unsupported device ${FPGA_DEVICE}")
     endif()
     message(STATUS "Configuring the design to run on FPGA board ${FPGA_DEVICE}")
@@ -99,7 +99,7 @@ foreach(TYPEA ${TYPES})
                 set(TS ${c_type_name})
                 string(TOUPPER ${TYPE_SCALAR} UPPER_TYPE_SCALAR)
                 foreach(SIZE "tiny" "large")
-                    foreach(HW "a10" "s10")
+                    foreach(HW "a10" "s10" "agilex7")
                         string(TOUPPER ${SIZE}   UPPER_SIZE)
                         string(TOUPPER ${HW}     UPPER_HW)
             
@@ -158,7 +158,6 @@ foreach(TYPEA ${TYPES})
                                                    -Xshardware -Xstarget=${FPGA_DEVICE}
                                                    -Xsffp-reassociate -Xsffp-contract=fast -Xsdsp-mode=prefer-dsp -Xsprofile -Xsclock=360MHz -Xsseed=${SEED}
                                                    -fsycl -fintelfpga -fsycl-link=image -o ${TYPEA}${TYPEB}${TYPEC}${TYPE_SCALAR}matmul_${SIZE}_${HW}.a
-                                           COMMAND cp -rf ${TYPEA}${TYPEB}${TYPEC}${TYPE_SCALAR}matmul_${SIZE}_${HW}.a                          ${RECONFIGURABLE_MATMUL_PATH}/bin
                                            COMMAND cp -rf ${TYPEA}${TYPEB}${TYPEC}${TYPE_SCALAR}matmul_${SIZE}_${HW}.prj/reports/report.html    ${RECONFIGURABLE_MATMUL_PATH}/reports/${TYPEA}${TYPEB}${TYPEC}${TYPE_SCALAR}matmul_${SIZE}_${HW}
                                            COMMAND cp -rf ${TYPEA}${TYPEB}${TYPEC}${TYPE_SCALAR}matmul_${SIZE}_${HW}.prj/reports/resources      ${RECONFIGURABLE_MATMUL_PATH}/reports/${TYPEA}${TYPEB}${TYPEC}${TYPE_SCALAR}matmul_${SIZE}_${HW}
                                            COMMAND cp -rf ${TYPEA}${TYPEB}${TYPEC}${TYPE_SCALAR}matmul_${SIZE}_${HW}.prj/acl_quartus_report.txt ${RECONFIGURABLE_MATMUL_PATH}/reports/${TYPEA}${TYPEB}${TYPEC}${TYPE_SCALAR}matmul_${SIZE}_${HW}
@@ -191,9 +190,10 @@ endforeach()
 
 add_custom_target(tests)
 file(MAKE_DIRECTORY ${CURRENT_KERNEL_PATH}/bin)
-execute_process(COMMAND rm -f tests.sh
-                COMMAND chmod a+x tests.sh
+file(WRITE ${CURRENT_KERNEL_PATH}/bin/tests.sh "")
+execute_process(COMMAND chmod a+x tests.sh
                 WORKING_DIRECTORY ${CURRENT_KERNEL_PATH}/bin)
+
 foreach(N RANGE 0 ${MAX_TEST_ID})
     add_custom_command(OUTPUT  ${CURRENT_KERNEL_PATH}/bin/test_${N}
                        COMMAND ${CMAKE_CXX_COMPILER}
@@ -237,7 +237,7 @@ foreach(MATMUL ${MATMULS})
     list(REMOVE_AT PRECISIONS 0)
     foreach(SIZE "tiny" "large")
         string(TOUPPER ${SIZE} UPPER_SIZE)
-        foreach(HW "a10" "s10")
+        foreach(HW "a10" "s10" "agilex7")
             string(TOUPPER ${HW} UPPER_HW)
             add_custom_command(OUTPUT  ${CURRENT_KERNEL_PATH}/bin/demo_${PRECISION}${KERNEL}_${SIZE}_${HW}.o
                                COMMAND ${CMAKE_CXX_COMPILER}
@@ -288,7 +288,7 @@ foreach(MATMUL ${MATMULS})
     string(TOUPPER ${PRECISION} UPPER_PRECISION)
     foreach(SIZE "tiny" "large")
         string(TOUPPER ${SIZE} UPPER_SIZE)
-        foreach(HW "a10" "s10")
+        foreach(HW "a10" "s10" "agilex7")
             string(TOUPPER ${HW} UPPER_HW)
             add_custom_command(OUTPUT  ${CURRENT_KERNEL_PATH}/bin/demo_${PRECISION}${KERNEL}_${SIZE}_${HW}_emu
                                COMMAND ${CMAKE_CXX_COMPILER}
