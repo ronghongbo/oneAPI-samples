@@ -153,75 +153,26 @@ foreach(TYPEA ${TYPES})
                                                                                                                     ${RECONFIGURABLE_MATMUL_PATH}/reports/${TYPEA}${TYPEB}${TYPEC}${TYPE_SCALAR}matmul_${SIZE}_${HW}/resources)
             
                         # Generate an image
-                        add_custom_command(OUTPUT  ${RECONFIGURABLE_MATMUL_PATH}/bin/${TYPEA}${TYPEB}${TYPEC}${TYPE_SCALAR}matmul_${SIZE}_${HW}.o
-                                                   ${RECONFIGURABLE_MATMUL_PATH}/bin/halide_runtime_etc.o
-                                           COMMAND ${CMAKE_CXX_COMPILER}
-                                                   -I${RECONFIGURABLE_MATMUL_PATH}/oneapi -I${CPP_SYCL_FPGA_PATH}/include -I${PRODUCTIVE_LIBRARIES_PATH}/include -I${HALIDE_TOOLS_PATH}/include
-                                                   -c ${RECONFIGURABLE_MATMUL_PATH}/oneapi/${TYPEA}${TYPEB}${TYPEC}${TYPE_SCALAR}matmul_${SIZE}_${HW}.cpp
-                                                   -fsycl -fintelfpga -o ${TYPEA}${TYPEB}${TYPEC}${TYPE_SCALAR}matmul_${SIZE}_${HW}.o
-                                           COMMAND ${CMAKE_CXX_COMPILER}
-                                                   -I${RECONFIGURABLE_MATMUL_PATH}/oneapi -I${CPP_SYCL_FPGA_PATH}/include -I${PRODUCTIVE_LIBRARIES_PATH}/include -I${HALIDE_TOOLS_PATH}/include
-                                                   -c ${PRODUCTIVE_LIBRARIES_PATH}/include/halide_runtime_etc.cpp
-                                                   -fsycl -fintelfpga -o halide_runtime_etc.o
-                                           DEPENDS ${PRODUCTIVE_LIBRARIES_PATH}/include/halide_runtime_etc.cpp
-                                                   ${PRODUCTIVE_LIBRARIES_PATH}/include/halide_runtime_etc.hpp
-                                                   ${PRODUCTIVE_LIBRARIES_PATH}/include/complex_helper.hpp
-                                                   ${PRODUCTIVE_LIBRARIES_PATH}/include/pipe_wrapper.hpp
-                                                   oneapi_${TYPEA}${TYPEB}${TYPEC}${TYPE_SCALAR}matmul_${SIZE}_${HW}
-                                           WORKING_DIRECTORY ${RECONFIGURABLE_MATMUL_PATH}/bin
-                                           COMMENT "Generating object files"
-                                           VERBATIM)
-                        
-                        add_custom_command(OUTPUT  ${RECONFIGURABLE_MATMUL_PATH}/bin/${TYPEA}${TYPEB}${TYPEC}${TYPE_SCALAR}matmul_${SIZE}_${HW}.img
+                        add_custom_command(OUTPUT  ${RECONFIGURABLE_MATMUL_PATH}/bin/${TYPEA}${TYPEB}${TYPEC}${TYPE_SCALAR}matmul_${SIZE}_${HW}.a
                                                    ${RECONFIGURABLE_MATMUL_PATH}/reports/${TYPEA}${TYPEB}${TYPEC}${TYPE_SCALAR}matmul_${SIZE}_${HW}/acl_quartus_report.txt
-                                           COMMAND ${CMAKE_CXX_COMPILER}
-                                                   ${RECONFIGURABLE_MATMUL_PATH}/bin/${TYPEA}${TYPEB}${TYPEC}${TYPE_SCALAR}matmul_${SIZE}_${HW}.o
-                                                   ${RECONFIGURABLE_MATMUL_PATH}/bin/halide_runtime_etc.o
+                                            COMMAND ${CMAKE_CXX_COMPILER}
+                                                    -I${RECONFIGURABLE_MATMUL_PATH}/oneapi -I${CPP_SYCL_FPGA_PATH}/include -I${PRODUCTIVE_LIBRARIES_PATH}/include -I${HALIDE_TOOLS_PATH}/include
+                                                   ${RECONFIGURABLE_MATMUL_PATH}/oneapi/${TYPEA}${TYPEB}${TYPEC}${TYPE_SCALAR}matmul_${SIZE}_${HW}.cpp
+                                                   ${PRODUCTIVE_LIBRARIES_PATH}/include/halide_runtime_etc.cpp
                                                    -Xshardware -Xstarget=${FPGA_DEVICE}
                                                    -Xsffp-reassociate -Xsffp-contract=fast -Xsdsp-mode=prefer-dsp -Xsprofile -Xsclock=360MHz -Xsseed=${SEED}
-                                                   -fsycl -fintelfpga -o ${TYPEA}${TYPEB}${TYPEC}${TYPE_SCALAR}matmul_${SIZE}_${HW}.img
-                                           COMMAND cp -rf ${TYPEA}${TYPEB}${TYPEC}${TYPE_SCALAR}matmul_${SIZE}_${HW}.img.prj/reports/report.html    ${RECONFIGURABLE_MATMUL_PATH}/reports/${TYPEA}${TYPEB}${TYPEC}${TYPE_SCALAR}matmul_${SIZE}_${HW}
-                                           COMMAND cp -rf ${TYPEA}${TYPEB}${TYPEC}${TYPE_SCALAR}matmul_${SIZE}_${HW}.img.prj/reports/resources      ${RECONFIGURABLE_MATMUL_PATH}/reports/${TYPEA}${TYPEB}${TYPEC}${TYPE_SCALAR}matmul_${SIZE}_${HW}
-                                           COMMAND cp -rf ${TYPEA}${TYPEB}${TYPEC}${TYPE_SCALAR}matmul_${SIZE}_${HW}.img.prj/acl_quartus_report.txt ${RECONFIGURABLE_MATMUL_PATH}/reports/${TYPEA}${TYPEB}${TYPEC}${TYPE_SCALAR}matmul_${SIZE}_${HW}
-                                           DEPENDS ${RECONFIGURABLE_MATMUL_PATH}/bin/${TYPEA}${TYPEB}${TYPEC}${TYPE_SCALAR}matmul_${SIZE}_${HW}.o
-                                                   ${RECONFIGURABLE_MATMUL_PATH}/bin/halide_runtime_etc.o
-                                           WORKING_DIRECTORY ${RECONFIGURABLE_MATMUL_PATH}/bin
-                                           COMMENT "Generating an image"
-                                           VERBATIM)
-
-                        # Unsign the synthesized bitstream if using the opencl 1.2.1 A10
-                        if("${FPGA_DEVICE}" STREQUAL "${OPENCL_1_2_1_BSP}:pac_a10")
-                            add_custom_command(OUTPUT  ${RECONFIGURABLE_MATMUL_PATH}/bin/${TYPEA}${TYPEB}${TYPEC}${TYPE_SCALAR}matmul_${SIZE}_${HW}.unsigned.aocx
-                                               COMMAND $ENV{INTELFPGAOCLSDKROOT}/host/linux64/bin/aocl-extract-aocx
-                                                       -i ${RECONFIGURABLE_MATMUL_PATH}/bin/${TYPEA}${TYPEB}${TYPEC}${TYPE_SCALAR}matmul_${SIZE}_${HW}.img
-                                                       -o ${RECONFIGURABLE_MATMUL_PATH}/bin/${TYPEA}${TYPEB}${TYPEC}${TYPE_SCALAR}matmul_${SIZE}_${HW}.aocx
-                                               COMMAND source ${OPENCL_1_2_1_BSP}/linux64/libexec/sign_aocx.sh -H openssl_manager
-                                                       -i ${RECONFIGURABLE_MATMUL_PATH}/bin/${TYPEA}${TYPEB}${TYPEC}${TYPE_SCALAR}matmul_${SIZE}_${HW}.aocx -r NULL -k NULL 
-                                                       -o ${RECONFIGURABLE_MATMUL_PATH}/bin/${TYPEA}${TYPEB}${TYPEC}${TYPE_SCALAR}matmul_${SIZE}_${HW}.unsigned.aocx < unsign-bitstream-input
-                                               DEPENDS ${RECONFIGURABLE_MATMUL_PATH}/bin/${TYPEA}${TYPEB}${TYPEC}${TYPE_SCALAR}matmul_${SIZE}_${HW}.img
-                                               WORKING_DIRECTORY ${RECONFIGURABLE_MATMUL_PATH}/bin
-                                               COMMENT "Extracting and unsigning the bitstream"
-                                               VERBATIM)
-                            add_custom_command(OUTPUT  ${RECONFIGURABLE_MATMUL_PATH}/bin/${TYPEA}${TYPEB}${TYPEC}${TYPE_SCALAR}matmul_${SIZE}_${HW}.a
-                                               COMMAND ${CMAKE_CXX_COMPILER}
-                                                       -fsycl -fsycl-add-targets=spir64_fpga-unknown-unknown:${TYPEA}${TYPEB}${TYPEC}${TYPE_SCALAR}matmul_${SIZE}_${HW}.unsigned.aocx
-                                                       ${RECONFIGURABLE_MATMUL_PATH}/bin/${TYPEA}${TYPEB}${TYPEC}${TYPE_SCALAR}matmul_${SIZE}_${HW}.o
-                                                       ${RECONFIGURABLE_MATMUL_PATH}/bin/halide_runtime_etc.o
-                                                       -o ${RECONFIGURABLE_MATMUL_PATH}/bin/${TYPEA}${TYPEB}${TYPEC}${TYPE_SCALAR}matmul_${SIZE}_${HW}.a
-                                                       -lOpenCL -lsycl
-                                               DEPENDS ${RECONFIGURABLE_MATMUL_PATH}/bin/${TYPEA}${TYPEB}${TYPEC}${TYPE_SCALAR}matmul_${SIZE}_${HW}.unsigned.aocx
-                                                       ${RECONFIGURABLE_MATMUL_PATH}/bin/${TYPEA}${TYPEB}${TYPEC}${TYPE_SCALAR}matmul_${SIZE}_${HW}.o
-                                                       ${RECONFIGURABLE_MATMUL_PATH}/bin/halide_runtime_etc.o
-                                               WORKING_DIRECTORY ${RECONFIGURABLE_MATMUL_PATH}/bin
-                                               COMMENT "Adding the bitstream back to the image"
-                                               VERBATIM)
-                        else()
-                            add_custom_command(OUTPUT  ${RECONFIGURABLE_MATMUL_PATH}/bin/${TYPEA}${TYPEB}${TYPEC}${TYPE_SCALAR}matmul_${SIZE}_${HW}.a
-                                               COMMAND cp ${TYPEA}${TYPEB}${TYPEC}${TYPE_SCALAR}matmul_${SIZE}_${HW}.img ${TYPEA}${TYPEB}${TYPEC}${TYPE_SCALAR}matmul_${SIZE}_${HW}.a
-                                               DEPENDS ${RECONFIGURABLE_MATMUL_PATH}/bin/${TYPEA}${TYPEB}${TYPEC}${TYPE_SCALAR}matmul_${SIZE}_${HW}.img
-                                               WORKING_DIRECTORY ${RECONFIGURABLE_MATMUL_PATH}/bin
-                                               VERBATIM)                            
-                        endif()
+                                                   -fsycl -fintelfpga -fsycl-link=image -o ${TYPEA}${TYPEB}${TYPEC}${TYPE_SCALAR}matmul_${SIZE}_${HW}.a
+                                           COMMAND cp -rf ${TYPEA}${TYPEB}${TYPEC}${TYPE_SCALAR}matmul_${SIZE}_${HW}.prj/reports/report.html    ${RECONFIGURABLE_MATMUL_PATH}/reports/${TYPEA}${TYPEB}${TYPEC}${TYPE_SCALAR}matmul_${SIZE}_${HW}
+                                           COMMAND cp -rf ${TYPEA}${TYPEB}${TYPEC}${TYPE_SCALAR}matmul_${SIZE}_${HW}.prj/reports/resources      ${RECONFIGURABLE_MATMUL_PATH}/reports/${TYPEA}${TYPEB}${TYPEC}${TYPE_SCALAR}matmul_${SIZE}_${HW}
+                                           COMMAND cp -rf ${TYPEA}${TYPEB}${TYPEC}${TYPE_SCALAR}matmul_${SIZE}_${HW}.prj/acl_quartus_report.txt ${RECONFIGURABLE_MATMUL_PATH}/reports/${TYPEA}${TYPEB}${TYPEC}${TYPE_SCALAR}matmul_${SIZE}_${HW}
+                                            DEPENDS ${PRODUCTIVE_LIBRARIES_PATH}/include/halide_runtime_etc.cpp
+                                                    ${PRODUCTIVE_LIBRARIES_PATH}/include/halide_runtime_etc.hpp
+                                                    ${PRODUCTIVE_LIBRARIES_PATH}/include/complex_helper.hpp
+                                                    ${PRODUCTIVE_LIBRARIES_PATH}/include/pipe_wrapper.hpp
+                                                    oneapi_${TYPEA}${TYPEB}${TYPEC}${TYPE_SCALAR}matmul_${SIZE}_${HW}
+                                            WORKING_DIRECTORY ${RECONFIGURABLE_MATMUL_PATH}/bin
+                                            COMMENT "Generating an image"
+                                            VERBATIM)
                         add_custom_target(synthesize_${TYPEA}${TYPEB}${TYPEC}${TYPE_SCALAR}matmul_${SIZE}_${HW} DEPENDS ${RECONFIGURABLE_MATMUL_PATH}/bin/${TYPEA}${TYPEB}${TYPEC}${TYPE_SCALAR}matmul_${SIZE}_${HW}.a)
                     endforeach()
                 endforeach()
@@ -311,21 +262,52 @@ foreach(MATMUL ${MATMULS})
                                WORKING_DIRECTORY ${CURRENT_KERNEL_PATH}/bin
                                COMMENT "Generating a demo application on ${HW}"
                                VERBATIM)
-            add_custom_command(OUTPUT  ${CURRENT_KERNEL_PATH}/bin/demo_${PRECISION}${KERNEL}_${SIZE}_${HW}
+            add_custom_command(OUTPUT  ${CURRENT_KERNEL_PATH}/bin/demo_${PRECISION}${KERNEL}_${SIZE}_${HW}.fpga
                                COMMAND ${CMAKE_CXX_COMPILER}
                                        -fsycl -fintelfpga
                                        ${CURRENT_KERNEL_PATH}/bin/demo_${PRECISION}${KERNEL}_${SIZE}_${HW}.o
                                        ${RECONFIGURABLE_MATMUL_PATH}/bin/${MATMUL}_${SIZE}_${HW}.a
                                        -L${HALIDE_TOOLS_PATH}/lib -lHalide -lpthread -lz
-                                       -o ${CURRENT_KERNEL_PATH}/bin/demo_${PRECISION}${KERNEL}_${SIZE}_${HW}
+                                       -o ${CURRENT_KERNEL_PATH}/bin/demo_${PRECISION}${KERNEL}_${SIZE}_${HW}.fpga
                                DEPENDS ${CURRENT_KERNEL_PATH}/bin/demo_${PRECISION}${KERNEL}_${SIZE}_${HW}.o
-                                       ${PRODUCTIVE_LIBRARIES_PATH}/include/halide_runtime_etc.hpp
-                                       ${PRODUCTIVE_LIBRARIES_PATH}/include/complex_helper.hpp
-                                       ${PRODUCTIVE_LIBRARIES_PATH}/include/pipe_wrapper.hpp
                                        synthesize_${MATMUL}_${SIZE}_${HW}
                                WORKING_DIRECTORY ${CURRENT_KERNEL_PATH}/bin
                                COMMENT "Linking the demo application with the device image"
                                VERBATIM)
+                           
+            # Unsign the synthesized bitstream if using the opencl 1.2.1 A10
+            if("${FPGA_DEVICE}" STREQUAL "${OPENCL_1_2_1_BSP}:pac_a10")
+                file(WRITE ${RECONFIGURABLE_MATMUL_PATH}/bin/unsign-bitstream-confirmation "Y\nY\nY\nY\n")
+                add_custom_command(OUTPUT  ${RECONFIGURABLE_MATMUL_PATH}/bin/${MATMUL}_${SIZE}_${HW}.unsigned.aocx
+                                   COMMAND $ENV{INTELFPGAOCLSDKROOT}/host/linux64/bin/aocl-extract-aocx
+                                           -i ${CURRENT_KERNEL_PATH}/bin/demo_${PRECISION}${KERNEL}_${SIZE}_${HW}.fpga
+                                           -o ${RECONFIGURABLE_MATMUL_PATH}/bin/${MATMUL}_${SIZE}_${HW}.aocx
+                                   COMMAND source ${OPENCL_1_2_1_BSP}/linux64/libexec/sign_aocx.sh -H openssl_manager
+                                           -i ${RECONFIGURABLE_MATMUL_PATH}/bin/${MATMUL}_${SIZE}_${HW}.aocx -r NULL -k NULL 
+                                           -o ${RECONFIGURABLE_MATMUL_PATH}/bin/${MATMUL}_${SIZE}_${HW}.unsigned.aocx < ${RECONFIGURABLE_MATMUL_PATH}/bin/unsign-bitstream-confirmation
+                                   DEPENDS ${CURRENT_KERNEL_PATH}/bin/demo_${PRECISION}${KERNEL}_${SIZE}_${HW}.fpga
+                                   WORKING_DIRECTORY ${RECONFIGURABLE_MATMUL_PATH}/bin
+                                   COMMENT "Extracting and unsigning the bitstream"
+                                   VERBATIM)
+                add_custom_command(OUTPUT  ${CURRENT_KERNEL_PATH}/bin/demo_${PRECISION}${KERNEL}_${SIZE}_${HW}
+                                   COMMAND ${CMAKE_CXX_COMPILER}
+                                           -fsycl -fsycl-add-targets=spir64_fpga-unknown-unknown:${RECONFIGURABLE_MATMUL_PATH}/bin/${MATMUL}_${SIZE}_${HW}.unsigned.aocx
+                                           ${CURRENT_KERNEL_PATH}/bin/demo_${PRECISION}${KERNEL}_${SIZE}_${HW}.o
+                                           -L${HALIDE_TOOLS_PATH}/lib -lHalide -lpthread -lz
+                                           -o ${CURRENT_KERNEL_PATH}/bin/demo_${PRECISION}${KERNEL}_${SIZE}_${HW}
+                                           -lOpenCL -lsycl
+                                   DEPENDS ${RECONFIGURABLE_MATMUL_PATH}/bin/${MATMUL}_${SIZE}_${HW}.unsigned.aocx
+                                           ${CURRENT_KERNEL_PATH}/bin/demo_${PRECISION}${KERNEL}_${SIZE}_${HW}.o
+                                   WORKING_DIRECTORY ${CURRENT_KERNEL_PATH}/bin
+                                   COMMENT "Adding the bitstream back to the image"
+                                   VERBATIM)
+            else()
+                add_custom_command(OUTPUT  ${CURRENT_KERNEL_PATH}/bin/demo_${PRECISION}${KERNEL}_${SIZE}_${HW}
+                                   COMMAND cp ${CURRENT_KERNEL_PATH}/bin/demo_${PRECISION}${KERNEL}_${SIZE}_${HW}.fpga ${CURRENT_KERNEL_PATH}/bin/demo_${PRECISION}${KERNEL}_${SIZE}_${HW}
+                                   DEPENDS ${CURRENT_KERNEL_PATH}/bin/demo_${PRECISION}${KERNEL}_${SIZE}_${HW}.fpga
+                                   WORKING_DIRECTORY ${CURRENT_KERNEL_PATH}/bin
+                                   VERBATIM)
+            endif()
             add_custom_target(demo_${PRECISION}${KERNEL}_${SIZE}_${HW} DEPENDS ${CURRENT_KERNEL_PATH}/bin/demo_${PRECISION}${KERNEL}_${SIZE}_${HW})
         endforeach()
     endforeach()
