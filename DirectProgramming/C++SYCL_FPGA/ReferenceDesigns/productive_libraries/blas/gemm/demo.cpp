@@ -29,6 +29,23 @@ void test(oneapi::mkl::transpose transa, oneapi::mkl::transpose transb,
     rand_matrix(c, oneapi::mkl::layout::row_major, oneapi::mkl::transpose::nontrans, m, n, ldc);
     c_ref = c;
 
+    // For debugging purpose only, show available platforms.
+    // https://stackoverflow.com/questions/75948825/sycl-get-devices-return-just-the-cpu-while-i-have-an-integrated-intel-iris-xe
+#if 1
+    for (auto platform : sycl::platform::get_platforms())
+    {
+        std::cout << "Platform: "
+        << platform.get_info<sycl::info::platform::name>()
+        << std::endl;
+        for (auto device : platform.get_devices())
+        {
+           std::cout << "\tDevice: "
+                   << device.get_info<sycl::info::device::name>()
+                   << std::endl;
+        }
+    }
+#endif
+
 // Create a queue bound to either the FPGA emulator or FPGA device.
 #if defined(FPGA_EMULATOR)
     sycl::queue q_device(sycl::ext::intel::fpga_emulator_selector_v, fpga_tools::exception_handler);

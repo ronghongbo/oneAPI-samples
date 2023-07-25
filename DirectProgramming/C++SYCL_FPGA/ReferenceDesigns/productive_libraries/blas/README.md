@@ -106,3 +106,18 @@ The shared systolic arrays (named as `reconfigurable-*`) are also under the `bla
    ```
    
     Note that `sgemm` actually involkes a reconfigurable systolic array. When building the demo for `sgemm` as shown above, that array will be automatically synthesized, if not yet.
+
+    Known issue: if the above demo application leads to an error message like "Error writing bitstream to FPGA: reconfiguration error" on A10, it might be due to the security feature of devstack 1.2.1. Try to unsign and re-run the binary like this:
+    ```shell
+    # Unsign the bitstream
+    make unsign_sgemm_large_a10
+    
+    # Demo on the hardware
+    ../bin/demo_sgemm_large_a10.unsigned
+   ```
+    
+    
+    
+    
+    
+     
