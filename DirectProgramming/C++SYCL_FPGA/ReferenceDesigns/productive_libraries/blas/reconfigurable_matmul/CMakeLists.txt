@@ -281,7 +281,6 @@ endforeach()
 set(PRECISIONS ${PRECISIONS_BACKUP}) 
 
 # Unsign the synthesized bitstream. Do this if using the opencl 1.2.1 A10
-file(WRITE ${RECONFIGURABLE_MATMUL_PATH}/bin/unsign-bitstream-confirmation "Y\nY\nY\nY\n")
 set(PRECISIONS_BACKUP ${PRECISIONS})
 foreach(MATMUL ${MATMULS})
     list(GET PRECISIONS 0 PRECISION)
@@ -295,9 +294,9 @@ foreach(MATMUL ${MATMULS})
                                COMMAND $ENV{INTELFPGAOCLSDKROOT}/host/linux64/bin/aocl-extract-aocx
                                        -i ${CURRENT_KERNEL_PATH}/bin/demo_${PRECISION}${KERNEL}_${SIZE}_${HW}
                                        -o ${RECONFIGURABLE_MATMUL_PATH}/bin/${MATMUL}_${SIZE}_${HW}.aocx
-                               COMMAND bash -c "source ${OPENCL_1_2_1_BSP}/linux64/libexec/sign_aocx.sh -H openssl_manager \
+                               COMMAND bash -c "printf 'Y\\nY\\nY\\nY\\n' | source ${OPENCL_1_2_1_BSP}/linux64/libexec/sign_aocx.sh -H openssl_manager \
                                        -i ${MATMUL}_${SIZE}_${HW}.aocx -r NULL -k NULL \
-                                       -o ${MATMUL}_${SIZE}_${HW}.unsigned.aocx < unsign-bitstream-confirmation"
+                                       -o ${MATMUL}_${SIZE}_${HW}.unsigned.aocx"
                                DEPENDS ${CURRENT_KERNEL_PATH}/bin/demo_${PRECISION}${KERNEL}_${SIZE}_${HW}
                                WORKING_DIRECTORY ${RECONFIGURABLE_MATMUL_PATH}/bin
                                COMMENT "Extracting and unsigning the bitstream"
@@ -312,7 +311,7 @@ foreach(MATMUL ${MATMULS})
                                        -c ${RECONFIGURABLE_MATMUL_PATH}/oneapi/${MATMUL}_${SIZE}_${HW}.cpp
                                        -fsycl -fintelfpga -o ${MATMUL}_${SIZE}_${HW}.o
                                COMMAND ${CMAKE_CXX_COMPILER}
-                                       -fsycl -fsycl-add-targets=spir64_fpga-unknown-unknown:${MATMUL}_${SIZE}_${HW}.unsigned.aocx
+                               -fsycl -fsycl-add-targets=spir64_fpga-unknown-unknown:${MATMUL}_${SIZE}_${HW}.aocx # sign_aocx.sh seems to have a bug: its input seems to be turned into unsigned, while its output seems signed, as can be verified by running aocl program
                                        ${CURRENT_KERNEL_PATH}/bin/demo_${PRECISION}${KERNEL}_${SIZE}_${HW}.o
                                        ${MATMUL}_${SIZE}_${HW}.o
                                        halide_runtime_etc.o

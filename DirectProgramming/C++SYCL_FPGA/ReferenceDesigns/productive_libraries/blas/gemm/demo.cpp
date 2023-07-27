@@ -50,7 +50,7 @@ void test(oneapi::mkl::transpose transa, oneapi::mkl::transpose transb,
 #if defined(FPGA_EMULATOR)
     sycl::queue q_device(sycl::ext::intel::fpga_emulator_selector_v, fpga_tools::exception_handler);
 #else
-    sycl::queue q_device(sycl::ext::intel::fpga_selector_v, fpga_tools::exception_handler);
+    sycl::queue q_device(sycl::ext::intel::fpga_selector_v, fpga_tools::exception_handler, sycl::property::queue::enable_profiling());
 #endif
 
     sycl::event e = t2sp::blas::row_major::gemm(q_device, transa, transb, m, n, k, alpha, a.data(), lda,
