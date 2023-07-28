@@ -12089,6 +12089,10 @@ Expr conjugate(Expr x);
 /* Conjugate the expression x if the condition is true and the expression is complex. */
 Expr conditional_conjugate(Expr condition, Expr x);
 
+/** Get the signbit of x. For complex types, its effect depends on the implementation 
+ * of conditional_sign_c32/c64 */
+Expr conditional_signbit(Expr condition, Expr x);
+
 /** Return the greatest whole number less than or equal to a
  * floating-point expression. If the argument is not floating-point,
  * it is cast to Float(32). The return value is still in floating
@@ -32836,6 +32840,7 @@ protected:
             std::string halide_opencl_wait_for_kernels_finish(const Call *op);
             std::string conditional_conjugate(const Call *op);
             std::string conditional_sqrt(const Call *op);
+            std::string conditional_signbit(const Call *op);
 
             // Defined in DeviceInterface.cpp
             std::string halide_oneapi_device_interface(const Call *op){
@@ -32865,7 +32870,11 @@ protected:
             {"conditional_sqrt_f32", &ExternCallFuncs::conditional_sqrt},
             {"conditional_sqrt_f64", &ExternCallFuncs::conditional_sqrt},
             {"conditional_sqrt_c32", &ExternCallFuncs::conditional_sqrt},
-            {"conditional_sqrt_c64", &ExternCallFuncs::conditional_sqrt}
+            {"conditional_sqrt_c64", &ExternCallFuncs::conditional_sqrt},
+            {"conditional_signbit_f32", &ExternCallFuncs::conditional_signbit},
+            {"conditional_signbit_f64", &ExternCallFuncs::conditional_signbit},
+            {"conditional_signbit_c32", &ExternCallFuncs::conditional_signbit},
+            {"conditional_signbit_c64", &ExternCallFuncs::conditional_signbit}
         };
 
         // Create a simple assert(false) depending on the id_cond passed in
@@ -56606,6 +56615,10 @@ Expr conjugate(Expr x);
 
 /* Conjugate the expression x if the condition is true and the expression is complex. */
 Expr conditional_conjugate(Expr condition, Expr x);
+
+/** Get the signbit of x. For complex types, its effect depends on the implementation 
+ * of conditional_sign_c32/c64 */
+Expr conditional_signbit(Expr condition, Expr x);
 
 /** Return the greatest whole number less than or equal to a
  * floating-point expression. If the argument is not floating-point,
