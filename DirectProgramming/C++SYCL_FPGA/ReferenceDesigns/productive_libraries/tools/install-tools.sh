@@ -1,8 +1,10 @@
+#This tool is not to release to users of the oneapi samples, but for developers of the samples
+#Usage: ./install-tools.sh T2S-compiler-path
 #TODO: auto retrive libHalide.a and include files from a website
-cp --remove-destination /home/u89062/a10-multi-ure-groups/Halide/lib/libHalide.a Halide/lib
-cp --remove-destination /home/u89062/a10-multi-ure-groups/Halide/include/Halide.h Halide/include
-cp --remove-destination /home/u89062/a10-multi-ure-groups/Halide/include/HalideBuffer.h Halide/include
-cp --remove-destination /home/u89062/a10-multi-ure-groups/Halide/include/HalideRuntime.h Halide/include
+cp --remove-destination $1/Halide/lib/libHalide.a Halide/lib
+cp --remove-destination $1/Halide/include/Halide.h Halide/include
+cp --remove-destination $1/Halide/include/HalideBuffer.h Halide/include
+cp --remove-destination $1/Halide/include/HalideRuntime.h Halide/include
 
 cd Halide/lib
 split -b 100M libHalide.a libHalide.part.

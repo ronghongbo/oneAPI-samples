@@ -46,14 +46,8 @@ void test(oneapi::mkl::transpose transa, oneapi::mkl::transpose transb,
     }
 #endif
 
-// Create a queue bound to either the FPGA simulator, the FPGA device, or the FPGA emulator.
-#if FPGA_SIMULATOR
-    sycl::queue q_device(sycl::ext::intel::fpga_simulator_selector_v, fpga_tools::exception_handler);
-#elif FPGA_HARDWARE
+    // Create a queue on the FPGA device.
     sycl::queue q_device(sycl::ext::intel::fpga_selector_v, fpga_tools::exception_handler, sycl::property::queue::enable_profiling());
-#else  // #if FPGA_EMULATOR
-    sycl::queue q_device(sycl::ext::intel::fpga_emulator_selector_v, fpga_tools::exception_handler);
-#endif
 
     sycl::event e = t2sp::blas::row_major::gemm(q_device, transa, transb, m, n, k, alpha, a.data(), lda,
                                                 b.data(), ldb, beta, c.data(), ldc);
