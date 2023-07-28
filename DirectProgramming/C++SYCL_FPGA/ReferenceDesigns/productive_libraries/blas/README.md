@@ -48,6 +48,11 @@ The shared systolic arrays (named as `reconfigurable-*`) are also under the `bla
 * `CMakeLists.txt` - A cmake script.
 * `README.md` - A short description of the systolic array.
 
+Optional: We have pre-generated the SYCL files and bitstreams for large-sized systolic arrays on FPGA hardwares. To use the pre-generated files in future,
+   ```
+   ./use_pre_gen
+   ```
+
 ## Build a kernel and run on Linux
 
 1. Configure the build system.
@@ -88,18 +93,19 @@ The shared systolic arrays (named as `reconfigurable-*`) are also under the `bla
 3. Test performance
    
     Each kernel usually has several variations, depending on the the precision. For example, `gemm` has 4 precisions supported,  `s` (single-precision), `d`(double-precision), `c`(complex single-precision), and `z`(complex double-precision), and correspondingly, 4 variations: `sgemm`, `dgemm`, `cgemm` and `zgemm`.
-   
+      
    ```shell
-   # Replace the VARIATION below with a specific variation of the kernel
-   make demo_VARIATION_(tiny|large)_(a10|s10)
+   # Replace the VARIATION below with a specific variation of the kernel. 
+   # Use CPPFLAGS=-DFPGA_HARDWARE or -DFPGA_SIMULATOR to generate a bitstream for the FPGA hardware or simulator. Otherwise, the target is the FPGA emulator by default.
+   make demo_VARIATION_(tiny|large)_(a10|s10) [CPPFLAGS=-DFPGA_HARDWARE|CPPFLAGS=-DFPGA_SIMULATOR]
    ../bin/demo_VARIATION_(tiny|large)_(a10|s10)
    ```
    
     Take `sgemm` for example:
    
    ```shell
-   # Generate a demo application.
-   make demo_sgemm_large_a10
+   # Generate a demo application on the FPGA hardware
+   make demo_sgemm_large_a10 CPPFLAGS=-DFPGA_HARDWARE
    
    # Demo on the hardware
    ../bin/demo_sgemm_large_a10
@@ -115,9 +121,3 @@ The shared systolic arrays (named as `reconfigurable-*`) are also under the `bla
     # Demo on the hardware
     ../bin/demo_sgemm_large_a10.unsigned
    ```
-    
-    
-    
-    
-    
-     
