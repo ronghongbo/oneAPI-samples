@@ -9,12 +9,9 @@ index=0
 while [ "$index" -lt "${#array_to_read[*]}" ]; do
     directory=${array_to_read[$index]}
     let index=index+1
-    cd directory
-    for entry in "$directory"/pre_generated/*.tar.gz
+    for entry in $directory/pre_generated/*.tar.gz
     do
-        cp entry $directory
-        tar xzvf $entry
-        rm $entry
+        tar xzvf $entry --directory=$directory
     done
 done
 
