@@ -28,6 +28,10 @@ if(NOT DEFINED ENV{MKLROOT})
     message(FATAL_ERROR "MKLROOT is not set")
 endif()
 
+if(NOT DEFINED ENV{INTELFPGAOCLSDKROOT})
+    message(FATAL_ERROR "INTELFPGAOCLSDKROOT is not set")
+endif()
+
 # Seed for synthesis
 if(NOT DEFINED SEED)
     set(SEED 1)
@@ -207,7 +211,7 @@ foreach(PRECISION ${PRECISIONS})
                                        ${HALIDE_TOOLS_PATH}/include/HalideRuntime.h
                                        ${HALIDE_TOOLS_PATH}/include/HalideBuffer.h
                                WORKING_DIRECTORY ${CURRENT_KERNEL_PATH}/bin
-                               COMMENT "Generating a demo application on ${WHAT}"
+                               COMMENT "Generating a demo application on ${HW}"
                                VERBATIM)
             add_custom_command(OUTPUT  ${CURRENT_KERNEL_PATH}/bin/demo_${PRECISION}${KERNEL}_${SIZE}_${HW}
                                COMMAND ${CMAKE_CXX_COMPILER}
@@ -228,6 +232,59 @@ foreach(PRECISION ${PRECISIONS})
                                COMMENT "Linking the demo application with the device image"
                                VERBATIM)
             add_custom_target(demo_${PRECISION}${KERNEL}_${SIZE}_${HW} DEPENDS ${CURRENT_KERNEL_PATH}/bin/demo_${PRECISION}${KERNEL}_${SIZE}_${HW})
+        endforeach()
+    endforeach()
+endforeach()
+
+# Unsign the synthesized bitstream. Do this if using the opencl 1.2.1 A10
+foreach(PRECISION ${PRECISIONS})
+    foreach(SIZE "tiny" "large")
+        string(TOUPPER ${SIZE} UPPER_SIZE)
+        foreach(HW "a10" "s10")
+            string(TOUPPER ${HW} UPPER_HW)
+            add_custom_command(OUTPUT  ${RECONFIGURABLE_DOTPROD_PATH}/bin/${PRECISION}dotprod_${SIZE}_${HW}.unsigned.aocx
+                               COMMAND $ENV{INTELFPGAOCLSDKROOT}/host/linux64/bin/aocl-extract-aocx
+                                       -i ${CURRENT_KERNEL_PATH}/bin/demo_${PRECISION}${KERNEL}_${SIZE}_${HW}
+                                       -o ${RECONFIGURABLE_DOTPROD_PATH}/bin/${PRECISION}dotprod_${SIZE}_${HW}.aocx
+                               COMMAND bash -c "printf 'Y\\nY\\nY\\nY\\n' | source ${OPENCL_1_2_1_BSP}/linux64/libexec/sign_aocx.sh -H openssl_manager \
+                                       -i ${PRECISION}dotprod_${SIZE}_${HW}.aocx -r NULL -k NULL \
+                                       -o ${PRECISION}dotprod_${SIZE}_${HW}.unsigned.aocx"
+                               DEPENDS ${CURRENT_KERNEL_PATH}/bin/demo_${PRECISION}${KERNEL}_${SIZE}_${HW}
+                               WORKING_DIRECTORY ${RECONFIGURABLE_DOTPROD_PATH}/bin
+                               COMMENT "Extracting and unsigning the bitstream"
+                               VERBATIM)
+            add_custom_command(OUTPUT  ${CURRENT_KERNEL_PATH}/bin/demo_${PRECISION}${KERNEL}_${SIZE}_${HW}.unsigned
+                               COMMAND ${CMAKE_CXX_COMPILER}
+                                       -I${RECONFIGURABLE_DOTPROD_PATH}/oneapi -I${CPP_SYCL_FPGA_PATH}/include
+                                       -I${PRODUCTIVE_LIBRARIES_PATH}/include -I${HALIDE_TOOLS_PATH}/include
+                                       -c ${PRODUCTIVE_LIBRARIES_PATH}/include/halide_runtime_etc.cpp
+                                       -fsycl -fintelfpga -o halide_runtime_etc.o
+                               COMMAND ${CMAKE_CXX_COMPILER}
+                                       -I${RECONFIGURABLE_DOTPROD_PATH}/oneapi -I${CPP_SYCL_FPGA_PATH}/include
+                                       -I${PRODUCTIVE_LIBRARIES_PATH}/include -I${HALIDE_TOOLS_PATH}/include
+                                       -c ${RECONFIGURABLE_DOTPROD_PATH}/oneapi/${PRECISION}dotprod_${SIZE}_${HW}.cpp
+                                       -fsycl -fintelfpga -o ${PRECISION}dotprod_${SIZE}_${HW}.o
+                               COMMAND ${CMAKE_CXX_COMPILER}
+                                       # sign_aocx.sh seems to have a bug: its input seems to be turned into unsigned,
+                                       # while its output seems signed, as can be verified by running aocl program
+                                       -fsycl -fsycl-add-targets=spir64_fpga-unknown-unknown:${PRECISION}dotprod_${SIZE}_${HW}.aocx
+                                       ${CURRENT_KERNEL_PATH}/bin/demo_${PRECISION}${KERNEL}_${SIZE}_${HW}.o
+                                       ${PRECISION}dotprod_${SIZE}_${HW}.o
+                                       halide_runtime_etc.o
+                                       -L${HALIDE_TOOLS_PATH}/lib -lHalide -lpthread -lz
+                                       -o ${CURRENT_KERNEL_PATH}/bin/demo_${PRECISION}${KERNEL}_${SIZE}_${HW}.unsigned
+                                       -lOpenCL -lsycl
+                               DEPENDS ${RECONFIGURABLE_DOTPROD_PATH}/bin/${PRECISION}dotprod_${SIZE}_${HW}.unsigned.aocx
+                                       ${CURRENT_KERNEL_PATH}/bin/demo_${PRECISION}${KERNEL}_${SIZE}_${HW}.o
+                                       ${PRODUCTIVE_LIBRARIES_PATH}/include/halide_runtime_etc.cpp
+                                       ${PRODUCTIVE_LIBRARIES_PATH}/include/halide_runtime_etc.hpp
+                                       ${PRODUCTIVE_LIBRARIES_PATH}/include/complex_helper.hpp
+                                       ${PRODUCTIVE_LIBRARIES_PATH}/include/pipe_wrapper.hpp
+                                       demo_${PRECISION}${KERNEL}_${SIZE}_${HW}
+                               WORKING_DIRECTORY ${RECONFIGURABLE_DOTPROD_PATH}/bin
+                               COMMENT "Adding the bitstream back to the image"
+                               VERBATIM)
+            add_custom_target(unsign_${PRECISION}${KERNEL}_${SIZE}_${HW} DEPENDS ${CURRENT_KERNEL_PATH}/bin/demo_${PRECISION}${KERNEL}_${SIZE}_${HW}.unsigned)
         endforeach()
     endforeach()
 endforeach()
