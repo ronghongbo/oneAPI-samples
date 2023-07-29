@@ -16,7 +16,7 @@ cd $path_to_blas
 # A dictionary mapping from a kernel to a tarball of pre-generated source and bitstream
 declare -A kernel_to_pre_generated_files
 kernel_to_pre_generated_files=(
-    ["sgemm_large_a10"]="reconfigurable_matmul/pre_generated/ssssmatmul_large_a10.tar.gz"
+    ["sgemm_large_a10"]="reconfigurable_matmul/pre_generated/ssssmatmul_large_a10_oneapi2023.2_bsp1.2.1.tar.gz"
     ["sgemm_tiny_a10"]="reconfigurable_matmul/pre_generated/ssssmatmul_tiny_a10_oneapi2023.2_bsp1.2.1.tar.gz"
 )
 
