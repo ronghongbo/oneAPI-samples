@@ -29,23 +29,6 @@ void test(oneapi::mkl::transpose transa, oneapi::mkl::transpose transb,
     rand_matrix(c, oneapi::mkl::layout::row_major, oneapi::mkl::transpose::nontrans, m, n, ldc);
     c_ref = c;
 
-    // For debugging purpose only, show available platforms.
-    // https://stackoverflow.com/questions/75948825/sycl-get-devices-return-just-the-cpu-while-i-have-an-integrated-intel-iris-xe
-#if 1
-    for (auto platform : sycl::platform::get_platforms())
-    {
-        std::cout << "Platform: "
-        << platform.get_info<sycl::info::platform::name>()
-        << std::endl;
-        for (auto device : platform.get_devices())
-        {
-           std::cout << "\tDevice: "
-                   << device.get_info<sycl::info::device::name>()
-                   << std::endl;
-        }
-    }
-#endif
-
     // Create a queue on the FPGA device.
     sycl::queue q_device(sycl::ext::intel::fpga_selector_v, fpga_tools::exception_handler, sycl::property::queue::enable_profiling());
 
@@ -53,15 +36,6 @@ void test(oneapi::mkl::transpose transa, oneapi::mkl::transpose transb,
                                                 b.data(), ldb, beta, c.data(), ldc);
     e.wait();
 
-#ifdef CHECK_CORRECTNESS
-    // Call oneMKL GEMM as reference.
-    sycl::queue main_queue(sycl::cpu_selector_v);
-    oneapi::mkl::blas::row_major::gemm(main_queue, transa, transb, m, n, k, alpha, a.data(), lda,
-                                       b.data(), ldb, beta, c_ref.data(), ldc).wait();
-    bool correct = check_equal_matrix(c.data(), c_ref.data(), oneapi::mkl::layout::row_major, m, n, ldc,  10 * k, std::cout);
-    assert(correct);
-    std::cout << "Correct!\n";
-#else
     // Get time in ns
     uint64_t start = e.get_profiling_info<sycl::info::event_profiling::command_start>();
     uint64_t end   = e.get_profiling_info<sycl::info::event_profiling::command_end>();
@@ -82,7 +56,6 @@ void test(oneapi::mkl::transpose transa, oneapi::mkl::transpose transb,
     std::cout << "Size of matrix a: " << m << " * " << k << "\n";
     std::cout << "Size of matrix b: " << k << " * " << n << "\n";
     std::cout << "Size of matrix c: " << m << " * " << n << "\n";
-#endif
 }
 
 int main() {
@@ -92,7 +65,7 @@ int main() {
     int64_t n = JJJ * JJ * 32;
     int64_t k = KKK * KK * 32;
     int64_t lda = k;
-    int64_t ldb = n;
+    int64_t ldb = k;
     int64_t ldc = n;
     float alpha = 2.0f;
     float beta  = 3.0f;
@@ -103,7 +76,7 @@ int main() {
     int64_t n = JJJ * JJ * 32;
     int64_t k = KKK * KK * 32;
     int64_t lda = k;
-    int64_t ldb = n;
+    int64_t ldb = k;
     int64_t ldc = n;
     double alpha = 2.0f;
     double beta = 3.0f;
@@ -114,7 +87,7 @@ int main() {
     int64_t n = JJJ * JJ * 32;
     int64_t k = KKK * KK * 32;
     int64_t lda = k;
-    int64_t ldb = n;
+    int64_t ldb = k;
     int64_t ldc = n;
     std::complex<float> alpha = {2.0f, -0.5f};
     std::complex<float> beta  = {3.0f, -1.5f};
@@ -125,7 +98,7 @@ int main() {
     int64_t n = JJJ * JJ * 32;
     int64_t k = KKK * KK * 32;
     int64_t lda = k;
-    int64_t ldb = n;
+    int64_t ldb = k;
     int64_t ldc = n;
     std::complex<double> alpha = {2.0f, -0.5f};
     std::complex<double> beta  = {3.0f, -1.5f};
