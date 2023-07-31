@@ -17,6 +17,21 @@
 
 #include "exception_handler.hpp"
 
+inline int selectDeviceByPlatform(std::string_view required_platform_name,
+                                  const sycl::device &device) {
+  if (device.get_platform().get_info<sycl::info::platform::name>() ==
+      required_platform_name)
+    return 10000;
+  return -1;
+}
+
+static constexpr auto HARDWARE_PLATFORM_NAME =
+    "Intel(R) FPGA SDK for OpenCL(TM)";
+
+inline int fpga_selector_v(const sycl::device &device) {
+  return selectDeviceByPlatform(HARDWARE_PLATFORM_NAME, device);
+}
+
 using namespace std;
 
 template <typename T>
@@ -27,29 +42,15 @@ void test(int N, int incx, int incy) {
     rand_vector(y, N, incy);
     auto res_ref = res;
 
-// Create a queue bound to either the FPGA emulator or FPGA device.
-#if defined(FPGA_EMULATOR)
-    sycl::queue q_device(sycl::ext::intel::fpga_emulator_selector_v, fpga_tools::exception_handler, sycl::property::queue::enable_profiling());
-#else
-    sycl::queue q_device(sycl::ext::intel::fpga_selector_v, fpga_tools::exception_handler, sycl::property::queue::enable_profiling());
-#endif
+    sycl::queue q_device(::fpga_selector_v, fpga_tools::exception_handler, sycl::property::queue::enable_profiling());
 
     auto done = t2sp::blas::row_major::dot(q_device, N, x.data(), incx, y.data(),
                                            incy, &res);
     done.wait();
 
-#ifdef CHECK_CORRECTNESS
-    // Call oneMKL GEMM as reference.
-    sycl::queue main_queue(sycl::cpu_selector_v);
-    oneapi::mkl::blas::row_major::dot(main_queue, N, x.data(), incx, y.data(),
-                                      incy, &res_ref).wait();
-    bool correct = check_equal_ptr(main_queue, res, *res_ref, N, std::cout); 
-    assert(correct);
-    std::cout << "Correct!\n";
-#else
     // Get time in ns
-    uint64_t start = e.get_profiling_info<sycl::info::event_profiling::command_start>();
-    uint64_t end   = e.get_profiling_info<sycl::info::event_profiling::command_end>();
+    uint64_t start = done.template get_profiling_info<sycl::info::event_profiling::command_start>();
+    uint64_t end   = done.template get_profiling_info<sycl::info::event_profiling::command_end>();
     uint64_t exec_time = end - start;
     std::cout << "Execution time in nanoseconds = " << exec_time << "\n";
 
@@ -57,17 +58,16 @@ void test(int N, int incx, int incy) {
     std::cout << "GFLOPs: " << number_ops / exec_time << "\n";
     std::cout << "Size of vector x: " << N << "\n";
     std::cout << "Size of vector y: " << N << "\n"; 
-#endif
 }
 
 int main() {
 #if defined(T2SP_SDOT)
     const auto KKK = t2sp::blas::row_major::get_systolic_array_dimensions<float>();
-    int64_t n = KKK * 64 * 128;
+    int64_t n = KKK * 2048 * 2048;
     test<float>(n, 1, 1);
 #elif defined(T2SP_DDOT)
     const auto KKK = t2sp::blas::row_major::get_systolic_array_dimensions<double>();
-    int64_t n = KKK * 64 * 128;
+    int64_t n = KKK * 2048 * 2048;
     test<double>(n, 1, 1);
 #endif
 }

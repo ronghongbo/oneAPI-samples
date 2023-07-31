@@ -99,6 +99,7 @@ foreach(TYPEA ${TYPES})
                                        ${RECONFIGURABLE_DOTPROD_PATH}/oneapi/${TYPEA}dotprod_${SIZE}_${HW}.cpp
                                        ${PRODUCTIVE_LIBRARIES_PATH}/include/halide_runtime_etc.cpp
                                        -Xshardware -Xstarget=${FPGA_DEVICE}
+                                       -Wno-tautological-constant-compare
                                        -Xsffp-reassociate -Xsffp-contract=fast -Xsdsp-mode=prefer-dsp -Xsprofile -Xsclock=360MHz
                                        -fsycl -fintelfpga -fsycl-link=early -o ${TYPEA}dotprod_${SIZE}_${HW}.early
                                COMMAND cp -rf ${TYPEA}dotprod_${SIZE}_${HW}.early.prj/reports/report.html ${RECONFIGURABLE_DOTPROD_PATH}/reports/${TYPEA}dotprod_${SIZE}_${HW}
@@ -122,9 +123,9 @@ foreach(TYPEA ${TYPES})
                                        ${RECONFIGURABLE_DOTPROD_PATH}/oneapi/${TYPEA}dotprod_${SIZE}_${HW}.cpp
                                        ${PRODUCTIVE_LIBRARIES_PATH}/include/halide_runtime_etc.cpp
                                        -Xshardware -Xstarget=${FPGA_DEVICE}
+                                       -Wno-tautological-constant-compare
                                        -Xsffp-reassociate -Xsffp-contract=fast -Xsdsp-mode=prefer-dsp -Xsprofile -Xsclock=360MHz -Xsseed=${SEED}
                                        -fsycl -fintelfpga -fsycl-link=image -o ${TYPEA}dotprod_${SIZE}_${HW}.a
-                               COMMAND cp -rf ${TYPEA}dotprod_${SIZE}_${HW}.a                          ${RECONFIGURABLE_DOTPROD_PATH}/bin
                                COMMAND cp -rf ${TYPEA}dotprod_${SIZE}_${HW}.prj/reports/report.html    ${RECONFIGURABLE_DOTPROD_PATH}/reports/${TYPEA}dotprod_${SIZE}_${HW}
                                COMMAND cp -rf ${TYPEA}dotprod_${SIZE}_${HW}.prj/reports/resources      ${RECONFIGURABLE_DOTPROD_PATH}/reports/${TYPEA}dotprod_${SIZE}_${HW}
                                COMMAND cp -rf ${TYPEA}dotprod_${SIZE}_${HW}.prj/acl_quartus_report.txt ${RECONFIGURABLE_DOTPROD_PATH}/reports/${TYPEA}dotprod_${SIZE}_${HW}
@@ -190,16 +191,19 @@ add_custom_target(tests DEPENDS ${CURRENT_KERNEL_PATH}/bin/test)
 
 # Create targets for demonstrating how to run on real hardware
 foreach(PRECISION ${PRECISIONS})
+    string(TOUPPER ${PRECISION} UPPER_PRECISION)
+    string(TOUPPER ${KERNEL} UPPER_KERNEL)
     foreach(SIZE "tiny" "large")
         string(TOUPPER ${SIZE} UPPER_SIZE)
         foreach(HW "a10" "s10")
             string(TOUPPER ${HW} UPPER_HW)
             add_custom_command(OUTPUT  ${CURRENT_KERNEL_PATH}/bin/demo_${PRECISION}${KERNEL}_${SIZE}_${HW}.o
                                COMMAND ${CMAKE_CXX_COMPILER}
-                                       -I${HALIDE_TOOLS_PATH}/include -I$ENV{MKLROOT}/include -I${PRODUCTIVE_LIBRARIES_PATH}/include
+                                       -I${HALIDE_TOOLS_PATH}/include -I$ENV{MKLROOT}/include
+                                       -I${PRODUCTIVE_LIBRARIES_PATH}/include -I${CPP_SYCL_FPGA_PATH}/include
                                        -I${GOOGLE_TEST_PATH}/include -I${GOOGLE_TEST_PATH}/googletest/include
                                        -D${UPPER_SIZE} -D${UPPER_HW}
-                                       -DMKL_ILP64 -DT2SP_NDEBUG
+                                       -DMKL_ILP64 -DT2SP_NDEBUG -DT2SP_${UPPER_PRECISION}${UPPER_KERNEL}
                                        -fsycl -fintelfpga
                                        -Wno-tautological-constant-compare
                                        -c ${CURRENT_KERNEL_PATH}/demo.cpp
@@ -218,7 +222,6 @@ foreach(PRECISION ${PRECISIONS})
                                        -fsycl -fintelfpga
                                        ${CURRENT_KERNEL_PATH}/bin/demo_${PRECISION}${KERNEL}_${SIZE}_${HW}.o
                                        ${RECONFIGURABLE_DOTPROD_PATH}/bin/${PRECISION}dotprod_${SIZE}_${HW}.a
-                                       ${PRODUCTIVE_LIBRARIES_PATH}/include/halide_runtime_etc.cpp
                                        -L${HALIDE_TOOLS_PATH}/lib -lHalide -lpthread -lz
                                        -Wno-tautological-constant-compare
                                        -o ${CURRENT_KERNEL_PATH}/bin/demo_${PRECISION}${KERNEL}_${SIZE}_${HW}
@@ -246,7 +249,8 @@ foreach(PRECISION ${PRECISIONS})
                                COMMAND $ENV{INTELFPGAOCLSDKROOT}/host/linux64/bin/aocl-extract-aocx
                                        -i ${CURRENT_KERNEL_PATH}/bin/demo_${PRECISION}${KERNEL}_${SIZE}_${HW}
                                        -o ${RECONFIGURABLE_DOTPROD_PATH}/bin/${PRECISION}dotprod_${SIZE}_${HW}.aocx
-                               COMMAND bash -c "printf 'Y\\nY\\nY\\nY\\n' | source ${OPENCL_1_2_1_BSP}/linux64/libexec/sign_aocx.sh -H openssl_manager \
+                               COMMAND bash -c "rm -rf temp* signed*" # clean up
+                               COMMAND bash -c "printf 'Y\\nY\\nY\\nY\\nY\\nY\\n' | source ${OPENCL_1_2_1_BSP}/linux64/libexec/sign_aocx.sh -H openssl_manager \
                                        -i ${PRECISION}dotprod_${SIZE}_${HW}.aocx -r NULL -k NULL \
                                        -o ${PRECISION}dotprod_${SIZE}_${HW}.unsigned.aocx"
                                DEPENDS ${CURRENT_KERNEL_PATH}/bin/demo_${PRECISION}${KERNEL}_${SIZE}_${HW}
@@ -258,11 +262,13 @@ foreach(PRECISION ${PRECISIONS})
                                        -I${RECONFIGURABLE_DOTPROD_PATH}/oneapi -I${CPP_SYCL_FPGA_PATH}/include
                                        -I${PRODUCTIVE_LIBRARIES_PATH}/include -I${HALIDE_TOOLS_PATH}/include
                                        -c ${PRODUCTIVE_LIBRARIES_PATH}/include/halide_runtime_etc.cpp
+                                       -Wno-tautological-constant-compare
                                        -fsycl -fintelfpga -o halide_runtime_etc.o
                                COMMAND ${CMAKE_CXX_COMPILER}
                                        -I${RECONFIGURABLE_DOTPROD_PATH}/oneapi -I${CPP_SYCL_FPGA_PATH}/include
                                        -I${PRODUCTIVE_LIBRARIES_PATH}/include -I${HALIDE_TOOLS_PATH}/include
                                        -c ${RECONFIGURABLE_DOTPROD_PATH}/oneapi/${PRECISION}dotprod_${SIZE}_${HW}.cpp
+                                       -Wno-tautological-constant-compare
                                        -fsycl -fintelfpga -o ${PRECISION}dotprod_${SIZE}_${HW}.o
                                COMMAND ${CMAKE_CXX_COMPILER}
                                        # sign_aocx.sh seems to have a bug: its input seems to be turned into unsigned,
@@ -285,48 +291,6 @@ foreach(PRECISION ${PRECISIONS})
                                COMMENT "Adding the bitstream back to the image"
                                VERBATIM)
             add_custom_target(unsign_${PRECISION}${KERNEL}_${SIZE}_${HW} DEPENDS ${CURRENT_KERNEL_PATH}/bin/demo_${PRECISION}${KERNEL}_${SIZE}_${HW}.unsigned)
-        endforeach()
-    endforeach()
-endforeach()
-
-# Create targets for demonstrating how to run on FPGA emulator (for correctness debugging only).
-foreach(PRECISION ${PRECISIONS})
-    foreach(SIZE "tiny" "large")
-        string(TOUPPER ${SIZE} UPPER_SIZE)
-        foreach(HW "a10" "s10")
-            string(TOUPPER ${HW} UPPER_HW)
-            add_custom_command(OUTPUT  ${CURRENT_KERNEL_PATH}/bin/demo_${PRECISION}${KERNEL}_${SIZE}_${HW}_emu
-                               COMMAND ${CMAKE_CXX_COMPILER}
-                                       -I${HALIDE_TOOLS_PATH}/include -I$ENV{MKLROOT}/include -I${PRODUCTIVE_LIBRARIES_PATH}/include -I${CPP_SYCL_FPGA_PATH}/include
-                                       -I${GOOGLE_TEST_PATH}/include -I${GOOGLE_TEST_PATH}/googletest/include
-                                       -D${UPPER_SIZE} -D${UPPER_HW}
-                                       -DMKL_ILP64 -DT2SP_NDEBUG
-                                       -DFPGA_EMULATOR -DCHECK_CORRECTNESS
-                                       -fsycl -fintelfpga
-                                       -Wno-tautological-constant-compare
-                                       ${CURRENT_KERNEL_PATH}/demo.cpp
-                                       ${RECONFIGURABLE_DOTPROD_PATH}/oneapi/${PRECISION}dotprod_${SIZE}_${HW}.cpp
-                                       ${PRODUCTIVE_LIBRARIES_PATH}/include/halide_runtime_etc.cpp
-                                       -L${HALIDE_TOOLS_PATH}/lib -L$ENV{MKLROOT}/lib/intel64
-                                       -lmkl_sycl -lmkl_intel_ilp64 -lmkl_sequential -lmkl_core -lsycl -lOpenCL -lpthread -lm -ldl -lz
-                                       -lHalide
-                                       -o ${CURRENT_KERNEL_PATH}/bin/demo_${PRECISION}${KERNEL}_${SIZE}_${HW}_emu
-                               DEPENDS ${CURRENT_KERNEL_PATH}/demo.cpp
-                               ${RECONFIGURABLE_DOTPROD_PATH}/oneapi/${PRECISION}dotprod_${SIZE}_${HW}.cpp
-                                       ${CURRENT_KERNEL_PATH}/api.hpp
-                                       ${RECONFIGURABLE_DOTPROD_PATH}/api.hpp
-                                       ${HALIDE_TOOLS_PATH}/include/Halide.h
-                                       ${HALIDE_TOOLS_PATH}/include/HalideRuntime.h
-                                       ${HALIDE_TOOLS_PATH}/include/HalideBuffer.h
-                                       ${PRODUCTIVE_LIBRARIES_PATH}/include/halide_runtime_etc.cpp
-                                       ${PRODUCTIVE_LIBRARIES_PATH}/include/halide_runtime_etc.hpp
-                                       ${PRODUCTIVE_LIBRARIES_PATH}/include/complex_helper.hpp
-                                       ${PRODUCTIVE_LIBRARIES_PATH}/include/pipe_wrapper.hpp
-                                       oneapi_${PRECISION}dotprod_${SIZE}_${HW}
-                               WORKING_DIRECTORY ${CURRENT_KERNEL_PATH}/bin
-                               COMMENT "Generating a demo application on FPGA emulator"
-                               VERBATIM)
-            add_custom_target(demo_${PRECISION}${KERNEL}_${SIZE}_${HW}_emu DEPENDS ${CURRENT_KERNEL_PATH}/bin/demo_${PRECISION}${KERNEL}_${SIZE}_${HW}_emu)
         endforeach()
     endforeach()
 endforeach()
