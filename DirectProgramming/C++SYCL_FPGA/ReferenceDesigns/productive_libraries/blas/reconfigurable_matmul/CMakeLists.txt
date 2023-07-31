@@ -290,43 +290,38 @@ foreach(MATMUL ${MATMULS})
         string(TOUPPER ${SIZE} UPPER_SIZE)
         foreach(HW "a10" "s10")
             string(TOUPPER ${HW} UPPER_HW)
-            add_custom_command(OUTPUT  ${RECONFIGURABLE_MATMUL_PATH}/bin/${MATMUL}_${SIZE}_${HW}.unsigned.aocx
-                               COMMAND $ENV{INTELFPGAOCLSDKROOT}/host/linux64/bin/aocl-extract-aocx
-                                       -i ${CURRENT_KERNEL_PATH}/bin/demo_${PRECISION}${KERNEL}_${SIZE}_${HW}
-                                       -o ${RECONFIGURABLE_MATMUL_PATH}/bin/${MATMUL}_${SIZE}_${HW}.aocx
-                               COMMAND bash -c "printf 'Y\\nY\\nY\\nY\\n' | source ${OPENCL_1_2_1_BSP}/linux64/libexec/sign_aocx.sh -H openssl_manager \
-                                       -i ${MATMUL}_${SIZE}_${HW}.aocx -r NULL -k NULL \
-                                       -o ${MATMUL}_${SIZE}_${HW}.unsigned.aocx"
-                               DEPENDS ${CURRENT_KERNEL_PATH}/bin/demo_${PRECISION}${KERNEL}_${SIZE}_${HW}
-                               WORKING_DIRECTORY ${RECONFIGURABLE_MATMUL_PATH}/bin
-                               COMMENT "Extracting and unsigning the bitstream"
-                               VERBATIM)
             add_custom_command(OUTPUT  ${CURRENT_KERNEL_PATH}/bin/demo_${PRECISION}${KERNEL}_${SIZE}_${HW}.unsigned
                                COMMAND ${CMAKE_CXX_COMPILER}
                                        -I${RECONFIGURABLE_MATMUL_PATH}/oneapi -I${CPP_SYCL_FPGA_PATH}/include -I${PRODUCTIVE_LIBRARIES_PATH}/include -I${HALIDE_TOOLS_PATH}/include
                                        -c ${PRODUCTIVE_LIBRARIES_PATH}/include/halide_runtime_etc.cpp
-                                       -fsycl -fintelfpga -o halide_runtime_etc.o
+                                       -fsycl -fintelfpga
+                                       -o halide_runtime_etc.o
                                COMMAND ${CMAKE_CXX_COMPILER}
                                        -I${RECONFIGURABLE_MATMUL_PATH}/oneapi -I${CPP_SYCL_FPGA_PATH}/include -I${PRODUCTIVE_LIBRARIES_PATH}/include -I${HALIDE_TOOLS_PATH}/include
                                        -c ${RECONFIGURABLE_MATMUL_PATH}/oneapi/${MATMUL}_${SIZE}_${HW}.cpp
-                                       -fsycl -fintelfpga -o ${MATMUL}_${SIZE}_${HW}.o
-                               COMMAND ${CMAKE_CXX_COMPILER}
-                               -fsycl -fsycl-add-targets=spir64_fpga-unknown-unknown:${MATMUL}_${SIZE}_${HW}.aocx # sign_aocx.sh seems to have a bug: its input seems to be turned into unsigned, while its output seems signed, as can be verified by running aocl program
-                                       ${CURRENT_KERNEL_PATH}/bin/demo_${PRECISION}${KERNEL}_${SIZE}_${HW}.o
-                                       ${MATMUL}_${SIZE}_${HW}.o
-                                       halide_runtime_etc.o
-                                       -L${HALIDE_TOOLS_PATH}/lib -lHalide -lpthread -lz
-                                       -o ${CURRENT_KERNEL_PATH}/bin/demo_${PRECISION}${KERNEL}_${SIZE}_${HW}.unsigned
-                                       -lOpenCL -lsycl
-                               DEPENDS ${RECONFIGURABLE_MATMUL_PATH}/bin/${MATMUL}_${SIZE}_${HW}.unsigned.aocx
-                                       ${CURRENT_KERNEL_PATH}/bin/demo_${PRECISION}${KERNEL}_${SIZE}_${HW}.o
-                                       ${PRODUCTIVE_LIBRARIES_PATH}/include/halide_runtime_etc.cpp
+                                       -fsycl -fintelfpga
+                                       -o ${MATMUL}_${SIZE}_${HW}.o
+                               COMMAND $ENV{INTELFPGAOCLSDKROOT}/host/linux64/bin/aocl-extract-aocx
+                                       -i ${CURRENT_KERNEL_PATH}/bin/demo_${PRECISION}${KERNEL}_${SIZE}_${HW}
+                                       -o ${RECONFIGURABLE_MATMUL_PATH}/bin/${MATMUL}_${SIZE}_${HW}.aocx
+                               # The extract command might generate one or more than one .aocx files. For convenience, use a shell script to hand them.
+                               COMMAND bash -c "${PRODUCTIVE_LIBRARIES_PATH}/blas/unsign_bitstreams.sh \
+                                                ${MATMUL}_${SIZE}_${HW} \
+                                                ${OPENCL_1_2_1_BSP}/linux64/libexec \
+                                                ${CMAKE_CXX_COMPILER} \
+                                                '${CURRENT_KERNEL_PATH}/bin/demo_${PRECISION}${KERNEL}_${SIZE}_${HW}.o  \
+                                                 ${MATMUL}_${SIZE}_${HW}.o \
+                                                 halide_runtime_etc.o \
+                                                 -L${HALIDE_TOOLS_PATH}/lib -lHalide -lpthread -lz \
+                                                 -o ${CURRENT_KERNEL_PATH}/bin/demo_${PRECISION}${KERNEL}_${SIZE}_${HW}.unsigned \
+                                                 -lOpenCL -lsycl' "
+                               DEPENDS ${PRODUCTIVE_LIBRARIES_PATH}/include/halide_runtime_etc.cpp
                                        ${PRODUCTIVE_LIBRARIES_PATH}/include/halide_runtime_etc.hpp
                                        ${PRODUCTIVE_LIBRARIES_PATH}/include/complex_helper.hpp
                                        ${PRODUCTIVE_LIBRARIES_PATH}/include/pipe_wrapper.hpp
                                        demo_${PRECISION}${KERNEL}_${SIZE}_${HW}
                                WORKING_DIRECTORY ${RECONFIGURABLE_MATMUL_PATH}/bin
-                               COMMENT "Adding the bitstream back to the image"
+                               COMMENT "Unsigning the bitstream"
                                VERBATIM)
             add_custom_target(unsign_${PRECISION}${KERNEL}_${SIZE}_${HW} DEPENDS ${CURRENT_KERNEL_PATH}/bin/demo_${PRECISION}${KERNEL}_${SIZE}_${HW}.unsigned)
         endforeach()
