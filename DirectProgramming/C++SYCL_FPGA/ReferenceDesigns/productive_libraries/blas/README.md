@@ -94,7 +94,7 @@ The shared systolic arrays (named as `reconfigurable-*`) are also under the `bla
    make demo_VARIATION_(tiny|large)_(a10|s10)
    ../bin/demo_VARIATION_(tiny|large)_(a10|s10)
    ```
-    The demo application invokes a systolic array. If the array has not been synthesized, the above command will synthesize it from scratch automatically. Optionally, a pre-generated bitstream (and informational files including SYCL file and reports) for the array can be installed to avoid synthesis:
+    The demo application invokes a systolic array. If the array has not been synthesized, the above command will synthesize it from scratch automatically. Optionally, to avoid synthesis, a pre-generated bitstream for the array can be installed; the informational files including SYCL file and reports for the array, as well as a demo application, are installed too:
    ```
    ../../install_pre_gen.sh VARIATION_(tiny|large)_(a10|s10)
    ```
