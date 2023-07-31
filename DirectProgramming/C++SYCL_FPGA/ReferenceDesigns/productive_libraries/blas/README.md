@@ -126,3 +126,14 @@ The shared systolic arrays (named as `reconfigurable-*`) are also under the `bla
     make unsign_sgemm_large_a10
     ../bin/demo_sgemm_large_a10.unsigned
    ```
+
+4. Delete all generated files for a kernel
+
+   ```shell
+   # Replace the VARIATION below with a specific variation of the kernel. 
+   make clean_VARIATION_(tiny|large)_(a10|s10)
+   ```
+       For example:
+    ```shell
+    make clean_sgemm_large_a10
+   ```
