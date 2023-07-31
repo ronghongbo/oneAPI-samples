@@ -10,7 +10,7 @@ objects=$4
 
 unsigned_bits=""
 for bits in ${reconfigurable_array}*.aocx; do \
-    printf 'Y\\nY\\nY\\nY\\nY\\nY\\n' | source ${path_to_sign_aocx}/sign_aocx.sh -H openssl_manager -i ${bits} -r NULL -k NULL -o ${bits}.unsigned
+    printf 'Y\nY\nY\nY\nY\nY\n' | source ${path_to_sign_aocx}/sign_aocx.sh -H openssl_manager -i ${bits} -r NULL -k NULL -o ${bits}.unsigned
     unsigned_bits="${unsigned_bits} -fsycl-add-targets=spir64_fpga-unknown-unknown:${bits}"
 done
 
