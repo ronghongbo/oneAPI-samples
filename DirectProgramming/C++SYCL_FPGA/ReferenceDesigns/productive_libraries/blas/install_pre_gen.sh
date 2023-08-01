@@ -17,33 +17,41 @@ cd $path_to_blas
 declare -A kernel_to_tarball
 kernel_to_tarball=(
     ["sgemm_large_a10"]="ssssmatmul_large_a10_oneapi2023.2_bsp1.2.1.tar.gz"
+    ["dgemm_large_a10"]="ddddmatmul_large_a10_oneapi2023.2_bsp1.2.1.tar.gz"
     ["sgemm_tiny_a10"]="ssssmatmul_tiny_a10_oneapi2023.2_bsp1.2.1.tar.gz"
     ["sdot_large_a10"]="sdotprod_large_a10_oneapi2023.0_bsp1.2.1.tar.gz"
     ["ddot_large_a10"]="ddotprod_large_a10_oneapi2023.0_bsp1.2.1.tar.gz"
+    ["sgemm_large_s10"]="ssssmatmul_large_s10_oneapi2023.2.tar.gz"
 )
 
 declare -A kernel_to_demo
 kernel_to_demo=(
     ["sgemm_large_a10"]="demo_sgemm_large_a10.unsigned"
+    ["dgemm_large_a10"]="demo_dgemm_large_a10.unsigned"
     ["sgemm_tiny_a10"]="demo_sgemm_tiny_a10.unsigned"
     ["sdot_large_a10"]="demo_sdot_large_a10.unsigned"
     ["ddot_large_a10"]="demo_ddot_large_a10.unsigned"
+    ["sgemm_large_s10"]="demo_sgemm_large_s10"
 )
 
 declare -A kernel_to_demo_dir
 kernel_to_demo_dir=(
     ["sgemm_large_a10"]="gemm/bin"
+    ["dgemm_large_a10"]="gemm/bin"
     ["sgemm_tiny_a10"]="gemm/bin"
     ["sdot_large_a10"]="dot/bin"
     ["ddot_large_a10"]="dot/bin"
+    ["sgemm_large_s10"]="gemm/bin"
 )
 
 declare -A kernel_to_reconfigurable
 kernel_to_reconfigurable=(
     ["sgemm_large_a10"]="reconfigurable_matmul"
+    ["dgemm_large_a10"]="reconfigurable_matmul"
     ["sgemm_tiny_a10"]="reconfigurable_matmul"
     ["sdot_large_a10"]="reconfigurable_dotprod"
     ["ddot_large_a10"]="reconfigurable_dotprod"
+    ["sgemm_large_s10"]="reconfigurable_matmul"
 )
 
 if test "${kernel_to_tarball[$1]+exists}"; then
