@@ -55,53 +55,21 @@
         #elif TYPEC_D
             #define KKK         8
             #define JJJ         4
-            #define III         8
+            #define III         6
             #define JJ          32
             #define II          32
             #define KK          32
         #elif TYPEC_C
             #define KKK         8
             #define JJJ         4
-            #define III         10
-            #define JJ          32
-            #define II          32
-            #define KK          32
-        #elif TYPEC_Z
-            #define KKK         4
-            #define JJJ         4
-            #define III         4
-            #define JJ          32
-            #define II          32
-            #define KK          32
-        #else
-            #error Precision of the output matrix is undefined.
-        #endif
-    #elif defined(AGILEX7)
-        #ifdef TYPEC_S
-            #define KKK         16
-            #define JJJ         8
-            #define III         10
-            #define JJ          32
-            #define II          32
-            #define KK          32
-        #elif TYPEC_D
-            #define KKK         8
-            #define JJJ         4
             #define III         8
             #define JJ          32
             #define II          32
             #define KK          32
-        #elif TYPEC_C
-            #define KKK         8
-            #define JJJ         4
-            #define III         10
-            #define JJ          32
-            #define II          32
-            #define KK          32
         #elif TYPEC_Z
             #define KKK         4
             #define JJJ         4
-            #define III         4
+            #define III         3
             #define JJ          32
             #define II          32
             #define KK          32

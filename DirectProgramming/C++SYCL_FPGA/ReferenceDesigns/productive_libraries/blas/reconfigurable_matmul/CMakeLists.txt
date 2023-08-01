@@ -341,7 +341,7 @@ foreach(MATMUL ${MATMULS})
                               COMMAND rm -rf ${CURRENT_KERNEL_PATH}/bin/demo_${PRECISION}${KERNEL}_${SIZE}_${HW}* 
                                              ${RECONFIGURABLE_MATMUL_PATH}/bin/*${MATMUL}_${SIZE}_${HW}* 
                                              ${RECONFIGURABLE_MATMUL_PATH}/oneapi/${MATMUL}_${SIZE}_${HW}*
-                                             ${RECONFIGURABLE_MATMUL_PATH}/reports/${MATMUL}_${SIZE}_${HW})
+                                             ${RECONFIGURABLE_MATMUL_PATH}/reports/${MATMUL}_${SIZE}_${HW}/*)
         endforeach()
     endforeach()
 endforeach()
