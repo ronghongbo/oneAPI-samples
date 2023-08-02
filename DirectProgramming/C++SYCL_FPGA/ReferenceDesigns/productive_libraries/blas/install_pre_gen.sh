@@ -23,6 +23,7 @@ kernel_to_tarball=(
     ["ddot_large_a10"]="ddotprod_large_a10_oneapi2023.2_bsp1.2.1.tar.gz"
     ["cdotu_large_a10"]="cdotprod_large_a10_oneapi2023.2_bsp1.2.1.tar.gz"
     ["zdotu_large_a10"]="zdotprod_large_a10_oneapi2023.2_bsp1.2.1.tar.gz"
+    ["saxpy_large_a10"]="svecadd_large_a10_oneapi2023.2_bsp1.2.1.tar.gz"
     ["sgemm_large_s10"]="ssssmatmul_large_s10_oneapi2023.2.tar.gz"
     ["dgemm_large_s10"]="ddddmatmul_large_s10_oneapi2023.2.tar.gz"
 )
@@ -36,6 +37,7 @@ kernel_to_demo=(
     ["ddot_large_a10"]="demo_ddot_large_a10.unsigned"
     ["cdotu_large_a10"]="demo_cdotu_large_a10.unsigned"
     ["zdotu_large_a10"]="demo_zdotu_large_a10.unsigned"
+    ["saxpy_large_a10"]="demo_saxpy_large_a10.unsigned"
     ["sgemm_large_s10"]="demo_sgemm_large_s10"
     ["dgemm_large_s10"]="demo_dgemm_large_s10"
 )
@@ -49,6 +51,7 @@ kernel_to_demo_dir=(
     ["ddot_large_a10"]="dot/bin"
     ["cdotu_large_a10"]="dotu/bin"
     ["zdotu_large_a10"]="dotu/bin"
+    ["saxpy_large_a10"]="axpy/bin"
     ["sgemm_large_s10"]="gemm/bin"
     ["dgemm_large_s10"]="gemm/bin"
 )
@@ -62,6 +65,7 @@ kernel_to_reconfigurable=(
     ["ddot_large_a10"]="reconfigurable_dotprod"
     ["cdotu_large_a10"]="reconfigurable_dotprod"
     ["zdotu_large_a10"]="reconfigurable_dotprod"
+    ["saxpy_large_a10"]="reconfigurable_vecadd"
     ["sgemm_large_s10"]="reconfigurable_matmul"
     ["dgemm_large_s10"]="reconfigurable_matmul"
 )
