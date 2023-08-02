@@ -81,27 +81,12 @@ int main()
     uX.vectorize(kkk);
     uZ_2.unroll(kk);
 
-    // I/O network
-    Func xLoader(Place::Device), yLoader(Place::Device);
-    Func xSerializer(Place::Host), ySerializer(Place::Host);
-    xLoader.min_depth(256);
-    yLoader.min_depth(256);
-    uX.isolate_producer_chain(Check_Load_X, xLoader);
-    uX.isolate_producer_chain(Check_Load_Y, yLoader);
-    xLoader.isolate_producer_chain(X, xSerializer);
-    yLoader.isolate_producer_chain(Y, ySerializer);
+    Stensor DX("xLoader", DRAM), DY("yLoader", DRAM), DC("unloader", DRAM), C("deserializer");
+    Check_Load_X >> DX.out(kk) >> FIFO(256);
+    Check_Load_Y >> DY.out(kk) >> FIFO(256);
+    Out >> FIFO(256) >> DC >> C(b);
 
-    Func unloader(Place::Device), deserializer(Place::Host);
-    Out.min_depth(256);
-    Out.isolate_consumer_chain(unloader, deserializer);
-
-    // Compile the kernel to an FPGA bitstream, and expose a C interface for the host to invoke
-    Target target = get_host_target();
-    target.set_feature(Target::OneAPI);
-    target.set_feature(Target::IntelFPGA);
-    target.set_feature(Target::EnableSynthesis);
-
-    deserializer.compile_to_oneapi(OUTPUT_FILE, {ConjugateX, X, IncX, SignBitY, Y, IncY, SqrtRet}, KERNEL, target);
+    C.compile_to_oneapi(OUTPUT_FILE, {ConjugateX, X, IncX, SignBitY, Y, IncY, SqrtRet}, KERNEL, IntelFPGA);
     printf("Success\n");
     return 0;
 }

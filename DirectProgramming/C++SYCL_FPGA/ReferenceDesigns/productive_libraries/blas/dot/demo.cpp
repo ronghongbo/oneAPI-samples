@@ -17,21 +17,6 @@
 
 #include "exception_handler.hpp"
 
-inline int selectDeviceByPlatform(std::string_view required_platform_name,
-                                  const sycl::device &device) {
-  if (device.get_platform().get_info<sycl::info::platform::name>() ==
-      required_platform_name)
-    return 10000;
-  return -1;
-}
-
-static constexpr auto HARDWARE_PLATFORM_NAME =
-    "Intel(R) FPGA SDK for OpenCL(TM)";
-
-inline int fpga_selector_v(const sycl::device &device) {
-  return selectDeviceByPlatform(HARDWARE_PLATFORM_NAME, device);
-}
-
 using namespace std;
 
 template <typename T>
@@ -42,7 +27,7 @@ void test(int N, int incx, int incy) {
     rand_vector(y, N, incy);
     auto res_ref = res;
 
-    sycl::queue q_device(::fpga_selector_v, fpga_tools::exception_handler, sycl::property::queue::enable_profiling());
+    sycl::queue q_device(sycl::ext::intel::fpga_selector_v, fpga_tools::exception_handler, sycl::property::queue::enable_profiling());
 
     auto done = t2sp::blas::row_major::dot(q_device, N, x.data(), incx, y.data(),
                                            incy, &res);
@@ -62,12 +47,13 @@ void test(int N, int incx, int incy) {
 
 int main() {
 #if defined(T2SP_SDOT)
-    const auto KKK = t2sp::blas::row_major::get_systolic_array_dimensions<float>();
-    int64_t n = KKK * 2048 * 2048;
-    test<float>(n, 1, 1);
+    using test_type = float;
 #elif defined(T2SP_DDOT)
-    const auto KKK = t2sp::blas::row_major::get_systolic_array_dimensions<double>();
-    int64_t n = KKK * 2048 * 2048;
-    test<double>(n, 1, 1);
+    using test_type = double;
+#else
+#error No test type (float or double) specified
 #endif
+    const auto KKK = t2sp::blas::row_major::get_systolic_array_dimensions<test_type>();
+    int64_t n = KKK * 2048 * 2048;
+    test<test_type>(n, 1, 1);
 }
