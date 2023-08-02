@@ -40,7 +40,7 @@ void test(oneapi::mkl::transpose transa, oneapi::mkl::transpose transb,
     uint64_t start = e.get_profiling_info<sycl::info::event_profiling::command_start>();
     uint64_t end   = e.get_profiling_info<sycl::info::event_profiling::command_end>();
     uint64_t exec_time = end - start;
-    std::cout << "Execution time in nanoseconds = " << exec_time << "\n";
+    std::cout << "Execution time: " << exec_time << " ns\n";
 
     double number_ops;
     if ((std::is_same_v<float, T> || std::is_same_v<double, T>)) {

@@ -66,10 +66,13 @@ inline double round_f64(double x) {return round(x);}
 inline float nan_f32() {return NAN;}
 inline float neg_inf_f32() {return -INFINITY;}
 inline float inf_f32() {return INFINITY;}
-inline bool is_nan_f32(float x) {return isnan(x);}
-inline bool is_nan_f64(double x) {return isnan(x);}
-inline bool is_inf_f32(float x) {return isinf(x);}
-inline bool is_inf_f64(double x) {return isinf(x);}
+// There are two warnings: "explicit comparison with NaN in fast floating point mode" when calling isnan
+// and "explicit comparison with infinity in fast floating point mode " when calling isinf. Temporarily
+// disable these functions as they seem not used by our code anyway
+//inline bool is_nan_f32(float x) {return isnan(x);}
+//inline bool is_nan_f64(double x) {return isnan(x);}
+//inline bool is_inf_f32(float x) {return isinf(x);}
+//inline bool is_inf_f64(double x) {return isinf(x);}
 inline bool is_finite_f32(float x) {return isfinite(x);}
 inline bool is_finite_f64(double x) {return isfinite(x);}
 
