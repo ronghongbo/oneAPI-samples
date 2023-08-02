@@ -38,13 +38,13 @@ constexpr auto get_systolic_array_dimensions() {
     constexpr bool run_on_s10 = false;
 #endif
     if constexpr (std::is_same_v<T, float>) {
-        return run_on_s10 ? 32 : 16; 
+        return run_on_s10 ? std::tuple{32, 32} : std::tuple{16, 32};
     } else if constexpr (std::is_same_v<T, double>) {
-        return run_on_s10 ? 16 : 8; 
+        return run_on_s10 ? std::tuple{16, 32} : std::tuple{8, 32};
     } else if constexpr (std::is_same_v<T, std::complex<float>>) {
-        return run_on_s10 ? 16 : 8; 
+        return run_on_s10 ? std::tuple{16, 32} : std::tuple{8, 32};
     } else {
-        return run_on_s10 ? 8 : 4; 
+        return run_on_s10 ? std::tuple{8, 32} : std::tuple{4, 32};
     }
 #endif
 }
