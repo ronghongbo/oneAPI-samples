@@ -19,8 +19,10 @@ kernel_to_tarball=(
     ["sgemm_large_a10"]="ssssmatmul_large_a10_oneapi2023.2_bsp1.2.1.tar.gz"
     ["dgemm_large_a10"]="ddddmatmul_large_a10_oneapi2023.2_bsp1.2.1.tar.gz"
     ["sgemm_tiny_a10"]="ssssmatmul_tiny_a10_oneapi2023.2_bsp1.2.1.tar.gz"
-    ["sdot_large_a10"]="sdotprod_large_a10_oneapi2023.0_bsp1.2.1.tar.gz"
-    ["ddot_large_a10"]="ddotprod_large_a10_oneapi2023.0_bsp1.2.1.tar.gz"
+    ["sdot_large_a10"]="sdotprod_large_a10_oneapi2023.2_bsp1.2.1.tar.gz"
+    ["ddot_large_a10"]="ddotprod_large_a10_oneapi2023.2_bsp1.2.1.tar.gz"
+    ["cdotu_large_a10"]="cdotprod_large_a10_oneapi2023.2_bsp1.2.1.tar.gz"
+    ["zdotu_large_a10"]="zdotprod_large_a10_oneapi2023.2_bsp1.2.1.tar.gz"
     ["sgemm_large_s10"]="ssssmatmul_large_s10_oneapi2023.2.tar.gz"
     ["dgemm_large_s10"]="ddddmatmul_large_s10_oneapi2023.2.tar.gz"
 )
@@ -32,6 +34,8 @@ kernel_to_demo=(
     ["sgemm_tiny_a10"]="demo_sgemm_tiny_a10.unsigned"
     ["sdot_large_a10"]="demo_sdot_large_a10.unsigned"
     ["ddot_large_a10"]="demo_ddot_large_a10.unsigned"
+    ["cdotu_large_a10"]="demo_cdotu_large_a10.unsigned"
+    ["zdotu_large_a10"]="demo_zdotu_large_a10.unsigned"
     ["sgemm_large_s10"]="demo_sgemm_large_s10"
     ["dgemm_large_s10"]="demo_dgemm_large_s10"
 )
@@ -43,6 +47,8 @@ kernel_to_demo_dir=(
     ["sgemm_tiny_a10"]="gemm/bin"
     ["sdot_large_a10"]="dot/bin"
     ["ddot_large_a10"]="dot/bin"
+    ["cdotu_large_a10"]="dotu/bin"
+    ["zdotu_large_a10"]="dotu/bin"
     ["sgemm_large_s10"]="gemm/bin"
     ["dgemm_large_s10"]="gemm/bin"
 )
@@ -54,6 +60,8 @@ kernel_to_reconfigurable=(
     ["sgemm_tiny_a10"]="reconfigurable_matmul"
     ["sdot_large_a10"]="reconfigurable_dotprod"
     ["ddot_large_a10"]="reconfigurable_dotprod"
+    ["cdotu_large_a10"]="reconfigurable_dotprod"
+    ["zdotu_large_a10"]="reconfigurable_dotprod"
     ["sgemm_large_s10"]="reconfigurable_matmul"
     ["dgemm_large_s10"]="reconfigurable_matmul"
 )
