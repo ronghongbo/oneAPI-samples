@@ -1,34 +1,37 @@
 # Matrix Multiplication
 
-This reference design shows how to implement a matrix multiplication circuit that can be dynamically reconfigured to implement the following BLAS kernels:
+This design demonstrates the following matrix-matrix product:
 
+$C \longleftarrow \alpha * op(A) * op(B) + \beta * C$
+
+where $op(X)$ is $X$, $X^T$, or $X^H$, $alpha$ and $beta$ are scalars, and $A$, $B$ and $C$ are matrices. 
+
+The design yields a systolic array for each valid combination of the data types. The array is reconfigurable: by providing appropriate parameters, the array simulates the following BLAS kernels:
 * `GEMM` - Computes a matrix-matrix product with general matrices.
 * `SYMM` - Computes a matrix-matrix product where one input matrix is symmetric and one matrix is general.
 * `HEMM` - Computes a matrix-matrix product where one input matrix is Hermitian and one matrix is general.
-* `SYRK` - Performs a symmetric rank-k update.
-* `HERK` - Performs a Hermitian rank-k update.
+* `SYRK` - Performs a rank-k update of the upper or lower triangle of a symmetric matrix.
+* `HERK` - Performs a rank-k update of the upper or lower triangle of a Hermitian matrix.
 
-The design is compatible with [oneMKL](https://www.intel.com/content/www/us/en/docs/onemkl/developer-reference-dpcpp/2023-0/blas-level-3-routines.html) and written in the [T2SP](https://github.com/IntelLabs/t2sp) DSL, which generates oneAPI code.
+The parameters include the following:
+* `TransposeA`, `ConjugateA`, `SymmetricA`, `HermitianA`, `UpA`
+* `TransposeB`, `ConjugateB`, `SymmetricB`, `HermitianB`, `UpB`
+* `SymmetricC`, `HermitianC`, `UpC`
+* `HalfSpaceOut`
+* `alpha`, `beta`
 
+where 
+
+* `TransposeX`, `ConjugateX`: Is matrix X to be transposed? Is it to be conjugated?
+* `SymmetricX`, `HermitianX`: Is matrix X symmetric? Is it Hermitian?
+* `UpX`: Given matrix X as symmetric or Hermitian, is its upper triangle stored?
+* `HalfSpaceOut`: Compute only half of the output matrix? This is true when the output is symmetric or Hermitian. In this case, the systolic array computes only the upper triangle of the output, in terms of tiles. For the tiles crossing the diagonal, we ensure the correctness of only their data above or on the diagonal.
+  
 | Area                | Description                                                  |
 | ------------------- | ------------------------------------------------------------ |
-| What you will learn | How to implement high performance matrix multiplication on an FPGA |
+| What you will learn | How to implement a high performance systolic array for matrix multiplication on an FPGA |
 | Time to complete    | ~1 hr (excluding compile time)                               |
 | Category            | Reference Designs and End to End                             |
-
-## Purpose
-
-This design demonstrates the following matrix-matrix product:
-
-```
-C := alpha*op(A)*op(B) + beta*C
-```
-where `op(X)` is one of `op(X) = X`, or `op(X) = X<sup>T</sup>`, or `op(X) = X<sup>H</sup>`, `alpha` and `beta` are scalars, and `A`, `B` and `C` are matrices.
-
-By providing appropriate parameters, the above compute simulates various BLAS kernels: `sgemm`, `dgemm`, `cgemm`, `zgemm`, `ssymm`, `dsymm`, `csymm`, `zsymm`, `chemm`, `zhemm`, `ssyrk`, `dsyrk`, `csyrk`, `zsyrk`, `cherk` and `zherk`.
-
-Static parameters: data types
-Dynamic parameters: kernel types (`GEMM`, `SYMM`, ...)
 
 ## Prerequisites
 
@@ -92,57 +95,7 @@ Complex single precision:
 
 Complex double precision:
 
-## Build
+## Build, test, and clean
 
-1. Configure the build system for **Intel® PAC with Intel Arria® 10 GX FPGA**, which is the default.
 
-   ```shell
-   mkdir -p build
-   cd build
-   cmake ..
-   ```
 
-   For **Intel Stratix® 10 SX**, enter the following:
-
-   ```shell
-   mkdir -p build
-   cd build
-   cmake .. -DFPGA_DEVICE=intel_s10sx_pac:pac_s10
-   ```
-
-2. Compile the design.
-
-   ```shell
-   make (oneapi|report|synthesize)_Kernel_Size_Hardware
-   ```
-`Kernel` is precision (`s` for single precision, `d` for double-precision, `c` for complex single-precision, or `z` for complex double-precision) with a kernel name (here `matmul`).
-`Size` is `tiny` or `large`. `Hardware` is either `a10` or `s10`.
-
-For example,
-
-   ```shell
-   # Generate OneAPI source file from the T2SP specification for single-precision matrix multiplication with a tiny systolic arrary on an A10 FPGA.
-   make oneapi_smatmul_tiny_a10
-
-   # Generate an HTML report of resource usage, frequencies, etc. for single-precision matrix multiplication with a tiny systolic arrary on an A10 FPGA.
-   make report_smatmul_tiny_a10
-
-   # Generate a bitstream for complex double-precision matrix multiplication with a large systolic arrary on an S10 FPGA.
-   make synthesize_zmatmul_large_s10
-   ```
-
-The generated files are located in
-** `oneapi`: the OneAPI source files generated
-** `bin`: the bitstreams generated
-** `reports`: the HTML files generated
-
-## Test
-Go to the directories for the kernels that this compute simulates, and follow the instructions there to test.
-
-## Clean
-
-To clean up files generated during making a target, use the generated `cmake_clean.cmake` file. For example,
-   ```shell
-   cmake -P  CMakeFiles/synthesize_zmatmul_large_s10.dir/cmake_clean.cmake
-   ```
-This command cleans up all the files generated during making the target `synthesize_zmatmul_large_s10`.
