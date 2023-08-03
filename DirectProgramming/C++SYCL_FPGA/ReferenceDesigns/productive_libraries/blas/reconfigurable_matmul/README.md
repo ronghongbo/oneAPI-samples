@@ -13,6 +13,9 @@ The design yields a systolic array for each valid combination of the data types.
 * `SYRK` - Performs a rank-k update of the upper or lower triangle of a symmetric matrix.
 * `HERK` - Performs a rank-k update of the upper or lower triangle of a Hermitian matrix.
 
+Note:
+* `SYRK` and `HERK` are to be available in the next release
+
 The parameters include the following:
 * `TransposeA`, `ConjugateA`, `SymmetricA`, `HermitianA`, `UpA`
 * `TransposeB`, `ConjugateB`, `SymmetricB`, `HermitianB`, `UpB`
@@ -56,9 +59,9 @@ flowchart LR
 |:---                  |:---
 | OS                   | Ubuntu* 18.04/20.04 (Other Linux distributions or Windows might also work, although not tested)
 | Hardware             | Intel® Programmable Acceleration Card with Intel® Arria® 10 GX FPGA (Intel® PAC with Intel® Arria® 10 GX FPGA) <br> Intel® FPGA Programmable Acceleration Card (PAC) D5005 (with Intel Stratix® 10 SX)
-| Software             | Intel® oneAPI DPC++/C++ Compiler, T2SP compiler
+| Software             | Intel® oneAPI DPC++/C++ Compiler 2023.2<br> BSP used for Arria® 10 FPGA: inteldevstack/a10_gx_pac_ias_1_2_1_pv/opencl/opencl_bsp<br>T2SP compiler (a beta version is pre-installed)
 
-## Key Implementation Details
+## The design
 The algorithm employed by the reference design is a 2-dimensional systolic array  with a sophisticated I/O network.
 
 ![](figures/matmul.png)
@@ -96,6 +99,4 @@ Complex single precision:
 Complex double precision:
 
 ## Build, test, and clean
-
-
-
+Follow the general instructions [here](../README.md#Build-a-kernel-and-run-on-Linux). Use any of the following variations of the kernels covered by the design, including `sgemm`, `dgemm`, `cgemm`, `zgemm`, `ssymm`, `dsymm`, `csymm`, `zsymm`, `chemm`, `zhemm`, `ssyrk`, `dsyrk`, `csyrk`, `zsyrk`, `cherk` and `zherk`*, and the design will be synthesized automatically. Alternatively, one can install the pre-synthesized bitstreams following the instructions there.
