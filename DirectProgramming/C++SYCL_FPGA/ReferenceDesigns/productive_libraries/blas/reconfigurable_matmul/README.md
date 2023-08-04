@@ -62,6 +62,17 @@ flowchart LR
 | Software             | Intel® oneAPI DPC++/C++ Compiler 2023.2<br> BSP used for Arria® 10 FPGA: inteldevstack/a10_gx_pac_ias_1_2_1_pv/opencl/opencl_bsp<br>T2SP compiler (a beta version is pre-installed)
 
 ## The design
+In this design, the input/output matrices are pre/post-processed on the host so that the FPGA device loads/stores data sequentially from/to the device DRAM. This ensures that the memory accesses won't be a bottleneck of the performance. In pre-processing, the host reads an input matrix $X$ in such a way that in effect, the elements of $op(X)$ are read in the order they are to used in the computation, and sent sequentially to the device. This is called serialization.
+
+To allow arbitrarily large matrices, as long as they can fit in the host and device DRAM, the matrices are tiled. Every time, a tile of matrix $op(A)$ and a tile of matrix $op(B)$ are read by the device to update a tile of $op(A)*op(B)$. When the size of a tile is not  
+
+During the pre-processing, the matrix    
+is pre-processed so that  
+As shown in this figure, the overall idea of the design is to  
+
+<p align="center"><img src="figures/matmul-overall-idea.png" alt="drawing" width="500"/></p>
+
+The algorithm employed by the reference design is a 2-dimensional systolic array  with a sophisticated I/O network.
 The algorithm employed by the reference design is a 2-dimensional systolic array  with a sophisticated I/O network.
 
 ![](figures/matmul.png)
