@@ -34,26 +34,13 @@ void test(oneapi::mkl::side left_right, oneapi::mkl::uplo upper_lower, int m, in
     rand_matrix(c, oneapi::mkl::layout::row_major, oneapi::mkl::transpose::N, m, n, ldc);
     c_ref = c;
 
-// Create a queue bound to either the FPGA emulator or FPGA device.
-#if defined(FPGA_EMULATOR)
-    sycl::queue q_device(sycl::ext::intel::fpga_emulator_selector_v, fpga_tools::exception_handler);
-#else
-    sycl::queue q_device(sycl::ext::intel::fpga_selector_v, fpga_tools::exception_handler);
-#endif
+    // Create a queue on an FPGA device.
+    sycl::queue q_device(sycl::ext::intel::fpga_selector_v, fpga_tools::exception_handler, sycl::property::queue::enable_profiling());
 
     sycl::event e = t2sp::blas::row_major::hemm(q_device, left_right, upper_lower, m, n, alpha, a.data(), lda,
                                                 b.data(), ldb, beta, c.data(), ldc);
     e.wait();
 
-#ifdef CHECK_CORRECTNESS
-    // Call oneMKL GEMM as reference.
-    sycl::queue main_queue(sycl::cpu_selector_v);
-    oneapi::mkl::blas::row_major::hemm(main_queue, left_right, upper_lower, m, n, alpha, a.data(), lda,
-                                       b.data(), ldb, beta, c_ref.data(), ldc).wait();
-    bool correct = check_equal_matrix(c.data(), c_ref.data(), oneapi::mkl::layout::row_major, m, n, ldc,  10 * m, std::cout);
-    assert(correct);
-    std::cout << "Correct!\n";
-#else
     // Get time in ns
     uint64_t start = e.get_profiling_info<sycl::info::event_profiling::command_start>();
     uint64_t end   = e.get_profiling_info<sycl::info::event_profiling::command_end>();
@@ -62,6 +49,7 @@ void test(oneapi::mkl::side left_right, oneapi::mkl::uplo upper_lower, int m, in
 
     // TOFIX
     double number_ops;
+    int k = (left_right == oneapi::mkl::side::left ? m : n);
     if ((std::is_same_v<float, T> || std::is_same_v<double, T>)) {
         // FP operations per MAD (MUL and ADD) for float and double =2
         number_ops = 2.0 * m * n * k + m * n;
@@ -75,7 +63,6 @@ void test(oneapi::mkl::side left_right, oneapi::mkl::uplo upper_lower, int m, in
     std::cout << "Size of matrix a: " << m << " * " << k << "\n";
     std::cout << "Size of matrix b: " << k << " * " << n << "\n";
     std::cout << "Size of matrix c: " << m << " * " << n << "\n";
-#endif
 }
 
 int main() {

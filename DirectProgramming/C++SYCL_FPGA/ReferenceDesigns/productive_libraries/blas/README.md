@@ -70,12 +70,6 @@ The shared systolic arrays (named as `reconfigurable-*`) are also under the `bla
    cmake .. -DFPGA_DEVICE=intel_s10sx_pac:pac_s10
    ```
 
-    For **Intel Agilex® 7 FPGA**:
-   
-   ```shell
-   cmake .. -DFPGA_DEVICE=agilex7
-   ```
-
 2. Test correctness.
    
    ```shell

@@ -33,6 +33,7 @@ kernel_to_tarball=(
     ["ssymm_large_s10"]="ssssmatmul_large_s10_oneapi2023.2.tar.gz"
     ["dsymm_large_s10"]="ddddmatmul_large_s10_oneapi2023.2.tar.gz"
     ["csymm_tiny_s10"]="ccccmatmul_tiny_s10_oneapi2023.2.tar.gz"
+    ["chemm_tiny_s10"]="ccccmatmul_tiny_s10_oneapi2023.2.tar.gz"
 )
 
 declare -A kernel_to_demo
@@ -54,6 +55,7 @@ kernel_to_demo=(
     ["ssymm_large_s10"]="demo_ssymm_large_s10"
     ["dsymm_large_s10"]="demo_dsymm_large_s10"
     ["csymm_tiny_s10"]="demo_csymm_tiny_s10"
+    ["chemm_tiny_s10"]="demo_chemm_tiny_s10"
 )
 
 declare -A kernel_to_demo_dir
@@ -75,6 +77,7 @@ kernel_to_demo_dir=(
     ["ssymm_large_s10"]="symm/bin"
     ["dsymm_large_s10"]="symm/bin"
     ["csymm_tiny_s10"]="symm/bin"
+    ["chemm_tiny_s10"]="hemm/bin"
 )
 
 declare -A kernel_to_reconfigurable
@@ -96,6 +99,7 @@ kernel_to_reconfigurable=(
     ["ssymm_large_s10"]="reconfigurable_matmul"
     ["dsymm_large_s10"]="reconfigurable_matmul"
     ["csymm_tiny_s10"]="reconfigurable_matmul"
+    ["chemm_tiny_s10"]="reconfigurable_matmul"
 )
 
 if test "${kernel_to_tarball[$1]+exists}"; then
