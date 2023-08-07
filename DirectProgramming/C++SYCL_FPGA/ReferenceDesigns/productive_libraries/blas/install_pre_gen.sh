@@ -30,6 +30,9 @@ kernel_to_tarball=(
     ["sgemm_large_s10"]="ssssmatmul_large_s10_oneapi2023.2.tar.gz"
     ["dgemm_large_s10"]="ddddmatmul_large_s10_oneapi2023.2.tar.gz"
     ["cgemm_tiny_s10"]="ccccmatmul_tiny_s10_oneapi2023.2.tar.gz"
+    ["ssymm_large_s10"]="ssssmatmul_large_s10_oneapi2023.2.tar.gz"
+    ["dsymm_large_s10"]="ddddmatmul_large_s10_oneapi2023.2.tar.gz"
+    ["csymm_tiny_s10"]="ccccmatmul_tiny_s10_oneapi2023.2.tar.gz"
 )
 
 declare -A kernel_to_demo
@@ -48,6 +51,9 @@ kernel_to_demo=(
     ["sgemm_large_s10"]="demo_sgemm_large_s10"
     ["dgemm_large_s10"]="demo_dgemm_large_s10"
     ["cgemm_tiny_s10"]="demo_cgemm_tiny_s10"
+    ["ssymm_large_s10"]="demo_ssymm_large_s10"
+    ["dsymm_large_s10"]="demo_dsymm_large_s10"
+    ["csymm_tiny_s10"]="demo_csymm_tiny_s10"
 )
 
 declare -A kernel_to_demo_dir
@@ -66,6 +72,9 @@ kernel_to_demo_dir=(
     ["sgemm_large_s10"]="gemm/bin"
     ["dgemm_large_s10"]="gemm/bin"
     ["cgemm_tiny_s10"]="gemm/bin"
+    ["ssymm_large_s10"]="symm/bin"
+    ["dsymm_large_s10"]="symm/bin"
+    ["csymm_tiny_s10"]="symm/bin"
 )
 
 declare -A kernel_to_reconfigurable
@@ -84,6 +93,9 @@ kernel_to_reconfigurable=(
     ["sgemm_large_s10"]="reconfigurable_matmul"
     ["dgemm_large_s10"]="reconfigurable_matmul"
     ["cgemm_tiny_s10"]="reconfigurable_matmul"
+    ["ssymm_large_s10"]="reconfigurable_matmul"
+    ["dsymm_large_s10"]="reconfigurable_matmul"
+    ["csymm_tiny_s10"]="reconfigurable_matmul"
 )
 
 if test "${kernel_to_tarball[$1]+exists}"; then
