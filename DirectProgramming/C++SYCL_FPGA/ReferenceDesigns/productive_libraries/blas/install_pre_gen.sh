@@ -29,6 +29,7 @@ kernel_to_tarball=(
     ["zaxpy_large_a10"]="zvecadd_large_a10_oneapi2023.2_bsp1.2.1.tar.gz"
     ["sgemm_large_s10"]="ssssmatmul_large_s10_oneapi2023.2.tar.gz"
     ["dgemm_large_s10"]="ddddmatmul_large_s10_oneapi2023.2.tar.gz"
+    ["cgemm_tiny_s10"]="ccccmatmul_tiny_s10_oneapi2023.2.tar.gz"
 )
 
 declare -A kernel_to_demo
@@ -46,6 +47,7 @@ kernel_to_demo=(
     ["zaxpy_large_a10"]="demo_zaxpy_large_a10.unsigned"
     ["sgemm_large_s10"]="demo_sgemm_large_s10"
     ["dgemm_large_s10"]="demo_dgemm_large_s10"
+    ["cgemm_tiny_s10"]="demo_cgemm_tiny_s10"
 )
 
 declare -A kernel_to_demo_dir
@@ -63,6 +65,7 @@ kernel_to_demo_dir=(
     ["zaxpy_large_a10"]="axpy/bin"
     ["sgemm_large_s10"]="gemm/bin"
     ["dgemm_large_s10"]="gemm/bin"
+    ["cgemm_tiny_s10"]="gemm/bin"
 )
 
 declare -A kernel_to_reconfigurable
@@ -80,6 +83,7 @@ kernel_to_reconfigurable=(
     ["zaxpy_large_a10"]="reconfigurable_vecadd"
     ["sgemm_large_s10"]="reconfigurable_matmul"
     ["dgemm_large_s10"]="reconfigurable_matmul"
+    ["cgemm_tiny_s10"]="reconfigurable_matmul"
 )
 
 if test "${kernel_to_tarball[$1]+exists}"; then
@@ -87,6 +91,11 @@ if test "${kernel_to_tarball[$1]+exists}"; then
     destination=${kernel_to_reconfigurable[$1]}
     echo Expanding $tarball to directory $destination/oneapi, bin and reports ...
     tar xzvf pre_generated/$tarball --directory=$destination --touch
+    # Somehow, the --touch above seems to work for directories, but not for files under the directories. To be sure, touch files manually
+    for file in $(tar -tf pre_generated/$tarball 2>/dev/null)
+    do
+        touch $file
+    done
 else
     echo "Sorry. No pre-generated tarball for $1"
 fi
