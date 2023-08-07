@@ -150,6 +150,7 @@ Running a demo application will generate performance metrics.
     <th>Frequency<br>(MHZ)</th>
     <th>Throughput<br>(GOPS)</th>
     <th>Matrix Size<br>(A, B)</th>
+    <th>Command to reproduce</th>
 </tr>
 <tr>
     <td rowspan="6">Intel Arria 10 GX 1150</td>
@@ -161,6 +162,7 @@ Running a demo application will generate performance metrics.
     <td>217</td>
     <td>554</td>
     <td>10K * 16K, 16K * 8K</td>
+    <td>gemm/bin/demo_sgemm_large_a10</td>
 </tr>
 <tr>
     <td>D, D, D, D</td>
@@ -171,10 +173,12 @@ Running a demo application will generate performance metrics.
     <td>238</td>
     <td>91</td>
     <td>6K*8K, 8K*4K</td>
+    <td>gemm/bin/demo_dgemm_large_a10</td>
 </tr>
 <tr>
     <td>C, C, C, C</td>
-    <td></td>Executing that
+    <td></td>
+    <td></td>
     <td></td>
     <td></td>
     <td></td>
@@ -184,6 +188,7 @@ Running a demo application will generate performance metrics.
 </tr>
 <tr>
     <td>Z, Z, Z, Z</td>
+    <td></td>
     <td></td>
     <td></td>
     <td></td>
@@ -201,9 +206,11 @@ Running a demo application will generate performance metrics.
     <td></td>
     <td></td>
     <td></td>
+    <td></td>
 </tr>
 <tr>
     <td>Z, Z, Z, D</td>
+    <td></td>
     <td></td>
     <td></td>
     <td></td>
@@ -222,6 +229,7 @@ Running a demo application will generate performance metrics.
     <td>238</td>
     <td>882</td>
     <td>10K*16K, 16K*16K</td>
+    <td>gemm/bin/demo_sgemm_large_s10</td>
 </tr>
 <tr>
     <td>D, D, D, D</td>
@@ -232,9 +240,11 @@ Running a demo application will generate performance metrics.
     <td>265</td>
     <td>74</td>
     <td>6K*8K, 8K*4K</td>
+    <td>gemm/bin/demo_dgemm_large_s10</td>
 </tr>
 <tr>
     <td>C, C, C, C</td>
+    <td></td>
     <td></td>
     <td></td>
     <td></td>
@@ -252,6 +262,7 @@ Running a demo application will generate performance metrics.
     <td></td>
     <td></td>
     <td></td>
+    <td></td>
 </tr>
 <tr>
     <td>C, C, C, S</td>
@@ -262,9 +273,11 @@ Running a demo application will generate performance metrics.
     <td></td>
     <td></td>
     <td></td>
+    <td></td>
 </tr>
 <tr>
     <td>Z, Z, Z, D</td>
+    <td></td>
     <td></td>
     <td></td>
     <td></td>
