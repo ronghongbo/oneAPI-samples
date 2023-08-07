@@ -4,32 +4,37 @@ This design demonstrates the following matrix-matrix product:
 
 $C \longleftarrow \alpha * op(A) * op(B) + \beta * C$
 
-where $op(X)$ is $X$, $X^T$, or $X^H$, $alpha$ and $beta$ are scalars, and $A$, $B$ and $C$ are matrices. 
+where $op(X)$ is $X$, $X^T$, or $X^H$, $alpha$ and $beta$ are scalars, and $A$, $B$ and $C$ are matrices.
 
-The design yields a systolic array for each valid combination of the data types. The array is reconfigurable: by providing appropriate parameters, the array simulates the following BLAS kernels:
-* `GEMM` - Computes a matrix-matrix product with general matrices.
-* `SYMM` - Computes a matrix-matrix product where one input matrix is symmetric and one matrix is general.
-* `HEMM` - Computes a matrix-matrix product where one input matrix is Hermitian and one matrix is general.
-* `SYRK` - Performs a rank-k update of the upper or lower triangle of a symmetric matrix.
-* `HERK` - Performs a rank-k update of the upper or lower triangle of a Hermitian matrix.
+The design has static and dynamic parameters. The static parameters are the data types of the matrices and the scalars, including `TA`, `TB`, `TC` and `TS`. A data type can be any of `S` (single precision), `D` (double precision), `C` (complex single precision), `Z` (complex double precision), and in future, `bfloat16` etc. For each supported combination of the static parameters, the design needs to be synthesized once.
 
-Note:
-* `SYRK` and `HERK` are to be available in the next release
-
-The parameters include the following:
+The dynamic parameters are passed into the synthesized design, and control its execution. They include the following:
 * `TransposeA`, `ConjugateA`, `SymmetricA`, `HermitianA`, `UpA`
 * `TransposeB`, `ConjugateB`, `SymmetricB`, `HermitianB`, `UpB`
 * `SymmetricC`, `HermitianC`, `UpC`
 * `HalfSpaceOut`
 * `alpha`, `beta`
 
-where 
+where
 
 * `TransposeX`, `ConjugateX`: Is matrix X to be transposed? Is it to be conjugated?
 * `SymmetricX`, `HermitianX`: Is matrix X symmetric? Is it Hermitian?
 * `UpX`: Given matrix X as symmetric or Hermitian, is its upper triangle stored?
-* `HalfSpaceOut`: Compute only half of the output matrix? This is true when the output is symmetric or Hermitian. In this case, the systolic array computes only the upper triangle of the output, in terms of tiles. For the tiles crossing the diagonal, we ensure the correctness of only their data above or on the diagonal.
-  
+* `HalfSpaceOut`: Compute only half of the output matrix? This is true when the output is symmetric or Hermitian. In this case, the design computes only the upper triangle of the output, in terms of tiles. For the tiles crossing the diagonal, we ensure the correctness of only their data above or on the diagonal.
+
+By providing appropriate dynamic parameters, a synthesized design simulates the following BLAS kernels:
+* `GEMM` - Computes a matrix-matrix product with general matrices.
+* `SYMM` - Computes a matrix-matrix product where one input matrix is symmetric and one matrix is general.
+* `HEMM` - Computes a matrix-matrix product where one input matrix is Hermitian and one matrix is general.
+* `SYRK` - Performs a rank-k update of the upper or lower triangle of a symmetric matrix.
+* `HERK` - Performs a rank-k update of the upper or lower triangle of a Hermitian matrix.
+
+In other words, the design is dynamically reconfigurable.
+
+
+Note:
+* `SYRK` and `HERK` are to be available in the next release
+
 | Area                | Description                                                  |
 | ------------------- | ------------------------------------------------------------ |
 | What you will learn | How to implement a high performance systolic array for matrix multiplication on an FPGA |
@@ -64,50 +69,209 @@ flowchart LR
 ## The design
 In this design, the input/output matrices are pre/post-processed on the host so that the FPGA device loads/stores data sequentially from/to the device DRAM. This ensures that the memory accesses won't be a bottleneck of the performance. In pre-processing, the host reads an input matrix $X$ in such a way that in effect, the elements of $op(X)$ are read in the order they are to used in the computation, and sent sequentially to the device. This is called serialization.
 
-To allow arbitrarily large matrices, as long as they can fit in the host and device DRAM, the matrices are tiled. Every time, a tile of matrix $op(A)$ and a tile of matrix $op(B)$ are read by the device to update a tile of $op(A)*op(B)$. When the size of a tile is not  
+To allow arbitrarily large matrices, as long as they can fit in the host and device DRAM, the matrices are tiled. Every time, a tile of matrix $op(A)$ and a tile of matrix $op(B)$ are fetched into the device SRAM. The product of two input tiles is calculated by a systolic array, and is used to update a tile of the product $op(A)*op(B)$. The product tile is divided by the PEs (processing elements) of the systolic array. Each PE works on a part of the product tile, storing them in rotating registers.
 
-During the pre-processing, the matrix    
-is pre-processed so that  
-As shown in this figure, the overall idea of the design is to  
+When the dimensions of an input matrix $op(X)$ are not divisible by the dimension of a tile of the matrix, zeros are automatically inserted into the serialized data stream of the matrix. This is called zero-padding.
 
-<p align="center"><img src="figures/matmul-overall-idea.png" alt="drawing" width="500"/></p>
+Similary, when the dimensions of the product matrix $op(A)*op(B)$ are not divisible by the dimension of a tile of the product matrix, extraneous data are automatically removed from the serialized data stream of the matrix.
 
-The algorithm employed by the reference design is a 2-dimensional systolic array  with a sophisticated I/O network.
-The algorithm employed by the reference design is a 2-dimensional systolic array  with a sophisticated I/O network.
+![](figures/matmul-flowgraph.png)
 
-![](figures/matmul.png)
-
-Files:
-* `gemm.cpp` - The specification of matrix multiplication in T2SP.
-* `parameters.h` - Constant parameters of the systolic array, where
-** `KKK` - SIMD lanes in a PE.
+Parameters:
+** `KKK` - SIMD lanes in a PE: every cycle, the PE computes a dot product, in a vectorized way, between `KKK` number of data from a row of $op(A)$ and `KKK` number of data from a column of $op(B)$.
 ** `JJJ` - Columns of the systolic array.
 ** `III` - Rows of the systolic array.
-** `JJ ` - Columns of matrix `B` to process in a PE
-** `II ` - Rows of matrix `A` to process in a PE. There are `II*JJ` number of results to reduce in the PE.
+** `JJ ` - Columns of matrix $op(B)$ to process in a PE
+** `II ` - Rows of matrix $op(A)$ to process in a PE. There are `II*JJ` elements in the product matrix $op(A)*op(B)$ for the PE to reduce.
 ** `KK ` - `KKK * KK` is the columns of matrix A / rows of matrix B to reduce in a PE.
 
-The parameters are defined for two configurations: tiny and large. The tiny configuration specifies a 4x4 systolic array, with each PE computing 16 results. The large configuration tries to maximize the utilization of resources, and varies with precision and hardware.
+The [parameters.h](./parameters.h) file provides pre-defined dynamic parameters for two configurations: tiny and large. The tiny configuration specifies a 4x4 systolic array, with each PE computing 16 results. The large configuration tries to maximize the utilization of resources, and varies with precision and hardware. One can modify the dynamic parameters. If so, please remember to modify the `get_systolic_array_dimensions()` function in [api.hpp](./api.hpp) accordingly.
 
-* `CMakeLists.txt` - cmake targets
-* `CMakeInterface.txt` - a file shared by each kernel. Building a target of a kernel may, through this interface, invokes building a target of this reconfigurable matrix multiplication.
-* `api.hpp` - A BLAS-style programming interface to invoke the design.
+## Build, test, and clean
+Follow the [general instructions](../README.md#Build-a-kernel-and-run-on-Linux) to build a demo application `demo_KERNEL_SIZE_HW`for any kernel that is covered by the design, and the design will be synthesized automatically into an image and linked with that kernel. The correspondence between KERNEL and image are as follows:
+
+<table>
+<tr>
+    <th>KERNEL</th>
+    <th>Image</th>
+</tr>
+<tr>
+    <td>sgemm, ssymm, ssyrk</td>
+    <td>ssssmatmul</td>
+</tr>
+<tr>
+    <td>dgemm, dsymm, dsyrk</td>
+    <td>ddddmatmul</td>
+</tr>
+<tr>
+    <td>cgemm, csymm, csyrk, chemm</td>
+    <td>ccccmatmul</td>
+</tr>
+<tr>
+    <td>zgemm, zsymm, zsyrk, zhemm</td>
+    <td>zzzzmatmul</td>
+</tr>
+<tr>
+    <td>cherk</td>
+    <td>cccsmatmul</td>
+</tr>
+<tr>
+    <td>zherk</td>
+    <td>zzzdmatmul</td>
+</tr>
+</table>
+
+Here the prefix `ssss` etc. refers to the data types of `TA`, `TB`, `TC` and `TS`.
+
+For example,
+
+```
+    cd productive_libraries/blas/gemm/build
+    cmake ..
+    make demo_sgemm_large_a10
+```
+
+will automatically synthesize this design into an image `ssssmatmul_large_a10.a` under `productive_libraries/blas/reconfigurable_matmul/bin` directory, and link the image with the demo application for `sgemm`. Here `large_a10` refers to the large-sized configuration defined for A10 FPGA in [parameters.h](./parameters.h).
+
+Alternatively, one can install the pre-synthesized bitstreams and demo applications following the general instructions.
+
+Running a demo application will generate performance metrics.
 
 ## Metrics
 
-The data below are with a large configuration. See `parameters.h` for details.
+<table style="width:120%">
+<tr>
+    <th>Device</th>
+    <th>Static parameters<br>(TA, TB, TC, TS)</th>
+    <th>Dynamic parameters<br>(KKK, JJJ, III, JJ, II, KK)</th>
+    <th>Logic utilization</th>
+    <th>DSP blocks</th>
+    <th>RAM blocks</th>
+    <th>Frequency<br>(MHZ)</th>
+    <th>Throughput<br>(GOPS)</th>
+    <th>Matrix Size<br>(A, B)</th>
+</tr>
+<tr>
+    <td rowspan="6">Intel Arria 10 GX 1150</td>
+    <td>S, S, S, S</td>
+    <td>16, 8, 10, 32, 32, 32</td>
+    <td>216,823 / 427,200 ( 51 % )</td>
+    <td>1,311 / 1,518 ( 86 % )</td>
+    <td>2,205 / 2,713 ( 81 % )</td>
+    <td>217</td>
+    <td>554</td>
+    <td>10K * 16K, 16K * 8K</td>
+</tr>
+<tr>
+    <td>D, D, D, D</td>
+    <td>8, 4, 6, 32, 32, 32</td>
+    <td>312,330 / 427,200 ( 73 % )</td>
+    <td>807 / 1,518 ( 53 % )</td>
+    <td>1,494 / 2,713 ( 55 % )</td>
+    <td>238</td>
+    <td>91</td>
+    <td>6K*8K, 8K*4K</td>
+</tr>
+<tr>
+    <td>C, C, C, C</td>
+    <td></td>Executing that
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+</tr>
+<tr>
+    <td>Z, Z, Z, Z</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+</tr>
+<tr>
+    <td>C, C, C, S</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+</tr>
+<tr>
+    <td>Z, Z, Z, D</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+</tr>
+<tr>
+    <td rowspan="6">Intel Stratix 10 GX 2800</td>
+    <td>S, S, S, S</td>
+    <td>16, 16, 10, 32, 32, 32</td>
+    <td>580,648 / 933,120 ( 62 % )</td>
+    <td>2,597 / 5,760 ( 45 % )</td>
+    <td>3,712 / 11,721 ( 32 % )</td>
+    <td>238</td>
+    <td>882</td>
+    <td>10K*16K, 16K*16K</td>
+</tr>
+<tr>
+    <td>D, D, D, D</td>
+    <td>8, 4, 6, 32, 32, 32</td>
+    <td>581,320 / 933,120 ( 62 % )</td>
+    <td>805 / 5,760 ( 14 % )</td>
+    <td>1,927 / 11,721 ( 16 % )</td>
+    <td>265</td>
+    <td>74</td>
+    <td>6K*8K, 8K*4K</td>
+</tr>
+<tr>
+    <td>C, C, C, C</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+</tr>
+<tr>
+    <td>Z, Z, Z, Z</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+</tr>
+<tr>
+    <td>C, C, C, S</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+</tr>
+<tr>
+    <td>Z, Z, Z, D</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+</tr>
 
-Single precision: on A10, 10x8 array, each PE computes 1024 results.
-| Device | Logic utilization | DSP blocks | RAM blocks | Frequency | Throughput | Matrix Size |
-| ------ | --------- | ---------- | ----------------- | ---------- | ---------- | -----------|
-| Intel Arria 10 GX 1150   |  218,275 / 427,200 ( 51 % ) |  1,314 / 1,518 ( 87 % ) | 2,198 / 2,713 ( 81 % ) | 223 MHZ | 479 GFLOPS |
-| Intel Stratix 10 SX 2800 | | | | | | |
-
-Double precision:
-
-Complex single precision:
-
-Complex double precision:
-
-## Build, test, and clean
-Follow the general instructions [here](../README.md#Build-a-kernel-and-run-on-Linux). Use any of the following variations of the kernels covered by the design, including `sgemm`, `dgemm`, `cgemm`, `zgemm`, `ssymm`, `dsymm`, `csymm`, `zsymm`, `chemm`, `zhemm`, `ssyrk`, `dsyrk`, `csyrk`, `zsyrk`, `cherk` and `zherk`*, and the design will be synthesized automatically. Alternatively, one can install the pre-synthesized bitstreams following the instructions there.
+</table>
