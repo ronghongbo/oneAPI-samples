@@ -9,6 +9,7 @@ where $op(X)$ is $X$, $X^T$, or $X^H$, $alpha$ and $beta$ are scalars, and $A$, 
 The design has static and dynamic parameters. The static parameters include
 * data types of the matrices and the scalars, including `TA`, `TB`, `TC` and `TS` for the data types of matrix `A`, `B`, `C` and the scalars, respectively. A data type can be any of `S` (single precision), `D` (double precision), `C` (complex single precision), `Z` (complex double precision), and in future, `bfloat16` etc.
 * sizes of the systolic array, to be described [below](#sizes_matmul_systolic_array).
+  
 For each supported combination of the static parameters, the design needs to be synthesized once.
 
 The dynamic parameters are passed into one synthesized design, and control its execution. They include the following:
