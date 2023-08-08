@@ -6,7 +6,10 @@ $C \longleftarrow \alpha * op(A) * op(B) + \beta * C$
 
 where $op(X)$ is $X$, $X^T$, or $X^H$, $alpha$ and $beta$ are scalars, and $A$, $B$ and $C$ are matrices.
 
-The design has static and dynamic parameters. The static parameters are the data types of the matrices and the scalars, including `TA`, `TB`, `TC` and `TS`. A data type can be any of `S` (single precision), `D` (double precision), `C` (complex single precision), `Z` (complex double precision), and in future, `bfloat16` etc. For each supported combination of the static parameters, the design needs to be synthesized once.
+The design has static and dynamic parameters. The static parameters include
+* data types of the matrices and the scalars, including `TA`, `TB`, `TC` and `TS` for the data types of matrix `A`, `B`, `C` and the scalars, respectively. A data type can be any of `S` (single precision), `D` (double precision), `C` (complex single precision), `Z` (complex double precision), and in future, `bfloat16` etc.
+* sizes of the systolic array, to be described [below](#sizes_matmul_systolic_array).
+For each supported combination of the static parameters, the design needs to be synthesized once.
 
 The dynamic parameters are passed into one synthesized design, and control its execution. They include the following:
 * `TransposeA`, `ConjugateA`, `SymmetricA`, `HermitianA`, `UpA`
@@ -42,24 +45,6 @@ Note:
 | Category            | Reference Designs and End to End                             |
 
 ## Prerequisites
-
-This sample is part of the FPGA code samples.
-It is categorized as a Tier 4 sample that demonstrates a reference design.
-
-```mermaid
-flowchart LR
-   tier1("Tier 1: Get Started")
-   tier2("Tier 2: Explore the Fundamentals")
-   tier3("Tier 3: Explore the Advanced Techniques")
-   tier4("Tier 4: Explore the Reference Designs")
-
-   tier1 --> tier2 --> tier3 --> tier4
-
-   style tier1 fill:#0071c1,stroke:#0071c1,stroke-width:1px,color:#fff
-   style tier2 fill:#0071c1,stroke:#0071c1,stroke-width:1px,color:#fff
-   style tier3 fill:#0071c1,stroke:#0071c1,stroke-width:1px,color:#fff
-   style tier4 fill:#f96,stroke:#333,stroke-width:1px,color:#fff
-```
 | Optimized for        | Description
 |:---                  |:---
 | OS                   | Ubuntu* 18.04/20.04 (Other Linux distributions or Windows might also work, although not tested)
@@ -77,18 +62,18 @@ Similary, when the dimensions of the product matrix $op(A)*op(B)$ are not divisi
 
 ![](figures/matmul-flowgraph.png)
 
-Parameters:
-** `KKK` - SIMD lanes in a PE: every cycle, the PE computes a dot product, in a vectorized way, between `KKK` number of data from a row of $op(A)$ and `KKK` number of data from a column of $op(B)$.
-** `JJJ` - Columns of the systolic array.
-** `III` - Rows of the systolic array.
-** `JJ ` - Columns of matrix $op(B)$ to process in a PE
-** `II ` - Rows of matrix $op(A)$ to process in a PE. There are `II*JJ` elements in the product matrix $op(A)*op(B)$ for the PE to reduce.
-** `KK ` - `KKK * KK` is the columns of matrix A / rows of matrix B to reduce in a PE.
+<a name="sizes_matmul_systolic_array">Sizes of a systolic array</a>:
+* `KKK` - SIMD lanes in a PE: every cycle, the PE computes a dot product, in a vectorized way, between `KKK` number of data from a row of $op(A)$ and `KKK` number of data from a column of $op(B)$.
+* `JJJ` - Columns of the systolic array.
+* `III` - Rows of the systolic array.
+* `JJ ` - Columns of matrix $op(B)$ to process in a PE
+* `II ` - Rows of matrix $op(A)$ to process in a PE. There are `II*JJ` elements in the product matrix $op(A)*op(B)$ for the PE to reduce.
+* `KK ` - `KKK * KK` is the columns of matrix A / rows of matrix B to reduce in a PE.
 
-The [parameters.h](./parameters.h) file provides pre-defined dynamic parameters for two configurations: tiny and large. The tiny configuration specifies a 4x4 systolic array, with each PE computing 16 results. The large configuration tries to maximize the utilization of resources, and varies with precision and hardware. One can modify the dynamic parameters. If so, please remember to modify the `get_systolic_array_dimensions()` function in [api.hpp](./api.hpp) accordingly.
+The [parameters.h](./parameters.h) file provides pre-defined sizes for a tiny and large systolic array. The tiny configuration specifies a 4x4 systolic array, with each PE computing 16 results. The large configuration tries to maximize the utilization of resources, and varies with precision and hardware. One can modify these parameters. If so, please remember to modify the `get_systolic_array_dimensions()` function in [api.hpp](./api.hpp) accordingly.
 
 ## Build, test, and clean
-Follow the [general instructions](../README.md#Build-a-kernel-and-run-on-Linux) to build a demo application `demo_KERNEL_SIZE_HW`for any kernel that is covered by the design, and the design will be synthesized automatically into an image and linked with that kernel. The correspondence between KERNEL and image, and the current status, are as follows:
+Follow the [general instructions](../README.md#Build-a-kernel-and-run-on-Linux) to build a demo application `demo_KERNEL_SIZE_HW`for any `KERNEL` that is covered by the design with a systolic array of any `SIZE` (`tiny` or `large`) on any `HW` (`a10` or `s10`), and the design will be synthesized automatically into an image and linked with that kernel. The correspondence between KERNEL and image, and the current status, are as follows:
 
 <table>
 <tr>
