@@ -7,7 +7,7 @@ C := alpha*op(A)*op(B) + beta*C
 ```
 where `op(X)` is one of `op(X) = X`, or `op(X) = X<sup>T</sup>`, or `op(X) = X<sup>H</sup>`, `alpha` and `beta` are scalars, and `A`, `B` and `C` are matrices.
 
-The kernel is implemented by configuring the systolic array of [matrix multiply](../recnfigurable_matmul/README.md), where the design details and performance metrics are described.
+The kernel is implemented by configuring the systolic array of [matrix multiply](../reconfigurable_matmul/README.md), where the design details and performance metrics are described.
 This kernel has the following restrictions in implementation:
 * Matrix storage: row-major.
 * Data types: `s` (single-precision), `d`(double-precision), `c`(complex single-precision), `z`(complex double-precision).
