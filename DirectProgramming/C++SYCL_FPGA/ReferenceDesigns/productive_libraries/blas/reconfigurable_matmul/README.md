@@ -8,7 +8,7 @@ where $op(X)$ is $X$, $X^T$, or $X^H$, $alpha$ and $beta$ are scalars, and $A$, 
 
 The design has static and dynamic parameters. The static parameters include
 * data types of the matrices and scalars, denoted `TA`, `TB`, `TC` and `TS`, respectively. A data type can be any of `S` (single precision), `D` (double precision), `C` (complex single precision), `Z` (complex double precision), and in future, `bfloat16` etc.
-* [sizes of the systolic array](#sizes_matmul_systolic_array) that is expressed by the design.
+* [sizes of the systolic array](#user-content-sizes-of-a-systolic-array) that is expressed by the design.
 
 For each combination of the static parameters, the design needs to be synthesized once.
 
@@ -62,7 +62,7 @@ Similary, when the tiles of the product matrix $op(A)*op(B)$ cover beyond the pr
 ![](figures/zero-padding.png)
 
 
-<a name="sizes_matmul_systolic_array">Sizes of a systolic array</a>:
+### Sizes of a systolic array
 * `KKK` - SIMD lanes in a PE: every cycle, the PE computes a dot product, in a vectorized way, between `KKK` number of data from a row of $op(A)$ and `KKK` number of data from a column of $op(B)$ that are loaded from the device memory.
 * `JJJ` - Columns of the systolic array. The output data $C$ are also stored in `JJJ`-wide vectors to the device memory.
 * `III` - Rows of the systolic array.
