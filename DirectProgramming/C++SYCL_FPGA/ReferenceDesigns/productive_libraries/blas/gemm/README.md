@@ -15,4 +15,4 @@ This kernel has the following restrictions in implementation:
 
 ## Build and run on Linux
 
-See the instruction for [blas](../README#Build-a-kernel-and-run-on-Linux). The variations of the kernel are `sgemm`, `dgemm`, `cgemm` and `zgemm`.
+See the instruction for [blas](../README.md#Build-a-kernel-and-run-on-Linux). The variations of the kernel are `sgemm`, `dgemm`, `cgemm` and `zgemm`.
