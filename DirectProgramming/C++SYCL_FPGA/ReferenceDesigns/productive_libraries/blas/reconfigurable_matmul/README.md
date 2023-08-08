@@ -133,7 +133,7 @@ For example,
     make demo_sgemm_large_a10
 ```
 
-will automatically synthesize this design into an image `ssssmatmul_large_a10.a` under `blas/reconfigurable_matmul/bin` directory, and link the image into the demo application `blas/gemm/bin/demo_sgemm_large_a10`. Here `large_a10` refers to the large-sized configuration defined for A10 FPGA in [parameters.h](./parameters.h).
+will automatically synthesize this design into an image `blas/reconfigurable_matmul/bin/ssssmatmul_large_a10.a` directory, and link the image into the demo application `blas/gemm/bin/demo_sgemm_large_a10`. Here `large_a10` refers to the large-sized configuration defined for A10 FPGA in [parameters.h](./parameters.h).
 
 Alternatively, one can install the pre-synthesized bitstreams and demo applications following the general instructions.
 
