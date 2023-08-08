@@ -8,7 +8,7 @@ where $op(X)$ is $X$, $X^T$, or $X^H$, $alpha$ and $beta$ are scalars, and $A$, 
 
 The design has static and dynamic parameters. The static parameters are the data types of the matrices and the scalars, including `TA`, `TB`, `TC` and `TS`. A data type can be any of `S` (single precision), `D` (double precision), `C` (complex single precision), `Z` (complex double precision), and in future, `bfloat16` etc. For each supported combination of the static parameters, the design needs to be synthesized once.
 
-The dynamic parameters are passed into the synthesized design, and control its execution. They include the following:
+The dynamic parameters are passed into one synthesized design, and control its execution. They include the following:
 * `TransposeA`, `ConjugateA`, `SymmetricA`, `HermitianA`, `UpA`
 * `TransposeB`, `ConjugateB`, `SymmetricB`, `HermitianB`, `UpB`
 * `SymmetricC`, `HermitianC`, `UpC`
@@ -22,7 +22,7 @@ where
 * `UpX`: Given matrix X as symmetric or Hermitian, is its upper triangle stored?
 * `HalfSpaceOut`: Compute only half of the output matrix? This is true when the output is symmetric or Hermitian. In this case, the design computes only the upper triangle of the output, in terms of tiles. For the tiles crossing the diagonal, we ensure the correctness of only their data above or on the diagonal.
 
-By providing appropriate dynamic parameters, a synthesized design simulates the following BLAS kernels:
+Through APIs that provide appropriate dynamic parameters and post-processing, a synthesized design simulates the following standard BLAS kernels:
 * `GEMM` - Computes a matrix-matrix product with general matrices.
 * `SYMM` - Computes a matrix-matrix product where one input matrix is symmetric and one matrix is general.
 * `HEMM` - Computes a matrix-matrix product where one input matrix is Hermitian and one matrix is general.
@@ -88,36 +88,50 @@ Parameters:
 The [parameters.h](./parameters.h) file provides pre-defined dynamic parameters for two configurations: tiny and large. The tiny configuration specifies a 4x4 systolic array, with each PE computing 16 results. The large configuration tries to maximize the utilization of resources, and varies with precision and hardware. One can modify the dynamic parameters. If so, please remember to modify the `get_systolic_array_dimensions()` function in [api.hpp](./api.hpp) accordingly.
 
 ## Build, test, and clean
-Follow the [general instructions](../README.md#Build-a-kernel-and-run-on-Linux) to build a demo application `demo_KERNEL_SIZE_HW`for any kernel that is covered by the design, and the design will be synthesized automatically into an image and linked with that kernel. The correspondence between KERNEL and image are as follows:
+Follow the [general instructions](../README.md#Build-a-kernel-and-run-on-Linux) to build a demo application `demo_KERNEL_SIZE_HW`for any kernel that is covered by the design, and the design will be synthesized automatically into an image and linked with that kernel. The correspondence between KERNEL and image, and the current status, are as follows:
 
 <table>
 <tr>
     <th>KERNEL</th>
     <th>Image</th>
+    <th>Correctness</th>
+    <th>Performance</th>
 </tr>
 <tr>
     <td>sgemm, ssymm, ssyrk</td>
     <td>ssssmatmul</td>
+    <td>&#x2713;</td>
+    <td>&#x2713;</td>
 </tr>
 <tr>
     <td>dgemm, dsymm, dsyrk</td>
     <td>ddddmatmul</td>
+    <td>&#x2713;</td>
+    <td>&#x2713;</td>
 </tr>
 <tr>
     <td>cgemm, csymm, csyrk, chemm</td>
     <td>ccccmatmul</td>
+    <td>&#x2713;</td>
+    <td>tuning</td>
 </tr>
 <tr>
     <td>zgemm, zsymm, zsyrk, zhemm</td>
     <td>zzzzmatmul</td>
+    <td>&#x2713;</td>
+    <td><a href="https://github.com/haoxiaochen/t2sp/issues/33">synthesis failure</a></td>
 </tr>
 <tr>
     <td>cherk</td>
     <td>cccsmatmul</td>
+    <td>onging</td>
+    <td></td>
 </tr>
 <tr>
     <td>zherk</td>
     <td>zzzdmatmul</td>
+    <td>ongoing</td>
+    <td></td>
 </tr>
 </table>
 
