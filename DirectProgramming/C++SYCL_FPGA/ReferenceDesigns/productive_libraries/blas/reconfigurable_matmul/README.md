@@ -7,7 +7,7 @@ $C \longleftarrow \alpha * op(A) * op(B) + \beta * C$
 where $op(X)$ is $X$, $X^T$, or $X^H$, $alpha$ and $beta$ are scalars, and $A$, $B$ and $C$ are matrices.
 
 The design has static and dynamic parameters. The static parameters include
-* data types of the matrices and scalars, denoted `TA`, `TB`, `TC` and `TS`, respectively. A data type can be any of `S` (single precision), `D` (double precision), `C` (complex single precision), `Z` (complex double precision), and in future, `bfloat16` etc.
+* data types of the matrices and scalars, denoted `TA`, `TB`, `TC` and `TS`, respectively. A data type can be any of `s` (single precision), `d` (double precision), `c` (complex single precision), `z` (complex double precision), and in future, `bfloat16` etc.
 * [sizes of the systolic array](#user-content-sizes-of-a-systolic-array) that is expressed by the design.
 
 For each combination of the static parameters, the design needs to be synthesized once.
@@ -76,11 +76,11 @@ Restriction:
 The [parameters.h](./parameters.h) file pre-defines the sizes for a tiny and large systolic array. The tiny configuration specifies a 4x4 systolic array, with each PE computing 16 results. The large configuration tries to maximally utilize resources, and varies with precision and hardware. One can modify these parameters. If so, please remember to modify the `get_systolic_array_dimensions()` function in [api.hpp](./api.hpp) accordingly.
 
 ## Build, test, and clean
-Follow the [general instructions](../README.md#Build-a-kernel-and-run-on-Linux) to build a demo application `demo_KERNEL_SIZE_HW`for any `KERNEL` that is covered by the design with a systolic array of any `SIZE` (`tiny` or `large`) on any `HW` (`a10` or `s10`), and the design will be synthesized under the hood into an image and linked with that kernel. The correspondence between KERNEL and image, and the current status, are as follows:
+Follow the [general instructions](../README.md#Build-a-kernel-and-run-on-Linux) to build a demo application `demo_VARIATION_SIZE_HW`for any kernel `VARIATION` that is covered by the design with a systolic array of any `SIZE` (`tiny` or `large`) on any `HW` (`a10` or `s10`), and the design will be synthesized under the hood into an image and linked with that kernel. The correspondence between VARIATION and image, and the current status, are as follows:
 
 <table>
 <tr>
-    <th>KERNEL</th>
+    <th>VARIATION of a kernel</th>
     <th>Image</th>
     <th>Correctness</th>
     <th>Performance</th>
@@ -133,7 +133,7 @@ For example,
     make demo_sgemm_large_a10
 ```
 
-will automatically synthesize this design into an image `blas/reconfigurable_matmul/bin/ssssmatmul_large_a10.a` directory, and link the image into the demo application `blas/gemm/bin/demo_sgemm_large_a10`. Here `large_a10` refers to the large-sized configuration defined for A10 FPGA in [parameters.h](./parameters.h).
+will automatically synthesize this design into an image `blas/reconfigurable_matmul/bin/ssssmatmul_large_a10.a`, and link the image into the demo application `blas/gemm/bin/demo_sgemm_large_a10`. Here `large_a10` refers to the large-sized configuration defined for A10 FPGA in [parameters.h](./parameters.h).
 
 Alternatively, one can install the pre-synthesized bitstreams and demo applications following the general instructions.
 
