@@ -2,7 +2,7 @@
 
 This reference design shows how to implement the standard ASUM in BLAS as defined in the [oneMKL interface](https://oneapi-src.github.io/oneMKL/domains/blas/asum.html):
 
-$result \longleftarrow $ sum of $\mid Re(x_i)\mid+\mid Im(x_i)\mid, \forall i$
+sum $\mid Re(x_i)\mid+\mid Im(x_i)\mid, \forall i$
 
 where $x$ is a vector.
 
