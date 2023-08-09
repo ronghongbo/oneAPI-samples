@@ -12,13 +12,13 @@ To reduce engineering efforts, kernels with similar computes are grouped and gen
 | [$\mathbf{sdsdot}$](./sdsdot/README.md) | $sb+\vec{X}\cdot \vec{Y}$                         | A dot product between two single-precision vectors , plus a single-precision float $sb$                                                    |
 | [$\mathbf{dotc}$](./dotc/README.md)   | $\overline{\vec{X}}\cdot \vec{Y}$                 | A dot product between two complex vectors, conjugating the first of them                                                                   |
 | [$\mathbf{dotu}$](./dotu/README.md)   | $\vec{X}\cdot \vec{Y}$                            | A dot product between two complex vectors                                                                                                  |
-| [$\mathbf{nrm2}$](./nrm2/README.md)   | $\|\vec{X}\|$                                     | Euclidean norm of a vector                                                                                                                 |
-| [$\mathbf{asum}$](./asum/README.md)   | $\sum_{i=0}^{N}(\mid Re(x_i)\mid+\mid Im(x_i)\mid)$ | Sum of the magnitudes of elements                                                                                                          |
+| [$\mathbf{nrm2}$](./nrm2/README.md)   | $\parallel \vec{X} \parallel$                                     | Euclidean norm of a vector                                                                                                                 |
+| [$\mathbf{asum}$](./asum/README.md)   | sum of $\mid Re(x_i)\mid+\mid Im(x_i)\mid, \forall i$ | Sum of the magnitudes of elements                                                                                                          |
 
 | Kernel            | Formula                                           | Description                                                                                                                                |
 | ----------------- | ------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
-| [$\mathbf{axpy}$](./axpy/README.md)   | $\alpha\vec{X}+\vec{Y}$                           | Vector addition                                                                                                                            |
-| [$\mathbf{scal}$](./scal/README.md)   | $\alpha\vec{X}$                                   | Scalar Multiplication of Vector                                                                                                            |
+| [$\mathbf{axpy}$](./axpy/README.md)   | $\alpha * \vec{X}+\vec{Y}$                           | Vector addition                                                                                                                            |
+| [$\mathbf{scal}$](./scal/README.md)   | $\alpha * \vec{X}$                                   | Scale a vector                                                                                                            |
 | [$\mathbf{copy}$](./copy/README.md)   | $\vec{Y}\leftarrow\vec{X}$                        | Copy a vector                                                                                                                              |
 
 ## `Level 3 kernels`
