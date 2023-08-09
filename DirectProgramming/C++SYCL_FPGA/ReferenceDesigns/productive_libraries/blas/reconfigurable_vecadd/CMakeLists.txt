@@ -34,7 +34,11 @@ endif()
 
 # Seed for synthesis
 if(NOT DEFINED SEED)
-    set(SEED 1)
+    set(SEED 7)
+else()
+    if(NOT ("${SEED}" STREQUAL "7"))
+        message(WARNING "Synthesis using a seed other than 7 may cause timing failures (seed = ${SEED})")
+    endif()
 endif()
 
 ###############################################################################
@@ -217,7 +221,6 @@ foreach(PRECISION ${PRECISIONS})
             add_custom_command(OUTPUT  ${CURRENT_KERNEL_PATH}/bin/demo_${PRECISION}${KERNEL}_${SIZE}_${HW}
                                COMMAND ${CMAKE_CXX_COMPILER}
                                        -fsycl -fintelfpga
-                                       
                                        ${CURRENT_KERNEL_PATH}/bin/demo_${PRECISION}${KERNEL}_${SIZE}_${HW}.o
                                        ${RECONFIGURABLE_VECADD_PATH}/bin/${PRECISION}vecadd_${SIZE}_${HW}.a
                                        -L${HALIDE_TOOLS_PATH}/lib -lHalide -lpthread -lz
@@ -248,7 +251,7 @@ foreach(PRECISION ${PRECISIONS})
                                        -i ${CURRENT_KERNEL_PATH}/bin/demo_${PRECISION}${KERNEL}_${SIZE}_${HW}
                                        -o ${RECONFIGURABLE_VECADD_PATH}/bin/${PRECISION}vecadd_${SIZE}_${HW}.aocx
                                COMMAND bash -c "rm -rf temp* signed*" # clean up
-                               COMMAND bash -c "printf 'Y\\nY\\nY\\nY\\nY\\nY\\n' | source ${OPENCL_1_2_1_BSP}/linux64/libexec/sign_aocx.sh -H openssl_manager \
+                               COMMAND bash -c "yes Y | source ${OPENCL_1_2_1_BSP}/linux64/libexec/sign_aocx.sh -H openssl_manager \
                                        -i ${PRECISION}vecadd_${SIZE}_${HW}.aocx -r NULL -k NULL \
                                        -o ${PRECISION}vecadd_${SIZE}_${HW}.unsigned.aocx"
                                DEPENDS ${CURRENT_KERNEL_PATH}/bin/demo_${PRECISION}${KERNEL}_${SIZE}_${HW}

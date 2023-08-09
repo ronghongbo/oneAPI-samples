@@ -250,7 +250,7 @@ foreach(PRECISION ${PRECISIONS})
                                        -i ${CURRENT_KERNEL_PATH}/bin/demo_${PRECISION}${KERNEL}_${SIZE}_${HW}
                                        -o ${RECONFIGURABLE_DOTPROD_PATH}/bin/${PRECISION}dotprod_${SIZE}_${HW}.aocx
                                COMMAND bash -c "rm -rf temp* signed*" # clean up
-                               COMMAND bash -c "printf 'Y\\nY\\nY\\nY\\nY\\nY\\n' | source ${OPENCL_1_2_1_BSP}/linux64/libexec/sign_aocx.sh -H openssl_manager \
+                               COMMAND bash -c "yes Y | source ${OPENCL_1_2_1_BSP}/linux64/libexec/sign_aocx.sh -H openssl_manager \
                                        -i ${PRECISION}dotprod_${SIZE}_${HW}.aocx -r NULL -k NULL \
                                        -o ${PRECISION}dotprod_${SIZE}_${HW}.unsigned.aocx"
                                DEPENDS ${CURRENT_KERNEL_PATH}/bin/demo_${PRECISION}${KERNEL}_${SIZE}_${HW}
