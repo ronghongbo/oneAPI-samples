@@ -2,28 +2,28 @@
 
 This directory contains FPGA reference designs for the standard BLAS kernels defined in [oneMKL](https://oneapi-src.github.io/oneMKL/domains/blas/blas.html). The row-major, USM-based SYCL interface is supported.
 
-To reduce engineering efforts, kernels with similar computes are grouped and generalized into a single systolic array so that the array can be dynamically reconfigured to simulate all the kernels, without losing performance. Below are the kernels currently supported:
+Kernels of similar computes are grouped and generalized into a single systolic array so that the array can be dynamically reconfigured to simulate all the kernels, minimizing maintenance cost without losing performance. Below are the kernels supported in this release:
 
 ## `Level 1 kernels`
 
 A [dot-product systolic array](reconfigurable_dotprod/README.md) supports
 
-| Kernel            | Formula                                           | Description                                                                                                                                | VARIATION | Note |
-| ----------------- | ------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ | ----| ---|
-| [dot](https://oneapi-src.github.io/oneMKL/domains/blas/dot.html)    | $\vec{X}\cdot \vec{Y}$                            | Dot product.| sdot, ddot | I/O combination of `sd` is to be supported in the next release | 
-| [sdsdot](https://oneapi-src.github.io/oneMKL/domains/blas/sdsdot.html) | $sb+\vec{X}\cdot \vec{Y}$                         | A dot product between two single-precision vectors , plus a single-precision float $sb$ | ssdsdot | |
-| [dotc](https://oneapi-src.github.io/oneMKL/domains/blas/dotc.html)   | $\overline{\vec{X}}\cdot \vec{Y}$                 | A dot product between two complex vectors, conjugating the first of them     | cdotc, zdotc| |
+| Kernel            | Formula                                           | Description                                                                                                                                | VARIATION |
+| ----------------- | ------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ | ----|
+| [dot](https://oneapi-src.github.io/oneMKL/domains/blas/dot.html)    | $\vec{X}\cdot \vec{Y}$                            | Dot product.| sdot, ddot, dsdot |  | 
+| [sdsdot](https://oneapi-src.github.io/oneMKL/domains/blas/sdsdot.html) | $sb+\vec{X}\cdot \vec{Y}$                         | Return a single-precision result with a dot product of two vectors accumulated in double-precision | sdsdot|
+| [dotc](https://oneapi-src.github.io/oneMKL/domains/blas/dotc.html)   | $\overline{\vec{X}}\cdot \vec{Y}$                 | A dot product between two complex vectors, conjugating the first of them     | cdotc, zdotc|
 | [dotu](https://oneapi-src.github.io/oneMKL/domains/blas/dotu.html)   | $\vec{X}\cdot \vec{Y}$                            | A dot product between two complex vectors                               | cdotu, zdotu|
-| [nrm2](https://oneapi-src.github.io/oneMKL/domains/blas/nrm2.html)   | $\parallel \vec{X} \parallel$                                     | Euclidean norm of a vector                              | snrm2, dnrm2, cnrm2, znrm2 |
-| [asum](https://oneapi-src.github.io/oneMKL/domains/blas/asum.html)   | sum of $\mid Re(x_i)\mid+\mid Im(x_i)\mid, \forall i$ | Sum of the magnitudes of elements                                   | sasum, dasum, casum, zasum |
+| [nrm2](https://oneapi-src.github.io/oneMKL/domains/blas/nrm2.html)   | $\parallel \vec{X} \parallel$                                     | Euclidean norm of a vector                              | snrm2, dnrm2, scnrm2, dznrm2 |
+| [asum](https://oneapi-src.github.io/oneMKL/domains/blas/asum.html)   | sum of $\mid Re(x_i)\mid+\mid Im(x_i)\mid, \forall i$ | Sum of the magnitudes of elements                                   | sasum, dasum, scasum, dzasum |
 
-The `VARIATION` column shows the variations of each kernel, usually the kernel name prefixed by the I/O data types. A data type can be `s` (single-precision), `d`(double-precision), `c`(complex single-precision) or `z`(complex double-precision).
+The `VARIATION` column shows the variations of each kernel, usually the kernel name prefixed by the output/input data types. A data type can be `s` (single-precision), `d`(double-precision), `c`(complex single-precision) or `z`(complex double-precision).
 
 A [vector-addition systolic array](reconfigurable_vecadd/README.md) supports
 | Kernel            | Formula                                           | Description                                                                                                                                |VARIATION |  Note |
 | ----------------- | ------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |-----| --- |
 | [axpy](https://oneapi-src.github.io/oneMKL/domains/blas/axpy.html)   | $\alpha * \vec{X}+\vec{Y}$                           | Vector addition                                                 | saxpy, daxpy, caxpy, zaxpy ||
-| [scal](https://oneapi-src.github.io/oneMKL/domains/blas/scal.html)   | $\alpha * \vec{X}$                                   | Scale a vector                                                  | sscal, dscal, cscal, zscal | I/O combinations of `cs` and `zd` are to be supported in the next release |
+| [scal](https://oneapi-src.github.io/oneMKL/domains/blas/scal.html)   | $\alpha * \vec{X}$                                   | Scale a vector                                                  | sscal, dscal, cscal, zscal | csscal and zdscal are to be supported in the next release |
 | [copy](https://oneapi-src.github.io/oneMKL/domains/blas/copy.html)   | $\vec{Y}\leftarrow\vec{X}$                        | Copy a vector                                                      | scopy, dcopy, ccopy, zcopy | |
 
 ## `Level 3 kernels`
@@ -147,9 +147,9 @@ The shared systolic arrays (named as `reconfigurable-*`) are also under the `bla
 
 # Reference
 
-T2SP (Temporal To Spatial Programming, previously called T2S) constructs systolic arrays for dense tensor computes. A stable open source is available [here](https://github.com/IntelLabs/t2sp). For convenience, a latest experimental version of the T2SP compiler, namely Lasa, has been pre-installed in this website, and is automatically invoked when making tests or a demo.
+[T2SP](https://github.com/IntelLabs/t2sp) (Temporal To Spatial Programming, previously called T2S) is a productive language to construct systolic arrays for dense tensor computes. For convenience, a latest experimental version of the T2SP compiler, namely Lasa, has been pre-installed in this website, and is automatically invoked when making tests or a demo.
 
-The key point is to express a systolic array as two dataflow graphs, one for the compute, one for data movement. To understand more details, please read this latest publication:
+The key point of the language is to express a systolic array as two dataflow graphs, one for compute, the other for data movement. To understand more details, please read
 
 1. Lasa: Abstraction and Specialization for Productive and Performant Linear Algebra on FPGAs. Xiaochen Hao, Mingzhe Zhang, Ce Sun, Zhuofu Tao, Hongbo Rong, Yu Zhang, Lei He, Eric Petit, Wenguang Chen, Yun Liang. FCCM, 2023. https://ieeexplore.ieee.org/document/10171577.
 
