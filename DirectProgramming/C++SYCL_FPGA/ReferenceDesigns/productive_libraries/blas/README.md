@@ -94,10 +94,8 @@ The shared systolic arrays (named as `reconfigurable-*`) are also under the `bla
 
 3. Test performance
 
-    Each kernel usually has several variations, depending on the the precision. For example, `gemm` has 4 precisions supported,  `s` (single-precision), `d`(double-precision), `c`(complex single-precision), and `z`(complex double-precision), and correspondingly, 4 variations: `sgemm`, `dgemm`, `cgemm` and `zgemm`.
-
    ```shell
-   # Replace the VARIATION below with a specific variation of the kernel.
+   # Replace the VARIATION below with a specific variation of the kernel as listed in the tables above.
    make demo_VARIATION_(tiny|large)_(a10|s10)
    ../bin/demo_VARIATION_(tiny|large)_(a10|s10)
    ```
