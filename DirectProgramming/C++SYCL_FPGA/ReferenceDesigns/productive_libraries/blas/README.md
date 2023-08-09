@@ -8,26 +8,26 @@ To reduce engineering efforts, kernels with similar computes are grouped and gen
 
 | Kernel            | Formula                                           | Description                                                                                                                                |
 | ----------------- | ------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
-| $\mathbf{dot}$    | $\vec{X}\cdot \vec{Y}$                            | Dot product.|
-| $\mathbf{sdsdot}$ | $sb+\vec{X}\cdot \vec{Y}$                         | A dot product between two single-precision vectors , plus a single-precision float $sb$                                                    |
-| $\mathbf{dotc}$   | $\overline{\vec{X}}\cdot \vec{Y}$                 | A dot product between two complex vectors, conjugating the first of them                                                                   |
-| $\mathbf{dotu}$   | $\vec{X}\cdot \vec{Y}$                            | A dot product between two complex vectors                                                                                                  |
-| $\mathbf{nrm2}$   | $\|\vec{X}\|$                                     | Euclidean norm of a vector                                                                                                                 |
-| $\mathbf{asum}$   | $\sum_{i=0}^{N}(\mid Re(x_i)\mid+\mid Im(x_i)\mid)$ | Sum of the magnitudes of elements                                                                                                          |
+| [$\mathbf{dot}$](./dot/README.md)    | $\vec{X}\cdot \vec{Y}$                            | Dot product.|
+| [$\mathbf{sdsdot}$](./sdsdot/README.md) | $sb+\vec{X}\cdot \vec{Y}$                         | A dot product between two single-precision vectors , plus a single-precision float $sb$                                                    |
+| [$\mathbf{dotc}$](./dotc/README.md)   | $\overline{\vec{X}}\cdot \vec{Y}$                 | A dot product between two complex vectors, conjugating the first of them                                                                   |
+| [$\mathbf{dotu}$](./dotu/README.md)   | $\vec{X}\cdot \vec{Y}$                            | A dot product between two complex vectors                                                                                                  |
+| [$\mathbf{nrm2}$](./nrm2/README.md)   | $\|\vec{X}\|$                                     | Euclidean norm of a vector                                                                                                                 |
+| [$\mathbf{asum}$](./asum/README.md)   | $\sum_{i=0}^{N}(\mid Re(x_i)\mid+\mid Im(x_i)\mid)$ | Sum of the magnitudes of elements                                                                                                          |
 
 | Kernel            | Formula                                           | Description                                                                                                                                |
 | ----------------- | ------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
-| $\mathbf{axpy}$   | $\alpha\vec{X}+\vec{Y}$                           | Vector addition                                                                                                                            |
-| $\mathbf{scal}$   | $\alpha\vec{X}$                                   | Scalar Multiplication of Vector                                                                                                            |
-| $\mathbf{copy}$   | $\vec{Y}\leftarrow\vec{X}$                        | Copy a vector                                                                                                                              |
+| [$\mathbf{axpy}$](./axpy/README.md)   | $\alpha\vec{X}+\vec{Y}$                           | Vector addition                                                                                                                            |
+| [$\mathbf{scal}$](./scal/README.md)   | $\alpha\vec{X}$                                   | Scalar Multiplication of Vector                                                                                                            |
+| [$\mathbf{copy}$](./copy/README.md)   | $\vec{Y}\leftarrow\vec{X}$                        | Copy a vector                                                                                                                              |
 
 ## `Level 3 kernels`
 
  Kernel          | Formula             | Description       |
 | --------------- | ------------------- | ----------|
-| $\mathbf{gemm}$ | $\alpha * op(A) * op(B)+\beta * C$ |Multiplication of general matrices. $op(X)$ is one of $X$, $X^T$, and $X^H$ |
-| $\mathbf{symm}$ | $\alpha * A* B+\beta * C$, or  $\alpha * B * A+\beta * C$ | A is a symmetric matrix |
-| $\mathbf{hemm}$ |$\alpha * A * B+\beta * C$, or  $\alpha * B * A+\beta * C$ | A is a Hermitian matrix |
+| [$\mathbf{gemm}$](./gemm/README.md) | $\alpha * op(A) * op(B)+\beta * C$ |Multiplication of general matrices. $op(X)$ is one of $X$, $X^T$, and $X^H$ |
+| [$\mathbf{symm}$](./symm/README.md) | $\alpha * A* B+\beta * C$, or  $\alpha * B * A+\beta * C$ | A is a symmetric matrix |
+| [$\mathbf{hemm}$](./hemm/README.md) |$\alpha * A * B+\beta * C$, or  $\alpha * B * A+\beta * C$ | A is a Hermitian matrix |
 | $\mathbf{syrk}$ | $C \leftarrow \alpha * op(A) * op(A)^T + \beta * C$ |$op(X)=X$ or $op(X) = X^T$, C is a symmtric matrix. |
 | $\mathbf{herk}$ | $C \leftarrow \alpha * op(A) * op(A)^H + \beta * C$ |$op(X)=X$ or $op(X) = X^H$, C is a Hermitian matrix. |
 

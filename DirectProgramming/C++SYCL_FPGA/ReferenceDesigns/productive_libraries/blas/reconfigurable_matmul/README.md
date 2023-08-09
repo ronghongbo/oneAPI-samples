@@ -70,13 +70,16 @@ Similary, when the tiles of the product matrix $op(A)*op(B)$ cover beyond the pr
 * `II ` - Rows of matrix $op(A)$ to process in a PE. There are `II*JJ` elements in the product matrix $op(A)*op(B)$ for the PE to reduce.
 * `KK ` - `KKK * KK` is the columns of matrix A / rows of matrix B to reduce in a PE.
 
-Restriction:
-* For memory efficiency, the matrices must be loaded and stored in vectors from/to the device memory. Therefore, the width of $op(A)$ and the height of $op(B)$ must be multiples of `KKK`, and the width of $C$ must be multiples of `JJJ`. This restriction is to be removed in the next release.
+Restrictions:
+
+* Matrix storage: row-major.
+* Data types: `s` (single-precision), `d`(double-precision), `c`(complex single-precision) and `z`(complex double-precision) so far.
+* Data sizes: For memory efficiency, the matrices must be loaded and stored in vectors from/to the device memory. Therefore, the width of $op(A)$ and the height of $op(B)$ must be multiples of `KKK`, and the width of $C$ must be multiples of `JJJ`. This restriction is to be removed in the next release.
 
 The [parameters.h](./parameters.h) file pre-defines the sizes for a tiny and large systolic array. The tiny configuration specifies a 4x4 systolic array, with each PE computing 16 results. The large configuration tries to maximally utilize resources, and varies with precision and hardware. One can modify these parameters. If so, please remember to modify the `get_systolic_array_dimensions()` function in [api.hpp](./api.hpp) accordingly.
 
 ## Build, test, and clean
-Follow the [general instructions](../README.md#Build-a-kernel-and-run-on-Linux) to build a demo application `demo_VARIATION_SIZE_HW`for any kernel `VARIATION` that is covered by the design with a systolic array of any `SIZE` (`tiny` or `large`) on any `HW` (`a10` or `s10`), and the design will be synthesized under the hood into an image and linked with that kernel. The correspondence between VARIATION and image, and the current status, are as follows:
+Follow the [general instructions](../README.md#user-content-build-a-kernel-and-run-on-Linux) to build a demo application `demo_VARIATION_SIZE_HW`for any kernel `VARIATION` that is covered by the design with a systolic array of any `SIZE` (`tiny` or `large`) on any `HW` (`a10` or `s10`), and the design will be synthesized under the hood into an image and linked with that kernel. The correspondence between VARIATION and image, and the current status, are as follows:
 
 <table>
 <tr>
