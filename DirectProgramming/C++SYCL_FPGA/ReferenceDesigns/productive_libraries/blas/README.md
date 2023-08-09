@@ -25,9 +25,9 @@ To reduce engineering efforts, kernels with similar computes are grouped and gen
 
  Kernel          | Formula             | Description       |
 | --------------- | ------------------- | ----------|
-| [gemm](../blas/gemm/README.md) | $\alpha * op(A) * op(B)+\beta * C$ |Multiplication of general matrices. $op(X)$ is one of $X$, $X^T$, and $X^H$ |
-| [symm](../blas/symm/README.md) | $\alpha * A* B+\beta * C$, or  $\alpha * B * A+\beta * C$ | A is a symmetric matrix |
-| [hemm](../blas/hemm/README.md) |$\alpha * A * B+\beta * C$, or  $\alpha * B * A+\beta * C$ | A is a Hermitian matrix |
+| [gemm](gemm/README.md) | $\alpha * op(A) * op(B)+\beta * C$ |Multiplication of general matrices. $op(X)$ is one of $X$, $X^T$, and $X^H$ |
+| [symm](symm/README.md) | $\alpha * A* B+\beta * C$, or  $\alpha * B * A+\beta * C$ | A is a symmetric matrix |
+| [hemm](hemm/README.md) |$\alpha * A * B+\beta * C$, or  $\alpha * B * A+\beta * C$ | A is a Hermitian matrix |
 | syrk | $C \leftarrow \alpha * op(A) * op(A)^T + \beta * C$ |$op(X)=X$ or $op(X) = X^T$, C is a symmtric matrix. |
 | herk | $C \leftarrow \alpha * op(A) * op(A)^H + \beta * C$ |$op(X)=X$ or $op(X) = X^H$, C is a Hermitian matrix. |
 
