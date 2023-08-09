@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.10)
 
 project(sdsdot)
 set(KERNEL             "sdsdot")
-set(PRECISIONS         "sds")
+set(PRECISIONS         "s")
 
 get_filename_component(CURRENT_KERNEL_PATH        "${CMAKE_SOURCE_DIR}" ABSOLUTE)
 get_filename_component(RECONFIGURABLE_DOTPROD_PATH "${CURRENT_KERNEL_PATH}/../reconfigurable_dotprod"  ABSOLUTE)

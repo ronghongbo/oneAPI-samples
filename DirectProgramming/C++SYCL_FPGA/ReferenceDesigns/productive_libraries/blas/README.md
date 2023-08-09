@@ -2,37 +2,46 @@
 
 This directory contains FPGA reference designs for the standard BLAS kernels defined in [oneMKL](https://oneapi-src.github.io/oneMKL/domains/blas/blas.html). The row-major, USM-based SYCL interface is supported.
 
-To reduce engineering efforts, kernels with similar computes are grouped and generalized into a single systolic array so that the array can be dynamically reconfigured to simulate all the kernels, without losing performance. Below are the kernels currently supported, with one table for one group:
+To reduce engineering efforts, kernels with similar computes are grouped and generalized into a single systolic array so that the array can be dynamically reconfigured to simulate all the kernels, without losing performance. Below are the kernels currently supported:
 
 ## `Level 1 kernels`
 
-| Kernel            | Formula                                           | Description                                                                                                                                |
-| ----------------- | ------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
-| [dot](dot/README.md)    | $\vec{X}\cdot \vec{Y}$                            | Dot product.|
-| [sdsdot](sdsdot/README.md) | $sb+\vec{X}\cdot \vec{Y}$                         | A dot product between two single-precision vectors , plus a single-precision float $sb$                                                    |
-| [dotc](dotc/README.md)   | $\overline{\vec{X}}\cdot \vec{Y}$                 | A dot product between two complex vectors, conjugating the first of them                                                                   |
-| [dotu](dotu/README.md)   | $\vec{X}\cdot \vec{Y}$                            | A dot product between two complex vectors                                                                                                  |
-| [nrm2](nrm2/README.md)   | $\parallel \vec{X} \parallel$                                     | Euclidean norm of a vector                                                                                                                 |
-| [asum](asum/README.md)   | sum of $\mid Re(x_i)\mid+\mid Im(x_i)\mid, \forall i$ | Sum of the magnitudes of elements                                                                                                          |
+A [dot-product systolic array](reconfigurable_dotprod/README.md) supports
 
-| Kernel            | Formula                                           | Description                                                                                                                                |
-| ----------------- | ------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
-| [axpy](axpy/README.md)   | $\alpha * \vec{X}+\vec{Y}$                           | Vector addition                                                                                                                            |
-| [scal](scal/README.md)   | $\alpha * \vec{X}$                                   | Scale a vector                                                                                                            |
-| [copy](copy/README.md)   | $\vec{Y}\leftarrow\vec{X}$                        | Copy a vector                                                                                                                              |
+| Kernel            | Formula                                           | Description                                                                                                                                | VARIATION | Note |
+| ----------------- | ------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ | ----| ---|
+| [dot](https://oneapi-src.github.io/oneMKL/domains/blas/dot.html)    | $\vec{X}\cdot \vec{Y}$                            | Dot product.| sdot, ddot | I/O combination of `sd` is to be supported in the next release | 
+| [sdsdot](https://oneapi-src.github.io/oneMKL/domains/blas/sdsdot.html) | $sb+\vec{X}\cdot \vec{Y}$                         | A dot product between two single-precision vectors , plus a single-precision float $sb$ | ssdsdot | |
+| [dotc](https://oneapi-src.github.io/oneMKL/domains/blas/dotc.html)   | $\overline{\vec{X}}\cdot \vec{Y}$                 | A dot product between two complex vectors, conjugating the first of them     | cdotc, zdotc| |
+| [dotu](https://oneapi-src.github.io/oneMKL/domains/blas/dotu.html)   | $\vec{X}\cdot \vec{Y}$                            | A dot product between two complex vectors                               | cdotu, zdotu|
+| [nrm2](https://oneapi-src.github.io/oneMKL/domains/blas/nrm2.html)   | $\parallel \vec{X} \parallel$                                     | Euclidean norm of a vector                              | snrm2, dnrm2, cnrm2, znrm2 |
+| [asum](https://oneapi-src.github.io/oneMKL/domains/blas/asum.html)   | sum of $\mid Re(x_i)\mid+\mid Im(x_i)\mid, \forall i$ | Sum of the magnitudes of elements                                   | sasum, dasum, casum, zasum |
+
+The `VARIATION` column shows the variations of each kernel, usually the kernel name prefixed by the I/O data types. A data type can be `s` (single-precision), `d`(double-precision), `c`(complex single-precision) or `z`(complex double-precision).
+
+A [vector-addition systolic array](reconfigurable_vecadd/README.md) supports
+| Kernel            | Formula                                           | Description                                                                                                                                |VARIATION |  Note |
+| ----------------- | ------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |-----| --- |
+| [axpy](https://oneapi-src.github.io/oneMKL/domains/blas/axpy.html)   | $\alpha * \vec{X}+\vec{Y}$                           | Vector addition                                                 | saxpy, daxpy, caxpy, zaxpy ||
+| [scal](https://oneapi-src.github.io/oneMKL/domains/blas/scal.html)   | $\alpha * \vec{X}$                                   | Scale a vector                                                  | sscal, dscal, cscal, zscal | I/O combinations of `cs` and `zd` are to be supported in the next release |
+| [copy](https://oneapi-src.github.io/oneMKL/domains/blas/copy.html)   | $\vec{Y}\leftarrow\vec{X}$                        | Copy a vector                                                      | scopy, dcopy, ccopy, zcopy | |
 
 ## `Level 3 kernels`
 
- Kernel          | Formula             | Description       |
-| --------------- | ------------------- | ----------|
-| [gemm](gemm/README.md) | $\alpha * op(A) * op(B)+\beta * C$ |Multiplication of general matrices. $op(X)$ is one of $X$, $X^T$, and $X^H$ |
-| [symm](symm/README.md) | $\alpha * A* B+\beta * C$, or  $\alpha * B * A+\beta * C$ | A is a symmetric matrix |
-| [hemm](hemm/README.md) |$\alpha * A * B+\beta * C$, or  $\alpha * B * A+\beta * C$ | A is a Hermitian matrix |
-| syrk | $C \leftarrow \alpha * op(A) * op(A)^T + \beta * C$ |$op(X)=X$ or $op(X) = X^T$, C is a symmtric matrix. |
-| herk | $C \leftarrow \alpha * op(A) * op(A)^H + \beta * C$ |$op(X)=X$ or $op(X) = X^H$, C is a Hermitian matrix. |
+A [matrix-multiply systolic array](reconfigurable_matmul/README.md) supports
+ Kernel          | Formula             | Description       |VARIATION | Note |
+| --------------- | ------------------- | ----------|-----|---|
+| [gemm](https://oneapi-src.github.io/oneMKL/domains/blas/gemm.html) | $\alpha * op(A) * op(B)+\beta * C$ |Multiplication of general matrices. $op(X)$ is one of $X$, $X^T$, and $X^H$ | sgemm, dgemm, cgemm, zgemm|Half and bfloat16 are to be supported in future|
+| [symm](https://oneapi-src.github.io/oneMKL/domains/blas/symm.html) | $\alpha * A* B+\beta * C$, or  $\alpha * B * A+\beta * C$ | A is a symmetric matrix | ssymm, dsymm, csymm, zsymm ||
+| [hemm](https://oneapi-src.github.io/oneMKL/domains/blas/hemm.html) |$\alpha * A * B+\beta * C$, or  $\alpha * B * A+\beta * C$ | A is a Hermitian matrix | chemm, zhemm ||
+| syrk | $C \leftarrow \alpha * op(A) * op(A)^T + \beta * C$ |$op(X)=X$ or $op(X) = X^T$, C is a symmtric matrix. | ssyrk, dsyrk, csyrk, zsyrk| To be available in the next release |
+| herk | $C \leftarrow \alpha * op(A) * op(A)^H + \beta * C$ |$op(X)=X$ or $op(X) = X^H$, C is a Hermitian matrix. |cherk, zherk| To be available in the next release |
 
-Note:
-* syrk and herk are to be available in the next release.
+### Restrictions of the systolic arrays
+
+* Matrix storage: row-major.
+* Data types: `s`, `d`, `c`, `z`.
+* Data sizes: For memory efficiency, vectors/matrices must be loaded and stored in vectors from/to the device memory. Therefore, dimensions of the vectors/matrices must be multiples of the vector lengths. This restriction is to be removed in the next release.
 
 ## `File structure`
 

@@ -6,5 +6,5 @@ This directory includes OneMKL-compatible implementations of BLAS kernels that a
 
 * [blas](blas/README.md) - BLAS kernels.
 * `include`: common headers used by the kernels.
-* `test`: the Google test infrastructure and common headers for tests
+* `test`: Google test infrastructure and common headers for tests
 * `tools` - compiler and headers of the productive language
