@@ -8,28 +8,28 @@ To reduce engineering efforts, kernels with similar computes are grouped and gen
 
 | Kernel            | Formula                                           | Description                                                                                                                                |
 | ----------------- | ------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
-| [$\mathbf{dot}$](./dot/README.md)    | $\vec{X}\cdot \vec{Y}$                            | Dot product.|
-| [$\mathbf{sdsdot}$](./sdsdot/README.md) | $sb+\vec{X}\cdot \vec{Y}$                         | A dot product between two single-precision vectors , plus a single-precision float $sb$                                                    |
-| [$\mathbf{dotc}$](./dotc/README.md)   | $\overline{\vec{X}}\cdot \vec{Y}$                 | A dot product between two complex vectors, conjugating the first of them                                                                   |
-| [$\mathbf{dotu}$](./dotu/README.md)   | $\vec{X}\cdot \vec{Y}$                            | A dot product between two complex vectors                                                                                                  |
-| [$\mathbf{nrm2}$](./nrm2/README.md)   | $\parallel \vec{X} \parallel$                                     | Euclidean norm of a vector                                                                                                                 |
-| [$\mathbf{asum}$](./asum/README.md)   | sum of $\mid Re(x_i)\mid+\mid Im(x_i)\mid, \forall i$ | Sum of the magnitudes of elements                                                                                                          |
+| [dot](./dot/README.md)    | $\vec{X}\cdot \vec{Y}$                            | Dot product.|
+| [sdsdot](./sdsdot/README.md) | $sb+\vec{X}\cdot \vec{Y}$                         | A dot product between two single-precision vectors , plus a single-precision float $sb$                                                    |
+| [dotc](./dotc/README.md)   | $\overline{\vec{X}}\cdot \vec{Y}$                 | A dot product between two complex vectors, conjugating the first of them                                                                   |
+| [dotu](./dotu/README.md)   | $\vec{X}\cdot \vec{Y}$                            | A dot product between two complex vectors                                                                                                  |
+| [nrm2](./nrm2/README.md)   | $\parallel \vec{X} \parallel$                                     | Euclidean norm of a vector                                                                                                                 |
+| [asum](./asum/README.md)   | sum of $\mid Re(x_i)\mid+\mid Im(x_i)\mid, \forall i$ | Sum of the magnitudes of elements                                                                                                          |
 
 | Kernel            | Formula                                           | Description                                                                                                                                |
 | ----------------- | ------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
-| [$\mathbf{axpy}$](./axpy/README.md)   | $\alpha * \vec{X}+\vec{Y}$                           | Vector addition                                                                                                                            |
-| [$\mathbf{scal}$](./scal/README.md)   | $\alpha * \vec{X}$                                   | Scale a vector                                                                                                            |
-| [$\mathbf{copy}$](./copy/README.md)   | $\vec{Y}\leftarrow\vec{X}$                        | Copy a vector                                                                                                                              |
+| [axpy](./axpy/README.md)   | $\alpha * \vec{X}+\vec{Y}$                           | Vector addition                                                                                                                            |
+| [scal](./scal/README.md)   | $\alpha * \vec{X}$                                   | Scale a vector                                                                                                            |
+| [copy](./copy/README.md)   | $\vec{Y}\leftarrow\vec{X}$                        | Copy a vector                                                                                                                              |
 
 ## `Level 3 kernels`
 
  Kernel          | Formula             | Description       |
 | --------------- | ------------------- | ----------|
-| [$\mathbf{gemm}$](./gemm/README.md) | $\alpha * op(A) * op(B)+\beta * C$ |Multiplication of general matrices. $op(X)$ is one of $X$, $X^T$, and $X^H$ |
-| [$\mathbf{symm}$](./symm/README.md) | $\alpha * A* B+\beta * C$, or  $\alpha * B * A+\beta * C$ | A is a symmetric matrix |
-| [$\mathbf{hemm}$](./hemm/README.md) |$\alpha * A * B+\beta * C$, or  $\alpha * B * A+\beta * C$ | A is a Hermitian matrix |
-| $\mathbf{syrk}$ | $C \leftarrow \alpha * op(A) * op(A)^T + \beta * C$ |$op(X)=X$ or $op(X) = X^T$, C is a symmtric matrix. |
-| $\mathbf{herk}$ | $C \leftarrow \alpha * op(A) * op(A)^H + \beta * C$ |$op(X)=X$ or $op(X) = X^H$, C is a Hermitian matrix. |
+| [gemm](../blas/gemm/README.md) | $\alpha * op(A) * op(B)+\beta * C$ |Multiplication of general matrices. $op(X)$ is one of $X$, $X^T$, and $X^H$ |
+| [symm](../blas/symm/README.md) | $\alpha * A* B+\beta * C$, or  $\alpha * B * A+\beta * C$ | A is a symmetric matrix |
+| [hemm](../blas/hemm/README.md) |$\alpha * A * B+\beta * C$, or  $\alpha * B * A+\beta * C$ | A is a Hermitian matrix |
+| syrk | $C \leftarrow \alpha * op(A) * op(A)^T + \beta * C$ |$op(X)=X$ or $op(X) = X^T$, C is a symmtric matrix. |
+| herk | $C \leftarrow \alpha * op(A) * op(A)^H + \beta * C$ |$op(X)=X$ or $op(X) = X^H$, C is a Hermitian matrix. |
 
 Note:
 * syrk and herk are to be available in the next release.
