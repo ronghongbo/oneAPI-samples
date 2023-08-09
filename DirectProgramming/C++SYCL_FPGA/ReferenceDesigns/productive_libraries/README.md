@@ -1,9 +1,10 @@
 # Productive libraries
 
-This directory includes MKL-compatible implementations of BLAS and LAPACK kernels using the [T2SP](https://github.com/IntelLabs/t2sp) DSL, which is compiled into oneAPI code.
+This directory includes OneMKL-compatible implementations of BLAS kernels that are written in a productive language for FPGAs. The kernels are then compiled into SYCL code.
 
-* `blas` - BLAS kernels.
+## File structure
 
-* `lapack` - LAPACK kernels.
-
-* `tools` - T2SP compiler, etc.
+* [blas](blas/README.md) - BLAS kernels.
+* `include`: common headers used by the kernels.
+* `test`: the Google test infrastructure and common headers for tests
+* `tools` - compiler and headers of the productive language
