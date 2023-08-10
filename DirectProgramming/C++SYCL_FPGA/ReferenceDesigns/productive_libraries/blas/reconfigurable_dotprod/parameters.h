@@ -16,15 +16,9 @@
     #elif defined(T2SP_SDSDOTPROD)
         #define KK 64
         #define KKK 8
-    #elif defined(T2SP_SCDOTPROD)
-        #define KK 64
-        #define KKK 8
-    #elif defined(T2SP_DZDOTPROD)
-        #define KK 32
-        #define KKK 4
     #elif defined(T2SP_DSDOTPROD)
         #define KK 64
-        #define KKK 16
+        #define KKK 8
     #else
         #define KK 64
         #define KKK 16
@@ -42,12 +36,6 @@
     #define TTYPE Complex(64)
 #elif defined(T2SP_SDSDOTPROD)
     #define ITYPE Float(32)
-    #define TTYPE Float(64)
-#elif defined(T2SP_SCDOTPROD)
-    #define ITYPE Complex(32)
-    #define TTYPE Float(32)
-#elif defined(T2SP_DZDOTPROD)
-    #define ITYPE Complex(64)
     #define TTYPE Float(64)
 #elif defined(T2SP_DSDOTPROD)
     #define ITYPE Float(32)

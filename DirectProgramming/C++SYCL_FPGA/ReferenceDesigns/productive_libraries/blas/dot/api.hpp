@@ -15,18 +15,19 @@ namespace t2sp::blas::row_major {
 // The API for DOT. We choose the USM version of oneMKL DPC++ interface (https://oneapi-src.github.io/oneMKL/domains/blas/dot.html) with the
 // restriction of standard data types (s, d) only. In this case, the matrices, alpha and beta all have the same data type according to the DPC++ interface.
 // So we define our DOT interface as a template with a single type T.
-template<typename T>
+template<typename T, typename T_res>
 sycl::event dot(sycl::queue &queue,
                  std::int64_t n,
                  const T *x,
                  std::int64_t incx,
                  const T *y,
                  std::int64_t incy,
-                 T *result,
+                 T_res *result,
                  const std::vector<sycl::event> &dependencies = {}) {
 
-    _halide_user_assert((std::is_same_v<float, T>) ||
-                        (std::is_same_v<double, T>)) << "Unsupported data type";
+    _halide_user_assert((std::is_same_v<float, T_res> && std::is_same_v<float, T>) ||
+                        (std::is_same_v<double, T_res> &&
+                        (std::is_same_v<double, T> || std::is_same_v<float, T>))) << "Unsupported data type";
 
     const auto KKK = get_systolic_array_dimensions<T>();
 
@@ -41,7 +42,7 @@ sycl::event dot(sycl::queue &queue,
 
     Buffer<T> X_buffer{const_cast<T *>(x), 2, dim_x};
     Buffer<T> Y_buffer{const_cast<T *>(y), 2, dim_y};
-    Buffer<T> Res_buffer{result, 1, dim_res};
+    Buffer<T_res> Res_buffer{result, 1, dim_res};
 
     for (sycl::event e : dependencies) {
         e.wait();
@@ -53,14 +54,18 @@ sycl::event dot(sycl::queue &queue,
 
     sycl::event done;
 
-    if constexpr (std::is_same_v<float, T>) {
+    if constexpr (std::is_same_v<float, T_res>) {
         done = t2sp::blas::row_major::sdotprod::sdotprod(queue, ConjugateX,
                                                  X_buffer, std::abs(static_cast<int>(incx)), SignBitY,
                                                  Y_buffer, std::abs(static_cast<int>(incy)), SqrtRet, Res_buffer);
-    } else {
+    } else if constexpr (std::is_same_v<double, T_res> && std::is_same_v<double, T_res>){
         done = t2sp::blas::row_major::ddotprod::ddotprod(queue, ConjugateX,
                                                  X_buffer, std::abs(static_cast<int>(incx)), SignBitY,
                                                  Y_buffer, std::abs(static_cast<int>(incy)), SqrtRet, Res_buffer);
+    } else {
+        done = t2sp::blas::row_major::dsdotprod::dsdotprod(queue, ConjugateX,
+                                                  X_buffer, std::abs(static_cast<int>(incx)), SignBitY,
+                                                  Y_buffer, std::abs(static_cast<int>(incy)), SqrtRet, Res_buffer);
     }
     return done;
 }

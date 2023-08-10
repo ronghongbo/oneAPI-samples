@@ -151,6 +151,17 @@ TEST_P(DotUsmTests, RealDoublePrecision) {
         (test<double, double>(std::get<0>(GetParam()), std::get<1>(GetParam()), 1356, -3, -2)));
 }
 
+TEST_P(DotUsmTests, RealDoubleSinglePrecision) {
+    EXPECT_TRUEORSKIP(
+        (test<float, double>(std::get<0>(GetParam()), std::get<1>(GetParam()), 1356, 2, 3)));
+    EXPECT_TRUEORSKIP(
+        (test<float, double>(std::get<0>(GetParam()), std::get<1>(GetParam()), 1356, 1, 1)));
+    EXPECT_TRUEORSKIP(
+        (test<float, double>(std::get<0>(GetParam()), std::get<1>(GetParam()), 100, 1, 1)));
+    EXPECT_TRUEORSKIP(
+        (test<float, double>(std::get<0>(GetParam()), std::get<1>(GetParam()), 1356, -3, -2)));
+}
+
 INSTANTIATE_TEST_SUITE_P(DotUsmTestSuite, DotUsmTests,
                          ::testing::Combine(testing::ValuesIn(devices),
                                             testing::Values(oneapi::mkl::layout::row_major)),

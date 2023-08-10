@@ -25,6 +25,10 @@ namespace sdsdotprod {
 extern sycl::event sdsdotprod(sycl::queue &, bool, halide_buffer_t *, int, bool, halide_buffer_t *, int, bool, halide_buffer_t *);
 }
 
+namespace dsdotprod {
+extern sycl::event dsdotprod(sycl::queue &, bool, halide_buffer_t *, int, bool, halide_buffer_t *, int, bool, halide_buffer_t *);
+}
+
 // Query of the parameters of the systolic array (KKK) based on types
 template <typename T>
 constexpr auto get_systolic_array_dimensions() {

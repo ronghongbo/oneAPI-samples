@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.10)
 
-set(TYPES "s" "d" "c" "z" "sds" "sc" "dz" "ds")
+set(TYPES "s" "d" "c" "z" "sds" "ds")
 set(CMAKE_CXX_COMPILER icpx)
 set(OPENCL_1_2_1_BSP /opt/a10/inteldevstack/a10_gx_pac_ias_1_2_1_pv/opencl/opencl_bsp)
 
@@ -43,6 +43,16 @@ endif()
 file(MAKE_DIRECTORY ${RECONFIGURABLE_DOTPROD_PATH}/oneapi)
 file(MAKE_DIRECTORY ${RECONFIGURABLE_DOTPROD_PATH}/bin)
 file(MAKE_DIRECTORY ${RECONFIGURABLE_DOTPROD_PATH}/reports)
+
+function(get_dotprod_type prefix dotprod_type)
+    if("${prefix}" STREQUAL "sc") # for scnrm2 / scasum
+        set(${dotprod_type} "c" PARENT_SCOPE)
+    elseif("${prefix}" STREQUAL "dz") # for dznrm2 / dzasum
+        set(${dotprod_type} "z" PARENT_SCOPE)
+    else()
+        set(${dotprod_type} "${prefix}" PARENT_SCOPE)
+    endif()
+endfunction()
 
 # Due to restrictions of file size, we have split libHalide.a into parts. Join them into the original binary
 add_custom_command(OUTPUT  ${HALIDE_TOOLS_PATH}/lib/libHalide.a
@@ -143,13 +153,16 @@ foreach(TYPEA ${TYPES})
 endforeach()
 
 # Generate correctness tests for the current kernel. They assume a tiny systolic array on an FPGA emulator.
+set(dotprod_type "unknown type")
 add_custom_target(oneapi_targets_for_tests)
 foreach(PRECISION ${PRECISIONS})
-    add_dependencies(oneapi_targets_for_tests oneapi_${PRECISION}dotprod_tiny_a10)
+    get_dotprod_type(${PRECISION} dotprod_type)
+    add_dependencies(oneapi_targets_for_tests oneapi_${dotprod_type}dotprod_tiny_a10)
 endforeach()
 
 foreach(PRECISION ${PRECISIONS})
-    set(GENERATED_ONEAPI_SOURCE_FILES_FOR_TESTS ${GENERATED_ONEAPI_SOURCE_FILES_FOR_TESTS} ${RECONFIGURABLE_DOTPROD_PATH}/oneapi/${PRECISION}dotprod_tiny_a10.cpp)
+    get_dotprod_type(${PRECISION} dotprod_type)
+    set(GENERATED_ONEAPI_SOURCE_FILES_FOR_TESTS ${GENERATED_ONEAPI_SOURCE_FILES_FOR_TESTS} ${RECONFIGURABLE_DOTPROD_PATH}/oneapi/${dotprod_type}dotprod_tiny_a10.cpp)
 endforeach()
 
 file(MAKE_DIRECTORY ${CURRENT_KERNEL_PATH}/bin)
@@ -191,7 +204,8 @@ add_custom_target(tests DEPENDS ${CURRENT_KERNEL_PATH}/bin/test)
 
 # Create targets for demonstrating how to run on real hardware
 foreach(PRECISION ${PRECISIONS})
-    string(TOUPPER ${PRECISION} UPPER_PRECISION)
+    get_dotprod_type(${PRECISION} dotprod_type)
+    string(TOUPPER ${dotprod_type} UPPER_DOTPROD_TYPE)
     string(TOUPPER ${KERNEL} UPPER_KERNEL)
     foreach(SIZE "tiny" "large")
         string(TOUPPER ${SIZE} UPPER_SIZE)
@@ -203,7 +217,7 @@ foreach(PRECISION ${PRECISIONS})
                                        -I${PRODUCTIVE_LIBRARIES_PATH}/include -I${CPP_SYCL_FPGA_PATH}/include
                                        -I${GOOGLE_TEST_PATH}/include -I${GOOGLE_TEST_PATH}/googletest/include
                                        -D${UPPER_SIZE} -D${UPPER_HW}
-                                       -DMKL_ILP64 -DT2SP_NDEBUG -DT2SP_${UPPER_PRECISION}${UPPER_KERNEL}
+                                       -DMKL_ILP64 -DT2SP_NDEBUG -DT2SP_${UPPER_DOTPROD_TYPE}${UPPER_KERNEL}
                                        -fsycl -fintelfpga
                                        -Wno-tautological-constant-compare
                                        -c ${CURRENT_KERNEL_PATH}/demo.cpp
@@ -221,7 +235,7 @@ foreach(PRECISION ${PRECISIONS})
                                COMMAND ${CMAKE_CXX_COMPILER}
                                        -fsycl -fintelfpga
                                        ${CURRENT_KERNEL_PATH}/bin/demo_${PRECISION}${KERNEL}_${SIZE}_${HW}.o
-                                       ${RECONFIGURABLE_DOTPROD_PATH}/bin/${PRECISION}dotprod_${SIZE}_${HW}.a
+                                       ${RECONFIGURABLE_DOTPROD_PATH}/bin/${dotprod_type}dotprod_${SIZE}_${HW}.a
                                        -L${HALIDE_TOOLS_PATH}/lib -lHalide -lpthread -lz
                                        -Wno-tautological-constant-compare
                                        -o ${CURRENT_KERNEL_PATH}/bin/demo_${PRECISION}${KERNEL}_${SIZE}_${HW}
@@ -230,7 +244,7 @@ foreach(PRECISION ${PRECISIONS})
                                        ${PRODUCTIVE_LIBRARIES_PATH}/include/halide_runtime_etc.hpp
                                        ${PRODUCTIVE_LIBRARIES_PATH}/include/complex_helper.hpp
                                        ${PRODUCTIVE_LIBRARIES_PATH}/include/pipe_wrapper.hpp
-                                       synthesize_${PRECISION}dotprod_${SIZE}_${HW}
+                                       synthesize_${dotprod_type}dotprod_${SIZE}_${HW}
                                WORKING_DIRECTORY ${CURRENT_KERNEL_PATH}/bin
                                COMMENT "Linking the demo application with the device image"
                                VERBATIM)
@@ -241,18 +255,19 @@ endforeach()
 
 # Unsign the synthesized bitstream. Do this if using the opencl 1.2.1 A10
 foreach(PRECISION ${PRECISIONS})
+    get_dotprod_type(${PRECISION} dotprod_type)
     foreach(SIZE "tiny" "large")
         string(TOUPPER ${SIZE} UPPER_SIZE)
         foreach(HW "a10" "s10")
             string(TOUPPER ${HW} UPPER_HW)
-            add_custom_command(OUTPUT  ${RECONFIGURABLE_DOTPROD_PATH}/bin/${PRECISION}dotprod_${SIZE}_${HW}.unsigned.aocx
+            add_custom_command(OUTPUT  ${RECONFIGURABLE_DOTPROD_PATH}/bin/${dotprod_type}dotprod_${SIZE}_${HW}.unsigned.aocx
                                COMMAND $ENV{INTELFPGAOCLSDKROOT}/host/linux64/bin/aocl-extract-aocx
                                        -i ${CURRENT_KERNEL_PATH}/bin/demo_${PRECISION}${KERNEL}_${SIZE}_${HW}
-                                       -o ${RECONFIGURABLE_DOTPROD_PATH}/bin/${PRECISION}dotprod_${SIZE}_${HW}.aocx
+                                       -o ${RECONFIGURABLE_DOTPROD_PATH}/bin/${dotprod_type}dotprod_${SIZE}_${HW}.aocx
                                COMMAND bash -c "rm -rf temp* signed*" # clean up
                                COMMAND bash -c "yes Y | source ${OPENCL_1_2_1_BSP}/linux64/libexec/sign_aocx.sh -H openssl_manager \
-                                       -i ${PRECISION}dotprod_${SIZE}_${HW}.aocx -r NULL -k NULL \
-                                       -o ${PRECISION}dotprod_${SIZE}_${HW}.unsigned.aocx"
+                                       -i ${dotprod_type}dotprod_${SIZE}_${HW}.aocx -r NULL -k NULL \
+                                       -o ${dotprod_type}dotprod_${SIZE}_${HW}.unsigned.aocx"
                                DEPENDS ${CURRENT_KERNEL_PATH}/bin/demo_${PRECISION}${KERNEL}_${SIZE}_${HW}
                                WORKING_DIRECTORY ${RECONFIGURABLE_DOTPROD_PATH}/bin
                                COMMENT "Extracting and unsigning the bitstream"
@@ -267,20 +282,20 @@ foreach(PRECISION ${PRECISIONS})
                                COMMAND ${CMAKE_CXX_COMPILER}
                                        -I${RECONFIGURABLE_DOTPROD_PATH}/oneapi -I${CPP_SYCL_FPGA_PATH}/include
                                        -I${PRODUCTIVE_LIBRARIES_PATH}/include -I${HALIDE_TOOLS_PATH}/include
-                                       -c ${RECONFIGURABLE_DOTPROD_PATH}/oneapi/${PRECISION}dotprod_${SIZE}_${HW}.cpp
+                                       -c ${RECONFIGURABLE_DOTPROD_PATH}/oneapi/${dotprod_type}dotprod_${SIZE}_${HW}.cpp
                                        -Wno-tautological-constant-compare
-                                       -fsycl -fintelfpga -o ${PRECISION}dotprod_${SIZE}_${HW}.o
+                                       -fsycl -fintelfpga -o ${dotprod_type}dotprod_${SIZE}_${HW}.o
                                COMMAND ${CMAKE_CXX_COMPILER}
                                        # sign_aocx.sh seems to have a bug: its input seems to be turned into unsigned,
                                        # while its output seems signed, as can be verified by running aocl program
-                                       -fsycl -fsycl-add-targets=spir64_fpga-unknown-unknown:${PRECISION}dotprod_${SIZE}_${HW}.aocx
+                                       -fsycl -fsycl-add-targets=spir64_fpga-unknown-unknown:${dotprod_type}dotprod_${SIZE}_${HW}.aocx
                                        ${CURRENT_KERNEL_PATH}/bin/demo_${PRECISION}${KERNEL}_${SIZE}_${HW}.o
-                                       ${PRECISION}dotprod_${SIZE}_${HW}.o
+                                       ${dotprod_type}dotprod_${SIZE}_${HW}.o
                                        halide_runtime_etc.o
                                        -L${HALIDE_TOOLS_PATH}/lib -lHalide -lpthread -lz
                                        -o ${CURRENT_KERNEL_PATH}/bin/demo_${PRECISION}${KERNEL}_${SIZE}_${HW}.unsigned
                                        -lOpenCL -lsycl
-                               DEPENDS ${RECONFIGURABLE_DOTPROD_PATH}/bin/${PRECISION}dotprod_${SIZE}_${HW}.unsigned.aocx
+                               DEPENDS ${RECONFIGURABLE_DOTPROD_PATH}/bin/${dotprod_type}dotprod_${SIZE}_${HW}.unsigned.aocx
                                        ${CURRENT_KERNEL_PATH}/bin/demo_${PRECISION}${KERNEL}_${SIZE}_${HW}.o
                                        ${PRODUCTIVE_LIBRARIES_PATH}/include/halide_runtime_etc.cpp
                                        ${PRODUCTIVE_LIBRARIES_PATH}/include/halide_runtime_etc.hpp
