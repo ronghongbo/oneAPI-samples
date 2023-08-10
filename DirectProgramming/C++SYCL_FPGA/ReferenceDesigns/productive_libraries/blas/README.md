@@ -10,7 +10,7 @@ A [dot-product systolic array](reconfigurable_dotprod/README.md) supports
 
 | Kernel            | Formula                                           | Description                                                                                                                                | VARIATION |
 | ----------------- | ------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ | ----|
-| [dot](https://oneapi-src.github.io/oneMKL/domains/blas/dot.html)    | $\vec{X}\cdot \vec{Y}$                            | Dot product.| sdot, ddot, dsdot |  | 
+| [dot](https://oneapi-src.github.io/oneMKL/domains/blas/dot.html)    | $\vec{X}\cdot \vec{Y}$                            | Dot product.| sdot, ddot, dsdot |  |
 | [sdsdot](https://oneapi-src.github.io/oneMKL/domains/blas/sdsdot.html) | $sb+\vec{X}\cdot \vec{Y}$                         | Return a single-precision result with a dot product of two vectors accumulated in double-precision | sdsdot|
 | [dotc](https://oneapi-src.github.io/oneMKL/domains/blas/dotc.html)   | $\overline{\vec{X}}\cdot \vec{Y}$                 | A dot product between two complex vectors, conjugating the first of them     | cdotc, zdotc|
 | [dotu](https://oneapi-src.github.io/oneMKL/domains/blas/dotu.html)   | $\vec{X}\cdot \vec{Y}$                            | A dot product between two complex vectors                               | cdotu, zdotu|
@@ -61,6 +61,17 @@ The shared systolic arrays (named as `reconfigurable-*`) are also under the `bla
 * `README.md` - A short description of the systolic array.
 
 ## Build a kernel and run on Linux
+
+Assume your machine has OneAPI enabled for A10 or S10. For example, on DevCloud,
+
+```
+    # Ask for a compute node
+    login-2:~$ devcloud_login
+                    Choose either option 2) Arria 10 - OneAPI, ...
+                               or option 4) Stratix 10 - OneAPI, ...
+    # On the compute node
+    source /glob/development-tools/versions/oneapi/2023.2.0.1/oneapi/setvars.sh --force
+```
 
 1. Configure the build system.
 

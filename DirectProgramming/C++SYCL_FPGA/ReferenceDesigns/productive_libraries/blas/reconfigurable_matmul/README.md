@@ -104,7 +104,7 @@ Follow the [general instructions](../README.md#user-content-build-a-kernel-and-r
     <td>cgemm, csymm, csyrk, chemm</td>
     <td>ccccmatmul</td>
     <td>&#x2713;</td>
-    <td>tuning</td>
+    <td>tuning parameters.<br><a href="https://github.com/haoxiaochen/t2sp/issues/34">synthesis of large configuration killed for overtime</a></td>
 </tr>
 <tr>
     <td>zgemm, zsymm, zsyrk, zhemm</td>
@@ -147,8 +147,7 @@ Running a demo application will generate performance metrics.
 <table style="width:120%">
 <tr>
     <th>Device</th>
-    <th>Static parameters<br>(TA, TB, TC, TS)</th>
-    <th>Dynamic parameters<br>(KKK, JJJ, III, JJ, II, KK)</th>
+    <th>Static parameters<br>(TA, TB, TC, TS<br>KKK, JJJ, III, JJ, II, KK)</th>
     <th>Logic utilization</th>
     <th>DSP blocks</th>
     <th>RAM blocks</th>
@@ -159,41 +158,27 @@ Running a demo application will generate performance metrics.
 </tr>
 <tr>
     <td rowspan="6">Intel Arria 10 GX 1150</td>
-    <td>S, S, S, S</td>
-    <td>16, 8, 10, 32, 32, 32</td>
+    <td>S, S, S, S<br>16, 8, 10, 32, 32, 32</td>
     <td>216,823 / 427,200 ( 51 % )</td>
     <td>1,311 / 1,518 ( 86 % )</td>
     <td>2,205 / 2,713 ( 81 % )</td>
     <td>217</td>
     <td>554</td>
     <td>10K * 16K, 16K * 8K</td>
-    <td>blas/gemm/bin/demo_sgemm_large_a10</td>
+    <td>blas/gemm/bin/demo_sgemm_large_a10.unsigned</td>
 </tr>
 <tr>
-    <td>D, D, D, D</td>
-    <td>8, 4, 6, 32, 32, 32</td>
+    <td>D, D, D, D<br>8, 4, 6, 32, 32, 32</td>
     <td>312,330 / 427,200 ( 73 % )</td>
     <td>807 / 1,518 ( 53 % )</td>
     <td>1,494 / 2,713 ( 55 % )</td>
     <td>238</td>
     <td>91</td>
     <td>6K*8K, 8K*4K</td>
-    <td>blas/gemm/bin/demo_dgemm_large_a10</td>
+    <td>blas/gemm/bin/demo_dgemm_large_a10.unsigned</td>
 </tr>
 <tr>
-    <td>C, C, C, C</td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-</tr>
-<tr>
-    <td>Z, Z, Z, Z</td>
-    <td></td>
+    <td>C, C, C, C<br></td>
     <td></td>
     <td></td>
     <td></td>
@@ -203,8 +188,7 @@ Running a demo application will generate performance metrics.
     <td></td>
 </tr>
 <tr>
-    <td>C, C, C, S</td>
-    <td></td>
+    <td>Z, Z, Z, Z<br></td>
     <td></td>
     <td></td>
     <td></td>
@@ -214,8 +198,17 @@ Running a demo application will generate performance metrics.
     <td></td>
 </tr>
 <tr>
-    <td>Z, Z, Z, D</td>
+    <td>C, C, C, S<br></td>
     <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+</tr>
+<tr>
+    <td>Z, Z, Z, D<br></td>
     <td></td>
     <td></td>
     <td></td>
@@ -226,8 +219,7 @@ Running a demo application will generate performance metrics.
 </tr>
 <tr>
     <td rowspan="6">Intel Stratix 10 GX 2800</td>
-    <td>S, S, S, S</td>
-    <td>16, 16, 10, 32, 32, 32</td>
+    <td>S, S, S, S<br>16, 16, 10, 32, 32, 32</td>
     <td>580,648 / 933,120 ( 62 % )</td>
     <td>2,597 / 5,760 ( 45 % )</td>
     <td>3,712 / 11,721 ( 32 % )</td>
@@ -237,8 +229,7 @@ Running a demo application will generate performance metrics.
     <td>blas/gemm/bin/demo_sgemm_large_s10</td>
 </tr>
 <tr>
-    <td>D, D, D, D</td>
-    <td>8, 4, 6, 32, 32, 32</td>
+    <td>D, D, D, D<br>8, 4, 6, 32, 32, 32</td>
     <td>581,320 / 933,120 ( 62 % )</td>
     <td>805 / 5,760 ( 14 % )</td>
     <td>1,927 / 11,721 ( 16 % )</td>
@@ -248,19 +239,7 @@ Running a demo application will generate performance metrics.
     <td>blas/gemm/bin/demo_dgemm_large_s10</td>
 </tr>
 <tr>
-    <td>C, C, C, C</td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-</tr>
-<tr>
-    <td>Z, Z, Z, Z</td>
-    <td></td>
+    <td>C, C, C, C<br></td>
     <td></td>
     <td></td>
     <td></td>
@@ -270,8 +249,7 @@ Running a demo application will generate performance metrics.
     <td></td>
 </tr>
 <tr>
-    <td>C, C, C, S</td>
-    <td></td>
+    <td>Z, Z, Z, Z<br></td>
     <td></td>
     <td></td>
     <td></td>
@@ -281,8 +259,17 @@ Running a demo application will generate performance metrics.
     <td></td>
 </tr>
 <tr>
-    <td>Z, Z, Z, D</td>
+    <td>C, C, C, S<br></td>
     <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+</tr>
+<tr>
+    <td>Z, Z, Z, D<br></td>
     <td></td>
     <td></td>
     <td></td>
