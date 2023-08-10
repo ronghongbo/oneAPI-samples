@@ -131,7 +131,7 @@ Here the prefix `ssss` etc. refers to the data types of `TA`, `TB`, `TC` and `TS
 For example,
 
 ```
-    cd blas/gemm/build
+    mkdir blas/gemm/build && cd blas/gemm/build
     cmake ..
     make demo_sgemm_large_a10
 ```

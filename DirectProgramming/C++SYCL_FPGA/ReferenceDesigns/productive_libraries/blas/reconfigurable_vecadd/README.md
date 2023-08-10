@@ -1,30 +1,22 @@
 # Vector Addition
 
-This design demonstrates the following vector addition:
+This design demonstrates the following addition of two vectors:
 
 $$
-result \longleftarrow alpha\times\vec{x}+beta\times \vec{y}
+result \longleftarrow \alpha * \vec{x} + \beta * \vec{y}
 $$
 
-where $alpha$ and $beta$ are scalars, $\vec{x}$ and $\vec{y}$ are vectors.
+where $\alpha$ and $\beta$ are scalars, and $\vec{x}$ and $\vec{y}$ are vectors.
 
 The design has static and dynamic parameters. The static parameters include
 
-* data type of the vectors, denoted `TTYPE` respectively, A data type can be any of `s` (single precision), `d` (double precision), `c` (complex single precision), `z` (complex double precision), and in future, `bfloat16` etc.
+* data type of the vectors, denoted `TTYPE`. In this release, the scalars' type is the same as the vectors' type. A data type can be any of `s` (single precision), `d` (double precision), `c` (complex single precision), and `z` (complex double precision).
 
 * [sizes of the systolic array](#user-content-sizes-of-a-systolic-array) that is expressed by the design.
 
 For each combination of the static parameters, the design needs to be synthesized once.
 
 Once the design is synthesized, the dynamic parameters are passed in and control its execution:
-
-* `IncX`
-
-* `IncY`
-
-* `Alpha`, `Beta`
-
-where
 
 * `IncX`, `IncY`: strides of the input vectors.
 
@@ -54,25 +46,25 @@ Through APIs that provide appropriate dynamic parameters and post-processing, a 
 
 ## The design
 
-In this design, the input vectors are pre-processed on the host so that the FPGA device loads/stores data sequentially from/to the device DRAM. This ensures that the memory accesses won't be a bottleneck of the performance. In pre-processing, the host reads an input vector $V$ and apply zero-padding to it.
+In this design, the input vectors are pre-processed on the host so that the FPGA device loads/stores data sequentially from/to the device DRAM. This ensures that the memory accesses won't be a bottleneck of the performance. In pre-processing, the host reads the values of the input vectors and sends the values to the device DRAM sequentially. The addition of the vectors is computed by a linear systolic array on the device.
 
-The input vectors are divided into parts. Each PE computes $alpha \times \vec{x}_{part} + beta \times \vec{y}_{part}$. Then concatenate the results of each PE to get the final result.
+The input vectors are divided into parts. Each PE (processing element) of the systolic array loads a part of each of the input vectors, and computes a part of the resulting vector.
 
-When the length of the input vector is not a multiple of the number of PEs, zeros are automatically inserted. This is zero-padding.
+When the length of the input vectors are not a multiple of the number of PEs, zeros are automatically inserted. This is zero-padding.
 
 Similarly, redundant zeros in the result are automatically removed.
 
 ### Sizes of a systolic array
 
-* `KKK` - SIMD lanes in a PE: every cycle, the PE computes a vecto-number-multiplication-and-vector-addition in a vectorized way, between `KKK` numbers of data from $\vec{x}$ and `KKK` numbers of data from $\vec{y}$
+* `KKK` - SIMD lanes in a PE: every cycle, the PE adds, in a vectorized way, `KKK` numbers of data from $\vec{x}$ and `KKK` numbers of data from $\vec{y}$.
 
 * `KK` - The number of PEs.
 
-Restrictions:
+#### Restrictions
 
-* Data sizes: For memory efficiency, the vectors must be loaded and stored in vectors from/to the device memory. Therefore, the width of $\vec{x}$ and $\vec{y}$ must be multiples of  `KKK`
+* Data sizes: For memory efficiency, the vectors must be loaded and stored in vectors from/to the device memory. Therefore, the width of $\vec{x}$ and $\vec{y}$ must be a multiple of  `KKK`.
 
-The [parameters.h](./parameters.h) file pre-defines the sizes for a tiny and large systolic array. The tiny configuration specifies a 4x1 systolic array. The large configuration tries to maximally utilizeresources, and varies with precision and hardware. One can modify these parameters. If so, please remember to modify the `get_systolic_array_dimensions()` function in [api.hpp](./api.hpp) accordingly.
+The [parameters.h](./parameters.h) file pre-defines the sizes for a tiny and large systolic array. The tiny configuration specifies a systolic array with 4 PEs. The large configuration tries to maximally utilize resources, and varies with precision and hardware. One can modify these parameters. If so, please remember to modify the `get_systolic_array_dimensions()` function in [api.hpp](./api.hpp) accordingly.
 
 ## Build and test
 
@@ -88,7 +80,7 @@ Follow the [general instructions](../README.md#user-content-build-a-kernel-and-r
 For example,
 
 ```shell
-cd blas/dot/build
+mkdir blas/axpy/build && cd blas/axpy/build
 cmake ..
 make demo_saxpy_large_a10
 ```
