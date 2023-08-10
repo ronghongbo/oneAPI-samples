@@ -105,19 +105,15 @@ int test(device* dev, oneapi::mkl::layout layout, oneapi::mkl::transpose transa,
         std::cout << "Caught synchronous SYCL exception during GEMM:\n" << e.what() << std::endl;
         print_error_code(e);
     }
-
     catch (const oneapi::mkl::unimplemented& e) {
         return test_skipped;
     }
-
     catch (const std::runtime_error& error) {
         std::cout << "Error raised during execution of GEMM:\n" << error.what() << std::endl;
     }
 
     // Compare the results of reference implementation and DPC++ implementation.
-
     bool good = check_equal_matrix(C, C_ref, layout, m, n, ldc, 10 * k, std::cout);
-
     return (int)good;
 }
 

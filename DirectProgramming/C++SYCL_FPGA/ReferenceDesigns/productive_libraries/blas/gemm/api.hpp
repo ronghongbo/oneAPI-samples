@@ -71,7 +71,7 @@ sycl::event gemm(sycl::queue &queue,
     using Halide::Runtime::Buffer;
     halide_dimension_t dim_a[]{{0, TransposeA ? m : k, 1}, {0, TransposeA ? k : m, lda}};
     Buffer<T> A_buffer{const_cast<T *>(a), 2, dim_a};
-    halide_dimension_t dim_b[]{{0, TransposeB ? k : n, 1}, {0, TransposeA ? n : k, ldb}};
+    halide_dimension_t dim_b[]{{0, TransposeB ? k : n, 1}, {0, TransposeB ? n : k, ldb}};
     Buffer<T> B_buffer{const_cast<T *>(b), 2, dim_b};
     halide_dimension_t dim_c[]{{0, n, 1}, {0, m, ldc}};
     Buffer<T> C_buffer{c, 2, dim_c};

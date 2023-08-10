@@ -51,7 +51,6 @@ All the kernels are put under the `blas` directory. Every kernel has the followi
 * `test.cpp` - Unit tests for correctness, adapted from [oneMKL's test suite](https://github.com/oneapi-src/oneMKL/blob/develop/tests/unit_tests/blas/), with slight changes to respect the row-major layout and the sizes of the reconfigurable systolic arrays.
 * `demo.cpp` - Demonstrating how to invoke the kernel on a real FPGA hardware.
 * `CMakeLists.txt` - A cmake script.
-* `README.md` - A short description of the kernel.
 
 The shared systolic arrays (named as `reconfigurable-*`) are also under the `blas` directory. Every systolic array has the following files under it:
 
