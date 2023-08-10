@@ -1,20 +1,20 @@
 # Dot Product
 
-This design demonstrates the following vector inner product:
+This design demonstrates the following dot product between two vectors:
 
 $$
 result \longleftarrow op_3(op_1(\vec{x})\cdot op_2(\vec{y}))
 $$
 
-where $op_1(\vec{x})$ is $\vec{x}$ or $\overline{\vec{x}}$ , $op_2(y)$ is $\vec{y}$ or $\text{sign}(\vec{y})$ , $op_3(v)$ is $v$ or $\sqrt{v}$,  $\vec{x}$ and $\vec{y}$ are vectors. the meaning of $\text{sign}$ is as follows
+where $op_1(\vec{x})$ is $\vec{x}$ or $\overline{\vec{x}}$ , $op_2(y)$ is $\vec{y}$ or $\text{sign}(\vec{y})$ , $op_3(v)$ is $v$ or $\sqrt{v}$, and $\vec{x}$ and $\vec{y}$ are vectors. The definition of $\text{sign}$ is as follows
 
-* if $\vec{y}$ is a real vector, $\text{sign}(\vec{y})_i$ is the sign bit of $y_i$.
+* if $\vec{y}$ is a real vector, $\text{sign}(\vec{y})$ results in a real vector, and $\text{sign}(\vec{y})_i$ is the sign bit of $y_i$.
 
-* if $\vec{y}$ is a complex vector, $Re(\text{sign}(\vec{y})_i)$  is the sign bit of $Re(\vec{y}_i)$ , $Im(\text{sign}(\vec{y})_i)$ is the inverse of $Im(y_i)$ 's sign bit.
+* if $\vec{y}$ is a complex vector, $\text{sign}(\vec{y})$ results in a complex vector, and $Re(\text{sign}(\vec{y})_i)$  is the sign bit of $Re(\vec{y}_i)$ , $Im(\text{sign}(\vec{y})_i)$ is the inverse of $Im(y_i)$ 's sign bit.
 
 The design has static and dynamic parameters. The static parameters include
 
-* data type of the vectors, denoted `ITYPE` and `TTYPE` respectively, A data type can be any of `s` (single precision), `d` (double precision), `c` (complex single precision), `z` (complex double precision), and in future, `bfloat16` etc.
+* data types: the type of the inputs and result, denoted `ITYPE` and `TTYPE` respectively, A data type can be any of `s` (single precision), `d` (double precision), `c` (complex single precision), and `z` (complex double precision).
 
 * [sizes of the systolic array](#user-content-sizes-of-a-systolic-array) that is expressed by the design.
 
@@ -34,7 +34,7 @@ where
 
 * `SignBitY`: is vector Y to be applied with the `sign` function mentioned above?
 
-* `SqrtRet`: is the result to be sqrted?
+* `SqrtRet`: is the result to be square-rooted?
 
 * `IncX`, `IncY`: strides of the input vectors.
 
@@ -68,23 +68,23 @@ Through APIs that provide appropriate dynamic parameters and post-processing, a 
 
 ## The design
 
-In this design, the input vectors are pre-processed on the host so that the FPGA device loads/stores data sequentially from/to the device DRAM. This ensures that the memory accesses won't be a bottleneck of the performance. In pre-processing, the host reads an input vector $V$ and apply $op_1/op_2$ to it.
+In this design, the input vectors are pre-processed on the host so that the FPGA device loads data sequentially from the device DRAM. This ensures that the memory accesses won't be a bottleneck of the performance. In pre-processing, the host reads an input vector $V$ and apply $op_1/op_2$ to it. The resulting $op_1(\vec{x})$ and $op_2(\vec{y})$ are sent to the device DRAM sequentially, and their inner product is computed by a linear systolic array on the device.
 
-The input vectors are divided into parts. Each PE computes the inner product of a part, and stores the result in rotating registers. Then sum the results in the registers to get the final result.
+The systolic array fetches the vectors $op_1(\vec{x})$ and $op_2(\vec{y})$ in parts. Each PE (processing element) of the array computes the inner product of one part, and stores the result in rotating registers. Finally these registers are summed up to get the final result.
 
 When the length of the input vector is not a multiple of the number of PEs, zeros are automatically inserted. This is zero-padding.
 
 ### Sizes of a systolic array
 
-* `KKK` - SIMD lanes in a PE: every cycle, the PE computes a dot product, in a vectorized way, between `KKK` numbers of data from $op_1(\vec{x})$ and `KKK` numbers of data from $op_2(\vec{y})$
+* `KKK` - SIMD lanes in a PE: every cycle, the PE computes a dot product, in a vectorized way, between `KKK` numbers of data from $op_1(\vec{x})$ and `KKK` numbers of data from $op_2(\vec{y})$.
 
 * `KK` - The number of PEs.
 
-Restrictions:
+#### Restrictions
 
-* Data sizes: For memory efficiency, the vectors must be loaded and stored in vectors from/to the device memory. Therefore, the width of $op_1(\vec{x})$ and $op_2(\vec{y})$ must be multiples of  `KKK`
+* Data sizes: For memory efficiency, the vectors must be loaded in vectors from the device memory. Therefore, the width of $op_1(\vec{x})$ and $op_2(\vec{y})$ must be multiples of  `KKK`.
 
-The [parameters.h](./parameters.h) file pre-defines the sizes for a tiny and large systolic array. The tiny configuration specifies a 4x1 systolic array. The large configuration tries to maximally utilizeresources, and varies with precision and hardware. One can modify these parameters. If so, please remember to modify the `get_systolic_array_dimensions()` function in [api.hpp](./api.hpp) accordingly.
+The [parameters.h](./parameters.h) file pre-defines the sizes for a tiny and large systolic array. The tiny configuration specifies a systolic array with 4 PEs. The large configuration tries to maximally utilize resources, and varies with precision and hardware. One can modify these parameters. If so, please remember to modify the `get_systolic_array_dimensions()` function in [api.hpp](./api.hpp) accordingly.
 
 ## Build and test
 
@@ -94,9 +94,13 @@ Follow the [general instructions](../README.md#user-content-build-a-kernel-and-r
 | -------------------------- | ---------- | ----------- | ----------- |
 | sdot, snrm2, sasum         | sdotprod   | ✓           | ✓           |
 | ddot, dnrm2, dasum         | ddotprod   | ✓           | ✓           |
-| cdotu, cdotc, cnrm2, casum | cdotprod   | ✓           | tuning      |
-| zdotu, zdotc, znrm2, zasum | zdotprod   | ✓           | tuning      |
+| cdotu, cdotc               | cdotprod   | ✓           | tuning      |
+| zdotu, zdotc               | zdotprod   | ✓           | tuning      |
+| scnrm2, scasum             | scdotprod  | ✓           | tuning      |
+| dznrm2, dzasum             | dzdotprod  | ✓           | tuning      |
 | sdsdot                     | sdsdotprod | ✓           | ✓           |
+| dsdot                      | dsdotprod  | ongoing     |             |
+ 
 
 For example,
 

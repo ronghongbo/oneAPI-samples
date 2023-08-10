@@ -70,7 +70,7 @@ Similary, when the tiles of the product matrix $op(A)*op(B)$ cover beyond the pr
 * `II ` - Rows of matrix $op(A)$ to process in a PE. There are `II*JJ` elements in the product matrix $op(A)*op(B)$ for the PE to reduce.
 * `KK ` - `KKK * KK` is the columns of matrix A / rows of matrix B to reduce in a PE.
 
-Restrictions:
+#### Restrictions
 
 * Matrix storage: row-major.
 * Data types: `s` (single-precision), `d`(double-precision), `c`(complex single-precision) and `z`(complex double-precision) so far.
