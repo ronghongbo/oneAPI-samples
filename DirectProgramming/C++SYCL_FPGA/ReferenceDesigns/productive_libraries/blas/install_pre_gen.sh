@@ -1,5 +1,6 @@
 #!/bin/bash
-# Usage: ./install_pre_gen.sh kernel
+# Usage: ./install_pre_gen.sh VARIATION_SIZE_HW
+# Here VARIATION is a kernel's variation, SIZE is tiny or large, and HW is a10 or s10.
 
 # Bash version must be >= 4
 bash_version=$BASH_VERSINFO
@@ -13,7 +14,7 @@ path_to_blas="$( cd "$(dirname $(realpath "$BASH_SOURCE") )" >/dev/null 2>&1 ; p
 echo Entering productive BLAS: $path_to_blas
 cd $path_to_blas
 
-# A dictionary mapping from a kernel to a tarball of pre-generated source and bitstream
+# A dictionary mapping from a kernel to a tarball of pre-generated source and bitstream. A tarball was created in this way: "cd blas; tar cvzf pre_generated/NAME.tar.gz reconfigurable_ARRAY/bin/IMAGE_FILE reconfigurable_ARRAY/oneapi/SYCL_FILE reconfigurable_ARRAY/reports/REPORTS_DIR". Here the capital words should be replaced appropriately. 
 declare -A kernel_to_tarball
 kernel_to_tarball=(
     ["sgemm_large_a10"]="ssssmatmul_large_a10_oneapi2023.2_bsp1.2.1.tar.gz"
@@ -80,33 +81,10 @@ kernel_to_demo_dir=(
     ["chemm_tiny_s10"]="hemm/bin"
 )
 
-declare -A kernel_to_reconfigurable
-kernel_to_reconfigurable=(
-    ["sgemm_large_a10"]="reconfigurable_matmul"
-    ["dgemm_large_a10"]="reconfigurable_matmul"
-    ["sgemm_tiny_a10"]="reconfigurable_matmul"
-    ["sdot_large_a10"]="reconfigurable_dotprod"
-    ["ddot_large_a10"]="reconfigurable_dotprod"
-    ["cdotu_large_a10"]="reconfigurable_dotprod"
-    ["zdotu_large_a10"]="reconfigurable_dotprod"
-    ["saxpy_large_a10"]="reconfigurable_vecadd"
-    ["daxpy_large_a10"]="reconfigurable_vecadd"
-    ["caxpy_large_a10"]="reconfigurable_vecadd"
-    ["zaxpy_large_a10"]="reconfigurable_vecadd"
-    ["sgemm_large_s10"]="reconfigurable_matmul"
-    ["dgemm_large_s10"]="reconfigurable_matmul"
-    ["cgemm_tiny_s10"]="reconfigurable_matmul"
-    ["ssymm_large_s10"]="reconfigurable_matmul"
-    ["dsymm_large_s10"]="reconfigurable_matmul"
-    ["csymm_tiny_s10"]="reconfigurable_matmul"
-    ["chemm_tiny_s10"]="reconfigurable_matmul"
-)
-
 if test "${kernel_to_tarball[$1]+exists}"; then
     tarball=${kernel_to_tarball[$1]}
-    destination=${kernel_to_reconfigurable[$1]}
-    echo Expanding $tarball to directory $destination/oneapi, bin and reports ...
-    tar xzvf pre_generated/$tarball --directory=$destination --touch
+    echo Expanding $tarball ...
+    tar xzvf pre_generated/$tarball --overwrite --touch
     # Somehow, the --touch above seems to work for directories, but not for files under the directories. To be sure, touch files manually
     for file in $(tar -tf pre_generated/$tarball 2>/dev/null)
     do
