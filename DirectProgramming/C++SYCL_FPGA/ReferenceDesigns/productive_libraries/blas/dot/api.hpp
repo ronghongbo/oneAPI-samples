@@ -29,7 +29,7 @@ sycl::event dot(sycl::queue &queue,
                         (std::is_same_v<double, T_res> &&
                         (std::is_same_v<double, T> || std::is_same_v<float, T>))) << "Unsupported data type";
 
-    const auto KKK = get_systolic_array_dimensions<T>();
+    const auto KKK = get_systolic_array_dimensions<T_res>();
 
     // TOREMOVE: These two constraints below should be checked by the reconfigurable matmul instead.
     _halide_user_assert(n % KKK == 0) << "For performance reasons, the current implementation requires that n must be a multiple of " << KKK
@@ -58,7 +58,7 @@ sycl::event dot(sycl::queue &queue,
         done = t2sp::blas::row_major::sdotprod::sdotprod(queue, ConjugateX,
                                                  X_buffer, std::abs(static_cast<int>(incx)), SignBitY,
                                                  Y_buffer, std::abs(static_cast<int>(incy)), SqrtRet, Res_buffer);
-    } else if constexpr (std::is_same_v<double, T_res> && std::is_same_v<double, T_res>){
+    } else if constexpr (std::is_same_v<double, T_res> && std::is_same_v<double, T>){
         done = t2sp::blas::row_major::ddotprod::ddotprod(queue, ConjugateX,
                                                  X_buffer, std::abs(static_cast<int>(incx)), SignBitY,
                                                  Y_buffer, std::abs(static_cast<int>(incy)), SqrtRet, Res_buffer);
