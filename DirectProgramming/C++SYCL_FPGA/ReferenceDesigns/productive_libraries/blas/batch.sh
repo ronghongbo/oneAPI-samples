@@ -39,14 +39,14 @@ while [ "$index" -lt "${#array[*]}" ]; do
         variation=${array[$((index))]}
         echo "**** Building demo of " ${variation}
 
-        ../../install_pre_gen.sh ${variation}_large_$1
-        make demo_${variation}_large_$1
-        if [ "$1" = "a10" ]; then
-            ../bin/demo_${variation}_large_$1.unsigned
-        else
-            ../bin/demo_${variation}_large_$1
+        if ../../install_pre_gen.sh ${variation}_large_$1; then
+            make demo_${variation}_large_$1
+            if [ "$1" = "a10" ]; then
+                ../bin/demo_${variation}_large_$1.unsigned
+            else
+                ../bin/demo_${variation}_large_$1
+            fi
         fi
-
         let index=index+1
     done
 

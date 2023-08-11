@@ -92,6 +92,7 @@ if test "${kernel_to_tarball[$1]+exists}"; then
     done
 else
     echo "Sorry. No pre-generated tarball for $1"
+    exit 1
 fi
 
 if test "${kernel_to_demo[$1]+exists}"; then
@@ -102,6 +103,7 @@ if test "${kernel_to_demo[$1]+exists}"; then
     touch ${demo_dir}/${demo}
 else
     echo "Sorry. No pre-generated demo for $1"
+    exit 1
 fi
 
 cd -
