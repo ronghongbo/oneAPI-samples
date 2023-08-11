@@ -3,18 +3,18 @@
 # Usage:
 #   ./batch.sh a10|s10
 
-array = (dot     3 sdot   ddot  dsdot
-         sdsdot  1 sdsdot
-         dotc    2 cdotc  zdotc
-         dotu    2 cdotu  zdotu
-         nrm2    4 snrm2  dnrm2 scnrm2 dznrm2
-         asum    4 sasum  dasum scasum dzasum
-         axpy    4 saxpy  daxpy caxpy  zaxpy
-         scal    4 sscal  dscal cscal  zscal
-         copy    4 scopy  dcopy ccopy  zcopy
-         gemm    4 sgemm  dgemm cgemm  zgemm
-         symm    4 ssymm  dsymm csymm  zsymm
-         hemm    2 chemm  zhemm)
+array=(dot     3 sdot   ddot  dsdot
+       sdsdot  1 sdsdot
+       dotc    2 cdotc  zdotc
+       dotu    2 cdotu  zdotu
+       nrm2    4 snrm2  dnrm2 scnrm2 dznrm2
+       asum    4 sasum  dasum scasum dzasum
+       axpy    4 saxpy  daxpy caxpy  zaxpy
+       scal    4 sscal  dscal cscal  zscal
+       copy    4 scopy  dcopy ccopy  zcopy
+       gemm    4 sgemm  dgemm cgemm  zgemm
+       symm    4 ssymm  dsymm csymm  zsymm
+       hemm    2 chemm  zhemm)
 
 index=0
 while [ "$index" -lt "${#array[*]}" ]; do
@@ -41,7 +41,11 @@ while [ "$index" -lt "${#array[*]}" ]; do
 
         ../../install_pre_gen.sh ${variation}_large_$1
         make demo_${variation}_large_$1
-        ../bin/demo_${variation}_large_$1
+        if [ "$1" = "a10" ]; then
+            ../bin/demo_${variation}_large_$1.unsigned
+        else
+            ../bin/demo_${variation}_large_$1
+        fi
 
         let index=index+1
     done
