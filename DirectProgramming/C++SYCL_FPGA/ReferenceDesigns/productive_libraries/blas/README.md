@@ -152,6 +152,13 @@ Assume your machine has OneAPI enabled for A10 or S10. For example, on DevCloud,
     ```shell
     make clean_sgemm_large_a10
    ```
+# Batch tests
+
+    To batch build and run the tests and demos of all the kernels:
+    ```
+    cd blas
+    ./batch.sh a10|s10
+    ```
 
 # Reference
 
