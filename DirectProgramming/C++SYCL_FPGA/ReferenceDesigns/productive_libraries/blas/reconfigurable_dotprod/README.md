@@ -74,6 +74,9 @@ The systolic array fetches the vectors $op_1(\vec{x})$ and $op_2(\vec{y})$ in pa
 
 When the length of the input vector is not a multiple of the number of PEs, zeros are automatically inserted. This is zero-padding.
 
+![](figures/dot_systolic_array.png)
+![](figures/zero_padding.png)
+
 ### Sizes of a systolic array
 
 * `KKK` - SIMD lanes in a PE: every cycle, the PE computes a dot product, in a vectorized way, between `KKK` numbers of data from $op_1(\vec{x})$ and `KKK` numbers of data from $op_2(\vec{y})$.
@@ -96,10 +99,10 @@ Follow the [general instructions](../README.md#user-content-build-a-kernel-and-r
 | ddot, dnrm2, dasum         | ddotprod   | ✓           | ✓           |
 | cdotu, cdotc               | cdotprod   | ✓           | tuning      |
 | zdotu, zdotc               | zdotprod   | ✓           | tuning      |
-| scnrm2, scasum             | scdotprod  | ✓           | tuning      |
-| dznrm2, dzasum             | dzdotprod  | ✓           | tuning      |
+| scnrm2, scasum             | cdotprod   | ✓           | tuning      |
+| dznrm2, dzasum             | zdotprod   | ✓           | tuning      |
 | sdsdot                     | sdsdotprod | ✓           | ✓           |
-| dsdot                      | dsdotprod  | ongoing     |             |
+| dsdot                      | dsdotprod  | ✓           | tuning      |
  
 
 For example,
@@ -118,4 +121,101 @@ Running a demo application will generate performance metrics.
 
 ## Metrics
 
+Note: For the mixed-precision kernel, since our implementation is to perform precision conversion on the host, its performance should be similar to that of the kernel with the same calculation precision, so it is no longer listed in the table.
 
+<table style="width:120%">
+<tr>
+    <th>Device</th>
+    <th>Static parameters<br>(ITYPE, TTYPE<br>KKK, KK)</th>
+    <th>Logic utilization</th>
+    <th>DSP blocks</th>
+    <th>RAM blocks</th>
+    <th>Frequency<br>(MHZ)</th>
+    <th>Throughput<br>(GFLOPS)</th>
+    <th>Vector Size<br>(X, Y)</th>
+    <th>Command to reproduce</th>
+</tr>
+<tr>
+    <td rowspan="4">Intel Arria 10 GX 1150</td>
+    <td>S, S<br>64, 16</td>
+    <td>84,843 / 427,200 ( 20 % )</td>
+    <td>84 / 1,518 ( 6 % )</td>
+    <td>426 / 2,713 ( 16 % )</td>
+    <td>307</td>
+    <td>6.5</td>
+    <td>64M, 64M</td>
+    <td>blas/dot/bin/demo_sdot_large_a10.unsigned</td>
+</tr>
+<tr>
+    <td>D, D<br>64, 8</td>
+    <td>128,141 / 427,200 ( 30 % )</td>
+    <td>44 / 1,518 ( 3 % )</td>
+    <td>434 / 2,713 ( 16 % )</td>
+    <td>303</td>
+    <td>3.1</td>
+    <td>32M, 32M</td>
+    <td>blas/dot/bin/demo_ddot_large_a10.unsigned</td>
+</tr>
+<tr>
+    <td>C, C<br>64, 8</td>
+    <td>158,786 / 427,200 ( 37 % )</td>
+    <td>181 / 1,518 ( 12 % )</td>
+    <td>1,277 / 2,713 ( 47 % )</td>
+    <td>182</td>
+    <td>0.3</td>
+    <td>32M, 32M</td>
+    <td>blas/dotu/bin/demo_cdotu_large_a10.unsigned</td>
+</tr>
+<tr>
+    <td>Z, Z<br>32, 4</td>
+    <td>171,737 / 427,200 ( 40 % )</td>
+    <td>185 / 1,518 ( 12 % )</td>
+    <td>1,069 / 2,713 ( 39 % )</td>
+    <td>200</td>
+    <td>0.4</td>
+    <td>16M, 16M</td>
+    <td>blas/dotu/bin/demo_zdotu_large_a10.unsigned</td>
+</tr>
+<tr>
+    <td rowspan="4">Intel Stratix 10 GX 2800</td>
+    <td>S, S<br></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+</tr>
+<tr>
+    <td>D, D<br></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+</tr>
+<tr>
+    <td>C, C<br></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+</tr>
+<tr>
+    <td>Z, Z<br></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+</tr>
+
+</table>
