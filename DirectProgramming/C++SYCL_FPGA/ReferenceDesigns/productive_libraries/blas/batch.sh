@@ -16,36 +16,61 @@ array=(dot     3 sdot   ddot  dsdot
        symm    4 ssymm  dsymm csymm  zsymm
        hemm    2 chemm  zhemm)
 
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+NOCOLOR='\033[0m'
+
 index=0
 while [ "$index" -lt "${#array[*]}" ]; do
     kernel=${array[$index]}
-    echo "**** Building tests of " ${kernel}
 
     mkdir -p ${kernel}/build
     cd ${kernel}/build
 
+    echo -e ${GREEN}Configuring ${kernel}${NOCOLOR}
     if [ "$1" = "a10" ]; then
-        cmake ..
+        cmake .. >> ../../batch.out
     else
-        cmake .. -DFPGA_DEVICE=intel_s10sx_pac:pac_s10
+        cmake .. -DFPGA_DEVICE=intel_s10sx_pac:pac_s10 >> ../../batch.out
     fi
 
-    make tests
+    let original_index=index
+    num_variations=${array[$((index+1))]}
+    let index=index+2
+    for (( v=0; v<$num_variations; v++ )); do
+        variation=${array[$((index))]}
+        echo -e ${GREEN}Cleaning ${variation}_tiny_$1 and ${variation}_large_$1${NOCOLOR}
+        make clean_${variation}_tiny_$1 >> ../../batch.out
+        make clean_${variation}_large_$1 >> ../../batch.out
+        let index=index+1
+    done
+    let index=original_index
+
+    echo -e ${GREEN}Building tests of ${kernel}${NOCOLOR}
+    rm ../bin/test*
+    make tests  >> ../../batch.out 2>&1
+
+    echo -e ${GREEN}Running tests of ${kernel}${NOCOLOR}
     ../bin/tests.sh
 
     num_variations=${array[$((index+1))]}
     let index=index+2
     for (( v=0; v<$num_variations; v++ )); do
         variation=${array[$((index))]}
-        echo "**** Building demo of " ${variation}
 
-        if ../../install_pre_gen.sh ${variation}_large_$1; then
-            make demo_${variation}_large_$1
+        echo -e ${GREEN}Installing pre-generated files for ${variation}_large_$1${NOCOLOR}
+        if ../../install_pre_gen.sh ${variation}_large_$1 >> ../../batch.out; then
+            echo -e ${GREEN}Making demo of ${variation}_large_$1${NOCOLOR}
+            make demo_${variation}_large_$1 >> ../../batch.out
+
+            echo -e ${GREEN}Running demo of ${variation}_large_$1${NOCOLOR}
             if [ "$1" = "a10" ]; then
                 ../bin/demo_${variation}_large_$1.unsigned
             else
                 ../bin/demo_${variation}_large_$1
             fi
+        else
+            echo -e Sorry, it seems no pre-generated files exist for ${variation}_large_$1. Skip building the demo due to the long FPGA synthesis time.
         fi
         let index=index+1
     done

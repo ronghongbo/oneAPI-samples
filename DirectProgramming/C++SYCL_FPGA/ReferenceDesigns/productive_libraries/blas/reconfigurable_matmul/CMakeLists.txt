@@ -215,7 +215,7 @@ foreach(N RANGE 0 ${MAX_TEST_ID})
                                -lgtest -lgtest_main
                                -lHalide
                                -o ${CURRENT_KERNEL_PATH}/bin/test_${N}
-                       COMMAND echo ${CURRENT_KERNEL_PATH}/bin/test_${N} >> tests.sh
+                       COMMAND echo ${CURRENT_KERNEL_PATH}/bin/test_${N} > tests.sh && chmod a+x tests.sh
                        DEPENDS oneapi_targets_for_tests
                                ${CURRENT_KERNEL_PATH}/test.cpp
                                ${CURRENT_KERNEL_PATH}/api.hpp
