@@ -301,7 +301,7 @@ foreach(MATMUL ${MATMULS})
                                        -c ${RECONFIGURABLE_MATMUL_PATH}/oneapi/${MATMUL}_${SIZE}_${HW}.cpp
                                        -fsycl -fintelfpga
                                        -o ${MATMUL}_${SIZE}_${HW}.o
-                               COMMAND rm -rf temp_${MATMUL}_${SIZE}_${HW}* ${MATMUL}_${SIZE}_${HW}*.aocx ${MATMUL}_${SIZE}_${HW}*.aocx.unsigned
+                               COMMAND bash -c "rm -rf *temp_${MATMUL}_${SIZE}_${HW}* signed_${MATMUL}_${SIZE}_${HW}* ${MATMUL}_${SIZE}_${HW}*.aocx ${MATMUL}_${SIZE}_${HW}*.aocx.unsigned"
                                COMMAND $ENV{INTELFPGAOCLSDKROOT}/host/linux64/bin/aocl-extract-aocx
                                        -i ${CURRENT_KERNEL_PATH}/bin/demo_${PRECISION}${KERNEL}_${SIZE}_${HW}
                                        -o ${RECONFIGURABLE_MATMUL_PATH}/bin/${MATMUL}_${SIZE}_${HW}.aocx
