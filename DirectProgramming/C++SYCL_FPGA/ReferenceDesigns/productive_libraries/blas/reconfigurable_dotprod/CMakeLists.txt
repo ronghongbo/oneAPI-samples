@@ -309,3 +309,17 @@ foreach(PRECISION ${PRECISIONS})
         endforeach()
     endforeach()
 endforeach()
+
+# Clean generated files
+foreach(PRECISION ${PRECISIONS})
+    get_dotprod_type(${PRECISION} dotprod_type)
+    foreach(SIZE "tiny" "large")
+        foreach(HW "a10" "s10")
+            add_custom_target(clean_${PRECISION}${KERNEL}_${SIZE}_${HW}
+                              COMMAND bash -c "rm -rf ${CURRENT_KERNEL_PATH}/bin/demo_${PRECISION}${KERNEL}_${SIZE}_${HW}*"
+                              COMMAND bash -c "rm -rf ${RECONFIGURABLE_DOTPROD_PATH}/bin/*${dotprod_type}dotprod_${SIZE}_${HW}* "
+                              COMMAND bash -c "rm -rf ${RECONFIGURABLE_DOTPROD_PATH}/oneapi/${dotprod_type}dotprod_${SIZE}_${HW}*"
+                              COMMAND bash -c "rm -rf ${RECONFIGURABLE_DOTPROD_PATH}/reports/${dotprod_type}dotprod_${SIZE}_${HW}/*")
+        endforeach()
+    endforeach()
+endforeach()

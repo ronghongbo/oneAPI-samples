@@ -298,3 +298,16 @@ foreach(PRECISION ${PRECISIONS})
         endforeach()
     endforeach()
 endforeach()
+
+# Clean generated files
+foreach(PRECISION ${PRECISIONS})
+    foreach(SIZE "tiny" "large")
+        foreach(HW "a10" "s10")
+            add_custom_target(clean_${PRECISION}${KERNEL}_${SIZE}_${HW}
+                              COMMAND bash -c "rm -rf ${CURRENT_KERNEL_PATH}/bin/demo_${PRECISION}${KERNEL}_${SIZE}_${HW}*"
+                              COMMAND bash -c "rm -rf ${RECONFIGURABLE_VECADD_PATH}/bin/*${PRECISION}vecadd_${SIZE}_${HW}* "
+                              COMMAND bash -c "rm -rf ${RECONFIGURABLE_VECADD_PATH}/oneapi/${PRECISION}vecadd_${SIZE}_${HW}*"
+                              COMMAND bash -c "rm -rf ${RECONFIGURABLE_VECADD_PATH}/reports/${PRECISION}vecadd_${SIZE}_${HW}/*")
+        endforeach()
+    endforeach()
+endforeach()

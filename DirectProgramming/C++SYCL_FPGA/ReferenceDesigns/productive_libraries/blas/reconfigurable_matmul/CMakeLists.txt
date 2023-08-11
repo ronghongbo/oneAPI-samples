@@ -338,10 +338,10 @@ foreach(MATMUL ${MATMULS})
     foreach(SIZE "tiny" "large")
         foreach(HW "a10" "s10")
             add_custom_target(clean_${PRECISION}${KERNEL}_${SIZE}_${HW}
-                              COMMAND rm -rf ${CURRENT_KERNEL_PATH}/bin/demo_${PRECISION}${KERNEL}_${SIZE}_${HW}* 
-                                             ${RECONFIGURABLE_MATMUL_PATH}/bin/*${MATMUL}_${SIZE}_${HW}* 
-                                             ${RECONFIGURABLE_MATMUL_PATH}/oneapi/${MATMUL}_${SIZE}_${HW}*
-                                             ${RECONFIGURABLE_MATMUL_PATH}/reports/${MATMUL}_${SIZE}_${HW}/*)
+                              COMMAND bash -c "rm -rf ${CURRENT_KERNEL_PATH}/bin/demo_${PRECISION}${KERNEL}_${SIZE}_${HW}*"
+                              COMMAND bash -c "rm -rf ${RECONFIGURABLE_MATMUL_PATH}/bin/*${MATMUL}_${SIZE}_${HW}*"
+                              COMMAND bash -c "rm -rf ${RECONFIGURABLE_MATMUL_PATH}/oneapi/${MATMUL}_${SIZE}_${HW}*"
+                              COMMAND bash -c "rm -rf ${RECONFIGURABLE_MATMUL_PATH}/reports/${MATMUL}_${SIZE}_${HW}/*")
         endforeach()
     endforeach()
 endforeach()
