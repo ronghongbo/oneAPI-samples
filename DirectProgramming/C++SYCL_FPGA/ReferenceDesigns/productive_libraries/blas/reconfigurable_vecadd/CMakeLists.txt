@@ -157,6 +157,9 @@ foreach(PRECISION ${PRECISIONS})
 endforeach()
 
 file(MAKE_DIRECTORY ${CURRENT_KERNEL_PATH}/bin)
+file(WRITE ${CURRENT_KERNEL_PATH}/bin/tests.sh "")
+execute_process(COMMAND chmod a+x tests.sh
+                WORKING_DIRECTORY ${CURRENT_KERNEL_PATH}/bin)
 add_custom_command(OUTPUT  ${CURRENT_KERNEL_PATH}/bin/test
                    COMMAND ${CMAKE_CXX_COMPILER}
                            -I${HALIDE_TOOLS_PATH}/include -I$ENV{MKLROOT}/include -I${PRODUCTIVE_LIBRARIES_PATH}/include -I${CPP_SYCL_FPGA_PATH}/include
@@ -173,7 +176,7 @@ add_custom_command(OUTPUT  ${CURRENT_KERNEL_PATH}/bin/test
                            -lgtest -lgtest_main
                            -lHalide
                            -o ${CURRENT_KERNEL_PATH}/bin/test
-                   COMMAND echo ${CURRENT_KERNEL_PATH}/bin/test >> tests.sh
+                   COMMAND echo ${CURRENT_KERNEL_PATH}/bin/test > tests.sh
                    DEPENDS oneapi_targets_for_tests
                            ${CURRENT_KERNEL_PATH}/test.cpp
                            ${CURRENT_KERNEL_PATH}/api.hpp
