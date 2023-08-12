@@ -205,7 +205,7 @@ add_custom_target(tests DEPENDS ${CURRENT_KERNEL_PATH}/bin/test)
 # Create targets for demonstrating how to run on real hardware
 foreach(PRECISION ${PRECISIONS})
     get_dotprod_type(${PRECISION} dotprod_type)
-    string(TOUPPER ${dotprod_type} UPPER_DOTPROD_TYPE)
+    string(TOUPPER ${PRECISION} UPPER_PRECISION)
     string(TOUPPER ${KERNEL} UPPER_KERNEL)
     foreach(SIZE "tiny" "large")
         string(TOUPPER ${SIZE} UPPER_SIZE)
@@ -217,7 +217,7 @@ foreach(PRECISION ${PRECISIONS})
                                        -I${PRODUCTIVE_LIBRARIES_PATH}/include -I${CPP_SYCL_FPGA_PATH}/include
                                        -I${GOOGLE_TEST_PATH}/include -I${GOOGLE_TEST_PATH}/googletest/include
                                        -D${UPPER_SIZE} -D${UPPER_HW}
-                                       -DMKL_ILP64 -DT2SP_NDEBUG -DT2SP_${UPPER_DOTPROD_TYPE}${UPPER_KERNEL}
+                                       -DMKL_ILP64 -DT2SP_NDEBUG -DT2SP_${UPPER_PRECISION}${UPPER_KERNEL}
                                        -fsycl -fintelfpga
                                        -Wno-tautological-constant-compare
                                        -c ${CURRENT_KERNEL_PATH}/demo.cpp
