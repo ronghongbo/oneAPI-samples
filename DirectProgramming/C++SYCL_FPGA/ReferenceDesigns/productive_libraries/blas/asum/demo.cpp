@@ -33,7 +33,7 @@ void test(int N, int incx, int incy) {
     sycl::queue q_device(sycl::ext::intel::fpga_selector_v, fpga_tools::exception_handler, sycl::property::queue::enable_profiling());
 
     typename unwrap<T>::type res;
-    auto done = t2sp::blas::row_major::asum(q_device, N, x.data(), incx, res);
+    auto done = t2sp::blas::row_major::asum(q_device, N, x.data(), incx, &res);
     done.wait();
 
     // Get time in ns
@@ -64,7 +64,7 @@ int main() {
 #else
 #error No test type (float or double or std::complex<float> or std::complex<double>) specified
 #endif
-    const auto [KKK, _] = t2sp::blas::row_major::get_systolic_array_dimensions<test_type>();
+    const auto KKK = t2sp::blas::row_major::get_systolic_array_dimensions<test_type>();
     int64_t n = KKK * 2048 * 2048;
     test<test_type>(n, 1, 1);
 }
