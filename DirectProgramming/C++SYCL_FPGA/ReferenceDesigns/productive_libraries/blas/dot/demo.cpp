@@ -19,13 +19,12 @@
 
 using namespace std;
 
-template <typename T>
+template <typename T, typename T_res>
 void test(int N, int incx, int incy) {
     vector<T, allocator_helper<T, 64>> x, y;
-    T res{};
+    T_res res{};
     rand_vector(x, N, incx);
     rand_vector(y, N, incy);
-    auto res_ref = res;
 
     sycl::queue q_device(sycl::ext::intel::fpga_selector_v, fpga_tools::exception_handler, sycl::property::queue::enable_profiling());
 
@@ -48,12 +47,17 @@ void test(int N, int incx, int incy) {
 int main() {
 #if defined(T2SP_SDOT)
     using test_type = float;
+    using res_type = test_type;
 #elif defined(T2SP_DDOT)
     using test_type = double;
+    using res_type = test_type;
+#elif defined(T2SP_DSDOT)
+    using test_type = float;
+    using res_type = double;
 #else
 #error No test type (float or double) specified
 #endif
-    const auto KKK = t2sp::blas::row_major::get_systolic_array_dimensions<test_type>();
+    const auto KKK = t2sp::blas::row_major::get_systolic_array_dimensions<res_type>();
     int64_t n = KKK * 2048 * 2048;
-    test<test_type>(n, 1, 1);
+    test<test_type, res_type>(n, 1, 1);
 }
