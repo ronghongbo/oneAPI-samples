@@ -280,3 +280,7 @@ Running a demo application will generate performance metrics.
 </tr>
 
 </table>
+
+# Rooflines
+
+![](figures/roofline-sgemm-large-a10.png)
