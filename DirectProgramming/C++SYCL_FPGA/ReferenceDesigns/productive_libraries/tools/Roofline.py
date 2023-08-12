@@ -29,14 +29,14 @@ from matplotlib import pyplot as plt
 
 # Dictionary from an FPGA model to its #DSPs, and memory bandwidth in GB/s. These parameters below are from DevCloud configurations. Please modify them according to the FPGAs you are using.
 hardware_params = {
-    "A10" : [1518, 33], # A10 1150
-    "S10" : [5760, 75]  # S10 2800
+    "a10" : [1518, 33], # A10 1150
+    "s10" : [5760, 75]  # S10 2800
 }
 
 def roofline(is_double_precision, kernel_variation, size, hardware, number_ops, exec_time, number_bytes, fmax):
         plt.figure()
         
-        plt.title(kernel_variation + " on " + hardware, ", " + size + " array") 
+        plt.title(kernel_variation + " on " + hardware + ", " + size + " systolic array") 
         plt.xlabel("FLOP/B") 
         plt.ylabel("GFLOPS") 
         
@@ -45,7 +45,7 @@ def roofline(is_double_precision, kernel_variation, size, hardware, number_ops, 
         # Single precision: 1 MAD is done by 1 DSP.
         # Double precision: 1 MAD is done by 4 DSPs (according to synthesis results in OpenCL. TODO: verify if this holds in SYCL)
         # So FLOPS per DSP: 2/1 for single precision, 2/4 for double precision
-        double compute_roof = (is_double_precision == 1 ? 0.5 * DSPs * fmax : 2 * DSPs * fmax); 
+        compute_roof = 0.5 * DSPs * fmax if (is_double_precision == 1) else 2 * DSPs * fmax 
 
         y0=compute_roof*0.001
         x0=y0/mem_bandwidth
@@ -75,4 +75,4 @@ def roofline(is_double_precision, kernel_variation, size, hardware, number_ops, 
         plt.savefig('roofline.png')
 
 if __name__=="__main__":
-    roofline(is_double_precision=sys.argv[1], kernel_variation=sys.argv[2], size=sys.argv[3], hardware=sys.argv[4], number_ops=float(argv[5]), exec_time=float(argv[6]), number_bytes=float(argv[7]), fmax=float(argv[8]))
+    roofline(is_double_precision=sys.argv[1], kernel_variation=sys.argv[2], size=sys.argv[3], hardware=sys.argv[4], number_ops=float(sys.argv[5]), exec_time=float(sys.argv[6]), number_bytes=float(sys.argv[7]), fmax=float(sys.argv[8]))
