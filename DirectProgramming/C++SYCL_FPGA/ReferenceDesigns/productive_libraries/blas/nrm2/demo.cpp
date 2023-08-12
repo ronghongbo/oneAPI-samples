@@ -57,9 +57,9 @@ int main() {
     using test_type = float;
 #elif defined(T2SP_DNRM2)
     using test_type = double;
-#elif defined(T2SP_CNRM2)
+#elif defined(T2SP_SCNRM2)
     using test_type = std::complex<float>;
-#elif defined(T2SP_ZNRM2)
+#elif defined(T2SP_DZNRM2)
     using test_type = std::complex<double>;
 #else
 #error No test type (float or double or std::complex<float> or std::complex<double>) specified

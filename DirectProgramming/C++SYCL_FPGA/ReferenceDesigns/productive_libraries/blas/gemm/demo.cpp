@@ -33,23 +33,44 @@ void test(oneapi::mkl::transpose transa, oneapi::mkl::transpose transb,
                                                 b.data(), ldb, beta, c.data(), ldc);
     e.wait();
 
-    // Get time in ns
+    // Statistics for performance measurement
     uint64_t start = e.get_profiling_info<sycl::info::event_profiling::command_start>();
     uint64_t end   = e.get_profiling_info<sycl::info::event_profiling::command_end>();
     uint64_t exec_time = end - start;
-    std::cout << "Execution time: " << exec_time << " ns\n";
 
-    double number_ops;
+    double MULs_in_product, ADDs_in_product, MULs_in_sum, ADDs_in_sum, flops_per_MUL, flops_per_ADD, total_flops, total_data, bytes_per_data, total_bytes;
+    // m*n results in computing product=op(A)*op(B), each result is reduced from k number of MULs and ADDs.
+    MULs_in_product = m * n * k;
+    ADDs_in_product = m * n * k;
+    // m*n results in computing alpha*product + beta*C, each is reduced from two MULs and one ADD.
+    MULs_in_sum = 2.0 * m * n;
+    ADDs_in_sum = m * n;
     if ((std::is_same_v<float, T> || std::is_same_v<double, T>)) {
-        // FP operations per MAD (MUL and ADD) for float and double =2
-        number_ops = 2.0 * m * n * k + m * n;
+        // For float and double, 1 MUL/ADD is 1 FP operation (of single- or double-precision)
+        flops_per_MUL = 1;
+        flops_per_ADD = 1;
     } else {
-        // FP operations per MAD (MUL and ADD) for complex float and double =8:
-        // Multiplying two complex numbers requires 4 FP MUL and 2 FP ADD
-        // Adding two complex numbers requires 2 FP ADD
-        number_ops = 8.0 * m * n * k + 2.0 * m * n;
+        // For complex float and double, 1 MUL of two complex numbers requires 4 FP multiplies and 2 FP adds (of single- or double-precision)
+        // 1 ADD of two complex numbers requires 2 FP adds (of single- or double-precision)
+        flops_per_MUL = 6;
+        flops_per_ADD = 2;
     }
-    std::cout << "GFLOPs: " << number_ops / exec_time << "\n";
+    total_flops = MULs_in_product * flops_per_MUL + ADDs_in_product * flops_per_ADD +
+                  MULs_in_sum     * flops_per_MUL + ADDs_in_sum     * flops_per_ADD;
+
+    total_data = m * k + k * n + 2.0 * m * n; // data accessed from op(A), op(B), original C, and final C
+//    if ((std::is_same_v<float, T> || std::is_same_v<double, T>)) {
+        bytes_per_data = sizeof(T);
+/*    } else if ((std::is_same_v<std::complex<float>, T> >)) {
+        bytes_per_data = 8;
+    } else {
+        bytes_per_data = 16;
+    }*/
+    total_bytes = total_data * bytes_per_data;
+    std::cout << "FP operations: " << total_flops << "\n";
+    std::cout << "Execution time: " << exec_time << " ns\n";
+    std::cout << "GFLOPs: " << total_flops / exec_time << "\n";
+    std::cout << "Memory bytes: " << total_bytes << "\n";
     std::cout << "Size of matrix a: " << m << " * " << k << "\n";
     std::cout << "Size of matrix b: " << k << " * " << n << "\n";
     std::cout << "Size of matrix c: " << m << " * " << n << "\n";

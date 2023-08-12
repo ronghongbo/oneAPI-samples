@@ -16,18 +16,36 @@
 #
 # SPDX-License-Identifier: BSD-2-Clause-Patent
 ###############################################################################
+
+# Usage: python Roofline.py is_double_precision, kernel_variation, size, hardware, number_ops, exec_time, number_bytes, fmax
+# e.g.   python Roofline.py 0, "sgemm", "large", "a10", number_ops, exec_time, number_byte, 250
+# Here is_double_precision means if DSPs are used to compute double precision results; if not, they are used for computing single-precision results.
+
 import numpy as np
 import sys
 import matplotlib
 matplotlib.use('Agg')
 from matplotlib import pyplot as plt
 
-def roofline(title, mem_bandwidth, compute_roof, number_ops, number_bytes, exec_time):
+# Dictionary from an FPGA model to its #DSPs, and memory bandwidth in GB/s. These parameters below are from DevCloud configurations. Please modify them according to the FPGAs you are using.
+hardware_params = {
+    "A10" : [1518, 33], # A10 1150
+    "S10" : [5760, 75]  # S10 2800
+}
+
+def roofline(is_double_precision, kernel_variation, size, hardware, number_ops, exec_time, number_bytes, fmax):
         plt.figure()
         
-        plt.title(title) 
+        plt.title(kernel_variation + " on " + hardware, ", " + size + " array") 
         plt.xlabel("FLOP/B") 
         plt.ylabel("GFLOPS") 
+        
+        [DSPs, mem_bandwidth] = hardware_params[hardware]
+
+        # Single precision: 1 MAD is done by 1 DSP.
+        # Double precision: 1 MAD is done by 4 DSPs (according to synthesis results in OpenCL. TODO: verify if this holds in SYCL)
+        # So FLOPS per DSP: 2/1 for single precision, 2/4 for double precision
+        double compute_roof = (is_double_precision == 1 ? 0.5 * DSPs * fmax : 2 * DSPs * fmax); 
 
         y0=compute_roof*0.001
         x0=y0/mem_bandwidth
@@ -57,4 +75,4 @@ def roofline(title, mem_bandwidth, compute_roof, number_ops, number_bytes, exec_
         plt.savefig('roofline.png')
 
 if __name__=="__main__":
-    roofline(float(sys.argv[1]),float(sys.argv[2]), float(sys.argv[3]), float(sys.argv[4]), float(sys.argv[5]))
+    roofline(is_double_precision=sys.argv[1], kernel_variation=sys.argv[2], size=sys.argv[3], hardware=sys.argv[4], number_ops=float(argv[5]), exec_time=float(argv[6]), number_bytes=float(argv[7]), fmax=float(argv[8]))

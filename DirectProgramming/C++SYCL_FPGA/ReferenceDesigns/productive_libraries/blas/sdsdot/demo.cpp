@@ -20,7 +20,7 @@
 using namespace std;
 
 void test(int N, int incx, int incy) {
-    vector<float, allocator_helper<T, 64>> x, y;
+    vector<float, allocator_helper<float, 64>> x, y;
     float res{};
     rand_vector(x, N, incx);
     rand_vector(y, N, incy);
