@@ -45,7 +45,7 @@ void test(int N, int incx, int incy) {
 }
 
 int main() {
-    using test_type = float;
+    using test_type = double;
     const auto KKK = t2sp::blas::row_major::get_systolic_array_dimensions<test_type>();
     int64_t n = KKK * 2048 * 2048;
     test(n, 1, 1);
