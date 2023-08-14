@@ -219,3 +219,7 @@ Note: For the mixed-precision kernel, since our implementation is to perform pre
 </tr>
 
 </table>
+
+## Roofline
+
+![](figures/roofline-sdot-large-a10.png)
