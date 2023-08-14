@@ -192,3 +192,7 @@ Running a demo application will generate performance metrics.
 </tr>
 
 </table>
+
+## Roofline
+
+![](figures/roofline-saxpy-large-a10.png)
