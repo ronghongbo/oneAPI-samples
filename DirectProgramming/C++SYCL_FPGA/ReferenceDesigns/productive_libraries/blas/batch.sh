@@ -18,6 +18,7 @@ array=(dot     3 sdot   ddot  dsdot
 
 RED='\033[0;31m'
 GREEN='\033[0;32m'
+BLUE='\033[0;34m'
 NOCOLOR='\033[0m'
 
 index=0
@@ -28,7 +29,8 @@ while [ "$index" -lt "${#array[*]}" ]; do
     cd ${kernel}/build
 
     echo 
-    echo -e ${GREEN}================ Testing ${kernel} =================${NOCOLOR}
+    echo -e ${RED}================ Testing ${kernel} =================${NOCOLOR}
+    echo -e ${BLUE}Testing correctness${NOCOLOR}
     echo -e ${GREEN}Configuring ${kernel}${NOCOLOR}
     if [ "$1" = "a10" ]; then
         cmake .. >> ../../batch.out 2>&1
@@ -59,7 +61,9 @@ while [ "$index" -lt "${#array[*]}" ]; do
     let index=index+2
     for (( v=0; v<$num_variations; v++ )); do
         variation=${array[$((index))]}
-
+      
+        echo
+        echo -e ${BLUE}Testing performance of ${variation}_large_$1${NOCOLOR}
         echo -e ${GREEN}Installing pre-generated files for ${variation}_large_$1${NOCOLOR}
         if ../../install_pre_gen.sh ${variation}_large_$1 >> ../../batch.out; then
             echo -e ${GREEN}Making demo of ${variation}_large_$1${NOCOLOR}
