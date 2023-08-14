@@ -27,11 +27,13 @@ while [ "$index" -lt "${#array[*]}" ]; do
     mkdir -p ${kernel}/build
     cd ${kernel}/build
 
+    echo 
+    echo -e ${GREEN}================ Testing ${kernel} =================${NOCOLOR}
     echo -e ${GREEN}Configuring ${kernel}${NOCOLOR}
     if [ "$1" = "a10" ]; then
-        cmake .. >> ../../batch.out
+        cmake .. >> ../../batch.out 2>&1
     else
-        cmake .. -DFPGA_DEVICE=intel_s10sx_pac:pac_s10 >> ../../batch.out
+        cmake .. -DFPGA_DEVICE=intel_s10sx_pac:pac_s10 >> ../../batch.out 2>&1
     fi
 
     let original_index=index
@@ -40,8 +42,8 @@ while [ "$index" -lt "${#array[*]}" ]; do
     for (( v=0; v<$num_variations; v++ )); do
         variation=${array[$((index))]}
         echo -e ${GREEN}Cleaning ${variation}_tiny_$1 and ${variation}_large_$1${NOCOLOR}
-        make clean_${variation}_tiny_$1 >> ../../batch.out
-        make clean_${variation}_large_$1 >> ../../batch.out
+        make clean_${variation}_tiny_$1 >> ../../batch.out 2>&1
+        make clean_${variation}_large_$1 >> ../../batch.out 2>&1
         let index=index+1
     done
     let index=original_index
@@ -61,13 +63,23 @@ while [ "$index" -lt "${#array[*]}" ]; do
         echo -e ${GREEN}Installing pre-generated files for ${variation}_large_$1${NOCOLOR}
         if ../../install_pre_gen.sh ${variation}_large_$1 >> ../../batch.out; then
             echo -e ${GREEN}Making demo of ${variation}_large_$1${NOCOLOR}
-            make demo_${variation}_large_$1 >> ../../batch.out
+            make demo_${variation}_large_$1 >> ../../batch.out 2>&1
 
             echo -e ${GREEN}Running demo of ${variation}_large_$1${NOCOLOR}
             if [ "$1" = "a10" ]; then
                 ../bin/demo_${variation}_large_$1.unsigned
+                ret_code=$?
+                if [ $ret_code -ne 0 ]; then
+                    # Rerun the command
+                    ../bin/demo_${variation}_large_$1.unsigned
+                fi
             else
                 ../bin/demo_${variation}_large_$1
+                ret_code=$?
+                if [ $ret_code -ne 0 ]; then
+                    # Rerun the command
+                    ../bin/demo_${variation}_large_$1
+                fi
             fi
         else
             echo -e Sorry, it seems no pre-generated files exist for ${variation}_large_$1. Skip building the demo due to the long FPGA synthesis time.
