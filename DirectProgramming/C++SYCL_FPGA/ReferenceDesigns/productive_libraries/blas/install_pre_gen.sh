@@ -159,6 +159,14 @@ if test "${kernel_to_demo[$1]+exists}"; then
     demo=${kernel_to_demo[$1]}
     demo_dir=${kernel_to_demo_dir[$1]}
     echo Recovering $demo to directory ${demo_dir} ...
+    if [[ -d "${demo_dir}" ]]; then
+        echo "Directory ${demo_dir} already exists"
+    elif [[ -f "${demo_dir}" ]]; then
+        echo "${demo_dir} already exists but is not a directory"
+        exit 1
+    else
+        mkdir -p "${demo_dir}"
+    fi
     cp pre_generated/${demo} ${demo_dir}
     touch ${demo_dir}/${demo}
 else
