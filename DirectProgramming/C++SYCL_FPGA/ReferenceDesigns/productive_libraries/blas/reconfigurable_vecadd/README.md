@@ -95,7 +95,7 @@ Running a demo application will generate performance metrics.
 <table style="width:120%">
 <tr>
     <th>Device</th>
-    <th>Static parameters<br>(TTYPE<br>KKK, KK)</th>
+    <th>Static parameters<br>(TTYPE<br>KKK)</th>
     <th>Logic utilization</th>
     <th>DSP blocks</th>
     <th>RAM blocks</th>
@@ -106,42 +106,42 @@ Running a demo application will generate performance metrics.
 </tr>
 <tr>
     <td rowspan="4">Intel Arria 10 GX 1150</td>
-    <td>S, S<br>32, 16</td>
-    <td>81,349 / 427,200 ( 19 % )</td>
+    <td>S, S<br>16</td>
+    <td>80,715 / 427,200 ( 19 % )</td>
     <td>32 / 1,518 ( 2 % )</td>
     <td>446 / 2,713 ( 16 % )</td>
-    <td>307</td>
+    <td>303</td>
     <td>4.5</td>
     <td>64M, 64M</td>
     <td>blas/dot/bin/demo_saxpy_large_a10.unsigned</td>
 </tr>
 <tr>
-    <td>D, D<br>32, 8</td>
-    <td>89,646 / 427,200 ( 21 % )</td>
+    <td>D, D<br>8</td>
+    <td>88,892 / 427,200 ( 21 % )</td>
     <td>64 / 1,518 ( 4 % )</td>
     <td>446 / 2,713 ( 16 % )</td>
-    <td>285</td>
-    <td>2.5</td>
+    <td>279</td>
+    <td>2.1</td>
     <td>32M, 32M</td>
     <td>blas/dot/bin/demo_daxpy_large_a10.unsigned</td>
 </tr>
 <tr>
-    <td>C, C<br>32, 8</td>
-    <td>81,617 / 427,200 ( 19 % )</td>
+    <td>C, C<br>8</td>
+    <td>80,781 / 427,200 ( 19 % )</td>
     <td>64 / 1,518 ( 4 % )</td>
     <td>446 / 2,713 ( 16 % )</td>
-    <td>302</td>
+    <td>311</td>
     <td>6.8</td>
     <td>32M, 32M</td>
     <td>blas/dotu/bin/demo_caxpy_large_a10.unsigned</td>
 </tr>
 <tr>
-    <td>Z, Z<br>32, 4</td>
-    <td>105,494 / 427,200 ( 25 % )</td>
+    <td>Z, Z<br>4</td>
+    <td>102,022 / 427,200 ( 24 % )</td>
     <td>128 / 1,518 ( 8 % )</td>
     <td>461 / 2,713 ( 17 % )</td>
-    <td>302</td>
-    <td>3.8</td>
+    <td>291</td>
+    <td>3.6</td>
     <td>16M, 16M</td>
     <td>blas/dotu/bin/demo_zaxpy_large_a10.unsigned</td>
 </tr>

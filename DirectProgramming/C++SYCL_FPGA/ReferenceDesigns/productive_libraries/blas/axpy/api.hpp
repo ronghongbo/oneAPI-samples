@@ -29,7 +29,7 @@ sycl::event axpy(sycl::queue &queue,
                         (std::is_same_v<std::complex<float>, T>) ||
                         (std::is_same_v<std::complex<double>, T>)) << "Unsupported data type";
 
-    const auto [KKK, KK] = get_systolic_array_dimensions<T>();
+    const auto KKK = get_systolic_array_dimensions<T>();
 
     // TOREMOVE: These two constraints below should be checked by the reconfigurable matmul instead.
     _halide_user_assert(n % KKK == 0) << "For performance reasons, the current implementation requires that n must be a multiple of " << KKK
@@ -41,7 +41,7 @@ sycl::event axpy(sycl::queue &queue,
 
     Buffer<T> X_buffer{const_cast<T *>(x), 2, dim_x};
     Buffer<T> Y_buffer{y, 2, dim_y};
-    Buffer<T> Res_buffer(KKK, KK, (n + KKK * KK - 1) / (KKK * KK), 1);
+    Buffer<T> Res_buffer(KKK, n / KKK, 1);
 
     for (sycl::event e : dependencies) {
         e.wait();
@@ -70,15 +70,9 @@ sycl::event axpy(sycl::queue &queue,
                                                        Y_buffer, std::abs(static_cast<int>(incy)), Res_buffer);
     }
     done.wait();
-    for (int k = 0; k < (n + KKK * KK - 1) / (KKK * KK); k++) {
-        for (int kk = 0; kk < KK; kk++) {
-            for (int kkk = 0; kkk < KKK; kkk++) {
-                auto total_k = kkk + KKK * (kk + KK * k);
-                if (total_k < n) {
-                    y[total_k * std::abs(incy)] = Res_buffer(kkk, kk, k, 0);
-                }
-            }
-        }
+    for (auto k = 0; k < n / KKK; k++) {
+        for (auto kkk = 0; kkk < KKK; kkk++)
+        y[(kkk + k * KKK) * std::abs(incy)] = Res_buffer(kkk, k, 0);
     }
     return done;
 }

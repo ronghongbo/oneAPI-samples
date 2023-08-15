@@ -27,7 +27,7 @@ sycl::event scal(sycl::queue &queue,
                         (std::is_same_v<std::complex<float>, T>) ||
                         (std::is_same_v<std::complex<double>, T>)) << "Unsupported data type";
 
-    const auto [KKK, KK] = get_systolic_array_dimensions<T>();
+    const auto KKK = get_systolic_array_dimensions<T>();
 
     // TOREMOVE: These two constraints below should be checked by the reconfigurable matmul instead.
     _halide_user_assert(n % KKK == 0) << "For performance reasons, the current implementation requires that n must be a multiple of " << KKK
@@ -37,7 +37,7 @@ sycl::event scal(sycl::queue &queue,
     halide_dimension_t dim_x[]{{0, n, std::abs(incx)}, {0, 1, 1}};
 
     Buffer<T> X_buffer{x, 2, dim_x};
-    Buffer<T> Res_buffer(KKK, KK, (n + KKK * KK - 1) / (KKK * KK), 1);
+    Buffer<T> Res_buffer(KKK, n / KKK, 1);
 
     for (sycl::event e : dependencies) {
         e.wait();
@@ -66,15 +66,9 @@ sycl::event scal(sycl::queue &queue,
                                                        X_buffer, std::abs(static_cast<int>(incx)), Res_buffer);
     }
     done.wait();
-    for (int k = 0; k < (n + KKK * KK - 1) / (KKK * KK); k++) {
-        for (int kk = 0; kk < KK; kk++) {
-            for (int kkk = 0; kkk < KKK; kkk++) {
-                auto total_k = kkk + KKK * (kk + KK * k);
-                if (total_k < n) {
-                    x[total_k * std::abs(incx)] = Res_buffer(kkk, kk, k, 0);
-                }
-            }
-        }
+    for (auto k = 0; k < n / KKK; k++) {
+        for (auto kkk = 0; kkk < KKK; kkk++)
+        x[(kkk + k * KKK) * std::abs(incx)] = Res_buffer(kkk, k, 0);
     }
     return done;
 }
