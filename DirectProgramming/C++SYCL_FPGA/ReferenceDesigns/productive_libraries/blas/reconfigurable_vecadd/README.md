@@ -46,7 +46,7 @@ Through APIs that provide appropriate dynamic parameters and post-processing, a 
 
 ## The design
 
-In this design, the input vectors are pre-processed on the host so that the FPGA device loads/stores data sequentially from/to the device DRAM. This ensures that the memory accesses won't be a bottleneck of the performance. In pre-processing, the host reads the values of the input vectors and sends the values to the device DRAM sequentially. The addition of the vectors is vectorized computed by a compute unit on the device.
+In this design, the input vectors are pre-processed on the host so that the FPGA device loads/stores data sequentially from/to the device DRAM. This ensures that the memory accesses won't be a bottleneck of the performance. In pre-processing, the host reads the values of the input vectors and sends the values to the device DRAM sequentially. The addition of the vectors is vectorized computed by a PE on the device.
 
 When the length of the input vectors are not a multiple of the simd lane, zeros are automatically inserted. This is zero-padding.
 
@@ -57,7 +57,7 @@ Similarly, redundant zeros in the result are automatically removed.
 
 ### Sizes of a systolic array
 
-* `KKK` - SIMD lanes in the compute unit: every cycle, the unit adds, in a vectorized way, `KKK` numbers of data from $\vec{x}$ and `KKK` numbers of data from $\vec{y}$.
+* `KKK` - SIMD lanes in the PE: every cycle, the PE adds, in a vectorized way, `KKK` numbers of data from $\vec{x}$ and `KKK` numbers of data from $\vec{y}$.
 
 #### Restrictions
 
