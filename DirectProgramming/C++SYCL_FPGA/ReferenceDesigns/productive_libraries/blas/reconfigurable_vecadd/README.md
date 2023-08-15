@@ -125,7 +125,7 @@ Running a demo application will generate performance metrics.
     <td>64 / 1,518 ( 4 % )</td>
     <td>446 / 2,713 ( 16 % )</td>
     <td>285</td>
-    <td>3.0</td>
+    <td>2.5</td>
     <td>32M, 32M</td>
     <td>blas/dot/bin/demo_daxpy_large_a10.unsigned</td>
 </tr>
@@ -193,6 +193,20 @@ Running a demo application will generate performance metrics.
 
 </table>
 
-## Roofline
+## Performance analysis
 
-![](figures/roofline-saxpy-large-a10.png)
+$$
+\begin{aligned}
+\text{Arithmetic Intensity} &= \frac{\text{number of ops}}{\text{number of bytes}}\\
+&= \frac{\text{number of add\_ops} + \text{number of mul\_ops}}{3.0\times \text{Vector Length}\times \text{sizeof(T)}}\\
+&= \frac{\text{Vector Length}\times (\text{is\_complex\_type}\ ?\ 8\ :\ 2)}{3.0\times \text{Vector Length}\times \text{sizeof(T)}}\\
+&= \frac{\text{is\_complex\_type}\ ?\ 8\ :\ 2}{3.0\times \text{sizeof(T)}}
+\end{aligned}
+$$
+
+Obviously, the arithmetic intensity is less than 1, so `reconfigurable_vecadd`'s machine peak throughput is limited by the DDR bandwidth. The Maximum DDR bandwidth is 33 GB/s for A10, so for different data types, their peak throughput are as follows:
+
+* `svecadd`: 5.5 GFLOPS
+* `dvecadd`: 2.75 GFLOPS 
+* `cvecadd`: 11 GFLOPS
+* `zvecadd`: 5.5 GFLOPS

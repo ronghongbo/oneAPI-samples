@@ -62,13 +62,12 @@ int main()
     // Explicitly set the loop bounds
     uX.set_bounds(kkk,  0, KKK, kk,  0, KK,  k,  0, K)
       .set_bounds(b,    0, B);
-    uX.space_time_transform(kkk);
     uX.vectorize(kkk);
 
     // I/O network
     Stensor DX("xLoader", DRAM), DY("yLoader", DRAM), DC("unloader", DRAM), C("deserializer");
-    Check_Load_X >> DX.out(kk) >> FIFO(256);
-    Check_Load_Y >> DY.out(kk) >> FIFO(256);
+    Check_Load_X >> DX >> FIFO(256);
+    Check_Load_Y >> DY >> FIFO(256);
     Z >> FIFO(256) >> DC >> C(b);
 
     // Compile the kernel to an FPGA bitstream, and expose a C interface for the host to invoke
