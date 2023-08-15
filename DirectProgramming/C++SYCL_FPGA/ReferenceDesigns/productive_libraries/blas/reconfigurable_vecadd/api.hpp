@@ -2,6 +2,7 @@
 
 #include <sycl/sycl.hpp>
 #include <complex>
+#include "complex_helper.hpp"
 #include "Halide.h"
 using namespace Halide;
 
@@ -15,11 +16,11 @@ extern sycl::event dvecadd(sycl::queue &, double, halide_buffer_t *, int, double
 }
 
 namespace cvecadd {
-extern sycl::event cvecadd(sycl::queue &, std::complex<float>, halide_buffer_t *, int, std::complex<float>, halide_buffer_t *, int, halide_buffer_t *);
+extern sycl::event cvecadd(sycl::queue &, complexf, halide_buffer_t *, int, complexf, halide_buffer_t *, int, halide_buffer_t *);
 }
 
 namespace zvecadd {
-extern sycl::event zvecadd(sycl::queue &, std::complex<double>, halide_buffer_t *, int, std::complex<double>, halide_buffer_t *, int, halide_buffer_t *);
+extern sycl::event zvecadd(sycl::queue &, complexd, halide_buffer_t *, int, complexd, halide_buffer_t *, int, halide_buffer_t *);
 }
 
 // Query of the parameters of the systolic array (KKK) based on types

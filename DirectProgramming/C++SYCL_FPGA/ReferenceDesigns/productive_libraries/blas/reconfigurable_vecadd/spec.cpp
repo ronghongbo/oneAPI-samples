@@ -24,15 +24,15 @@ using namespace Halide;
 int main()
 {
     // Dependences
-    #define P             kkk,             kk,      k,     b
+    #define P                kkk, k,     b
     // Linearized addresses
-    #define total_k         (kkk + KKK * kk + KKK * KK * k)
+    #define total_k         (kkk + KKK * k)
 
     // Outer loop bounds, which are determined by input sizes
-    #define K ((X.dim(0).extent() + KK * KKK - 1) / (KK * KKK))
+    #define K ((X.dim(0).extent() + KKK - 1) / KKK)
     #define B (X.dim(1).extent())
 
-    #define addr_in_range (KKK * (kk + KK * k) < X.dim(0).extent())
+    #define addr_in_range (KKK * k < X.dim(0).extent())
 
     // Inputs
     ImageParam X("X", TTYPE, 2);
@@ -60,7 +60,7 @@ int main()
     uX.merge_ures(uY, uZ_1, Z);
 
     // Explicitly set the loop bounds
-    uX.set_bounds(kkk,  0, KKK, kk,  0, KK,  k,  0, K)
+    uX.set_bounds(kkk,  0, KKK, k,  0, K)
       .set_bounds(b,    0, B);
     uX.vectorize(kkk);
 

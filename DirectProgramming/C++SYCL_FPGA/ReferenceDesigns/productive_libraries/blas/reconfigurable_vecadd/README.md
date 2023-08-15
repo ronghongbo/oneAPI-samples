@@ -46,11 +46,9 @@ Through APIs that provide appropriate dynamic parameters and post-processing, a 
 
 ## The design
 
-In this design, the input vectors are pre-processed on the host so that the FPGA device loads/stores data sequentially from/to the device DRAM. This ensures that the memory accesses won't be a bottleneck of the performance. In pre-processing, the host reads the values of the input vectors and sends the values to the device DRAM sequentially. The addition of the vectors is computed by a linear systolic array on the device.
+In this design, the input vectors are pre-processed on the host so that the FPGA device loads/stores data sequentially from/to the device DRAM. This ensures that the memory accesses won't be a bottleneck of the performance. In pre-processing, the host reads the values of the input vectors and sends the values to the device DRAM sequentially. The addition of the vectors is vectorized computed by a compute unit on the device.
 
-The input vectors are divided into parts. Each PE (processing element) of the systolic array loads a part of each of the input vectors, and computes a part of the resulting vector.
-
-When the length of the input vectors are not a multiple of the number of PEs, zeros are automatically inserted. This is zero-padding.
+When the length of the input vectors are not a multiple of the simd lane, zeros are automatically inserted. This is zero-padding.
 
 Similarly, redundant zeros in the result are automatically removed.
 
@@ -59,9 +57,7 @@ Similarly, redundant zeros in the result are automatically removed.
 
 ### Sizes of a systolic array
 
-* `KKK` - SIMD lanes in a PE: every cycle, the PE adds, in a vectorized way, `KKK` numbers of data from $\vec{x}$ and `KKK` numbers of data from $\vec{y}$.
-
-* `KK` - The number of PEs.
+* `KKK` - SIMD lanes in the compute unit: every cycle, the unit adds, in a vectorized way, `KKK` numbers of data from $\vec{x}$ and `KKK` numbers of data from $\vec{y}$.
 
 #### Restrictions
 
@@ -198,9 +194,9 @@ Running a demo application will generate performance metrics.
 $$
 \begin{aligned}
 \text{Arithmetic Intensity} &= \frac{\text{number of ops}}{\text{number of bytes}}\\
-&= \frac{\text{number of add\_ops} + \text{number of mul\_ops}}{3.0\times \text{Vector Length}\times \text{sizeof(T)}}\\
-&= \frac{\text{Vector Length}\times (\text{is\_complex\_type}\ ?\ 8\ :\ 2)}{3.0\times \text{Vector Length}\times \text{sizeof(T)}}\\
-&= \frac{\text{is\_complex\_type}\ ?\ 8\ :\ 2}{3.0\times \text{sizeof(T)}}
+&= \frac{\text{number of add ops} + \text{number of mul ops}}{3.0\times \text{Vector Length}\times \text{sizeof(T)}}\\
+&= \frac{\text{Vector Length}\times (\text{is complex type}\ ?\ 8\ :\ 2)}{3.0\times \text{Vector Length}\times \text{sizeof(T)}}\\
+&= \frac{\text{is complex type}\ ?\ 8\ :\ 2}{3.0\times \text{sizeof(T)}}
 \end{aligned}
 $$
 
