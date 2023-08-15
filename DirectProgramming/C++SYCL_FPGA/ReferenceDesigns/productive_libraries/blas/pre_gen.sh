@@ -25,7 +25,7 @@ if test "${kernel_to_tarball[$1]+exists}"; then
         size=$(echo $tarball | cut -d'_' -f2)
         hw=$(echo $tarball | cut -d'_' -f3)
         rm -rf pre_generated/$tarball
-        tar czvf pre_generated/$tarball $array/bin/$variation_$size_$hw.a $array/oneapi/$variation_$size_$hw.cpp  $array/reports/$variation_$size_$hw
+        tar czvf pre_generated/$tarball $array/bin/${variation}_${size}_${hw}.a $array/oneapi/${variation}_${size}_${hw}.cpp  $array/reports/${variation}_${size}_${hw}
     fi
 else
     echo "Error: No enry in dictionary kernel_to_tarball or kernel_to_reconfigurable_array for $1"
