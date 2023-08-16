@@ -58,6 +58,6 @@ int main() {
 #error No test type (float or double) specified
 #endif
     const auto KKK = t2sp::blas::row_major::get_systolic_array_dimensions<res_type>();
-    int64_t n = KKK * 2048 * 2048;
+    int64_t n = KKK * 4096 * 4096;
     test<test_type, res_type>(n, 1, 1);
 }
