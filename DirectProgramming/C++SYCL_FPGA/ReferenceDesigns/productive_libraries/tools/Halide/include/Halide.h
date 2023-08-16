@@ -87731,6 +87731,7 @@ public:
     template<typename T>
     void match_expr(const T* op);
 
+    void visit(const Cast *) override;
     void visit(const Add *op) override;
     void visit(const Sub *op) override;
     void visit(const Mul *op) override;
@@ -88872,6 +88873,7 @@ public:
     template<typename T>
     void match_expr(const T* op);
 
+    void visit(const Cast *) override;
     void visit(const Add *op) override;
     void visit(const Sub *op) override;
     void visit(const Mul *op) override;
