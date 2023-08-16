@@ -45,6 +45,7 @@ kernel_to_reconfigurable_array=(
     ["sdot_large_s10"]="reconfigurable_dotprod"
     ["ddot_large_s10"]="reconfigurable_dotprod"
     ["dsdot_large_s10"]="reconfigurable_dotprod"
+    ["cdotu_large_s10"]="reconfigurable_dotprod"
 )
  
 # A dictionary mapping from a kernel to a tarball of pre-generated source and bitstream.
@@ -91,6 +92,7 @@ kernel_to_tarball=(
     ["sdot_large_s10"]="sdotprod_large_s10_oneapi2023.2.tar.gz"
     ["ddot_large_s10"]="ddotprod_large_s10_oneapi2023.2.tar.gz"
     ["dsdot_large_s10"]="dsdotprod_large_s10_oneapi2023.2.tar.gz"
+    ["cdotu_large_s10"]="cdotprod_large_s10_oneapi2023.2.tar.gz"
 )
 
 # A dictionary mapping from a kernel to the demo directory where a demo application is located
@@ -137,6 +139,7 @@ kernel_to_demo_dir=(
     ["sdot_large_s10"]="dot/bin"
     ["ddot_large_s10"]="dot/bin"
     ["dsdot_large_s10"]="dot/bin"
+    ["cdotu_large_s10"]="dotu/bin"
 )
     
 # A dictionary mapping from a kernel to a demo application
@@ -183,6 +186,7 @@ kernel_to_demo=(
     ["sdot_large_s10"]="demo_sdot_large_s10"
     ["ddot_large_s10"]="demo_ddot_large_s10"
     ["dsdot_large_s10"]="demo_dsdot_large_s10"
+    ["cdotu_large_s10"]="demo_cdotu_large_s10"
 )
 
 
