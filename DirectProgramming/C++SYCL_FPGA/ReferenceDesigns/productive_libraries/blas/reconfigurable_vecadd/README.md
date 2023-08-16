@@ -46,11 +46,9 @@ Through APIs that provide appropriate dynamic parameters and post-processing, a 
 
 ## The design
 
-In this design, the input vectors are pre-processed on the host so that the FPGA device loads/stores data sequentially from/to the device DRAM. This ensures that the memory accesses won't be a bottleneck of the performance. In pre-processing, the host reads the values of the input vectors and sends the values to the device DRAM sequentially. The addition of the vectors is computed by a linear systolic array on the device.
+In this design, the input vectors are pre-processed on the host so that the FPGA device loads/stores data sequentially from/to the device DRAM. This ensures that the memory accesses won't be a bottleneck of the performance. In pre-processing, the host reads the values of the input vectors and sends the values to the device DRAM sequentially. The addition of the vectors is vectorized computed by a PE on the device.
 
-The input vectors are divided into parts. Each PE (processing element) of the systolic array loads a part of each of the input vectors, and computes a part of the resulting vector.
-
-When the length of the input vectors are not a multiple of the number of PEs, zeros are automatically inserted. This is zero-padding.
+When the length of the input vectors are not a multiple of the simd lane, zeros are automatically inserted. This is zero-padding.
 
 Similarly, redundant zeros in the result are automatically removed.
 
@@ -59,9 +57,7 @@ Similarly, redundant zeros in the result are automatically removed.
 
 ### Sizes of a systolic array
 
-* `KKK` - SIMD lanes in a PE: every cycle, the PE adds, in a vectorized way, `KKK` numbers of data from $\vec{x}$ and `KKK` numbers of data from $\vec{y}$.
-
-* `KK` - The number of PEs.
+* `KKK` - SIMD lanes in the PE: every cycle, the PE adds, in a vectorized way, `KKK` numbers of data from $\vec{x}$ and `KKK` numbers of data from $\vec{y}$.
 
 #### Restrictions
 
@@ -99,7 +95,7 @@ Running a demo application will generate performance metrics.
 <table style="width:120%">
 <tr>
     <th>Device</th>
-    <th>Static parameters<br>(TTYPE<br>KKK, KK)</th>
+    <th>Static parameters<br>(TTYPE<br>KKK)</th>
     <th>Logic utilization</th>
     <th>DSP blocks</th>
     <th>RAM blocks</th>
@@ -110,42 +106,42 @@ Running a demo application will generate performance metrics.
 </tr>
 <tr>
     <td rowspan="4">Intel Arria 10 GX 1150</td>
-    <td>S, S<br>32, 16</td>
-    <td>81,349 / 427,200 ( 19 % )</td>
+    <td>S, S<br>16</td>
+    <td>80,715 / 427,200 ( 19 % )</td>
     <td>32 / 1,518 ( 2 % )</td>
     <td>446 / 2,713 ( 16 % )</td>
-    <td>307</td>
+    <td>303</td>
     <td>4.5</td>
     <td>64M, 64M</td>
     <td>blas/dot/bin/demo_saxpy_large_a10.unsigned</td>
 </tr>
 <tr>
-    <td>D, D<br>32, 8</td>
-    <td>89,646 / 427,200 ( 21 % )</td>
+    <td>D, D<br>8</td>
+    <td>88,892 / 427,200 ( 21 % )</td>
     <td>64 / 1,518 ( 4 % )</td>
     <td>446 / 2,713 ( 16 % )</td>
-    <td>285</td>
-    <td>3.0</td>
+    <td>279</td>
+    <td>2.1</td>
     <td>32M, 32M</td>
     <td>blas/dot/bin/demo_daxpy_large_a10.unsigned</td>
 </tr>
 <tr>
-    <td>C, C<br>32, 8</td>
-    <td>81,617 / 427,200 ( 19 % )</td>
+    <td>C, C<br>8</td>
+    <td>80,781 / 427,200 ( 19 % )</td>
     <td>64 / 1,518 ( 4 % )</td>
     <td>446 / 2,713 ( 16 % )</td>
-    <td>302</td>
+    <td>311</td>
     <td>6.8</td>
     <td>32M, 32M</td>
     <td>blas/dotu/bin/demo_caxpy_large_a10.unsigned</td>
 </tr>
 <tr>
-    <td>Z, Z<br>32, 4</td>
-    <td>105,494 / 427,200 ( 25 % )</td>
+    <td>Z, Z<br>4</td>
+    <td>102,022 / 427,200 ( 24 % )</td>
     <td>128 / 1,518 ( 8 % )</td>
     <td>461 / 2,713 ( 17 % )</td>
-    <td>302</td>
-    <td>3.8</td>
+    <td>291</td>
+    <td>3.6</td>
     <td>16M, 16M</td>
     <td>blas/dotu/bin/demo_zaxpy_large_a10.unsigned</td>
 </tr>
@@ -193,6 +189,20 @@ Running a demo application will generate performance metrics.
 
 </table>
 
-## Roofline
+## Performance analysis
 
-![](figures/roofline-saxpy-large-a10.png)
+$$
+\begin{aligned}
+\text{Arithmetic Intensity} &= \frac{\text{number of ops}}{\text{number of bytes}}\\
+&= \frac{\text{number of add ops} + \text{number of mul ops}}{3.0\times \text{Vector Length}\times \text{sizeof(T)}}\\
+&= \frac{\text{Vector Length}\times (\text{is complex type}\ ?\ 8\ :\ 2)}{3.0\times \text{Vector Length}\times \text{sizeof(T)}}\\
+&= \frac{\text{is complex type}\ ?\ 8\ :\ 2}{3.0\times \text{sizeof(T)}}
+\end{aligned}
+$$
+
+Obviously, the arithmetic intensity is less than 1, so `reconfigurable_vecadd`'s machine peak throughput is limited by the DDR bandwidth. The Maximum DDR bandwidth is 33 GB/s for A10, so for different data types, their peak throughput are as follows:
+
+* `svecadd`: 5.5 GFLOPS
+* `dvecadd`: 2.75 GFLOPS 
+* `cvecadd`: 11 GFLOPS
+* `zvecadd`: 5.5 GFLOPS

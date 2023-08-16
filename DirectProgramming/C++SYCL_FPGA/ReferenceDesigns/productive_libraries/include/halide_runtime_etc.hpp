@@ -8,6 +8,7 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <sycl/sycl.hpp>
+#include "complex_helper.hpp"
 
 extern "C" {
 int64_t halide_current_time_ns(void *ctx);
@@ -150,7 +151,9 @@ inline auto halide_conditional_signbit(bool cond, T val) {
         if constexpr (std::is_same_v<float, T> || std::is_same_v<double, T>) {
             return val < 0.0 ? static_cast<T>(-1.0) : static_cast<T>(1.0);
         } else if constexpr (std::is_same_v<std::complex<float>, T>
-                || std::is_same_v<std::complex<double>, T>) {
+                || std::is_same_v<std::complex<double>, T>
+                || std::is_same_v<complexf, T>
+                || std::is_same_v<complexd, T>) {
             return T{halide_conditional_signbit(cond, val.real()), -halide_conditional_signbit(cond, val.imag())};
         } else {
             T ret_val{};

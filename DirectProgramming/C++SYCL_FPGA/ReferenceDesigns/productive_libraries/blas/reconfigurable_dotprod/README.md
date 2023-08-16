@@ -68,20 +68,19 @@ Through APIs that provide appropriate dynamic parameters and post-processing, a 
 
 ## The design
 
-In this design, the input vectors are pre-processed on the host so that the FPGA device loads data sequentially from the device DRAM. This ensures that the memory accesses won't be a bottleneck of the performance. In pre-processing, the host reads an input vector $V$ and apply $op_1/op_2$ to it. The resulting $op_1(\vec{x})$ and $op_2(\vec{y})$ are sent to the device DRAM sequentially, and their inner product is computed by a linear systolic array on the device.
+In this design, the input vectors are pre-processed on the host so that the FPGA device loads data sequentially from the device DRAM. This ensures that the memory accesses won't be a bottleneck of the performance. In pre-processing, the host reads an input vector $V$ and apply $op_1/op_2$ to it. The resulting $op_1(\vec{x})$ and $op_2(\vec{y})$ are sent to the device DRAM sequentially, and their inner product is computed by a single PE on the device.
 
-The systolic array fetches the vectors $op_1(\vec{x})$ and $op_2(\vec{y})$ in parts. Each PE (processing element) of the array computes the inner product of one part, and stores the result in rotating registers. Finally these registers are summed up to get the final result.
+Each cycle, the PE fetches KKK elements of $op_1(\vec{x})$ and $op_2(\vec{y})$ from DRAM, calculates their inner product, and stores the result in the shift register. Finally these registers are summed up to get the final result.
 
 When the length of the input vector is not a multiple of the number of PEs, zeros are automatically inserted. This is zero-padding.
 
-![](figures/dot_systolic_array.png)
 ![](figures/zero_padding.png)
 
 ### Sizes of a systolic array
 
 * `KKK` - SIMD lanes in a PE: every cycle, the PE computes a dot product, in a vectorized way, between `KKK` numbers of data from $op_1(\vec{x})$ and `KKK` numbers of data from $op_2(\vec{y})$.
 
-* `KK` - The number of PEs.
+* `KK` - The number of shift registers.
 
 #### Restrictions
 
