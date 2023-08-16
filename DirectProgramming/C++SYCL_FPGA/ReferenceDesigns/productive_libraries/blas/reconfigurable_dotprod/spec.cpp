@@ -1,21 +1,3 @@
-/*******************************************************************************
-* Copyright 2021 Intel Corporation
-*
-* Licensed under the BSD-2-Clause Plus Patent License (the "License");
-* you may not use this file except in compliance with the License.
-* You may obtain a copy of the License at
-*
-* https://opensource.org/licenses/BSDplusPatent
-*
-* Unless required by applicable law or agreed to in writing,
-* software distributed under the License is distributed on an "AS IS" BASIS,
-* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-* See the License for the specific language governing permissions
-* and limitations under the License.
-*
-*
-* SPDX-License-Identifier: BSD-2-Clause-Patent
-*******************************************************************************/
 #include "Halide.h"
 #include "parameters.h"
 
@@ -23,7 +5,7 @@ using namespace Halide;
 
 int main()
 {
-    // Dependences
+    // Indices. b is an additional loop for batch processing of dot products
     #define P_1             kkk,             kk,      k,     b
     #define P_1_k_minus_1   kkk + KKK - 1,   kk,      k - 1, b
     #define P_1_kkk_minus_1 kkk - 1,         kk,      k,     b
@@ -39,7 +21,7 @@ int main()
 
     #define addr_in_range (KKK * (kk + KK * k) < X.dim(0).extent())
 
-    // Inputs
+    // Inputs. X and Y are vectors, but we add an outer dimension to give us the flexibility of testing performance in batch mode.
     ImageParam X("X", ITYPE, 2);
     ImageParam Y("Y", ITYPE, 2);
     Param<int> IncX("IncX");
@@ -59,17 +41,28 @@ int main()
     Expr Check_Load_X = select(addr_in_range, conditional_conjugate(ConjugateX, cast(TTYPE, X(total_k, b))), 0);
     Expr Check_Load_Y = select(addr_in_range, conditional_signbit(SignBitY, cast(TTYPE, Y(total_k, b))), 0);
 
+    // Divide each input into KK parts, each part with KKK*K elements. Calculate the dot products of the KK parts interleavingly:
+    // reduce KKK elements of part 1, then reduce KKK elements of part 2, ..., and finally, reduce KKK elements of part KK;
+    // then go back to part 1: reduce the next KKK elements of part 1 (This reduction can start immediately because the previous
+    // result of part 1 must be available: the interleaving with the reduction of the other parts has introduced enough latency),
+    // then reduce the next KKK elements of part 2, ..., and finally, reduce the KKK elements of part KK; then go back to part 1
+    // again, until all parts are fully reduced.
+
+    // First, calculate the dot product for every part, indexed by loop kk.
     uX(P_1) = Check_Load_X;
     uY(P_1) = Check_Load_Y;
     uZ_1(P_1) = select(k == 0 && kkk == 0, 0, select(kkk == 0, uZ_1(P_1_k_minus_1), uZ_1(P_1_kkk_minus_1))) + uX(P_1) * uY(P_1);
     Z(P_2) = select(k == K - 1 && kkk == KKK - 1, uZ_1(P_1));
 
+    // Second, sum up the dot product of all the parts.
     uZ_2(P_2) = select(kk == 0, 0, uZ_2(P_2_kk_minus_1)) + Z(P_2);
     Out(P_out) = select(kk == KK - 1, conditional_sqrt(SqrtRet, uZ_2(P_2)));
 
-    // Put all the UREs inside the same loop nest of X.
+    // Put the first set of UREs into a loop nest.
     uX.merge_ures(uY, uZ_1, Z);
+    // Put the second set of UREs into another loop nest
     uZ_2.merge_ures(Out);
+    // Merge the two loop nests at the shared batch loop b
     uX.late_fuse(uZ_2, b);
 
     // Explicitly set the loop bounds
@@ -77,13 +70,14 @@ int main()
       .set_bounds(b,    0, B);
     uZ_2.set_bounds(kk,  0, KK)
         .set_bounds(b,   0, B);
+
+    // Create a systolic array with KKK PEs running synchronously.
     uX.space_time_transform(kkk);
     uX.vectorize(kkk);
-    uZ_2.unroll(kk);
 
     Stensor DX("xLoader", DRAM), DY("yLoader", DRAM), DC("unloader", DRAM), C("deserializer");
-    Check_Load_X >> DX.out(kk) >> FIFO(256);
-    Check_Load_Y >> DY.out(kk) >> FIFO(256);
+    Check_Load_X >> DX.out(kkk) >> FIFO(256);
+    Check_Load_Y >> DY.out(kkk) >> FIFO(256);
     Out >> FIFO(256) >> DC >> C(b);
 
     C.compile_to_oneapi(OUTPUT_FILE, {ConjugateX, X, IncX, SignBitY, Y, IncY, SqrtRet}, KERNEL, IntelFPGA);
