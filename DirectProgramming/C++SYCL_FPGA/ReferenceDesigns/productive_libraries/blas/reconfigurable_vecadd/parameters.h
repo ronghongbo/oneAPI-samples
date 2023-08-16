@@ -2,7 +2,6 @@
 
 #ifdef TINY
     #define KKK 4
-    #define KK 4
     #ifdef T2SP_SVECADD
         #define TTYPE Float(32)
         #define CONST_TYPE float
@@ -17,7 +16,6 @@
         #define CONST_TYPE complex64_t
     #endif
 #else
-    #define KK 32
     #ifdef T2SP_SVECADD
         #define KKK 16
         #define TTYPE Float(32)

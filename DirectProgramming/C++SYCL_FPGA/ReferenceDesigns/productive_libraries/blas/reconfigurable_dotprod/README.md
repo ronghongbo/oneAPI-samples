@@ -68,20 +68,19 @@ Through APIs that provide appropriate dynamic parameters and post-processing, a 
 
 ## The design
 
-In this design, the input vectors are pre-processed on the host so that the FPGA device loads data sequentially from the device DRAM. This ensures that the memory accesses won't be a bottleneck of the performance. In pre-processing, the host reads an input vector $V$ and apply $op_1/op_2$ to it. The resulting $op_1(\vec{x})$ and $op_2(\vec{y})$ are sent to the device DRAM sequentially, and their inner product is computed by a linear systolic array on the device.
+In this design, the input vectors are pre-processed on the host so that the FPGA device loads data sequentially from the device DRAM. This ensures that the memory accesses won't be a bottleneck of the performance. In pre-processing, the host reads an input vector $V$ and apply $op_1/op_2$ to it. The resulting $op_1(\vec{x})$ and $op_2(\vec{y})$ are sent to the device DRAM sequentially, and their inner product is computed by a single PE on the device.
 
-The systolic array fetches the vectors $op_1(\vec{x})$ and $op_2(\vec{y})$ in parts. Each PE (processing element) of the array computes the inner product of one part, and stores the result in rotating registers. Finally these registers are summed up to get the final result.
+Each cycle, the PE fetches KKK elements of $op_1(\vec{x})$ and $op_2(\vec{y})$ from DRAM, calculates their inner product, and stores the result in the shift register. Finally these registers are summed up to get the final result.
 
 When the length of the input vector is not a multiple of the number of PEs, zeros are automatically inserted. This is zero-padding.
 
-![](figures/dot_systolic_array.png)
 ![](figures/zero_padding.png)
 
 ### Sizes of a systolic array
 
 * `KKK` - SIMD lanes in a PE: every cycle, the PE computes a dot product, in a vectorized way, between `KKK` numbers of data from $op_1(\vec{x})$ and `KKK` numbers of data from $op_2(\vec{y})$.
 
-* `KK` - The number of PEs.
+* `KK` - The number of shift registers.
 
 #### Restrictions
 
@@ -158,21 +157,21 @@ Note: For the mixed-precision kernel, since our implementation is to perform pre
 </tr>
 <tr>
     <td>C, C<br>64, 8</td>
-    <td>158,786 / 427,200 ( 37 % )</td>
-    <td>181 / 1,518 ( 12 % )</td>
-    <td>1,277 / 2,713 ( 47 % )</td>
-    <td>182</td>
-    <td>0.3</td>
+    <td>89,908 / 427,200 ( 21 % )</td>
+    <td>186 / 1,518 ( 12 % )</td>
+    <td>450 / 2,713 ( 17 % )</td>
+    <td>310</td>
+    <td>13.4</td>
     <td>32M, 32M</td>
     <td>blas/dotu/bin/demo_cdotu_large_a10.unsigned</td>
 </tr>
 <tr>
     <td>Z, Z<br>32, 4</td>
-    <td>171,737 / 427,200 ( 40 % )</td>
+    <td>145,522 / 427,200 ( 34 % )</td>
     <td>185 / 1,518 ( 12 % )</td>
-    <td>1,069 / 2,713 ( 39 % )</td>
-    <td>200</td>
-    <td>0.4</td>
+    <td>491 / 2,713 ( 18 % )</td>
+    <td>271</td>
+    <td>6.5</td>
     <td>16M, 16M</td>
     <td>blas/dotu/bin/demo_zdotu_large_a10.unsigned</td>
 </tr>

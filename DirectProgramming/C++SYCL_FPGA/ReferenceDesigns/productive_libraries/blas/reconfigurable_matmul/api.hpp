@@ -2,6 +2,7 @@
 
 #include <sycl/sycl.hpp>
 #include "Halide.h"
+#include "complex_helper.hpp"
 using namespace Halide;
 
 namespace t2sp::blas::row_major {
@@ -24,14 +25,14 @@ namespace ccccmatmul {
 extern sycl::event ccccmatmul(sycl::queue &q_device, struct halide_buffer_t *A_buffer, bool TransposeA, bool ConjugateA, bool SymmetricA, bool HermitianA, bool UpA,
                                                      struct halide_buffer_t *B_buffer, bool TransposeB, bool ConjugateB, bool SymmetricB, bool HermitianB, bool UpB,
                                                      struct halide_buffer_t *C_buffer,                                   bool SymmetricC, bool HermitianC, bool UpC,
-                                                     bool HalfSpaceOut, std::complex<float> alpha, std::complex<float> beta, struct halide_buffer_t *Output_buffer);
+                                                     bool HalfSpaceOut, complexf alpha, complexf beta, struct halide_buffer_t *Output_buffer);
 }
 
 namespace zzzzmatmul {
 extern sycl::event zzzzmatmul(sycl::queue &q_device, struct halide_buffer_t *A_buffer, bool TransposeA, bool ConjugateA, bool SymmetricA, bool HermitianA, bool UpA,
                                                      struct halide_buffer_t *B_buffer, bool TransposeB, bool ConjugateB, bool SymmetricB, bool HermitianB, bool UpB,
                                                      struct halide_buffer_t *C_buffer,                                   bool SymmetricC, bool HermitianC, bool UpC,
-                                                     bool HalfSpaceOut, std::complex<double> alpha, std::complex<double> beta, struct halide_buffer_t *Output_buffer);
+                                                     bool HalfSpaceOut, complexd alpha, complexd beta, struct halide_buffer_t *Output_buffer);
 }
 
 // For HERK, the scalar type is real or double, different from the matrices' data types.
