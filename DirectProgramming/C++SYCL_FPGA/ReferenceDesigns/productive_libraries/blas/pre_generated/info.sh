@@ -42,6 +42,9 @@ kernel_to_reconfigurable_array=(
     ["dsymm_large_s10"]="reconfigurable_matmul"
     ["csymm_tiny_s10"]="reconfigurable_matmul"
     ["chemm_tiny_s10"]="reconfigurable_matmul"
+    ["sdot_large_s10"]="reconfigurable_dotprod"
+    ["ddot_large_s10"]="reconfigurable_dotprod"
+    ["dsdot_large_s10"]="reconfigurable_dotprod"
 )
  
 # A dictionary mapping from a kernel to a tarball of pre-generated source and bitstream.
@@ -85,6 +88,9 @@ kernel_to_tarball=(
     ["dsymm_large_s10"]="ddddmatmul_large_s10_oneapi2023.2.tar.gz"
     ["csymm_tiny_s10"]="ccccmatmul_tiny_s10_oneapi2023.2.tar.gz"
     ["chemm_tiny_s10"]="ccccmatmul_tiny_s10_oneapi2023.2.tar.gz"
+    ["sdot_large_s10"]="sdotprod_large_s10_oneapi2023.2.tar.gz"
+    ["ddot_large_s10"]="ddotprod_large_s10_oneapi2023.2.tar.gz"
+    ["dsdot_large_s10"]="dsdotprod_large_s10_oneapi2023.2.tar.gz"
 )
 
 # A dictionary mapping from a kernel to the demo directory where a demo application is located
@@ -128,6 +134,9 @@ kernel_to_demo_dir=(
     ["dsymm_large_s10"]="symm/bin"
     ["csymm_tiny_s10"]="symm/bin"
     ["chemm_tiny_s10"]="hemm/bin"
+    ["sdot_large_s10"]="dot/bin"
+    ["ddot_large_s10"]="dot/bin"
+    ["dsdot_large_s10"]="dot/bin"
 )
     
 # A dictionary mapping from a kernel to a demo application
@@ -171,6 +180,9 @@ kernel_to_demo=(
     ["dsymm_large_s10"]="demo_dsymm_large_s10"
     ["csymm_tiny_s10"]="demo_csymm_tiny_s10"
     ["chemm_tiny_s10"]="demo_chemm_tiny_s10"
+    ["sdot_large_s10"]="demo_sdot_large_s10"
+    ["ddot_large_s10"]="demo_ddot_large_s10"
+    ["dsdot_large_s10"]="demo_dsdot_large_s10"
 )
 
 
