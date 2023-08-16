@@ -157,21 +157,21 @@ Note: For the mixed-precision kernel, since our implementation is to perform pre
 </tr>
 <tr>
     <td>C, C<br>64, 8</td>
-    <td>158,786 / 427,200 ( 37 % )</td>
-    <td>181 / 1,518 ( 12 % )</td>
-    <td>1,277 / 2,713 ( 47 % )</td>
-    <td>182</td>
-    <td>0.3</td>
+    <td>89,908 / 427,200 ( 21 % )</td>
+    <td>186 / 1,518 ( 12 % )</td>
+    <td>450 / 2,713 ( 17 % )</td>
+    <td>310</td>
+    <td>13.4</td>
     <td>32M, 32M</td>
     <td>blas/dotu/bin/demo_cdotu_large_a10.unsigned</td>
 </tr>
 <tr>
     <td>Z, Z<br>32, 4</td>
-    <td>171,737 / 427,200 ( 40 % )</td>
+    <td>145,522 / 427,200 ( 34 % )</td>
     <td>185 / 1,518 ( 12 % )</td>
-    <td>1,069 / 2,713 ( 39 % )</td>
-    <td>200</td>
-    <td>0.4</td>
+    <td>491 / 2,713 ( 18 % )</td>
+    <td>271</td>
+    <td>6.5</td>
     <td>16M, 16M</td>
     <td>blas/dotu/bin/demo_zdotu_large_a10.unsigned</td>
 </tr>
