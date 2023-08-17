@@ -32,16 +32,4 @@ else
     exit 1
 fi
 
-if test "${kernel_to_demo_dir[$1]+exists}"; then
-    if test "${kernel_to_demo[$1]+exists}"; then
-        demo_dir=${kernel_to_demo_dir[$1]}
-        demo=${kernel_to_demo[$1]}
-        echo Copying ${demo_dir}/$demo to pre_generated/ ...
-        cp ${demo_dir}/${demo} pre_generated/
-    fi
-else
-    echo "Error: No enry in dictionary kernel_to_demo_dir or kernel_to_demo for $1"
-    exit 1
-fi
-
 cd -

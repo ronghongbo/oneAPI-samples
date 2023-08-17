@@ -218,7 +218,7 @@ Running a demo application will generate performance metrics.
     <td></td>
 </tr>
 <tr>
-    <td rowspan="6">Intel Stratix 10 GX 2800</td>
+    <td rowspan="6">Intel Stratix 10 SX 2800</td>
     <td>S, S, S, S<br>16, 16, 10, 32, 32, 32</td>
     <td>580,648 / 933,120 ( 62 % )</td>
     <td>2,597 / 5,760 ( 45 % )</td>

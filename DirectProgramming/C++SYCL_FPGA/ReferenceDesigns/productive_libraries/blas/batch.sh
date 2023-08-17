@@ -67,6 +67,7 @@ while [ "$index" -lt "${#array[*]}" ]; do
         echo -e ${GREEN}Installing pre-generated files for ${variation}_large_$1${NOCOLOR}
         if ../../install_pre_gen.sh ${variation}_large_$1 >> ../../batch.out; then
             echo -e ${GREEN}Making demo of ${variation}_large_$1${NOCOLOR}
+            rm -rf  ../bin/demo_${variation}_large_$1.unsigned  ../bin/demo_${variation}_large_$1
             make demo_${variation}_large_$1 >> ../../batch.out 2>&1
 
             echo -e ${GREEN}Running demo of ${variation}_large_$1${NOCOLOR}
