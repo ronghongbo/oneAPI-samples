@@ -68,24 +68,34 @@ Through APIs that provide appropriate dynamic parameters and post-processing, a 
 
 ## The design
 
-In this design, the input vectors are pre-processed on the host so that the FPGA device loads data sequentially from the device DRAM. This ensures that the memory accesses won't be a bottleneck of the performance. In pre-processing, the host reads an input vector $V$ and apply $op_1/op_2$ to it. The resulting $op_1(\vec{x})$ and $op_2(\vec{y})$ are sent to the device DRAM sequentially, and their inner product is computed by a single PE on the device.
+Dot product has no data reuse. A data is loaded and then used only once. Thus the performance is bound by the bandwidth of the FPGA DRAM. The key to achieve high performance is to effectively utilize the bandwidth of the FPGA DRAM.
 
-Each cycle, the PE fetches KKK elements of $op_1(\vec{x})$ and $op_2(\vec{y})$ from DRAM, calculates their inner product, and stores the result in the shift register. Finally these registers are summed up to get the final result.
+In this design, the input vectors are pre-processed: the data of the vectors are loaded in the order they are to be used, transformed by $op_1/op_2$, and sent to the device DRAM sequentially. Then the FPGA device simply loads data from the device DRAM sequentially, which effectively utilizes the DRAM's bandwidth.
 
-When the length of the input vector is not a multiple of the number of PEs, zeros are automatically inserted. This is zero-padding.
+The device divides the input data into `parts`, and calculates the dot product of each part with a dot product engine, interleavingly: there is no dependence between the parts, and thus they can be processed independently; however, it is unecessary to process them in parallel on multiple dot product engines, because the performance is limited by the memory anyway; therefore, we let all the parts time-share a single dot product engine.
 
+More specifically, the input vectors $op_1(\vec{x})$ and $op_2(\vec{y})$ are loaded from the device DRAM in short vectors of size `KKK`. Each time, a `pair` of short vectors are loaded from the two input vectors. The pairs are divided between `KK` number of parts: the 1st, `KK+1`-th, ..., pair belong to the first part, the 2nd, `KK+2`-th, ..., pair belong to the second part, and so on.
+
+The dot product engine reduces a pair each time. The engine is a systolic array of `KKK` PEs (processing elements) that run synchronously. The engine reduces a pair that belongs to the first part, then reduces a pair that belongs to the second part, ... Then the engine reduces the next pair that belong to the first part, then reduces the next pair that belongs to the second part, ... This process repeats until all the parts are fully reduced. Before that, the intermediate result of each part is stored in a register.
+
+There are totally `KK` intermediate results, and their corresponding `KK` registers are chained into a circle. These registers rotates: for the part currently under reduction, the engine reads its intermediate result from register 0, adds it up with the dot product of a new pair, writes the new result back to register 0, and rotates the registers once. By rotation, the values in register 0, 1, ..., are fowarded to register 1, 2, ..., and the last register's value, which is the intermediate result of the next part, is forwarded to register 0. The rotating registers are automatically constructed by the T2S compiler.
+
+After all the parts are fully reduced, their results, stored in these registers, are summed up to get the final result.
 ![](figures/dot_systolic_array.png)
+
+Note: in pre-processing, due to the way the inputs are to be divided, when the length of an input vector is not a multiple of `KKK * KK`, zeros are automatically inserted. This is zero-padding, as illustrated below for vector $\vec{x}$:
+
 ![](figures/zero_padding.png)
 
 ### Sizes of a systolic array
 
-* `KKK` - SIMD lanes in a PE: every cycle, the PE computes a dot product, in a vectorized way, between `KKK` numbers of data from $op_1(\vec{x})$ and `KKK` numbers of data from $op_2(\vec{y})$.
+* `KKK` - total PEs, i.e. SIMD lanes.
 
-* `KK` - The number of shift registers.
+* `KK` - The number of rotating registers.
 
 #### Restrictions
 
-* Data sizes: For memory efficiency, the vectors must be loaded in vectors from the device memory. Therefore, the width of $op_1(\vec{x})$ and $op_2(\vec{y})$ must be multiples of  `KKK`.
+* Data sizes: For memory efficiency, the input vectors must be loaded in short vectors from the device memory. Therefore, the width of $\vec{x}$ and $\vec{y}$ must be multiples of  `KKK`.
 
 The [parameters.h](./parameters.h) file pre-defines the sizes for a tiny and large systolic array. The tiny configuration specifies a systolic array with 4 PEs. The large configuration tries to maximally utilize resources, and varies with precision and hardware. One can modify these parameters. If so, please remember to modify the `get_systolic_array_dimensions()` function in [api.hpp](./api.hpp) accordingly.
 
@@ -115,13 +125,13 @@ make demo_sdot_large_a10
 
 will automatically synthesize this design into an image `blas/reconfigurable_dotprod/bin/sdotprod_large_a10.a`, and link the image into the demo application `blas/dot/bin/demo_sdot_large_a10`. Here `large_a10` refers to the large-sized configuration defined for A10 FPGA in [parameters.h](./parameters.h).
 
-Alternatively, one can install the pre-synthesized bitstreams and demo applications following the general instructions.
+Alternatively, one can install the pre-synthesized bitstreams following the general instructions.
 
 Running a demo application will generate performance metrics.
 
 ## Metrics
 
-Note: For the mixed-precision kernel, since our implementation is to perform precision conversion on the host, its performance should be similar to that of the kernel with the same calculation precision, so it is no longer listed in the table.
+Note: For the mixed-precision kernel, since our implementation performs precision conversion on the host, its performance should be similar to that of a kernel with the same  precision in calculation, and thus its performance is not listed.
 
 <table style="width:120%">
 <tr>
