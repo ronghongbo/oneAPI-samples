@@ -74,6 +74,7 @@ Each cycle, the PE fetches KKK elements of $op_1(\vec{x})$ and $op_2(\vec{y})$ f
 
 When the length of the input vector is not a multiple of the number of PEs, zeros are automatically inserted. This is zero-padding.
 
+![](figures/dot_systolic_array.png)
 ![](figures/zero_padding.png)
 
 ### Sizes of a systolic array
@@ -102,7 +103,7 @@ Follow the [general instructions](../README.md#user-content-build-a-kernel-and-r
 | dznrm2, dzasum             | zdotprod   | ✓           | tuning      |
 | sdsdot                     | sdsdotprod | ✓           | ✓           |
 | dsdot                      | dsdotprod  | ✓           | tuning      |
- 
+
 
 For example,
 
