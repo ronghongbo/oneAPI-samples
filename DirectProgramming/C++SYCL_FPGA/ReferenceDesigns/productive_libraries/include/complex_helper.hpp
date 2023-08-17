@@ -62,9 +62,9 @@ class vec {
         });
         return *this;
     }
-    T &operator[](size_t n) { return reinterpret_cast<T *>(&_data)[n]; }
-    const T &operator[](size_t n) const {
-        return reinterpret_cast<const T *>(&_data)[n];
+    vec<T, 1> &operator[](size_t n) { return reinterpret_cast<vec<T, 1> *>(&_data)[n]; }
+    const vec<T, 1> &operator[](size_t n) const {
+        return reinterpret_cast<const vec<T, 1> *>(&_data)[n];
     }
     constexpr static size_t size() noexcept { return N; }
     vec &operator+=(const vec &rhs) {
@@ -215,7 +215,7 @@ class vec {
         return ret;
     }
     friend bool operator==(const vec &lhs, const vec &rhs) {
-        return lhs == rhs;
+        return sycl::all(lhs._data == rhs._data);
     }
     template <typename A>
     friend bool operator==(const vec &lhs, const A &rhs) {
@@ -266,11 +266,14 @@ class vec<T, 1> {
         _data[1] = arg.imag();
     }
     template <typename A, std::enable_if_t<std::is_arithmetic_v<A>, int> = 0>
-    vec(A arg) : vec(T{static_cast<unwrap_t>(arg)}) {}
+    vec(A arg) {
+        _data[0] = arg;
+        _data[1] = 0;
+    }
     template <typename A, std::enable_if_t<std::is_arithmetic_v<A>, int> = 0>
     vec(A arg0, A arg1) {
-        _data[0] = static_cast<unwrap_t>(arg0); 
-        _data[1] = static_cast<unwrap_t>(arg1); 
+        _data[0] = arg0;
+        _data[1] = arg1;
     }
     auto real() const {
         return _data[0];
@@ -354,7 +357,7 @@ class vec<T, 1> {
         return rhs * lhs;
     }
     friend bool operator==(const vec &lhs, const vec &rhs) {
-        return lhs == rhs;
+        return sycl::all(lhs._data == rhs._data);
     }
     friend bool operator!=(const vec &lhs, const vec &rhs) {
         return !(lhs == rhs);
