@@ -112,7 +112,7 @@ Running a demo application will generate performance metrics.
     <td>303</td>
     <td>5.3<br>(62% peak)</td>
     <td>256M, 256M</td>
-    <td>blas/dot/bin/demo_saxpy_large_a10.unsigned</td>
+    <td>blas/axpy/bin/demo_saxpy_large_a10.unsigned</td>
 </tr>
 <tr>
     <td>D, D<br>8</td>
@@ -122,7 +122,7 @@ Running a demo application will generate performance metrics.
     <td>279</td>
     <td>2.9<br>(68% peak)</td>
     <td>128M, 128M</td>
-    <td>blas/dot/bin/demo_daxpy_large_a10.unsigned</td>
+    <td>blas/axpy/bin/demo_daxpy_large_a10.unsigned</td>
 </tr>
 <tr>
     <td>C, C<br>8</td>
@@ -132,7 +132,7 @@ Running a demo application will generate performance metrics.
     <td>294</td>
     <td>14.3<br>(72% peak)</td>
     <td>128M, 128M</td>
-    <td>blas/dotu/bin/demo_caxpy_large_a10.unsigned</td>
+    <td>blas/axpy/bin/demo_caxpy_large_a10.unsigned</td>
 </tr>
 <tr>
     <td>Z, Z<br>4</td>
@@ -142,7 +142,7 @@ Running a demo application will generate performance metrics.
     <td>291</td>
     <td>7.3<br>(73% peak)</td>
     <td>64M, 64M</td>
-    <td>blas/dotu/bin/demo_zaxpy_large_a10.unsigned</td>
+    <td>blas/axpy/bin/demo_zaxpy_large_a10.unsigned</td>
 </tr>
 <tr>
     <td rowspan="4">Intel Stratix 10 GX 2800</td>
