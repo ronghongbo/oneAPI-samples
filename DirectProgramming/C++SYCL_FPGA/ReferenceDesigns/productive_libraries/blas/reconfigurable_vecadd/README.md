@@ -198,6 +198,7 @@ $$
 &= \frac{\text{is complex type}\ ?\ 14\ :\ 3}{3.0\times \text{sizeof(T)}}
 \end{aligned}
 $$
+
 Note: every pair of input data is processed by 2 multiplications and 1 addition. For a real type, a multiplication/add is simply a mul/add operation. For a complex type, multiplying two complex numbers requires 4 multiply and 2 add operations, and adding two complex numbers requires 2 add operations. 
 
 Obviously, the arithmetic intensity is less than 1, so `reconfigurable_vecadd`'s machine peak throughput is limited by the FPGA DRAM bandwidth. Thus the theoretical peak performance = FPGA DRAM bandwidth * Arithmetic intensity. The maximum bandwidth is 34.1 GB/s and 76.8 GB/s for A10 and S10, respectively, so for different data types, their peak throughputs are as follows:
