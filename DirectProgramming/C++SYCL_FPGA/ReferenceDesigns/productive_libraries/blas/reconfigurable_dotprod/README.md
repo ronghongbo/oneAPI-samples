@@ -197,55 +197,54 @@ Running a demo application will generate performance metrics.
 <tr>
     <td rowspan="5">Intel Stratix 10 SX 2800</td>
     <td>S, S<br></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-</tr>
-<tr>
-    <td>D, D<br></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
+    <td>223,682 / 933,120 ( 24 % )</td>
+    <td>20 / 5,760 ( < 1 % )</td>
+    <td>708 / 11,721 ( 6 % )</td>
+    <td>360</td>
+    <td>10.9 GFLOPS<br>(57% peak)</td>
+    <td>128M, 128M</td>
+    <td>blas/dot/bin/demo_sdot_large_s10</td>
 </tr>
 <tr>
     <td>D, S<br></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
+    <td>234,716 / 933,120 ( 25 % )</td>
+    <td>44 / 5,760 ( < 1 % )</td>
+    <td> 719 / 11,721 ( 6 % )</td>
+    <td>288</td>
+    <td>4.3 GFLOPS<br>(22% peak)</td>
+    <td>64M, 64M</td>
+    <td>blas/dot/bin/demo_dsdot_large_s10</td>
+</tr>
+<tr>
+    <td>D, D<br></td>
+    <td>234,716 / 933,120 ( 25 % )</td>
+    <td>44 / 5,760 ( < 1 % )</td>
+    <td>719 / 11,721 ( 6 % )</td>
+    <td>288</td>
+    <td>4.3 GFLOPS<br>(45% peak)</td>
+    <td>64M, 64M</td>
+    <td>blas/dot/bin/demo_ddot_large_s10</td>
 </tr>
 <tr>
     <td>C, C<br></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
+    <td>227,680 / 933,120 ( 24 % )</td>
+    <td>58 / 5,760 ( 1 % )</td>
+    <td>736 / 11,721 ( 6 % )</td>
+    <td>311</td>
+    <td>18.7 GFLOPS<br>(49% peak)</td>
+    <td>64M, 64M</td>
+    <td>blas/dotu/bin/demo_cdotu_large_s10</td>
 </tr>
 <tr>
     <td>Z, Z<br></td>
+    <td>263,700 / 933,120 ( 28 % )</td>
+    <td>185 / 5,760 ( 3 % )</td>
+    <td>782 / 11,721 ( 7 % )</td>
+    <td>267</td>
+    <td>7.6 GFLOPS<br>(40% peak)</td>
     <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
+    <td>blas/dotu/bin/demo_zdotu_large_s10</td>
 </tr>
-
 </table>
 
 ### Performance analysis
