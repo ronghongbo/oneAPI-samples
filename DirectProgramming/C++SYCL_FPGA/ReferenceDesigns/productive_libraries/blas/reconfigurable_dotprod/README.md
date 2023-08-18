@@ -249,13 +249,23 @@ Running a demo application will generate performance metrics.
 
 ### Performance analysis
 
-Theoretical peak performance of dot product, for the cases of SS:DS:DD:CC:ZZ, equals 8.5 : 8.5 : 4.3 : 17 : 8.5 GFLOPS for A10, and 19.2 : 19.2 : 9.6 : 38.4 : 19.2 GFLOPS for S10. The performance is derived as follows:
+$$
+\begin{aligned}
+\text{Arithmetic intensity} &= \frac{\text{number of ops}}{\text{number of bytes}}\\
+&= \frac{\text{number of add ops} + \text{number of mul ops}}{3.0\times \text{Vector Length}\times \text{sizeof(T)}}\\
+&= \frac{\text{Vector Length}\times (\text{is complex type}\ ?\ 8\ :\ 2)}{2\times \text{Vector Length}\times \text{sizeof(T)}}\\
+&= \frac{\text{is complex type}\ ?\ 8\ :\ 2}{2\times \text{sizeof(T)}}
+\end{aligned}
+$$
+Note: every pair of input data is processed by 1 multiplication and 1 addition. For a real type, a multiplication/add is simply a mul/add operation. For a complex type, multiplying two complex numbers requires 4 multiply and 2 add operations, and adding two complex numbers requires 2 add operations. 
 
-* Theoretical peak performance of dot product = (FPGA DRAM bandwidth in GB/s) * (#FLOPS per byte)
-    * Memory bandwidth is 34.133 GB/s for A10 and 76.800 GB/s for S10.
-    * #FLOPS per byte for SS:DS:DD:CC:ZZ= 1/4 : 1/4 : 1/8 : 1/2 : 1/4
-        * In dot product, a MAD is applied to 2 input data.
-        * FLOPS (FP operations) per MAD for SS:DS:DD:CC:ZZ=2:2:2:8:8
-            * FLOPS (FP operations) are either single or double precision. One MAD includes one FP MUL and one FP ADD.
-            * Adding two complex numbers requires 2 FP ADDs. Multiplying two complex numbers requires 4 FP MULs and 2 FP ADDs.
-        * Bytes of two input data for the cases SS:DS:DD:CC:ZZ=8:8:16:16:32
+Obviously, the arithmetic intensity is less than 1, so `reconfigurable_dotprod`'s machine peak throughput is limited by the FPGA DRAM bandwidth. Thus the theoretical peak performance = FPGA DRAM bandwidth * Arithmetic intensity. The maximum bandwidth is 34.1 GB/s and 76.8 GB/s for A10 and S10, respectively, so for different data types, their peak throughputs are as follows:
+
+
+|         |  Peak performance on A10 (GFLOPS) | Peak performance on S10 (GFLOPS) | Note: precision of the ops|
+| ------- | ----------- | ----------- | --- |
+| sdotprod | 8.5           | 19.2  |  single |
+|dsdotprod, sdsdotprod |8.5           | 19.2  |  double |
+| ddotprod | 4.3           | 9.6       | double|
+| cdotprod | 17.1           | 38.4      | single |
+| zdotprod | 8.5           | 19.2      | double |

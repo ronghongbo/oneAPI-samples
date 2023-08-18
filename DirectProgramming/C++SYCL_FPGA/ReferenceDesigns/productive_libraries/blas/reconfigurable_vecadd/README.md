@@ -194,17 +194,18 @@ $$
 \begin{aligned}
 \text{Arithmetic intensity} &= \frac{\text{number of ops}}{\text{number of bytes}}\\
 &= \frac{\text{number of add ops} + \text{number of mul ops}}{3.0\times \text{Vector Length}\times \text{sizeof(T)}}\\
-&= \frac{\text{Vector Length}\times (\text{is complex type}\ ?\ 8\ :\ 2)}{3.0\times \text{Vector Length}\times \text{sizeof(T)}}\\
-&= \frac{\text{is complex type}\ ?\ 8\ :\ 2}{3.0\times \text{sizeof(T)}}
+&= \frac{\text{Vector Length}\times (\text{is complex type}\ ?\ 14\ :\ 3)}{3.0\times \text{Vector Length}\times \text{sizeof(T)}}\\
+&= \frac{\text{is complex type}\ ?\ 14\ :\ 3}{3.0\times \text{sizeof(T)}}
 \end{aligned}
 $$
+Note: every pair of input data is processed by 2 multiplications and 1 addition. For a real type, a multiplication/add is simply a mul/add operation. For a complex type, multiplying two complex numbers requires 4 multiply and 2 add operations, and adding two complex numbers requires 2 add operations. 
 
-Obviously, the arithmetic intensity is less than 1, so `reconfigurable_vecadd`'s machine peak throughput is limited by the FPGA DRAM bandwidth. Thus the theoretical peak performance = FPGA DRAM bandwidth in GB/s * Arithmetic intensity. The maximum bandwidth is 34.1 GB/s and 76.8 GB/s for A10 and S10, respectively, so for different data types, their peak throughputs are as follows:
+Obviously, the arithmetic intensity is less than 1, so `reconfigurable_vecadd`'s machine peak throughput is limited by the FPGA DRAM bandwidth. Thus the theoretical peak performance = FPGA DRAM bandwidth * Arithmetic intensity. The maximum bandwidth is 34.1 GB/s and 76.8 GB/s for A10 and S10, respectively, so for different data types, their peak throughputs are as follows:
 
 
-|         |  Peak performance of A10 | Peak performance of S10 |
+|         |  Peak performance on A10 (GFLOPS) | Peak performance on S10 (GFLOPS) |
 | ------- | ----------- | ----------- |
-| svecadd | 5.7           | 12.8  |
-| dvecadd | 2.8           | 6.4       |
-| cvecadd | 11.4           | 25.6      |
-| zvecadd | 5.7           | 12.8      |
+| svecadd | 8.5           | 19.2  |
+| dvecadd | 4.3           | 9.6       |
+| cvecadd | 19.9           | 44.8      |
+| zvecadd | 9.9           | 22.4      |
