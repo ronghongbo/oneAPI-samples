@@ -109,7 +109,7 @@ Assume your machine has OneAPI enabled for A10 or S10. For example, on DevCloud,
    make demo_VARIATION_(tiny|large)_(a10|s10)
    ../bin/demo_VARIATION_(tiny|large)_(a10|s10)
    ```
-    The demo application invokes a systolic array. If the array has not been synthesized, the above command will synthesize it from scratch automatically. Optionally, to avoid synthesis, a pre-generated bitstream for the array can be installed; the informational files including SYCL file and reports for the array, as well as a demo application, are installed too:
+    The demo application invokes a systolic array. If the array has not been synthesized, the above command will synthesize it from scratch automatically. Optionally, to avoid synthesis, a pre-generated bitstream for the array can be installed; the informational files including SYCL file and reports for the array are installed too:
    ```
    ../../install_pre_gen.sh VARIATION_(tiny|large)_(a10|s10)
    ```

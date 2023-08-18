@@ -103,16 +103,16 @@ The [parameters.h](./parameters.h) file pre-defines the sizes for a tiny and lar
 
 Follow the [general instructions](../README.md#user-content-build-a-kernel-and-run-on-Linux) to build a demo application `demo_VARIATION_SIZE_HW`for any kernel `VARIATION` that is covered by the design with a systolic array of any `SIZE` (`tiny` or `large` as defined in [parameters.h](./parameters.h)) on any `HW` (`a10` or `s10`), and the design will be synthesized under the hood into an image and  linked with that kernel. The correspondence between VARIATION and image, and the current status, are as follows:
 
-| VARIATION of a kernel      | Image      | Correctness | Performance |
-| -------------------------- | ---------- | ----------- | ----------- |
-| sdot, snrm2, sasum         | sdotprod   | ✓           | ✓           |
-| ddot, dnrm2, dasum         | ddotprod   | ✓           | ✓           |
-| cdotu, cdotc               | cdotprod   | ✓           | tuning      |
-| zdotu, zdotc               | zdotprod   | ✓           | tuning      |
-| scnrm2, scasum             | cdotprod   | ✓           | tuning      |
-| dznrm2, dzasum             | zdotprod   | ✓           | tuning      |
-| sdsdot                     | sdsdotprod | ✓           | ✓           |
-| dsdot                      | dsdotprod  | ✓           | tuning      |
+| VARIATION of a kernel      | Image      | 
+| -------------------------- | ---------- | 
+| sdot, snrm2, sasum         | sdotprod   | 
+| ddot, dnrm2, dasum         | ddotprod   | 
+| cdotu, cdotc               | cdotprod   | 
+| zdotu, zdotc               | zdotprod   | 
+| scnrm2, scasum             | cdotprod   | 
+| dznrm2, dzasum             | zdotprod   | 
+| sdsdot                     | sdsdotprod | 
+| dsdot                      | dsdotprod  | 
 
 
 For example,
