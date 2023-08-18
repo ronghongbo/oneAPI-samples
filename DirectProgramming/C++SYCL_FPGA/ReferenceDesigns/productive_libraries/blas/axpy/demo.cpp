@@ -1,12 +1,9 @@
-// To compile this file, pass in a macro for the compute (T2SP_S/DDOT), the size of the systolic array (TINY or LARGE), and the hardware(A10 or S10).
-// And pass in a macro FPGA_EMULATOR if to use the emulator instead of FPGA hardware.
-
 #include <cstdlib>
 #include <iostream>
 #include <sycl/sycl.hpp>
 #include <sycl/ext/intel/fpga_extensions.hpp>
 
-// The GEMM API to invoke
+// The axpy API to invoke
 #include "./api.hpp"
 
 // Useful routines from the OneMKL unit tests
@@ -39,9 +36,9 @@ void test(int N, int incx, int incy) {
 
     double number_ops = 0.0;
     if constexpr (std::is_same_v<T, float> || std::is_same_v<T, double>) {
-        number_ops = 2.0 * N;
+        number_ops = 3.0 * N;
     } else {
-        number_ops = 8.0 * N;
+        number_ops = 14.0 * N;
     }
     std::cout << "GFLOPs: " << number_ops / exec_time << "\n";
     std::cout << "Size of vector x: " << N << "\n";
@@ -61,6 +58,6 @@ int main() {
 #error No test type (float or double or std::complex<float> or std::complex<double>) specified
 #endif
     const auto KKK = t2sp::blas::row_major::get_systolic_array_dimensions<test_type>();
-    int64_t n = KKK * 2048 * 2048;
+    int64_t n = KKK * 4096 * 4096;
     test<test_type>(n, 1, 1);
 }
