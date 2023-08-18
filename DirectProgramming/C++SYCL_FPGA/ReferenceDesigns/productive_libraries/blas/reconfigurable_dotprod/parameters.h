@@ -4,24 +4,46 @@
     #define KKK         4
     #define KK          4
 #else
-    #ifdef T2SP_DDOTPROD
-        #define KK 64
-        #define KKK 8
-    #elif defined(T2SP_CDOTPROD)
-        #define KK 64
-        #define KKK 8
-    #elif defined(T2SP_ZDOTPROD)
-        #define KK 32
-        #define KKK 4
-    #elif defined(T2SP_SDSDOTPROD)
-        #define KK 64
-        #define KKK 16
-    #elif defined(T2SP_DSDOTPROD)
-        #define KK 64
-        #define KKK 16
-    #else
-        #define KK 64
-        #define KKK 16
+    #if defined(S10)
+        #ifdef T2SP_DDOTPROD
+            #define KK 64
+            #define KKK 16
+        #elif defined(T2SP_CDOTPROD)
+            #define KK 64
+            #define KKK 16
+        #elif defined(T2SP_ZDOTPROD)
+            #define KK 32
+            #define KKK 8
+        #elif defined(T2SP_SDSDOTPROD)
+            #define KK 64
+            #define KKK 32
+        #elif defined(T2SP_DSDOTPROD)
+            #define KK 64
+            #define KKK 32
+        #else
+            #define KK 64
+            #define KKK 32
+        #endif
+    #else // A10
+        #ifdef T2SP_DDOTPROD
+            #define KK 64
+            #define KKK 8
+        #elif defined(T2SP_CDOTPROD)
+            #define KK 64
+            #define KKK 8
+        #elif defined(T2SP_ZDOTPROD)
+            #define KK 32
+            #define KKK 4
+        #elif defined(T2SP_SDSDOTPROD)
+            #define KK 64
+            #define KKK 16
+        #elif defined(T2SP_DSDOTPROD)
+            #define KK 64
+            #define KKK 16
+        #else
+            #define KK 64
+            #define KKK 16
+        #endif
     #endif
 #endif
 
