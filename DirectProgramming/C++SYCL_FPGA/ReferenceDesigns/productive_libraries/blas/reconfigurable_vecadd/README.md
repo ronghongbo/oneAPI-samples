@@ -99,8 +99,8 @@ Running a demo application will generate performance metrics.
     <th>DSP blocks</th>
     <th>RAM blocks</th>
     <th>Frequency<br>(MHZ)</th>
-    <th>Throughput<br>(GFLOPS)</th>
-    <th>Vector Size<br>(X, Y)</th>
+    <th>Throughput in GFLOPS</th>
+    <th>Vector Size<br>(#elements of X, Y)</th>
     <th>Command to reproduce</th>
 </tr>
 <tr>
@@ -110,8 +110,8 @@ Running a demo application will generate performance metrics.
     <td>32 / 1,518 ( 2 % )</td>
     <td>446 / 2,713 ( 16 % )</td>
     <td>303</td>
-    <td>4.5</td>
-    <td>64M, 64M</td>
+    <td>5.3<br>(62% peak)</td>
+    <td>256M, 256M</td>
     <td>blas/dot/bin/demo_saxpy_large_a10.unsigned</td>
 </tr>
 <tr>
@@ -120,18 +120,18 @@ Running a demo application will generate performance metrics.
     <td>64 / 1,518 ( 4 % )</td>
     <td>446 / 2,713 ( 16 % )</td>
     <td>279</td>
-    <td>2.1</td>
-    <td>32M, 32M</td>
+    <td>2.9<br>(68% peak)</td>
+    <td>128M, 128M</td>
     <td>blas/dot/bin/demo_daxpy_large_a10.unsigned</td>
 </tr>
 <tr>
     <td>C, C<br>8</td>
-    <td>80,781 / 427,200 ( 19 % )</td>
+    <td>80,820 / 427,200 ( 19 % )</td>
     <td>64 / 1,518 ( 4 % )</td>
     <td>446 / 2,713 ( 16 % )</td>
-    <td>311</td>
-    <td>6.8</td>
-    <td>32M, 32M</td>
+    <td>294</td>
+    <td>14.3<br>(72% peak)</td>
+    <td>128M, 128M</td>
     <td>blas/dotu/bin/demo_caxpy_large_a10.unsigned</td>
 </tr>
 <tr>
@@ -140,8 +140,8 @@ Running a demo application will generate performance metrics.
     <td>128 / 1,518 ( 8 % )</td>
     <td>461 / 2,713 ( 17 % )</td>
     <td>291</td>
-    <td>3.6</td>
-    <td>16M, 16M</td>
+    <td>7.3<br>(73% peak)</td>
+    <td>64M, 64M</td>
     <td>blas/dotu/bin/demo_zaxpy_large_a10.unsigned</td>
 </tr>
 <tr>
