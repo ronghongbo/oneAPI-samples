@@ -29,7 +29,7 @@ namespace dsdotprod {
 extern sycl::event dsdotprod(sycl::queue &, bool, halide_buffer_t *, int, bool, halide_buffer_t *, int, bool, halide_buffer_t *);
 }
 
-// Query of the parameters of the systolic array (KKK) based on types
+// Query of the KKK parameter of the systolic array based on the input vectors' type
 template <typename T>
 constexpr auto get_systolic_array_dimensions() {
     _halide_user_assert((std::is_same_v<float, T>) ||
@@ -45,13 +45,13 @@ constexpr auto get_systolic_array_dimensions() {
     constexpr bool run_on_s10 = false;
 #endif
     if constexpr (std::is_same_v<T, float>) {
-        return run_on_s10 ? 32 : 16; 
+        return run_on_s10 ? 32 : 16;
     } else if constexpr (std::is_same_v<T, double>) {
-        return run_on_s10 ? 16 : 8; 
+        return run_on_s10 ? 16 : 8;
     } else if constexpr (std::is_same_v<T, std::complex<float>>) {
-        return run_on_s10 ? 16 : 8; 
+        return run_on_s10 ? 16 : 8;
     } else {
-        return run_on_s10 ? 8 : 4; 
+        return run_on_s10 ? 8 : 4;
     }
 #endif
 }

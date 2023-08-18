@@ -12,8 +12,7 @@
 using namespace Halide;
 
 namespace t2sp::blas::row_major {
-// The API for SDSDOT. We choose the USM version of oneMKL DPC++ interface (https://oneapi-src.github.io/oneMKL/domains/blas/dotc.html) with the
-// restriction of standard data types (s) only.
+// The API for SDSDOT. We choose the USM version of oneMKL DPC++ interface (https://oneapi-src.github.io/oneMKL/domains/blas/sdsdot.html)
 sycl::event sdsdot(sycl::queue &queue,
                    std::int64_t n,
                    float sb,
@@ -23,8 +22,9 @@ sycl::event sdsdot(sycl::queue &queue,
                    std::int64_t incy,
                    float *result,
                    const std::vector<sycl::event> &dependencies = {}) {
+    // TODO: handle the special case that n < 0
 
-    const auto KKK = get_systolic_array_dimensions<double>();
+    const auto KKK = get_systolic_array_dimensions<float>();
 
     // TOREMOVE: These two constraints below should be checked by the reconfigurable matmul instead.
     _halide_user_assert(n % KKK == 0) << "For performance reasons, the current implementation requires that n must be a multiple of " << KKK

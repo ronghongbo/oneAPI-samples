@@ -6,7 +6,7 @@
 #include <sycl/sycl.hpp>
 #include <sycl/ext/intel/fpga_extensions.hpp>
 
-// The GEMM API to invoke
+// The dotc API to invoke
 #include "./api.hpp"
 
 // Useful routines from the OneMKL unit tests
@@ -42,7 +42,7 @@ void test(int N, int incx, int incy) {
     double number_ops = 8 * N;
     std::cout << "GFLOPs: " << number_ops / exec_time << "\n";
     std::cout << "Size of vector x: " << N << "\n";
-    std::cout << "Size of vector y: " << N << "\n"; 
+    std::cout << "Size of vector y: " << N << "\n";
 }
 
 int main() {

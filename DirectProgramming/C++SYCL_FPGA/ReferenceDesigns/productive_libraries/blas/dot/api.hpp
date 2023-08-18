@@ -12,10 +12,8 @@
 using namespace Halide;
 
 namespace t2sp::blas::row_major {
-// The API for DOT. We choose the USM version of oneMKL DPC++ interface (https://oneapi-src.github.io/oneMKL/domains/blas/dot.html) with the
-// restriction of standard data types (s, d) only. In this case, the matrices, alpha and beta all have the same data type according to the DPC++ interface.
-// So we define our DOT interface as a template with a single type T.
-template<typename T, typename T_res>
+// The API for DOT. We choose the USM version of oneMKL DPC++ interface (https://oneapi-src.github.io/oneMKL/domains/blas/dot.html).
+template<typename T_res, typename T>
 sycl::event dot(sycl::queue &queue,
                  std::int64_t n,
                  const T *x,
@@ -29,11 +27,11 @@ sycl::event dot(sycl::queue &queue,
                         (std::is_same_v<double, T_res> &&
                         (std::is_same_v<double, T> || std::is_same_v<float, T>))) << "Unsupported data type";
 
-    const auto KKK = get_systolic_array_dimensions<T_res>();
+    const auto KKK = get_systolic_array_dimensions<T>();
 
     // TOREMOVE: These two constraints below should be checked by the reconfigurable matmul instead.
     _halide_user_assert(n % KKK == 0) << "For performance reasons, the current implementation requires that n must be a multiple of " << KKK
-                              << "(the vectorized dimension for the input vectors), but n = " << n;
+                                      << "(the vectorized dimension for the input vectors), but n = " << n;
 
     using Halide::Runtime::Buffer;
     halide_dimension_t dim_x[]{{0, n, std::abs(incx)}, {0, 1, 1}};

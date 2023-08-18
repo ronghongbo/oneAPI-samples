@@ -15,10 +15,10 @@
         #define KKK 4
     #elif defined(T2SP_SDSDOTPROD)
         #define KK 64
-        #define KKK 8
+        #define KKK 16
     #elif defined(T2SP_DSDOTPROD)
         #define KK 64
-        #define KKK 8
+        #define KKK 16
     #else
         #define KK 64
         #define KKK 16

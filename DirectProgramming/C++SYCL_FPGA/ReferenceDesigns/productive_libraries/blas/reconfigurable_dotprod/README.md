@@ -14,7 +14,7 @@ where $op_1(\vec{x})$ is $\vec{x}$ or $\overline{\vec{x}}$ , $op_2(y)$ is $\vec{
 
 The design has static and dynamic parameters. The static parameters include
 
-* data types: the type of the inputs and result, denoted `ITYPE` and `TTYPE` respectively, A data type can be any of `s` (single precision), `d` (double precision), `c` (complex single precision), and `z` (complex double precision).
+* data types: the type of the result and inputs, denoted `TTYPE` and `ITYPE`, respectively. A data type can be any of `s` (single precision), `d` (double precision), `c` (complex single precision), and `z` (complex double precision).
 
 * [sizes of the systolic array](#user-content-sizes-of-a-systolic-array) that is expressed by the design.
 
@@ -68,17 +68,17 @@ Through APIs that provide appropriate dynamic parameters and post-processing, a 
 
 ## The design
 
-Dot product has no data reuse. A data is loaded and then used only once. Thus the performance is bound by the bandwidth of the FPGA DRAM. The key to achieve high performance is to effectively utilize the bandwidth of the FPGA DRAM.
+Dot product has no data reuse. A data is loaded and then used only once. Thus the performance is bound by the bandwidth of the FPGA DRAM. The key to achieve high performance is to effectively utilize the bandwidth.
 
-In this design, the input vectors are pre-processed: the data of the vectors are loaded in the order they are to be used, transformed by $op_1/op_2$, and sent to the device DRAM sequentially. Then the FPGA device simply loads data from the device DRAM sequentially, which effectively utilizes the DRAM's bandwidth.
+In this design, the input vectors are pre-processed on the host: the data of the vectors are loaded in the order they are to be used, transformed by $op_1/op_2$, and sent to the device DRAM sequentially. Then the FPGA device simply loads data from the device DRAM sequentially.
 
 The device divides the input data into `parts`, and calculates the dot product of each part with a dot product engine, interleavingly: there is no dependence between the parts, and thus they can be processed independently; however, it is unecessary to process them in parallel on multiple dot product engines, because the performance is limited by the memory anyway; therefore, we let all the parts time-share a single dot product engine.
 
 More specifically, the input vectors $op_1(\vec{x})$ and $op_2(\vec{y})$ are loaded from the device DRAM in short vectors of size `KKK`. Each time, a `pair` of short vectors are loaded from the two input vectors. The pairs are divided between `KK` number of parts: the 1st, `KK+1`-th, ..., pair belong to the first part, the 2nd, `KK+2`-th, ..., pair belong to the second part, and so on.
 
-The dot product engine reduces a pair each time. The engine is a systolic array of `KKK` PEs (processing elements) that run synchronously. The engine reduces a pair that belongs to the first part, then reduces a pair that belongs to the second part, ... Then the engine reduces the next pair that belong to the first part, then reduces the next pair that belongs to the second part, ... This process repeats until all the parts are fully reduced. Before that, the intermediate result of each part is stored in a register.
+The dot product engine reduces a pair each time. The engine is a systolic array of PEs (processing elements) that run synchronously in SIMD style. The engine reduces a pair that belongs to the first part, then reduces a pair that belongs to the second part, ... Then the engine reduces the next pair that belong to the first part, then reduces the next pair that belongs to the second part, ... This process repeats until all the parts are fully reduced. Before that, the intermediate result of each part is stored in a register.
 
-There are totally `KK` intermediate results, and their corresponding `KK` registers are chained into a circle. These registers rotates: for the part currently under reduction, the engine reads its intermediate result from register 0, adds it up with the dot product of a new pair, writes the new result back to register 0, and rotates the registers once. By rotation, the values in register 0, 1, ..., are fowarded to register 1, 2, ..., and the last register's value, which is the intermediate result of the next part, is forwarded to register 0. The rotating registers are automatically constructed by the T2S compiler.
+There are totally `KK` intermediate results, and their corresponding `KK` registers are chained into a circle. These registers rotate: for the part currently under reduction, the engine reads its intermediate result from register 0, adds it up with the dot product of a new pair, writes the new result back to register 0, and rotates the registers once. By rotation, the values in register 0, 1, ..., are fowarded to register 1, 2, ..., and the last register's value, which is the intermediate result of the next part to reduce, is forwarded to register 0. The rotating registers are automatically constructed by the T2SP compiler.
 
 After all the parts are fully reduced, their results, stored in these registers, are summed up to get the final result.
 ![](figures/dot_systolic_array.png)
@@ -101,7 +101,7 @@ The [parameters.h](./parameters.h) file pre-defines the sizes for a tiny and lar
 
 ## Build and test
 
-Follow the [general instructions](../README.md#user-content-build-a-kernel-and-run-on-Linux) to build a demo application `demo_VARIATION_SIZE_HW`for any kernel `VARIATION` that is covered by the design with a systolic array of any `SIZE` (`tiny` or `large`) on any `HW` (`a10` or `s10`), and the design will be synthesized under the hood into an image and  linked with that kernel. The correspondence between VARIATION and image, and the current status, are as follows:
+Follow the [general instructions](../README.md#user-content-build-a-kernel-and-run-on-Linux) to build a demo application `demo_VARIATION_SIZE_HW`for any kernel `VARIATION` that is covered by the design with a systolic array of any `SIZE` (`tiny` or `large` as defined in [parameters.h](./parameters.h)) on any `HW` (`a10` or `s10`), and the design will be synthesized under the hood into an image and  linked with that kernel. The correspondence between VARIATION and image, and the current status, are as follows:
 
 | VARIATION of a kernel      | Image      | Correctness | Performance |
 | -------------------------- | ---------- | ----------- | ----------- |
@@ -123,7 +123,7 @@ cmake ..
 make demo_sdot_large_a10
 ```
 
-will automatically synthesize this design into an image `blas/reconfigurable_dotprod/bin/sdotprod_large_a10.a`, and link the image into the demo application `blas/dot/bin/demo_sdot_large_a10`. Here `large_a10` refers to the large-sized configuration defined for A10 FPGA in [parameters.h](./parameters.h).
+will automatically synthesize this design into an image `blas/reconfigurable_dotprod/bin/sdotprod_large_a10.a`, and link the image into the demo application `blas/dot/bin/demo_sdot_large_a10`.
 
 Alternatively, one can install the pre-synthesized bitstreams following the general instructions.
 
@@ -131,63 +131,71 @@ Running a demo application will generate performance metrics.
 
 ## Metrics
 
-Note: For the mixed-precision kernel, since our implementation performs precision conversion on the host, its performance should be similar to that of a kernel with the same  precision in calculation, and thus its performance is not listed.
-
 <table style="width:120%">
 <tr>
     <th>Device</th>
-    <th>Static parameters<br>(ITYPE, TTYPE<br>KKK, KK)</th>
+    <th>Static parameters<br>(TTYPE, ITYPE<br>KKK, KK)</th>
     <th>Logic utilization</th>
     <th>DSP blocks</th>
     <th>RAM blocks</th>
     <th>Frequency<br>(MHZ)</th>
-    <th>Throughput<br>(GFLOPS)</th>
+    <th>Throughput</th>
     <th>Vector Size<br>(X, Y)</th>
     <th>Command to reproduce</th>
 </tr>
 <tr>
-    <td rowspan="4">Intel Arria 10 GX 1150</td>
-    <td>S, S<br>64, 16</td>
-    <td>84,843 / 427,200 ( 20 % )</td>
-    <td>84 / 1,518 ( 6 % )</td>
-    <td>426 / 2,713 ( 16 % )</td>
-    <td>307</td>
-    <td>6.5</td>
-    <td>64M, 64M</td>
+    <td rowspan="5">Intel Arria 10 GX 1150</td>
+    <td>S, S<br>16, 64</td>
+    <td>82,366 / 427,200 ( 19 % )</td>
+    <td>20 / 1,518 ( 1 % )</td>
+    <td>425 / 2,713 ( 16 % )</td>
+    <td>312</td>
+    <td>5.8 GFLOPS<br>(68% peak)</td>
+    <td>256M, 256M</td>
     <td>blas/dot/bin/demo_sdot_large_a10.unsigned</td>
 </tr>
 <tr>
-    <td>D, D<br>64, 8</td>
+    <td>D, S<br></td>
+    <td>90,478 / 427,200 ( 21 % )</td>
+    <td>44 / 1,518 ( 3 % )</td>
+    <td>437 / 2,713 ( 16 % )</td>
+    <td>260</td>
+    <td>2.9 GFLOPS<br>(34% peak)</td>
+    <td>128M, 128M</td>
+    <td>blas/dot/bin/demo_dsdot_large_a10.unsigned</td>
+</tr>
+<tr>
+    <td>D, D<br>8, 64</td>
     <td>128,141 / 427,200 ( 30 % )</td>
     <td>44 / 1,518 ( 3 % )</td>
     <td>434 / 2,713 ( 16 % )</td>
     <td>303</td>
-    <td>3.1</td>
-    <td>32M, 32M</td>
+    <td>2.9 GFLOPS<br>(67% peak)</td>
+    <td>128M, 128M</td>
     <td>blas/dot/bin/demo_ddot_large_a10.unsigned</td>
 </tr>
 <tr>
-    <td>C, C<br>64, 8</td>
+    <td>C, C<br>8, 64</td>
     <td>89,908 / 427,200 ( 21 % )</td>
     <td>186 / 1,518 ( 12 % )</td>
     <td>450 / 2,713 ( 17 % )</td>
     <td>310</td>
-    <td>13.4</td>
+    <td>13.4 GFLOPS<br>(79% peak)</td>
     <td>32M, 32M</td>
     <td>blas/dotu/bin/demo_cdotu_large_a10.unsigned</td>
 </tr>
 <tr>
-    <td>Z, Z<br>32, 4</td>
+    <td>Z, Z<br>4, 32</td>
     <td>145,522 / 427,200 ( 34 % )</td>
     <td>185 / 1,518 ( 12 % )</td>
     <td>491 / 2,713 ( 18 % )</td>
     <td>271</td>
-    <td>6.5</td>
+    <td>6.5 GFLOPS<br>(76% peak)</td>
     <td>16M, 16M</td>
     <td>blas/dotu/bin/demo_zdotu_large_a10.unsigned</td>
 </tr>
 <tr>
-    <td rowspan="4">Intel Stratix 10 GX 2800</td>
+    <td rowspan="5">Intel Stratix 10 SX 2800</td>
     <td>S, S<br></td>
     <td></td>
     <td></td>
@@ -199,6 +207,16 @@ Note: For the mixed-precision kernel, since our implementation performs precisio
 </tr>
 <tr>
     <td>D, D<br></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+</tr>
+<tr>
+    <td>D, S<br></td>
     <td></td>
     <td></td>
     <td></td>
@@ -230,6 +248,15 @@ Note: For the mixed-precision kernel, since our implementation performs precisio
 
 </table>
 
-## Roofline
+### Performance analysis
 
-![](figures/roofline-sdot-large-a10.png)
+Theoretical peak performance of dot product, for the cases of SS:DS:DD:CC:ZZ, equals 8.5 : 8.5 : 4.3 : 17 : 8.5 GFLOPS for A10, and 19.2 : 19.2 : 9.6 : 38.4 : 19.2 GFLOPS for S10. The performance is derived as follows:
+
+* Theoretical peak performance of dot product = (FPGA DRAM bandwidth in GB/s) * (#FLOPS per byte)
+    * Memory bandwidth is 34.133 GB/s for A10 and 76.800 GB/s for S10.
+    * #FLOPS per byte for SS:DS:DD:CC:ZZ= 1/4 : 1/4 : 1/8 : 1/2 : 1/4
+        * In dot product, a MAD is applied to 2 input data.
+        * FLOPS (FP operations) per MAD for SS:DS:DD:CC:ZZ=2:2:2:8:8
+            * FLOPS (FP operations) are either single or double precision. One MAD includes one FP MUL and one FP ADD.
+            * Adding two complex numbers requires 2 FP ADDs. Multiplying two complex numbers requires 4 FP MULs and 2 FP ADDs.
+        * Bytes of two input data for the cases SS:DS:DD:CC:ZZ=8:8:16:16:32

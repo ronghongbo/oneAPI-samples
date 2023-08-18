@@ -1,6 +1,3 @@
-// To compile this file, pass in a macro for the compute (T2SP_S/DDOT), the size of the systolic array (TINY or LARGE), and the hardware(A10 or S10).
-// And pass in a macro FPGA_EMULATOR if to use the emulator instead of FPGA hardware.
-
 #include <cstdlib>
 #include <iostream>
 #include <sycl/sycl.hpp>
@@ -41,12 +38,12 @@ void test(int N, int incx, int incy) {
     double number_ops = 2.0 * N;
     std::cout << "GFLOPs: " << number_ops / exec_time << "\n";
     std::cout << "Size of vector x: " << N << "\n";
-    std::cout << "Size of vector y: " << N << "\n"; 
+    std::cout << "Size of vector y: " << N << "\n";
 }
 
 int main() {
     using test_type = double;
     const auto KKK = t2sp::blas::row_major::get_systolic_array_dimensions<test_type>();
-    int64_t n = KKK * 2048 * 2048;
+    int64_t n = KKK * 4096 * 4096;
     test(n, 1, 1);
 }

@@ -6,7 +6,7 @@
 #include <sycl/sycl.hpp>
 #include <sycl/ext/intel/fpga_extensions.hpp>
 
-// The GEMM API to invoke
+// The nrm2 API to invoke
 #include "./api.hpp"
 
 // Useful routines from the OneMKL unit tests
@@ -65,6 +65,6 @@ int main() {
 #error No test type (float or double or std::complex<float> or std::complex<double>) specified
 #endif
     const auto KKK = t2sp::blas::row_major::get_systolic_array_dimensions<test_type>();
-    int64_t n = KKK * 2048 * 2048;
+    int64_t n = KKK * 4096 * 4096;
     test<test_type>(n, 1, 1);
 }
