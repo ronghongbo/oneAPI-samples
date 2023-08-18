@@ -193,9 +193,9 @@ Running a demo application will generate performance metrics.
 $$
 \begin{aligned}
 \text{Arithmetic intensity} &= \frac{\text{number of ops}}{\text{number of bytes}}\\
-&= \frac{\text{number of add ops} + \text{number of mul ops}}{3.0\times \text{Vector Length}\times \text{sizeof(T)}}\\
-&= \frac{\text{Vector Length}\times (\text{is complex type}\ ?\ 14\ :\ 3)}{3.0\times \text{Vector Length}\times \text{sizeof(T)}}\\
-&= \frac{\text{is complex type}\ ?\ 14\ :\ 3}{3.0\times \text{sizeof(T)}}
+&= \frac{\text{number of add ops} + \text{number of mul ops}}{3\times \text{Vector Length}\times \text{sizeof(T)}}\\
+&= \frac{\text{Vector Length}\times (\text{is complex type}\ ?\ 14\ :\ 3)}{3\times \text{Vector Length}\times \text{sizeof(T)}}\\
+&= \frac{\text{is complex type}\ ?\ 14\ :\ 3}{3\times \text{sizeof(T)}}
 \end{aligned}
 $$
 
@@ -204,9 +204,9 @@ Note: every pair of input data is processed by 2 multiplications and 1 addition.
 Obviously, the arithmetic intensity is less than 1, so `reconfigurable_vecadd`'s machine peak throughput is limited by the FPGA DRAM bandwidth. Thus the theoretical peak performance = FPGA DRAM bandwidth * Arithmetic intensity. The maximum bandwidth is 34.1 GB/s and 76.8 GB/s for A10 and S10, respectively, so for different data types, their peak throughputs are as follows:
 
 
-|         |  Peak performance on A10 (GFLOPS) | Peak performance on S10 (GFLOPS) |
-| ------- | ----------- | ----------- |
-| svecadd | 8.5           | 19.2  |
-| dvecadd | 4.3           | 9.6       |
-| cvecadd | 19.9           | 44.8      |
-| zvecadd | 9.9           | 22.4      |
+|         |  Peak performance on A10 (GFLOPS) | Peak performance on S10 (GFLOPS) |Note: precision of the ops|
+| ------- | ----------- | ----------- |----------- |
+| svecadd | 8.5           | 19.2  |single|
+| dvecadd | 4.3           | 9.6       |double|
+| cvecadd | 19.9           | 44.8      |single|
+| zvecadd | 9.9           | 22.4      |double|

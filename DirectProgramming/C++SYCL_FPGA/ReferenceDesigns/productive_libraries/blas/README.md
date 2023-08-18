@@ -159,6 +159,16 @@ Assume your machine has OneAPI enabled for A10 or S10. For example, on DevCloud,
     cd blas
     ./batch.sh a10|s10
     ```
+    
+# Next release
+
+* More kernels
+    ** level 3: SYRK, HERK, SYR2K, HER2K
+    ** levle 2: GEMV, SBMV, HBMV, SYMV, SPMV, HEMV, HPMV
+* Further tuned performance, especially for complex types
+* A tool for automatic search of the best configurations of the systolic arrays 
+* Better readability of generated SYCL files
+    ** Meaningful names for intermediate variables
 
 # Reference
 

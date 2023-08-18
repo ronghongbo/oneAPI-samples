@@ -252,7 +252,7 @@ Running a demo application will generate performance metrics.
 $$
 \begin{aligned}
 \text{Arithmetic intensity} &= \frac{\text{number of ops}}{\text{number of bytes}}\\
-&= \frac{\text{number of add ops} + \text{number of mul ops}}{3.0\times \text{Vector Length}\times \text{sizeof(T)}}\\
+&= \frac{\text{number of add ops} + \text{number of mul ops}}{2\times \text{Vector Length}\times \text{sizeof(T)}}\\
 &= \frac{\text{Vector Length}\times (\text{is complex type}\ ?\ 8\ :\ 2)}{2\times \text{Vector Length}\times \text{sizeof(T)}}\\
 &= \frac{\text{is complex type}\ ?\ 8\ :\ 2}{2\times \text{sizeof(T)}}
 \end{aligned}
