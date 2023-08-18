@@ -95,7 +95,7 @@ Note: in pre-processing, due to the way the inputs are to be divided, when the l
 
 #### Restrictions
 
-* Data sizes: For memory efficiency, the input vectors must be loaded in short vectors from the device memory. Therefore, the width of $\vec{x}$ and $\vec{y}$ must be multiples of  `KKK`.
+* Data sizes: For memory efficiency, the input data must be loaded in a vectorized way (in short vectors). Therefore, the width of $\vec{x}$ and $\vec{y}$ must be multiples of  `KKK`.
 
 The [parameters.h](./parameters.h) file pre-defines the sizes for a tiny and large systolic array. The tiny configuration specifies a systolic array with 4 PEs. The large configuration tries to maximally utilize resources, and varies with precision and hardware. One can modify these parameters. If so, please remember to modify the `get_systolic_array_dimensions()` function in [api.hpp](./api.hpp) accordingly.
 

@@ -14,8 +14,6 @@ int main()
     #define K ((X.dim(0).extent() + KK - 1) / KK)
     #define B (X.dim(1).extent())
 
-    #define addr_in_range (KK * k < X.dim(0).extent())
-
     // Inputs. X and Y are vectors, but we add an outer dimension to give us the flexibility of testing performance in batch mode.
     ImageParam X("X", TTYPE, 2);
     ImageParam Y("Y", TTYPE, 2);
@@ -30,11 +28,11 @@ int main()
     Var kk("kk"), k("k"), b("b");
     URE uY("uY", TTYPE, {P}), uX("uX", TTYPE, {P}), uZ_1("uZ_1", TTYPE, {P}), Z("Z");
 
-    Expr Check_Load_X = select(addr_in_range, X(total_k, b), 0);
-    Expr Check_Load_Y = select(addr_in_range, Y(total_k, b), 0);
+    Expr Load_X = X(total_k, b);
+    Expr Load_Y = Y(total_k, b);
 
-    uX(P)   = Check_Load_X;
-    uY(P)   = Check_Load_Y;
+    uX(P)   = Load_X;
+    uY(P)   = Load_Y;
     uZ_1(P) = Alpha * uX(P) + Beta * uY(P);
     Z(P)    = select(true, uZ_1(P));
 
@@ -46,14 +44,14 @@ int main()
       .set_bounds(b,  0, B);
     uX.vectorize(kk);
 
-    // I/O network
-    Stensor DX("xLoader", DRAM), DY("yLoader", DRAM), DC("unloader", DRAM), C("deserializer");
-    Check_Load_X >> DX >> FIFO(256);
-    Check_Load_Y >> DY >> FIFO(256);
-    Z >> FIFO(256) >> DC >> C(b);
+    // I/O network. On the device side, DX, DY and DZ are responsible for I/O. On the host side, Load_X, Load_Y, and Out are responsible for I/O.
+    Stensor DX("xLoader", DRAM), DY("yLoader", DRAM), DZ("unloader", DRAM), Out("deserializer");
+    Load_X >> DX >> FIFO(256);
+    Load_Y >> DY >> FIFO(256);
+    Z >> FIFO(256) >> DZ >> Out;
 
     // Compile the kernel to an FPGA bitstream, and expose a C interface for the host to invoke
-    C.compile_to_oneapi(OUTPUT_FILE, {Alpha, X, IncX, Beta, Y, IncY}, KERNEL, IntelFPGA);
+    Out.compile_to_oneapi(OUTPUT_FILE, {Alpha, X, IncX, Beta, Y, IncY}, KERNEL, IntelFPGA);
     printf("Success\n");
     return 0;
 }

@@ -3,7 +3,7 @@
 This design demonstrates the following addition of two vectors:
 
 $$
-result \longleftarrow \alpha * \vec{x} + \beta * \vec{y}
+\vec{z} \longleftarrow \alpha * \vec{x} + \beta * \vec{y}
 $$
 
 where $\alpha$ and $\beta$ are scalars, and $\vec{x}$ and $\vec{y}$ are vectors.
@@ -12,7 +12,7 @@ The design has static and dynamic parameters. The static parameters include
 
 * data type of the vectors, denoted `TTYPE`. In this release, the scalars' type is the same as the vectors' type. A data type can be any of `s` (single precision), `d` (double precision), `c` (complex single precision), and `z` (complex double precision).
 
-* [sizes of the systolic array](#user-content-sizes-of-a-systolic-array) that is expressed by the design.
+* [size of the hardware](#user-content-size-of-the-hardware)
 
 For each combination of the static parameters, the design needs to be synthesized once.
 
@@ -32,7 +32,7 @@ Through APIs that provide appropriate dynamic parameters and post-processing, a 
 
 | Area                | Description                                                                       |
 | ------------------- | --------------------------------------------------------------------------------- |
-| What you will learn | How to implement a high performance systolic array for vector addition on an FPGA |
+| What you will learn | How to implement a high performance circuit for vector addition on an FPGA |
 | Time to complete    | ~1 hr (excluding compile time)                                                    |
 | Category            | Reference Designs and End to End                                                  |
 
@@ -46,28 +46,27 @@ Through APIs that provide appropriate dynamic parameters and post-processing, a 
 
 ## The design
 
-In this design, the input vectors are pre-processed on the host so that the FPGA device loads/stores data sequentially from/to the device DRAM. This ensures that the memory accesses won't be a bottleneck of the performance. In pre-processing, the host reads the values of the input vectors and sends the values to the device DRAM sequentially. The addition of the vectors is vectorized computed by a PE on the device.
+Vector addition has no data reuse. A data is loaded and then used only once. Thus the performance is bound by the bandwidth of the FPGA DRAM. The key to achieve high performance is to effectively utilize the bandwidth.
 
-When the length of the input vectors are not a multiple of the simd lane, zeros are automatically inserted. This is zero-padding.
+In this design, the input vectors are pre-processed on the host: the data of the vectors are loaded in the order they are to be used, and sent to the device DRAM sequentially. Then the FPGA device simply loads data from the device DRAM sequentially.
 
-Similarly, redundant zeros in the result are automatically removed.
+The device divides an input vector into `parts`, and calculates the vector addition of each part one by one. More specifically, the input vectors $\vec{x}$ and $\vec{y}$ are loaded from the device DRAM in parts of size `KK`. Each time, a `pair` of parts are loaded, in a vectorized way, from the two input vectors. The two parts are then added, in a vectorized way, on the device.
 
-![](figures/vecadd_systolic_array.png)
-![](figures/zero_padding.png)
+![](figures/vecadd_flow.png)
 
-### Sizes of a systolic array
+### Size of the hardware
 
-* `KKK` - SIMD lanes in the PE: every cycle, the PE adds, in a vectorized way, `KKK` numbers of data from $\vec{x}$ and `KKK` numbers of data from $\vec{y}$.
+* `KK` - SIMD lanes.
 
 #### Restrictions
 
-* Data sizes: For memory efficiency, the vectors must be loaded and stored in vectors from/to the device memory. Therefore, the width of $\vec{x}$ and $\vec{y}$ must be a multiple of  `KKK`.
+* Data sizes: For memory efficiency, the input data must be loaded in a vectorized way from the device memory. Therefore, the width of $\vec{x}$ and $\vec{y}$ must be multiples of  `KK`.
 
-The [parameters.h](./parameters.h) file pre-defines the sizes for a tiny and large systolic array. The tiny configuration specifies a systolic array with 4 PEs. The large configuration tries to maximally utilize resources, and varies with precision and hardware. One can modify these parameters. If so, please remember to modify the `get_systolic_array_dimensions()` function in [api.hpp](./api.hpp) accordingly.
+The [parameters.h](./parameters.h) file pre-defines the sizes for a tiny and large hardware implementation. The tiny configuration specifies 4 SIMD lanes. The large configuration tries to maximally utilize resources, and varies with precision and hardware. One can modify these parameters. If so, please remember to modify the `get_systolic_array_dimensions()` function in [api.hpp](./api.hpp) accordingly.
 
 ## Build and test
 
-Follow the [general instructions](../README.md#user-content-build-a-kernel-and-run-on-Linux) to build a demo application `demo_VARIATION_SIZE_HW`for any kernel `VARIATION` that is covered by the design with a systolic array of any `SIZE` (`tiny` or `large`) on any `HW` (`a10` or `s10`), and the design will be synthesized under the hood into an image and  linked with that kernel. The correspondence between VARIATION and image, and the current status, are as follows:
+Follow the [general instructions](../README.md#user-content-build-a-kernel-and-run-on-Linux) to build a demo application `demo_VARIATION_SIZE_HW`for any kernel `VARIATION` that is covered by the design with any `SIZE` (`tiny` or `large` as defined in [parameters.h](./parameters.h)) on any `HW` (`a10` or `s10`), and the design will be synthesized under the hood into an image and  linked with that kernel. The correspondence between VARIATION and image, and the current status, are as follows:
 
 | VARIATION of a kernel | Image   | Correctness | Performance |
 | --------------------- | ------- | ----------- | ----------- |
@@ -84,9 +83,9 @@ cmake ..
 make demo_saxpy_large_a10
 ```
 
-will automatically synthesize this design into an image `blas/reconfigurable_vecadd/bin/svecadd_large_a10.a`, and link the image into the demo application `blas/axpy/bin/demo_saxpy_large_a10`. Here `large_a10` refers to the large-sized configuration defined for A10 FPGA in [parameters.h](./parameters.h).
+will automatically synthesize this design into an image `blas/reconfigurable_vecadd/bin/svecadd_large_a10.a`, and link the image into the demo application `blas/axpy/bin/demo_saxpy_large_a10`.
 
-Alternatively, one can install the pre-synthesized bitstreams and demo applications following the general instructions.
+Alternatively, one can install pre-synthesized bitstreams following the general instructions.
 
 Running a demo application will generate performance metrics.
 
@@ -193,16 +192,19 @@ Running a demo application will generate performance metrics.
 
 $$
 \begin{aligned}
-\text{Arithmetic Intensity} &= \frac{\text{number of ops}}{\text{number of bytes}}\\
+\text{Arithmetic intensity} &= \frac{\text{number of ops}}{\text{number of bytes}}\\
 &= \frac{\text{number of add ops} + \text{number of mul ops}}{3.0\times \text{Vector Length}\times \text{sizeof(T)}}\\
 &= \frac{\text{Vector Length}\times (\text{is complex type}\ ?\ 8\ :\ 2)}{3.0\times \text{Vector Length}\times \text{sizeof(T)}}\\
 &= \frac{\text{is complex type}\ ?\ 8\ :\ 2}{3.0\times \text{sizeof(T)}}
 \end{aligned}
 $$
 
-Obviously, the arithmetic intensity is less than 1, so `reconfigurable_vecadd`'s machine peak throughput is limited by the DDR bandwidth. The Maximum DDR bandwidth is 33 GB/s for A10, so for different data types, their peak throughput are as follows:
+Obviously, the arithmetic intensity is less than 1, so `reconfigurable_vecadd`'s machine peak throughput is limited by the FPGA DRAM bandwidth. Thus the theoretical peak performance = FPGA DRAM bandwidth in GB/s * Arithmetic intensity. The maximum bandwidth is 34.1 GB/s and 76.8 GB/s for A10 and S10, respectively, so for different data types, their peak throughputs are as follows:
 
-* `svecadd`: 5.5 GFLOPS
-* `dvecadd`: 2.75 GFLOPS 
-* `cvecadd`: 11 GFLOPS
-* `zvecadd`: 5.5 GFLOPS
+
+|         |  Peak performance of A10 | Peak performance of S10 |
+| ------- | ----------- | ----------- |
+| svecadd | 5.7           | 12.8  |
+| dvecadd | 2.8           | 6.4       |
+| cvecadd | 11.4           | 25.6      |
+| zvecadd | 5.7           | 12.8      |

@@ -12,8 +12,7 @@
 using namespace Halide;
 
 namespace t2sp::blas::row_major {
-// The API for AXPY. We choose the USM version of oneMKL DPC++ interface (https://oneapi-src.github.io/oneMKL/domains/blas/axpy.html) with the
-// restriction of standard data types (s, d, c, z) only.
+// The API for AXPY. We choose the USM version of oneMKL DPC++ interface (https://oneapi-src.github.io/oneMKL/domains/blas/axpy.html)
 template<typename T>
 sycl::event axpy(sycl::queue &queue,
                  std::int64_t n,
@@ -29,10 +28,10 @@ sycl::event axpy(sycl::queue &queue,
                         (std::is_same_v<std::complex<float>, T>) ||
                         (std::is_same_v<std::complex<double>, T>)) << "Unsupported data type";
 
-    const auto KKK = get_systolic_array_dimensions<T>();
+    const auto KK = get_systolic_array_dimensions<T>();
 
     // TOREMOVE: These two constraints below should be checked by the reconfigurable matmul instead.
-    _halide_user_assert(n % KKK == 0) << "For performance reasons, the current implementation requires that n must be a multiple of " << KKK
+    _halide_user_assert(n % KK == 0) << "For performance reasons, the current implementation requires that n must be a multiple of " << KK
                               << "(the vectorized dimension for the input vectors), but n = " << n;
 
     using Halide::Runtime::Buffer;
@@ -41,7 +40,7 @@ sycl::event axpy(sycl::queue &queue,
 
     Buffer<T> X_buffer{const_cast<T *>(x), 2, dim_x};
     Buffer<T> Y_buffer{y, 2, dim_y};
-    Buffer<T> Res_buffer(KKK, n / KKK, 1);
+    Buffer<T> Res_buffer(KK, n / KK, 1);
 
     for (sycl::event e : dependencies) {
         e.wait();
@@ -70,9 +69,9 @@ sycl::event axpy(sycl::queue &queue,
                                                        Y_buffer, std::abs(static_cast<int>(incy)), Res_buffer);
     }
     done.wait();
-    for (auto k = 0; k < n / KKK; k++) {
-        for (auto kkk = 0; kkk < KKK; kkk++)
-        y[(kkk + k * KKK) * std::abs(incy)] = Res_buffer(kkk, k, 0);
+    for (auto k = 0; k < n / KK; k++) {
+        for (auto kk = 0; kk < KK; kk++)
+        y[(kk + k * KK) * std::abs(incy)] = Res_buffer(kk, k, 0);
     }
     return done;
 }

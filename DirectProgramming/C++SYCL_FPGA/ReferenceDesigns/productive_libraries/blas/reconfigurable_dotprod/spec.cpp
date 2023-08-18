@@ -75,12 +75,13 @@ int main()
     uX.space_time_transform(kkk);
     uX.vectorize(kkk);
 
-    Stensor DX("xLoader", DRAM), DY("yLoader", DRAM), DC("unloader", DRAM), C("deserializer");
+    // I/O network. On the device side, DX, DY and DOut are responsible for I/O. On the host side, Check_Load_X, Check_Load_Y, and Output are responsible for I/O.
+    Stensor DX("xLoader", DRAM), DY("yLoader", DRAM), DOut("unloader", DRAM), Output("deserializer");
     Check_Load_X >> DX.out(kkk) >> FIFO(256);
     Check_Load_Y >> DY.out(kkk) >> FIFO(256);
-    Out >> FIFO(256) >> DC >> C(b);
+    Out >> FIFO(256) >> DOut >> Output;
 
-    C.compile_to_oneapi(OUTPUT_FILE, {ConjugateX, X, IncX, SignBitY, Y, IncY, SqrtRet}, KERNEL, IntelFPGA);
+    Output.compile_to_oneapi(OUTPUT_FILE, {ConjugateX, X, IncX, SignBitY, Y, IncY, SqrtRet}, KERNEL, IntelFPGA);
     printf("Success\n");
     return 0;
 }
