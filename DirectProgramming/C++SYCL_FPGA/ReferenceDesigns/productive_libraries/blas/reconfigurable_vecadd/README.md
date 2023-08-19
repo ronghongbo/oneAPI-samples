@@ -94,7 +94,7 @@ Running a demo application will generate performance metrics.
 <table style="width:120%">
 <tr>
     <th>Device</th>
-    <th>Static parameters<br>(TTYPE<br>KKK)</th>
+    <th>Static parameters<br>(TTYPE<br>KK)</th>
     <th>Logic utilization</th>
     <th>DSP blocks</th>
     <th>RAM blocks</th>
@@ -146,44 +146,44 @@ Running a demo application will generate performance metrics.
 </tr>
 <tr>
     <td rowspan="4">Intel Stratix 10 GX 2800</td>
-    <td>S, S<br></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
+    <td>S, S<br>16</td>
+    <td>237,809 / 933,120 ( 25 % )</td>
+    <td> 32 / 5,760 ( < 1 % )</td>
+    <td> 755 / 11,721 ( 6 % )</td>
+    <td>328</td>
+    <td>15.3<br>(80% peak)</td>
+    <td>256M, 256M</td>
+    <td>blas/axpy/bin/demo_saxpy_large_s10</td>
 </tr>
 <tr>
-    <td>D, D<br></td>
+    <td>D, D<br>8</td>
+    <td> 249,791 / 933,120 ( 27 % )</td>
+    <td> 64 / 5,760 ( 1 % )</td>
+    <td>755 / 11,721 ( 6 % )</td>
+    <td>328</td>
+    <td>7.6<br>(79% peak)</td>
     <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
+    <td>blas/axpy/bin/demo_daxpy_large_s10</td>
 </tr>
 <tr>
-    <td>C, C<br></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
+    <td>C, C<br>8</td>
+    <td> 239,652 / 933,120 ( 26 % )</td>
+    <td> 64 / 5,760 ( 1 % )</td>
+    <td>755 / 11,721 ( 6 % )</td>
+    <td>329</td>
+    <td>35.7<br>(80% peak)</td>
+    <td>128M, 128M</td>
+    <td>blas/axpy/bin/demo_caxpy_large_s10</td>
 </tr>
 <tr>
-    <td>Z, Z<br></td>
+    <td>Z, Z<br>4</td>
+    <td> 267,396 / 933,120 ( 29 % )</td>
+    <td>128 / 5,760 ( 2 % )</td>
+    <td> 755 / 11,721 ( 6 % )</td>
+    <td>344</td>
+    <td>18.6<br>(83% peak)</td>
     <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
+    <td>blas/axpy/bin/demo_zaxpy_large_s10</td>
 </tr>
 
 </table>
@@ -199,7 +199,7 @@ $$
 \end{aligned}
 $$
 
-Note: every pair of input data is processed by 2 multiplications and 1 addition. For a real type, a multiplication/add is simply a mul/add operation. For a complex type, multiplying two complex numbers requires 4 multiply and 2 add operations, and adding two complex numbers requires 2 add operations. 
+Note: every pair of input data is processed by 2 multiplications and 1 addition. For a real type, a multiplication/add is simply a mul/add operation. For a complex type, multiplying two complex numbers requires 4 multiply and 2 add operations, and adding two complex numbers requires 2 add operations.
 
 Obviously, the arithmetic intensity is less than 1, so `reconfigurable_vecadd`'s machine peak throughput is limited by the FPGA DRAM bandwidth. Thus the theoretical peak performance = FPGA DRAM bandwidth * Arithmetic intensity. The maximum bandwidth is 34.1 GB/s and 76.8 GB/s for A10 and S10, respectively, so for different data types, their peak throughputs are as follows:
 
