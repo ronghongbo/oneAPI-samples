@@ -34,7 +34,11 @@ constexpr bool kUseUSMHostAllocation = false;
 // This can be set by defining the preprocessor macro 'MERGE_UNITS'
 // otherwise the default value below is used.
 #ifndef MERGE_UNITS
+#if defined(FPGA_SIMULATOR)
+#define MERGE_UNITS 2
+#else
 #define MERGE_UNITS 8
+#endif
 #endif
 constexpr size_t kMergeUnits = MERGE_UNITS;
 static_assert(kMergeUnits > 0);
@@ -73,8 +77,11 @@ int main(int argc, char *argv[]) {
   // reading and validating the command line arguments
   // defaults
   bool passed = true;
-#ifdef FPGA_EMULATOR
+#if defined(FPGA_EMULATOR)
   IndexT count = 128;
+  int runs = 2;
+#elif defined(FPGA_SIMULATOR)
+  IndexT count = 16;
   int runs = 2;
 #else
   IndexT count = 1 << 24;
@@ -118,30 +125,39 @@ int main(int argc, char *argv[]) {
   /////////////////////////////////////////////////////////////
 
   // the device selector
-#ifdef FPGA_EMULATOR
-  ext::intel::fpga_emulator_selector selector;
-#else
-  ext::intel::fpga_selector selector;
+#if FPGA_SIMULATOR
+    auto selector = sycl::ext::intel::fpga_simulator_selector_v;
+#elif FPGA_HARDWARE
+    auto selector = sycl::ext::intel::fpga_selector_v;
+#else  // #if FPGA_EMULATOR
+    auto selector = sycl::ext::intel::fpga_emulator_selector_v;
 #endif
 
   // create the device queue
   queue q(selector, fpga_tools::exception_handler);
 
-  // make sure the device supports USM device allocations
-  auto d = q.get_device();
-  if (!q.get_device().has(aspect::usm_device_allocations)) {
+  auto device = q.get_device();
+
+  // make sure the device supports USM device allocations in BSP mode
+#if defined(IS_BSP)
+  if (!device.has(aspect::usm_device_allocations)) {
     std::cerr << "ERROR: The selected device does not support USM device"
               << " allocations\n";
     std::terminate();
   }
+#endif
 
   // make sure the device support USM host allocations if we chose to use them
-  if (!q.get_device().has(aspect::usm_host_allocations) &&
+  if (!device.has(aspect::usm_host_allocations) &&
       kUseUSMHostAllocation) {
     std::cerr << "ERROR: The selected device does not support USM host"
               << " allocations\n";
     std::terminate();
   }
+
+  std::cout << "Running on device: "
+            << device.get_info<info::device::name>().c_str() 
+            << std::endl;
 
   // the input, output, and reference data
   std::vector<ValueT> in_vec(count), out_vec(count), ref(count);
@@ -279,6 +295,7 @@ double FPGASort(queue &q, ValueT *in_ptr, ValueT *out_ptr, IndexT count) {
 
   // allocate some memory for the merge sort to use as temporary storage
   ValueT *buf_0, *buf_1;
+#if defined (IS_BSP)
   if ((buf_0 = malloc_device<ValueT>(sorter_count, q)) == nullptr) {
     std::cerr << "ERROR: could not allocate memory for 'buf_0'\n";
     std::terminate();
@@ -287,6 +304,16 @@ double FPGASort(queue &q, ValueT *in_ptr, ValueT *out_ptr, IndexT count) {
     std::cerr << "ERROR: could not allocate memory for 'buf_1'\n";
     std::terminate();
   }
+#else
+  if ((buf_0 = malloc_shared<ValueT>(sorter_count, q)) == nullptr) {
+    std::cerr << "ERROR: could not allocate memory for 'buf_0'\n";
+    std::terminate();
+  }
+  if ((buf_1 = malloc_shared<ValueT>(sorter_count, q)) == nullptr) {
+    std::cerr << "ERROR: could not allocate memory for 'buf_1'\n";
+    std::terminate();
+  }
+#endif
 
   // This is the element we will pad the input with. In the case of this design,
   // we are sorting from smallest to largest and we want the last elements out

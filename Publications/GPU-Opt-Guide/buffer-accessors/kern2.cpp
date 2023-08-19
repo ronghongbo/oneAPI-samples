@@ -3,7 +3,8 @@
 //
 // SPDX-License-Identifier: MIT
 // =============================================================
-#include <sycl/sycl.hpp>
+// Snippet begin
+#include <CL/sycl.hpp>
 #include <stdio.h>
 
 constexpr int N = 100;
@@ -55,3 +56,4 @@ int main() {
 
   return 0;
 }
+// Snippet end

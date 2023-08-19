@@ -118,10 +118,10 @@ void SimplePow(sycl::queue &q, buffer<float, 1> &buffer_a,
 }
 
 // Returns kernel execution time for a given SYCL event from a queue.
-ulong SyclGetExecTimeNs(event e) {
-  ulong start_time =
+unsigned long SyclGetExecTimeNs(event e) {
+  unsigned long start_time =
       e.get_profiling_info<info::event_profiling::command_start>();
-  ulong end_time = e.get_profiling_info<info::event_profiling::command_end>();
+  unsigned long end_time = e.get_profiling_info<info::event_profiling::command_end>();
   return (end_time - start_time);
 }
 
@@ -140,7 +140,7 @@ float MyPow(float input, int pow) {
 */
 void ProcessOutput(buffer<float, 1> &output_buf, std::vector<float> &input_copy,
                    int exec_number, event e,
-                   ulong &total_kernel_time_per_slot) {
+                   unsigned long &total_kernel_time_per_slot) {
   host_accessor output_buf_acc(output_buf, read_only);
   int num_errors = 0;
   int num_errors_to_print = 10;
@@ -214,33 +214,33 @@ void ProcessInput(buffer<float, 1> &buf, std::vector<float> &copy) {
 
 int main() {
 // Create queue, get platform and device
-#if defined(FPGA_EMULATOR)
-  ext::intel::fpga_emulator_selector device_selector;
-  std::cout << "\nEmulator output does not demonstrate true hardware "
-               "performance. The design may need to run on actual hardware "
-               "to observe the performance benefit of the optimization "
-               "exemplified in this tutorial.\n\n";
-#elif defined(FPGA_SIMULATOR)
-  ext::intel::fpga_simulator_selector device_selector;
-  std::cout << "\nSimulator output does not demonstrate true hardware "
-               "performance. The design may need to run on actual hardware "
-               "to observe the performance benefit of the optimization "
-               "exemplified in this tutorial.\n\n";
-#else
-  ext::intel::fpga_selector device_selector;
+#if FPGA_SIMULATOR
+  auto selector = sycl::ext::intel::fpga_simulator_selector_v;
+#elif FPGA_HARDWARE
+  auto selector = sycl::ext::intel::fpga_selector_v;
+#else  // #if FPGA_EMULATOR
+  auto selector = sycl::ext::intel::fpga_emulator_selector_v;
+#endif
+
+#ifndef FPGA_HARDWARE
+  std::cout << "\nEmulator and simulator outputs do not demonstrate "
+               "true hardware performance. The design may need to run "
+               "on actual hardware to observe the performance benefit "
+               "of the optimization exemplified in this tutorial.\n\n";
 #endif
 
   try {
     auto prop_list = property_list{property::queue::enable_profiling()};
 
-    sycl::queue q(device_selector, fpga_tools::exception_handler, prop_list);
+    sycl::queue q(selector, fpga_tools::exception_handler, prop_list);
 
     platform platform = q.get_context().get_platform();
     device device = q.get_device();
     std::cout << "Platform name: "
               << platform.get_info<info::platform::name>().c_str() << "\n";
-    std::cout << "Device name: "
-              << device.get_info<info::device::name>().c_str() << "\n\n\n";
+    std::cout << "Running on device: "
+              << device.get_info<sycl::info::device::name>().c_str()
+              << std::endl;
 
     std::cout << "Executing kernel " << kTimes << " times in each round.\n\n";
 
@@ -258,10 +258,10 @@ int main() {
     event sycl_events[kLocalN];
 
     // In nanoseconds. Total execution time of kernels in a given slot.
-    ulong total_kernel_time_per_slot[kLocalN];
+    unsigned long total_kernel_time_per_slot[kLocalN];
 
     // Total execution time of all kernels.
-    ulong total_kernel_time = 0;
+    unsigned long total_kernel_time = 0;
 
     // Threads to process the output from each kernel
     std::thread t_process_output[kLocalN];

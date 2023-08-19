@@ -101,7 +101,7 @@ event SubmitKernels(queue& q, std::vector<unsigned int>& a,
     accessor n_accessor(n_buf, h, write_only, no_init);
 
     h.single_task<Worker<Version>>([=]() [[intel::kernel_args_restrict]] {
-      // The 'Version' template parameter will choose between the different 
+      // The 'Version' template parameter will choose between the different
       // versions of the kernel defined in IntersectionKernel.hpp.
       // The operator() of the IntersectionKernel object will return the
       // size of the intersection of A and B.
@@ -114,28 +114,28 @@ event SubmitKernels(queue& q, std::vector<unsigned int>& a,
 }
 
 //
-// This function performs the intersection by submitting the 
+// This function performs the intersection by submitting the
 // different kernels. This method also validates the output
 // of the kernels and prints performance information
 //
 template <int Version, int II>
-bool Intersection(queue& q, std::vector<unsigned int>& a, 
+bool Intersection(queue& q, std::vector<unsigned int>& a,
                   std::vector<unsigned int>& b, int golden_n) {
   // For emulation, just do a single iteration.
   // For hardware, perform multiple iterations for a more
   // accurate throughput measurement
-#if defined(FPGA_EMULATOR)
+#if defined(FPGA_EMULATOR) || defined(FPGA_SIMULATOR)
   int iterations = 1;
 #else
   int iterations = 5;
 #endif
 
-  std::cout << "Running " << iterations 
+  std::cout << "Running " << iterations
             << ((iterations == 1) ? " iteration" : " iterations")
             << " of kernel " << Version
-            << " with |A|=" << a.size() 
+            << " with |A|=" << a.size()
             << " and |B|=" << b.size() << "\n";
-  
+
   bool success = true;
   std::vector<double> kernel_latency(iterations);
 
@@ -163,7 +163,7 @@ bool Intersection(queue& q, std::vector<unsigned int>& a,
   // The FPGA emulator does not accurately represent the hardware performance
   // so we don't print performance results when running with the emulator
   if (success) {
-#ifndef FPGA_EMULATOR
+#if !defined(FPGA_EMULATOR) && !defined(FPGA_SIMULATOR)
     // Compute the average throughput across all iterations.
     // We use the first iteration as a 'warmup' for the FPGA,
     // so we ignore its results.
@@ -171,12 +171,12 @@ bool Intersection(queue& q, std::vector<unsigned int>& a,
         std::accumulate(kernel_latency.begin() + 1, kernel_latency.end(), 0.0) /
         (double)(iterations - 1);
 
-    double input_size_megabytes = 
+    double input_size_megabytes =
         ((a.size() + b.size()) * sizeof(unsigned int)) / (1024.0 * 1024.0);
 
     const double avg_throughput = input_size_megabytes / avg_kernel_latency;
 
-    std::cout << "Kernel " << Version 
+    std::cout << "Kernel " << Version
               << " average throughput: " << avg_throughput << " MB/s\n";
 #endif
   }
@@ -187,12 +187,12 @@ bool Intersection(queue& q, std::vector<unsigned int>& a,
 
 int main(int argc, char** argv) {
   // parse the command line arguments
-#if defined(FPGA_EMULATOR)
+#if defined(FPGA_EMULATOR) || defined(FPGA_SIMULATOR)
   unsigned int a_size = 128;
   unsigned int b_size = 256;
 #else
-  unsigned int a_size = 131072;
-  unsigned int b_size = 262144;
+  unsigned int a_size = 16384;
+  unsigned int b_size = 32768;
 #endif
   bool need_help = false;
 
@@ -256,14 +256,22 @@ int main(int argc, char** argv) {
     auto props = property_list{property::queue::enable_profiling()};
 
     // the device selector
-#ifdef FPGA_EMULATOR
-    ext::intel::fpga_emulator_selector device_selector;
-#else
-    ext::intel::fpga_selector device_selector;
+#if FPGA_SIMULATOR
+    auto selector = sycl::ext::intel::fpga_simulator_selector_v;
+#elif FPGA_HARDWARE
+    auto selector = sycl::ext::intel::fpga_selector_v;
+#else  // #if FPGA_EMULATOR
+    auto selector = sycl::ext::intel::fpga_emulator_selector_v;
 #endif
 
     // create the device queue
-    queue q(device_selector, props);
+    queue q(selector, props);
+
+    auto device = q.get_device();
+
+    std::cout << "Running on device: "
+              << device.get_info<sycl::info::device::name>().c_str()
+              << std::endl;
 
     bool success = true;
 
@@ -272,18 +280,18 @@ int main(int argc, char** argv) {
     //
     // On Arria® 10, we are able to achieve an II of 1 for all versions of the
     // kernel.
-    // Version 2 of the kernel can achieve the highest Fmax with 
+    // Version 2 of the kernel can achieve the highest Fmax with
     // an II of 1 (and therefore has the highest throughput).
     // Since this tutorial compiles to a single FPGA image, this is not
     // reflected in the final design (that is, version 1 bottlenecks the Fmax
     // of the entire design, which contains versions 0, 1 and 2).
     // However, the difference between versions 1 and 2
-    // can be seen in the "Block Scheduled Fmax" columns in the 
+    // can be seen in the "Block Scheduled Fmax" columns in the
     // "Loop Analysis" tab of the HTML reports.
     //
-    // On Stratix® 10 and Agilex™, the same discussion applies, but version 0
+    // On Stratix® 10 and Agilex® 7, the same discussion applies, but version 0
     // can only achieve an II of 3 while versions 1 and 2 can only achieve
-    // an II of 2. On Stratix® 10 and Agilex™, we can achieve an II of 1 if we use
+    // an II of 2. On Stratix® 10 and Agilex® 7, we can achieve an II of 1 if we use
     // non-blocking pipe reads in the IntersectionKernel, which is shown in
     // version 3 of the kernel.
     //
@@ -297,7 +305,7 @@ int main(int argc, char** argv) {
     success &= Intersection<1,2>(q, a, b, golden_n);
     success &= Intersection<2,2>(q, a, b, golden_n);
     success &= Intersection<3,1>(q, a, b, golden_n);
-#elif defined(Agilex)
+#elif defined(Agilex7)
     success &= Intersection<0,3>(q, a, b, golden_n);
     success &= Intersection<1,2>(q, a, b, golden_n);
     success &= Intersection<2,2>(q, a, b, golden_n);

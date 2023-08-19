@@ -3,7 +3,8 @@
 //
 // SPDX-License-Identifier: MIT
 // =============================================================
-#include <sycl/sycl.hpp>
+// Snippet begin
+#include <CL/sycl.hpp>
 #include <vector>
 
 class specialized_kernel;
@@ -42,3 +43,4 @@ int main() {
 
   return 0;
 }
+// Snippet end

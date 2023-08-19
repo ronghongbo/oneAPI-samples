@@ -71,7 +71,7 @@ event runSqrtTest(sycl::queue &q, const std::vector<float> &sqrt_lut_vec,
 int main() {
   // Host and kernel profiling
   event e;
-  ulong t1_kernel, t2_kernel;
+  unsigned long t1_kernel, t2_kernel;
   double time_kernel;
 
   // Create input and output vectors
@@ -82,18 +82,25 @@ int main() {
   }
 
 // Create queue, get platform and device
-#if defined(FPGA_EMULATOR)
-  ext::intel::fpga_emulator_selector device_selector;
-#elif defined(FPGA_SIMULATOR)
-  ext::intel::fpga_simulator_selector device_selector;
-#else
-  ext::intel::fpga_selector device_selector;
+#if FPGA_SIMULATOR
+  auto selector = sycl::ext::intel::fpga_simulator_selector_v;
+#elif FPGA_HARDWARE
+  auto selector = sycl::ext::intel::fpga_selector_v;
+#else  // #if FPGA_EMULATOR
+  auto selector = sycl::ext::intel::fpga_emulator_selector_v;
 #endif
+
   try {
     auto prop_list =
         sycl::property_list{sycl::property::queue::enable_profiling()};
 
-    sycl::queue q(device_selector, fpga_tools::exception_handler, prop_list);
+    sycl::queue q(selector, fpga_tools::exception_handler, prop_list);
+
+    auto device = q.get_device();
+
+    std::cout << "Running on device: "
+              << device.get_info<sycl::info::device::name>().c_str()
+              << std::endl;
 
     std::cout << "\nSQRT LUT size: " << kLUTSize << "\n";
     std::cout << "Number of outputs: " << kNumOutputs << "\n";
