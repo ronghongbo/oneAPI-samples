@@ -160,7 +160,7 @@ Running a demo application will generate performance metrics.
     <td>76 / 1,518 ( 5 % )</td>
     <td>489 / 2,713 ( 18 % )</td>
     <td>258</td>
-    <td>2.7 GFLOPS<br>(32% peak)<br>([perf issue to adress in next release](https://github.com/haoxiaochen/t2sp/issues/39))</td>
+    <td>2.7 GFLOPS<br>(32% peak)<br>(<a href="https://github.com/haoxiaochen/t2sp/issues/39">perf issue to adress in next release</a>)</td>
     <td>256M, 256M</td>
     <td>blas/dot/bin/demo_dsdot_large_a10.unsigned<br> or blas/sdsdot/bin/demo_sdsdot_large_a10.unsigned</td>
 </tr>
@@ -202,17 +202,17 @@ Running a demo application will generate performance metrics.
     <td>708 / 11,721 ( 6 % )</td>
     <td>360</td>
     <td>10.9 GFLOPS<br>(57% peak)</td>
-    <td>128M, 128M</td>
+    <td>512M, 512M</td>
     <td>blas/dot/bin/demo_sdot_large_s10</td>
 </tr>
 <tr>
     <td>D, S<br></td>
-    <td>234,716 / 933,120 ( 25 % )</td>
-    <td>44 / 5,760 ( < 1 % )</td>
-    <td> 719 / 11,721 ( 6 % )</td>
-    <td>288</td>
-    <td>4.3 GFLOPS<br>(22% peak)</td>
-    <td>64M, 64M</td>
+    <td>245,182 / 933,120 ( 26 % )</td>
+    <td>76 / 5,760 ( 1 % )</td>
+    <td> 797 / 11,721 ( 7 % )</td>
+    <td>276</td>
+    <td>4.4 GFLOPS<br>(23% peak)<br>(<a href="https://github.com/haoxiaochen/t2sp/issues/39">perf issue to adress in next release</a>)</td>
+    <td>512M, 512M</td>
     <td>blas/dot/bin/demo_dsdot_large_s10</td>
 </tr>
 <tr>
