@@ -103,16 +103,16 @@ The [parameters.h](./parameters.h) file pre-defines the sizes for a tiny and lar
 
 Follow the [general instructions](../README.md#user-content-build-a-kernel-and-run-on-Linux) to build a demo application `demo_VARIATION_SIZE_HW`for any kernel `VARIATION` that is covered by the design with a systolic array of any `SIZE` (`tiny` or `large` as defined in [parameters.h](./parameters.h)) on any `HW` (`a10` or `s10`), and the design will be synthesized under the hood into an image and  linked with that kernel. The correspondence between VARIATION and image, and the current status, are as follows:
 
-| VARIATION of a kernel      | Image      | 
-| -------------------------- | ---------- | 
-| sdot, snrm2, sasum         | sdotprod   | 
-| ddot, dnrm2, dasum         | ddotprod   | 
-| cdotu, cdotc               | cdotprod   | 
-| zdotu, zdotc               | zdotprod   | 
-| scnrm2, scasum             | cdotprod   | 
-| dznrm2, dzasum             | zdotprod   | 
-| sdsdot                     | sdsdotprod | 
-| dsdot                      | dsdotprod  | 
+| VARIATION of a kernel      | Image      |
+| -------------------------- | ---------- |
+| sdot, snrm2, sasum         | sdotprod   |
+| ddot, dnrm2, dasum         | ddotprod   |
+| cdotu, cdotc               | cdotprod   |
+| zdotu, zdotc               | zdotprod   |
+| scnrm2, scasum             | cdotprod   |
+| dznrm2, dzasum             | zdotprod   |
+| sdsdot                     | sdsdotprod |
+| dsdot                      | dsdotprod  |
 
 
 For example,
@@ -242,7 +242,7 @@ Running a demo application will generate performance metrics.
     <td>782 / 11,721 ( 7 % )</td>
     <td>267</td>
     <td>7.6 GFLOPS<br>(40% peak)</td>
-    <td></td>
+    <td>32M, 32M</td>
     <td>blas/dotu/bin/demo_zdotu_large_s10</td>
 </tr>
 </table>
@@ -258,7 +258,7 @@ $$
 \end{aligned}
 $$
 
-Note: every pair of input data is processed by 1 multiplication and 1 addition. For a real type, a multiplication/add is simply a mul/add operation. For a complex type, multiplying two complex numbers requires 4 multiply and 2 add operations, and adding two complex numbers requires 2 add operations. 
+Note: every pair of input data is processed by 1 multiplication and 1 addition. For a real type, a multiplication/add is simply a mul/add operation. For a complex type, multiplying two complex numbers requires 4 multiply and 2 add operations, and adding two complex numbers requires 2 add operations.
 
 Obviously, the arithmetic intensity is less than 1, so `reconfigurable_dotprod`'s machine peak throughput is limited by the FPGA DRAM bandwidth. Thus the theoretical peak performance = FPGA DRAM bandwidth * Arithmetic intensity. The maximum bandwidth is 34.1 GB/s and 76.8 GB/s for A10 and S10, respectively, so for different data types, their peak throughputs are as follows:
 
