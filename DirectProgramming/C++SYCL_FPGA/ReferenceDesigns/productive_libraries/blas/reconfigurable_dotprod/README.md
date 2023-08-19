@@ -155,42 +155,42 @@ Running a demo application will generate performance metrics.
     <td>blas/dot/bin/demo_sdot_large_a10.unsigned</td>
 </tr>
 <tr>
-    <td>D, S<br></td>
+    <td>D, S <br>16, 64</td>
+    <td>98,123 / 427,200 ( 23 % )</td>
+    <td>76 / 1,518 ( 5 % )</td>
+    <td>489 / 2,713 ( 18 % )</td>
+    <td>258</td>
+    <td>2.7 GFLOPS<br>(32% peak)<br>([perf issue to adress in next release](https://github.com/haoxiaochen/t2sp/issues/39))</td>
+    <td>256M, 256M</td>
+    <td>blas/dot/bin/demo_dsdot_large_a10.unsigned<br> or blas/sdsdot/bin/demo_sdsdot_large_a10.unsigned</td>
+</tr>
+<tr>
+    <td>D, D<br>8, 64</td>
     <td>90,478 / 427,200 ( 21 % )</td>
     <td>44 / 1,518 ( 3 % )</td>
     <td>437 / 2,713 ( 16 % )</td>
     <td>260</td>
-    <td>2.9 GFLOPS<br>(34% peak)</td>
-    <td>128M, 128M</td>
-    <td>blas/dot/bin/demo_dsdot_large_a10.unsigned</td>
-</tr>
-<tr>
-    <td>D, D<br>8, 64</td>
-    <td>128,141 / 427,200 ( 30 % )</td>
-    <td>44 / 1,518 ( 3 % )</td>
-    <td>434 / 2,713 ( 16 % )</td>
-    <td>303</td>
-    <td>2.9 GFLOPS<br>(67% peak)</td>
+    <td>2.9 GFLOPS<br>(69% peak)</td>
     <td>128M, 128M</td>
     <td>blas/dot/bin/demo_ddot_large_a10.unsigned</td>
 </tr>
 <tr>
     <td>C, C<br>8, 64</td>
-    <td>89,908 / 427,200 ( 21 % )</td>
-    <td>186 / 1,518 ( 12 % )</td>
-    <td>450 / 2,713 ( 17 % )</td>
-    <td>310</td>
-    <td>13.4 GFLOPS<br>(79% peak)</td>
+    <td>85,258 / 427,200 ( 20 % ))</td>
+    <td>58 / 1,518 ( 4 % )</td>
+    <td>451 / 2,713 ( 17 % )</td>
+    <td>289</td>
+    <td>11.6 GFLOPS<br>(68% peak)</td>
     <td>32M, 32M</td>
     <td>blas/dotu/bin/demo_cdotu_large_a10.unsigned</td>
 </tr>
 <tr>
     <td>Z, Z<br>4, 32</td>
-    <td>145,522 / 427,200 ( 34 % )</td>
+    <td>110,239 / 427,200 ( 26 % )</td>
     <td>185 / 1,518 ( 12 % )</td>
-    <td>491 / 2,713 ( 18 % )</td>
-    <td>271</td>
-    <td>6.5 GFLOPS<br>(76% peak)</td>
+    <td> 494 / 2,713 ( 18 % )</td>
+    <td>248</td>
+    <td>5.8 GFLOPS<br>(68% peak)</td>
     <td>16M, 16M</td>
     <td>blas/dotu/bin/demo_zdotu_large_a10.unsigned</td>
 </tr>
