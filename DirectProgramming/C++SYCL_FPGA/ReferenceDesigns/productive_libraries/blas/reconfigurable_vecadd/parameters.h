@@ -5,13 +5,13 @@
 #else
     #if defined(S10)
         #ifdef T2SP_SVECADD
-            #define KK 32
+            #define KK 16
         #elif defined(T2SP_DVECADD)
-            #define KK 16
-        #elif defined(T2SP_CVECADD)
-            #define KK 16
-        #elif defined(T2SP_ZVECADD)
             #define KK 8
+        #elif defined(T2SP_CVECADD)
+            #define KK 8
+        #elif defined(T2SP_ZVECADD)
+            #define KK 4
         #endif
     #else // A10
         #ifdef T2SP_SVECADD
