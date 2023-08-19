@@ -188,13 +188,13 @@ Running a demo application will generate performance metrics.
     <td></td>
 </tr>
 <tr>
-    <td>Z, Z, Z, Z<br></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
+    <td>Z, Z, Z, Z<br>4, 4, 3, 32, 32, 32</td>
+    <td>302,829 / 427,200 ( 71 % )</td>
+    <td>855 / 1,518 ( 56 % )</td>
+    <td>1,281 / 2,713 ( 47 % )</td>
+    <td>217</td>
+    <td>85</td>
+    <td>3K*4K, 4K*4K</td>
     <td></td>
 </tr>
 <tr>
