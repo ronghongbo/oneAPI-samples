@@ -10,9 +10,10 @@ if (($bash_version<4)); then
     exit
 fi
 
-path_to_blas="$( cd "$(dirname $(realpath "$BASH_SOURCE") )" >/dev/null 2>&1 ; pwd -P )" # The path to this script, which is the blas directory
-echo Entering productive BLAS: $path_to_blas
-cd $path_to_blas
+path_to_tools="$( cd "$(dirname $(realpath "$BASH_SOURCE") )" >/dev/null 2>&1 ; pwd -P )" # The path to this script, which is the productive_libraries/tools directory
+
+echo Entering productive BLAS: $path_to_tools/../blas
+cd $path_to_tools/../blas
 
 source pre_generated/info.sh
 

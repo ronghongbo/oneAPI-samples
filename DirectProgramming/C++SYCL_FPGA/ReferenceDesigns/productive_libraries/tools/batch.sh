@@ -21,6 +21,11 @@ GREEN='\033[0;32m'
 BLUE='\033[0;34m'
 NOCOLOR='\033[0m'
 
+path_to_tools="$( cd "$(dirname $(realpath "$BASH_SOURCE") )" >/dev/null 2>&1 ; pwd -P )" # The path to this script, which is the productive_libraries/tools directory
+
+echo Entering productive BLAS: $path_to_tools/../blas
+cd $path_to_tools/../blas
+
 index=0
 while [ "$index" -lt "${#array[*]}" ]; do
     kernel=${array[$index]}
@@ -65,7 +70,7 @@ while [ "$index" -lt "${#array[*]}" ]; do
         echo
         echo -e ${BLUE}Testing performance of ${variation}_large_$1${NOCOLOR}
         echo -e ${GREEN}Installing pre-generated files for ${variation}_large_$1${NOCOLOR}
-        if ../../install_pre_gen.sh ${variation}_large_$1 >> ../../batch.out; then
+        if ../../../tools/install_pre_gen.sh ${variation}_large_$1 >> ../../batch.out; then
             echo -e ${GREEN}Making demo of ${variation}_large_$1${NOCOLOR}
             rm -rf  ../bin/demo_${variation}_large_$1.unsigned  ../bin/demo_${variation}_large_$1
             make demo_${variation}_large_$1 >> ../../batch.out 2>&1

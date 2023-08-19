@@ -306,7 +306,7 @@ foreach(MATMUL ${MATMULS})
                                        -i ${CURRENT_KERNEL_PATH}/bin/demo_${PRECISION}${KERNEL}_${SIZE}_${HW}
                                        -o ${RECONFIGURABLE_MATMUL_PATH}/bin/${MATMUL}_${SIZE}_${HW}.aocx
                                # The extract command might generate one or more than one .aocx files. For convenience, use a shell script to hand them.
-                               COMMAND bash -c "${PRODUCTIVE_LIBRARIES_PATH}/blas/unsign_bitstreams.sh \
+                               COMMAND bash -c "${PRODUCTIVE_LIBRARIES_PATH}/tools/unsign_bitstreams.sh \
                                                 ${MATMUL}_${SIZE}_${HW} \
                                                 ${OPENCL_1_2_1_BSP}/linux64/libexec \
                                                 ${CMAKE_CXX_COMPILER} \

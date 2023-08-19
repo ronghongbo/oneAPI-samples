@@ -108,7 +108,7 @@ Assume your machine has OneAPI enabled for A10 or S10. For example, on DevCloud,
    
    ```shell
    # Optional: if to avoid synthesis of the kernel's underlying systolic array, pre-generated bitstream (as well as SYCL file and reports) for the array can be installed. 
-   ../../tools/install_pre_gen.sh VARIATION_large_HW
+   ../../../tools/install_pre_gen.sh VARIATION_large_HW
    
    # Synthesize the systolic array and link it with a demo application of the kernel
    make demo_VARIATION_large_HW
@@ -132,7 +132,7 @@ Assume your machine has OneAPI enabled for A10 or S10. For example, on DevCloud,
 
    ```shell
    # Optional: install the pre-generated bitstream.
-   ../../install_pre_gen.sh sgemm_large_a10
+   ../../../tools/install_pre_gen.sh sgemm_large_a10
 
    # Generate a demo application on the FPGA hardware
    make demo_sgemm_large_a10
@@ -161,14 +161,20 @@ Assume your machine has OneAPI enabled for A10 or S10. For example, on DevCloud,
     ```
     
 # Known issues
-    * 
+
+    * Level 1 kernels suffer from [an issue](https://github.com/haoxiaochen/t2sp/issues/40) that two input vectors cannot be allocated to two different channels exclusively in SYCL compiler.
+    * dsdot and sdsdot further suffer from [another issue](https://github.com/haoxiaochen/t2sp/issues/39) that float-to-double conversion happens too early in the datapaths
+    * Synthesis of level 3 kernels with complex types either [fail](https://github.com/haoxiaochen/t2sp/issues/34) or [overtime](https://github.com/haoxiaochen/t2sp/issues/34).
+    * Occasional segmentation fault due to SYCL queue destruction when running a demo. Usually, re-run it would be fine.
 
 # Next release
 
 * More kernels
-    ** levle 2: GEMV, GBMV, SYMV, SBMV, SPMV, HEMV, HBMV, HPMV
+
+    ** levle 2: GEMV, GBMV, SYMV, SBMV, SPMV, HEMV, HBMV, HPMV    
     ** level 3: SYRK, HERK, SYR2K, HER2K, TRSV, TRSM
-* Level 1 and complex-typed kernels reach near-peak performance by addressing the above known issues
+
+* Near-peak performance for level 1 and complex-typed kernels after addressing the above known issues
 * A tool that automatically searches for optimal parameters of the systolic arrays 
 * Further improved readability of generated SYCL files
 
