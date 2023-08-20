@@ -152,7 +152,7 @@ Running a demo application will generate performance metrics.
     <th>DSP blocks</th>
     <th>RAM blocks</th>
     <th>Frequency<br>(MHZ)</th>
-    <th>Throughput<br>(GOPS)</th>
+    <th>Throughput in GFLOPS</th>
     <th>Matrix Size<br>(A, B)</th>
     <th>Command to reproduce</th>
 </tr>
@@ -163,7 +163,7 @@ Running a demo application will generate performance metrics.
     <td>1,311 / 1,518 ( 86 % )</td>
     <td>2,205 / 2,713 ( 81 % )</td>
     <td>217</td>
-    <td>554</td>
+    <td>554<br>(82% peak)</td>
     <td>10K * 16K, 16K * 8K</td>
     <td>blas/gemm/bin/demo_sgemm_large_a10.unsigned</td>
 </tr>
@@ -173,7 +173,7 @@ Running a demo application will generate performance metrics.
     <td>807 / 1,518 ( 53 % )</td>
     <td>1,494 / 2,713 ( 55 % )</td>
     <td>238</td>
-    <td>91</td>
+    <td>91<br>(49% peak)</td>
     <td>6K*8K, 8K*4K</td>
     <td>blas/gemm/bin/demo_dgemm_large_a10.unsigned</td>
 </tr>
@@ -183,7 +183,7 @@ Running a demo application will generate performance metrics.
     <td>1,319 / 1,518 ( 87 % )</td>
     <td>1,835 / 2,713 ( 68 % )</td>
     <td>252</td>
-    <td>640</td>
+    <td>640<br>(82% peak)</td>
     <td>10K*8K, 8K*4K</td>
     <td></td>
 </tr>
@@ -193,7 +193,7 @@ Running a demo application will generate performance metrics.
     <td>855 / 1,518 ( 56 % )</td>
     <td>1,281 / 2,713 ( 47 % )</td>
     <td>217</td>
-    <td>85</td>
+    <td>85<br>(50% peak)</td>
     <td>3K*4K, 4K*4K</td>
     <td></td>
 </tr>
@@ -224,7 +224,7 @@ Running a demo application will generate performance metrics.
     <td>2,597 / 5,760 ( 45 % )</td>
     <td>3,712 / 11,721 ( 32 % )</td>
     <td>238</td>
-    <td>882</td>
+    <td>882<br>(32% peak)</td>
     <td>10K*16K, 16K*16K</td>
     <td>blas/gemm/bin/demo_sgemm_large_s10</td>
 </tr>
@@ -234,7 +234,7 @@ Running a demo application will generate performance metrics.
     <td>805 / 5,760 ( 14 % )</td>
     <td>1,927 / 11,721 ( 16 % )</td>
     <td>265</td>
-    <td>74</td>
+    <td>74<br>(10% peak)</td>
     <td>6K*8K, 8K*4K</td>
     <td>blas/gemm/bin/demo_dgemm_large_s10</td>
 </tr>
@@ -288,7 +288,7 @@ Matrix multiplication is bound by compute. Therefore,
 $$
 \begin{aligned}
 \text{Theoretical peak throughput} &= \text{number of MUL and ADD ops per DSP per cycle} * \text{number of DSPs} * \text{frequency}\\
-&= \frac{\text{number of MUL and ADD operations per reduction per cycle}}{\text{number of DSPs per reduction}} * \text{number of DSPs} * \text{frequency}
+&= \frac{\text{number of MUL and ADD operations per reduction per cycle}}{\text{number of DSPs per reduction}} * \text{number of DSPs} * \text{frequency}\\
 &= \frac{\text{2:2:8:8 for S:D:C:Z, respectively}}{\text{1:4:4:16 for S:D:C:Z, respectively}} * \text{number of DSPs} * \text{frequency}
 \end{aligned}
 $$
