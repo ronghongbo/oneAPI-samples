@@ -43,6 +43,7 @@ kernel_to_reconfigurable_array=(
     # S10
     ["sgemm_large_s10"]="reconfigurable_matmul"
     ["dgemm_large_s10"]="reconfigurable_matmul"
+    ["cgemm_large_s10"]="reconfigurable_matmul"
     ["ssymm_large_s10"]="reconfigurable_matmul"
     ["dsymm_large_s10"]="reconfigurable_matmul"
     ["sdot_large_s10"]="reconfigurable_dotprod"
@@ -117,6 +118,7 @@ kernel_to_tarball=(
     # S10
     ["sgemm_large_s10"]="ssssmatmul_large_s10_oneapi2023.2.tar.gz"
     ["dgemm_large_s10"]="ddddmatmul_large_s10_oneapi2023.2.tar.gz"
+    ["cgemm_large_s10"]="ccccmatmul_large_s10_oneapi2023.2.tar.gz"
     ["ssymm_large_s10"]="ssssmatmul_large_s10_oneapi2023.2.tar.gz"
     ["dsymm_large_s10"]="ddddmatmul_large_s10_oneapi2023.2.tar.gz"
     ["sdot_large_s10"]="sdotprod_large_s10_oneapi2023.2.tar.gz"

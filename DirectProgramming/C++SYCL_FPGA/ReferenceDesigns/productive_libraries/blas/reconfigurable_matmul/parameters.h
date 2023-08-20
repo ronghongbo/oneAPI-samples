@@ -28,8 +28,8 @@
             #define II          32
             #define KK          32
         #elif TYPEC_C
-            #define KKK         16
-            #define JJJ         16
+            #define KKK         8
+            #define JJJ         4
             #define III         10
             #define JJ          32
             #define II          32

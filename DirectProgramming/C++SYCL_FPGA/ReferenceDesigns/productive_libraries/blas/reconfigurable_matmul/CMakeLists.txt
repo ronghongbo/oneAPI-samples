@@ -14,6 +14,7 @@ if(NOT DEFINED FPGA_DEVICE)
     # For whatever reason, it is faster to synthesize with OpenCL 1.2.1 BSP.
     # set(FPGA_DEVICE "intel_a10gx_pac:pac_a10")
     set(FPGA_DEVICE "${OPENCL_1_2_1_BSP}:pac_a10")
+    set(CLOCK_TARGET "360MHz")
     message(STATUS "FPGA_DEVICE was not specified. "
                    "Configuring the design to run on the default FPGA board ${FPGA_DEVICE} (Intel(R) PAC with Intel Arria(R) 10 GX FPGA). "
                    "Please refer to the README for information on board selection.")
@@ -22,6 +23,7 @@ else()
         message(FATAL_ERROR "Unsupported device ${FPGA_DEVICE}")
     endif()
     message(STATUS "Configuring the design to run on FPGA board ${FPGA_DEVICE}")
+    set(CLOCK_TARGET "480MHz")
 endif()
 
 if(NOT DEFINED ENV{MKLROOT})
@@ -137,7 +139,7 @@ foreach(TYPEA ${TYPES})
                                                    ${RECONFIGURABLE_MATMUL_PATH}/oneapi/${TYPEA}${TYPEB}${TYPEC}${TYPE_SCALAR}matmul_${SIZE}_${HW}.cpp
                                                    ${PRODUCTIVE_LIBRARIES_PATH}/include/halide_runtime_etc.cpp
                                                    -Xshardware -Xstarget=${FPGA_DEVICE}
-                                                   -Xsffp-reassociate -Xsffp-contract=fast -Xsdsp-mode=prefer-dsp -Xsprofile -Xsclock=360MHz
+                                                   -Xsffp-reassociate -Xsffp-contract=fast -Xsdsp-mode=prefer-dsp -Xsprofile -Xsclock=${CLOCK_TARGET}
                                                    -fsycl -fintelfpga -fsycl-link=early -o ${TYPEA}${TYPEB}${TYPEC}${TYPE_SCALAR}matmul_${SIZE}_${HW}.early
                                            COMMAND cp -rf ${TYPEA}${TYPEB}${TYPEC}${TYPE_SCALAR}matmul_${SIZE}_${HW}.early.prj/reports/report.html ${RECONFIGURABLE_MATMUL_PATH}/reports/${TYPEA}${TYPEB}${TYPEC}${TYPE_SCALAR}matmul_${SIZE}_${HW}
                                            COMMAND cp -rf ${TYPEA}${TYPEB}${TYPEC}${TYPE_SCALAR}matmul_${SIZE}_${HW}.early.prj/reports/resources   ${RECONFIGURABLE_MATMUL_PATH}/reports/${TYPEA}${TYPEB}${TYPEC}${TYPE_SCALAR}matmul_${SIZE}_${HW}
@@ -160,7 +162,7 @@ foreach(TYPEA ${TYPES})
                                                    ${RECONFIGURABLE_MATMUL_PATH}/oneapi/${TYPEA}${TYPEB}${TYPEC}${TYPE_SCALAR}matmul_${SIZE}_${HW}.cpp
                                                    ${PRODUCTIVE_LIBRARIES_PATH}/include/halide_runtime_etc.cpp
                                                    -Xshardware -Xstarget=${FPGA_DEVICE}
-                                                   -Xsffp-reassociate -Xsffp-contract=fast -Xsdsp-mode=prefer-dsp -Xsprofile -Xsclock=360MHz -Xsseed=${SEED}
+                                                   -Xsffp-reassociate -Xsffp-contract=fast -Xsdsp-mode=prefer-dsp -Xsprofile -Xsclock=${CLOCK_TARGET} -Xsseed=${SEED}
                                                    -fsycl -fintelfpga -fsycl-link=image -o ${TYPEA}${TYPEB}${TYPEC}${TYPE_SCALAR}matmul_${SIZE}_${HW}.a
                                            COMMAND cp -rf ${TYPEA}${TYPEB}${TYPEC}${TYPE_SCALAR}matmul_${SIZE}_${HW}.prj/reports/report.html    ${RECONFIGURABLE_MATMUL_PATH}/reports/${TYPEA}${TYPEB}${TYPEC}${TYPE_SCALAR}matmul_${SIZE}_${HW}
                                            COMMAND cp -rf ${TYPEA}${TYPEB}${TYPEC}${TYPE_SCALAR}matmul_${SIZE}_${HW}.prj/reports/resources      ${RECONFIGURABLE_MATMUL_PATH}/reports/${TYPEA}${TYPEB}${TYPEC}${TYPE_SCALAR}matmul_${SIZE}_${HW}

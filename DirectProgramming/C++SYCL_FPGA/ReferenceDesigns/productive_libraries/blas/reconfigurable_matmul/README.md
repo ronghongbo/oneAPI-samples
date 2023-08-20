@@ -239,13 +239,13 @@ Running a demo application will generate performance metrics.
     <td>blas/gemm/bin/demo_dgemm_large_s10</td>
 </tr>
 <tr>
-    <td>C, C, C, C<br></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
+    <td>C, C, C, C<br>8, 4, 10, 32, 32, 32</td>
+    <td>443,439 / 933,120 ( 48 % )</td>
+    <td>1,317 / 5,760 ( 23 % )</td>
+    <td>2,407 / 11,721 ( 21 % )</td>
+    <td>300</td>
+    <td>560<br>(16% peak)</td>
+    <td>10K*8K, 8K*4K</td>
     <td></td>
 </tr>
 <tr>
