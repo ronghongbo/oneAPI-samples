@@ -193,13 +193,13 @@ Running a demo application will generate performance metrics.
 $$
 \begin{aligned}
 \text{Arithmetic intensity} &= \frac{\text{number of ops}}{\text{number of bytes}}\\
-&= \frac{\text{number of add ops} + \text{number of mul ops}}{3\times \text{Vector Length}\times \text{sizeof(T)}}\\
+&= \frac{\text{number of ADD ops} + \text{number of MUL ops}}{3\times \text{Vector Length}\times \text{sizeof(T)}}\\
 &= \frac{\text{Vector Length}\times (\text{is complex type}\ ?\ 14\ :\ 3)}{3\times \text{Vector Length}\times \text{sizeof(T)}}\\
 &= \frac{\text{is complex type}\ ?\ 14\ :\ 3}{3\times \text{sizeof(T)}}
 \end{aligned}
 $$
 
-Note: every pair of input data is processed by 2 multiplications and 1 addition. For a real type, a multiplication/add is simply a mul/add operation. For a complex type, multiplying two complex numbers requires 4 multiply and 2 add operations, and adding two complex numbers requires 2 add operations.
+Note: every pair of input data is processed by 2 multiplications and 1 addition. For a real type, a multiplication/addition is simply a MUL/ADD operation. For a complex type, multiplying two complex numbers requires 4 MUL and 2 ADD operations, and adding two complex numbers requires 2 ADD operations.
 
 Obviously, the arithmetic intensity is less than 1, so `reconfigurable_vecadd`'s machine peak throughput is limited by the FPGA DRAM bandwidth. Thus the theoretical peak performance = FPGA DRAM bandwidth * Arithmetic intensity. The maximum bandwidth is 34.1 GB/s and 76.8 GB/s for A10 and S10, respectively, so for different data types, their peak throughputs are as follows:
 
@@ -210,3 +210,7 @@ Obviously, the arithmetic intensity is less than 1, so `reconfigurable_vecadd`'s
 | dvecadd | 4.3           | 9.6       |double|
 | cvecadd | 19.9           | 44.8      |single|
 | zvecadd | 9.9           | 22.4      |double|
+
+
+These kernels suffer from [an issue](https://github.com/haoxiaochen/t2sp/issues/40) that two input vectors cannot be allocated to two different DDR channels exclusively in SYCL compiler in USM memory model. One addressed, their performances are expected double and close to their peaks.
+

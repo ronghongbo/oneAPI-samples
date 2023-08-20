@@ -281,4 +281,20 @@ Running a demo application will generate performance metrics.
 
 </table>
 
-Note: matrix multiplication is bound by compute. The theoretical peak throughput thus equals to the compute roof, i.e. 2 * #DSPs * frequency, where 2 refers to the fact that 1 DSP performs a mul and add operation every cycle.
+## Performance analysis
+
+Matrix multiplication is bound by compute. Therefore,
+
+$$
+\begin{aligned}
+\text{Theoretical peak throughput} &= \text{number of MUL and ADD ops per DSP per cycle} * \text{number of DSPs} * \text{frequency}\\
+&= \frac{\text{number of MUL and ADD operations per reduction per cycle}}{\text{number of DSPs per reduction}} * \text{number of DSPs} * \text{frequency}
+&= \frac{\text{2:2:8:8 for S:D:C:Z, respectively}}{\text{1:4:4:16 for S:D:C:Z, respectively}} * \text{number of DSPs} * \text{frequency}
+\end{aligned}
+$$
+
+Every cycle, a pair of data from matrix $A$ and $B$ are reduced by 1 multiplication and 1 addition. For a real type, a multiplication/addition is simply a MUL/ADD operation. For a complex type, multiplying two complex numbers requires 4 MUL and 2 ADD operations, and adding two complex numbers requires 2 ADD operations. That explains the `number of MUL and ADD operations per reduction per cycle` above. Note that a MUL/ADD operation has single precision in the case S and C, but double precision in the case of D and Z.
+ The `number of DSPs per reduction` is observed from synthesis results.
+
+
+

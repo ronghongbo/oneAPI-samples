@@ -258,7 +258,7 @@ $$
 \end{aligned}
 $$
 
-Note: every pair of input data is processed by 1 multiplication and 1 addition. For a real type, a multiplication/add is simply a mul/add operation. For a complex type, multiplying two complex numbers requires 4 multiply and 2 add operations, and adding two complex numbers requires 2 add operations.
+Note: every pair of input data is processed by 1 multiplication and 1 addition. For a real type, a multiplication/addition is simply a MUL/ADD operation. For a complex type, multiplying two complex numbers requires 4 MUL and 2 ADD operations, and adding two complex numbers requires 2 ADD operations.
 
 Obviously, the arithmetic intensity is less than 1, so `reconfigurable_dotprod`'s machine peak throughput is limited by the FPGA DRAM bandwidth. Thus the theoretical peak performance = FPGA DRAM bandwidth * Arithmetic intensity. The maximum bandwidth is 34.1 GB/s and 76.8 GB/s for A10 and S10, respectively, so for different data types, their peak throughputs are as follows:
 
@@ -270,3 +270,8 @@ Obviously, the arithmetic intensity is less than 1, so `reconfigurable_dotprod`'
 | ddotprod | 4.3           | 9.6       | double|
 | cdotprod | 17.1           | 38.4      | single |
 | zdotprod | 8.5           | 19.2      | double |
+
+
+These kernels suffer from [an issue](https://github.com/haoxiaochen/t2sp/issues/40) that two input vectors cannot be allocated two different DDR channels exclusively in SYCL compiler in USM memory model. Once addressed, the performances of these kernels (except dsdot and sddot) are expected to be near-peak.
+
+The dsdot and sdsdot kernel further suffer from [another issue](https://github.com/haoxiaochen/t2sp/issues/39) that float-to-double conversion happens too early in the datapaths. Once this and the above issue are addressed, their performances are expected to be near-peak.

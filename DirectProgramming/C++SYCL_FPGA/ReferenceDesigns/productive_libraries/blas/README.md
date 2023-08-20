@@ -162,7 +162,7 @@ Assume your machine has OneAPI enabled for A10 or S10. For example, on DevCloud,
     
 # Known issues
 
-    * Level 1 kernels suffer from [an issue](https://github.com/haoxiaochen/t2sp/issues/40) that two input vectors cannot be allocated to two different channels exclusively in SYCL compiler.
+    * Level 1 kernels suffer from [an issue](https://github.com/haoxiaochen/t2sp/issues/40) that two input vectors cannot be allocated two different DDR channels exclusively in SYCL compiler in USM memory model.
     * dsdot and sdsdot further suffer from [another issue](https://github.com/haoxiaochen/t2sp/issues/39) that float-to-double conversion happens too early in the datapaths
     * Synthesis of level 3 kernels with complex types either [fail](https://github.com/haoxiaochen/t2sp/issues/34) or [overtime](https://github.com/haoxiaochen/t2sp/issues/34).
     * Occasional segmentation fault due to SYCL queue destruction when running a demo. Usually, re-run it would be fine.
