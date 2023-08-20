@@ -75,88 +75,88 @@ source /glob/development-tools/versions/oneapi/2023.2.0.1/oneapi/setvars.sh --fo
 
 1. Configure the build system.
 
-```shell
-cd KERNEL # Replace this with the specific kernel's name, e.g. gemm
-mkdir -p build
-cd build
-```
+    ```shell
+    cd KERNEL # Replace this with the specific kernel's name, e.g. gemm
+    mkdir -p build
+    cd build
+    ```
 
-For Intel Arria® 10 GX FPGA:
+    For Intel Arria® 10 GX FPGA:
 
-```shell
-cmake ..
-```
+    ```shell
+    cmake ..
+    ```
 
-For Intel Stratix® 10 SX:
+    For Intel Stratix® 10 SX:
 
-```shell
-cmake .. -DFPGA_DEVICE=intel_s10sx_pac:pac_s10
-```
+    ```shell
+    cmake .. -DFPGA_DEVICE=intel_s10sx_pac:pac_s10
+    ```
 
 2. Test correctness.
 
-```shell
-make tests
-../bin/tests.sh
-```
+    ```shell
+    make tests
+    ../bin/tests.sh
+    ```
 
-Each test builds a tiny-scale systolic array and runs on an FPGA emulator.
+    Each test builds a tiny-scale systolic array and runs on an FPGA emulator.
 
 3. Test performance
 
-Replace `VARIATION` below with a specific variation of the kernel as listed in the tables above, and replace `HW` below with either `a10` or `s10`.
+    Replace `VARIATION` below with a specific variation of the kernel as listed in the tables above, and replace `HW` below with either `a10` or `s10`.
 
-```shell
-# Optional: if to avoid synthesis of the kernel's underlying systolic array, pre-generated bitstream (as well as SYCL file and reports) for the array can be installed.
-../../../tools/install_pre_gen.sh VARIATION_large_HW
+    ```shell
+    # Optional: if to avoid synthesis of the kernel's underlying systolic array, pre-generated bitstream (as well as SYCL file and reports) for the array can be installed.
+    ../../../tools/install_pre_gen.sh VARIATION_large_HW
 
-# Synthesize the systolic array and link it with a demo application of the kernel
-make demo_VARIATION_large_HW
-```
+    # Synthesize the systolic array and link it with a demo application of the kernel
+    make demo_VARIATION_large_HW
+    ```
 
-Then for A10:
+    Then for A10:
 
-```shell
-# Unsign the bitstream. Otherwise, there is an "Error writing bitstream to FPGA" due to the security feature of devstack 1.2.1
-make unsign_VARIATION_large_a10
+    ```shell
+    # Unsign the bitstream. Otherwise, there is an "Error writing bitstream to FPGA" due to the security feature of devstack 1.2.1
+    make unsign_VARIATION_large_a10
 
-# Demo on the hardware
-../bin/demo_VARIATION_large_a10.unsigned
-```
+    # Demo on the hardware
+    ../bin/demo_VARIATION_large_a10.unsigned
+    ```
 
-For S10:
+    For S10:
 
-```shell
-../bin/demo_VARIATION_large_s10
-```
+    ```shell
+    ../bin/demo_VARIATION_large_s10
+    ```
 
-Take `sgemm` with a large systolic array on A10 for example:
+    Take `sgemm` with a large systolic array on A10 for example:
 
-```shell
-# Optional: install the pre-generated bitstream.
-../../../tools/install_pre_gen.sh sgemm_large_a10
+    ```shell
+    # Optional: install the pre-generated bitstream.
+    ../../../tools/install_pre_gen.sh sgemm_large_a10
 
-# Generate a demo application on the FPGA hardware
-make demo_sgemm_large_a10
+    # Generate a demo application on the FPGA hardware
+    make demo_sgemm_large_a10
 
-# A10 specific: Unsign the bitstream
- make unsign_sgemm_large_a10
+    # A10 specific: Unsign the bitstream
+     make unsign_sgemm_large_a10
 
-# Demo on the hardware
- ../bin/demo_sgemm_large_a10.unsigned
-```
+    # Demo on the hardware
+     ../bin/demo_sgemm_large_a10.unsigned
+    ```
 
 4. Delete all generated files for a kernel
 
-```shell
-make clean_VARIATION_(tiny|large)_HW
-```
+    ```shell
+    make clean_VARIATION_(tiny|large)_HW
+    ```
 
-For example:
+    For example:
 
-```shell
-make clean_sgemm_large_a10
-```
+    ```shell
+    make clean_sgemm_large_a10
+    ```
 
 ## Batch tests
 
@@ -174,7 +174,7 @@ productive_libraries/tools/batch.sh a10|s10
 
 * Synthesis of level 3 kernels with complex types either [fail](https://github.com/haoxiaochen/t2sp/issues/34) or [overtime](https://github.com/haoxiaochen/t2sp/issues/34).
 
-* In order to synthesize successfully, some level 3 kernels (e.g. dgemm on a10 / sgemm on s10) need to reduce the size of the systolic arrays, [which degrades their performance](https://github.com/haoxiaochen/t2sp/issues/41).
+* In order to synthesize successfully, some level 3 kernels (e.g. dgemm on a10 / sgemm on s10) need to reduce the size of the systolic arrays, [which reduces their performance](https://github.com/haoxiaochen/t2sp/issues/41).
 
 * Occasional segmentation fault due to SYCL queue destruction when running a demo. Usually, re-run it would be fine.
 
