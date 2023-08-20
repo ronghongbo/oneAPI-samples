@@ -71,12 +71,12 @@ login-2:~$ devcloud_login
                            or option 4) Stratix 10 - OneAPI, ...
 # On the compute node
 source /glob/development-tools/versions/oneapi/2023.2.0.1/oneapi/setvars.sh --force
+cd DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/KERNEL # Replace this with the specific kernel's name, e.g. gemm
 ```
 
 1. Configure the build system.
 
     ```shell
-    cd KERNEL # Replace this with the specific kernel's name, e.g. gemm
     mkdir -p build
     cd build
     ```
