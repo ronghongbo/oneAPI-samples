@@ -75,19 +75,23 @@ while [ "$index" -lt "${#array[*]}" ]; do
             rm -rf  ../bin/demo_${variation}_large_$1.unsigned  ../bin/demo_${variation}_large_$1
             make demo_${variation}_large_$1 >> ../../batch.out 2>&1
 
-            echo -e ${GREEN}Running demo of ${variation}_large_$1${NOCOLOR}
             if [ "$1" = "a10" ]; then
+                echo -e  ${GREEN}Unsigning the bitstream of ${variation}_large_$1${NOCOLOR}
+                make unsign_${variation}_large_$1 >> ../../batch.out 2>&1
+
+                echo -e ${GREEN}Running demo of ${variation}_large_$1${NOCOLOR}
                 ../bin/demo_${variation}_large_$1.unsigned
                 ret_code=$?
                 if [ $ret_code -ne 0 ]; then
-                    # Rerun the command
+                    # Known issue to fix: occasional segfault. Rerun the command
                     ../bin/demo_${variation}_large_$1.unsigned
                 fi
             else
+                echo -e ${GREEN}Running demo of ${variation}_large_$1${NOCOLOR}
                 ../bin/demo_${variation}_large_$1
                 ret_code=$?
                 if [ $ret_code -ne 0 ]; then
-                    # Rerun the command
+                    # Known issue to fix: occasional segfault. Rerun the command
                     ../bin/demo_${variation}_large_$1
                 fi
             fi
