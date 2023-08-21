@@ -60,25 +60,36 @@ The reconfigurable systolic arrays (named as `reconfigurable-*`) are also under 
 * `CMakeLists.txt` - A cmake script to build the array.
 * `README.md` - A short description of the array.
 
-## Build a kernel and run on Linux
+## Environment requirement
 
-Assume your machine has OneAPI enabled for A10 or S10. For example, on DevCloud,
+We assume your machine has OneAPI enabled for A10 or S10 FPGA. For example, on DevCloud,
 
-```
-# Ask for a compute node
-login-2:~$ devcloud_login
-                Choose either option 2) Arria 10 - OneAPI, ...
-                           or option 4) Stratix 10 - OneAPI, ...
-# On the compute node
-source /glob/development-tools/versions/oneapi/2023.2.0.1/oneapi/setvars.sh --force
+    ```shell
+    # Ask for a compute node
+    login-2:~$ devcloud_login
+                    Choose either option 2) Arria 10 - OneAPI, ...
+                               or option 4) Stratix 10 - OneAPI, ...
+                               
+    # On the compute node
+    source /glob/development-tools/versions/oneapi/2023.2.0.1/oneapi/setvars.sh --force
+    ```
 
-# Replace KERNEL with a specific kernel to build, e.g. gemm
-cd PATH_TO_ONEAPI_SAMPLES/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/KERNEL 
-```
+## Batch tests
+
+To batch build and run the tests and demos of all the kernels:
+
+    ```shell
+    PATH_TO_ONEAPI_SAMPLES/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/tools/batch.sh a10|s10
+    ```
+
+## Test an individual kernel
 
 1. Configure the build system.
 
     ```shell
+    # Replace KERNEL with a specific kernel to build, e.g. gemm
+    cd PATH_TO_ONEAPI_SAMPLES/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/KERNEL 
+    
     mkdir -p build
     cd build
     ```
@@ -158,14 +169,6 @@ cd PATH_TO_ONEAPI_SAMPLES/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/produc
     ```shell
     make clean_sgemm_large_a10
     ```
-
-## Batch tests
-
-To batch build and run the tests and demos of all the kernels:
-
-```
-PATH_TO_ONEAPI_SAMPLES/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/tools/batch.sh a10|s10
-```
 
 ## Known issues
 
