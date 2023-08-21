@@ -1,9 +1,8 @@
 #ifndef MATMUL_CONST_PARAMS_H
 #define MATMUL_CONST_PARAMS_H
 
-// NOTE: When change any parameters of the systolic array (KKK, JJJ, III, JJ, II, KK), please make the same change in api.hpp
+// NOTE: When changing any parameters of the systolic array (KKK, JJJ, III, JJ, II, KK), change function get_systolic_array_dimensions() in api.hpp accordingly
 
-// Inner loop bounds, which are static constant parameters of the design
 #ifdef TINY // For verifying correctness only
     #define KKK         4
     #define JJJ         4
@@ -77,7 +76,7 @@
             #error Precision of the output matrix is undefined.
         #endif
     #else
-        #error The size of the systolic array is undefined.
+        #error The sizes of the systolic array are undefined.
     #endif
 #endif
 

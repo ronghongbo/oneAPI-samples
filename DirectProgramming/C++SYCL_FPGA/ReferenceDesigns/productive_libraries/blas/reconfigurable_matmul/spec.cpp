@@ -4,7 +4,7 @@
 
 #include "Halide.h"
 
-// Constant parameters and data types of the kernel (dimensions of the systolic array)
+// Constant parameters and data types of the systolic array
 #include "./parameters.h"
 using namespace Halide;
 
@@ -108,7 +108,7 @@ int main()
                 + X(P) * Y(P);
     Product(P_reduced) = select(k == K-1 && kk == KK-1 && kkk == KKK-1, Z(P));
 
-    // C is read similarly, except that C is never transposed or conjugated
+    // C is read similarly
     // Physically, when C is symmetric/Hermitian, if its upper triangle is stored and we want to read the lower triangle or
     // if its lower triangle is stored and we want to read the upper triangle, we have to read from the symmetric location.
     Expr Read_Upper_C              = (C_row_idx <= C_col_idx);
@@ -125,8 +125,9 @@ int main()
     Add(P_reorder) = alpha * Product(P_reorder) + Check_Load_C;
     Out(P_reorder) = select(true, Add(P_reorder));
 
-    // Put the UREs that compute A*B (i.e. X, Y, Z and Product) inside the same loop nest.
+    // Put the UREs that compute the product into a loop nest.
     X.merge_ures(Y, Z, Product);
+    // Put the UREs that compute the final sum into another loop nest.
     Add.merge_ures(Out);
 
     // Explicitly set the loop bounds: every loop has a min, and an extent (number of iterations).
@@ -156,7 +157,7 @@ int main()
     Product >> RCollector.scope(iii).out(jjj) >> FIFO(256) >> SCollector >> FIFO(256);
     Out >> FIFO(256) >> DOut >> Output(C_col_idx, C_row_idx);
 
-    // Compile the kernel to an oneAPI impl, and expose a C interface for the host to invoke
+    // Compile the above specification and generate an oneAPI/SYCL file, with a C interface for the host to invoke
     Output.compile_to_oneapi(OUTPUT_FILE, {A, TransposeA, ConjugateA, SymmetricA, HermitianA, UpA,
                                            B, TransposeB, ConjugateB, SymmetricB, HermitianB, UpB,
                                            C,                         SymmetricC, HermitianC, UpC,
