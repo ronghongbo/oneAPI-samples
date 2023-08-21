@@ -1,4 +1,3 @@
-#This tool is not to release to users of the oneapi samples, but for developers of the samples
 #Usage: ./install-tools.sh T2S-compiler-path
 #TODO: auto retrive libHalide.a and include files from a website
 cp --remove-destination $1/Halide/lib/libHalide.a Halide/lib
