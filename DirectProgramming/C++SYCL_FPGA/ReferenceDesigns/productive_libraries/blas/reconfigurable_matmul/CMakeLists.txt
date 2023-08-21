@@ -332,6 +332,20 @@ foreach(MATMUL ${MATMULS})
 endforeach()
 set(PRECISIONS ${PRECISIONS_BACKUP})
 
+# Install pre-generated files
+set(PRECISIONS_BACKUP ${PRECISIONS})
+foreach(MATMUL ${MATMULS})
+    list(GET PRECISIONS 0 PRECISION)
+    list(REMOVE_AT PRECISIONS 0)
+    foreach(SIZE "tiny" "large")
+        foreach(HW "a10" "s10")
+            add_custom_target(install_${PRECISION}${KERNEL}_${SIZE}_${HW}
+                              COMMAND bash -c "${PRODUCTIVE_LIBRARIES_PATH}/tools/install_pre_gen.sh ${PRECISION}${KERNEL}_${SIZE}_${HW}")
+        endforeach()
+    endforeach()
+endforeach()
+set(PRECISIONS ${PRECISIONS_BACKUP})
+
 # Clean generated files
 set(PRECISIONS_BACKUP ${PRECISIONS})
 foreach(MATMUL ${MATMULS})

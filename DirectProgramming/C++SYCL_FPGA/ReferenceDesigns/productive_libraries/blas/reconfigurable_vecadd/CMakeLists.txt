@@ -299,6 +299,16 @@ foreach(PRECISION ${PRECISIONS})
     endforeach()
 endforeach()
 
+# Install pre-generated files
+foreach(PRECISION ${PRECISIONS})
+    foreach(SIZE "tiny" "large")
+        foreach(HW "a10" "s10")
+            add_custom_target(install_${PRECISION}${KERNEL}_${SIZE}_${HW}
+                              COMMAND bash -c "${PRODUCTIVE_LIBRARIES_PATH}/tools/install_pre_gen.sh ${PRECISION}${KERNEL}_${SIZE}_${HW}")
+        endforeach()
+    endforeach()
+endforeach()
+
 # Clean generated files
 foreach(PRECISION ${PRECISIONS})
     foreach(SIZE "tiny" "large")
