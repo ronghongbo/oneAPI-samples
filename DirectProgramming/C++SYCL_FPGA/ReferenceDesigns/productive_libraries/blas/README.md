@@ -176,7 +176,7 @@ To batch build and run the tests and demos of all the kernels:
 
 * dsdot and sdsdot further suffer from [another issue](https://github.com/haoxiaochen/t2sp/issues/39) that T2SP compiler converts floats to doubles too early in the datapaths
 
-* Synthesis of level 3 kernels with complex types [fail](https://github.com/haoxiaochen/t2sp/issues/34) or [overtime](https://github.com/haoxiaochen/t2sp/issues/34) in some configurations.
+* Synthesis of level 3 kernels with complex types [fail](https://github.com/haoxiaochen/t2sp/issues/33) or [overtime](https://github.com/haoxiaochen/t2sp/issues/34) in some configurations.
 
 * The systolic array of matrix multiply [scales worse](https://github.com/haoxiaochen/t2sp/issues/41) in SYCL than in OpenCL. Especially, DSP utilization on S10 is low, and parameter tuning is ongoing.
 
