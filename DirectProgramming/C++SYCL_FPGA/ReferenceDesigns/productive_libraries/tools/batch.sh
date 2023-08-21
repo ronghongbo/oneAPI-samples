@@ -70,7 +70,7 @@ while [ "$index" -lt "${#array[*]}" ]; do
         echo
         echo -e ${BLUE}Testing performance of ${variation}_large_$1${NOCOLOR}
         echo -e ${GREEN}Installing pre-generated files for ${variation}_large_$1${NOCOLOR}
-        if ../../../tools/install_pre_gen.sh ${variation}_large_$1 >> ../../batch.out; then
+        if make install_${variation}_large_$1 >> ../../batch.out; then
             echo -e ${GREEN}Making demo of ${variation}_large_$1${NOCOLOR}
             rm -rf  ../bin/demo_${variation}_large_$1.unsigned  ../bin/demo_${variation}_large_$1
             make demo_${variation}_large_$1 >> ../../batch.out 2>&1
