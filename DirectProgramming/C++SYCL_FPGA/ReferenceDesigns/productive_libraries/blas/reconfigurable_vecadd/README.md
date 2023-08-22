@@ -164,7 +164,7 @@ After unsigning the image (for A10 FPGA only), the demo can run on a hardware, w
     <td>755 / 11,721 ( 6 % )</td>
     <td>328</td>
     <td>7.6<br>(79% peak)</td>
-    <td></td>
+    <td>128M, 128M</td>
     <td>blas/axpy/bin/demo_daxpy_large_s10</td>
 </tr>
 <tr>
@@ -184,7 +184,7 @@ After unsigning the image (for A10 FPGA only), the demo can run on a hardware, w
     <td> 755 / 11,721 ( 6 % )</td>
     <td>344</td>
     <td>18.6<br>(83% peak)</td>
-    <td></td>
+    <td>64M, 64M</td>
     <td>blas/axpy/bin/demo_zaxpy_large_s10</td>
 </tr>
 

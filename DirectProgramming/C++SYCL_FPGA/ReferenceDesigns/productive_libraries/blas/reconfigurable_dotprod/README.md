@@ -208,10 +208,10 @@ After unsigning the image (for A10 FPGA only), the demo can run on a hardware, w
 </tr>
 <tr>
     <td>D, S<br></td>
-    <td>245,182 / 933,120 ( 26 % )</td>
-    <td>76 / 5,760 ( 1 % )</td>
-    <td> 797 / 11,721 ( 7 % )</td>
-    <td>276</td>
+    <td> 234,716 / 933,120 ( 25 % )</td>
+    <td> 44 / 5,760 ( < 1 % )</td>
+    <td>  719 / 11,721 ( 6 % )</td>
+    <td>288</td>
     <td>4.4 GFLOPS<br>(23% peak)<br>(<a href="https://github.com/haoxiaochen/t2sp/issues/39">perf issue to adress in next release</a>)</td>
     <td>512M, 512M</td>
     <td>blas/dot/bin/demo_dsdot_large_s10</td>
