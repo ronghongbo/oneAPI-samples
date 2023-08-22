@@ -132,7 +132,7 @@ After unsigning the image (for A10 FPGA only), the demo can run on a hardware, w
 
 ## Metrics
 
-The following data are gathered on node s001-n084 on DevCloud:
+The following data are gathered from DevCloud on node s001-n084 with an A10 FPGA, and node with an S10 FPGA, respectively:
 
 <table style="width:120%">
 <tr>
@@ -255,7 +255,7 @@ The following data are gathered on node s001-n084 on DevCloud:
 $$
 \begin{aligned}
 \text{Arithmetic intensity} &= \frac{\text{number of ops}}{\text{number of bytes}}\\
-&= \frac{\text{number of add ops} + \text{number of mul ops}}{2\times \text{Vector Length}\times \text{sizeof(T)}}\\
+&= \frac{\text{number of ADD ops} + \text{number of MUL ops}}{2\times \text{Vector Length}\times \text{sizeof(T)}}\\
 &= \frac{\text{Vector Length}\times (\text{is complex type}\ ?\ 8\ :\ 2)}{2\times \text{Vector Length}\times \text{sizeof(T)}}\\
 &= \frac{\text{is complex type}\ ?\ 8\ :\ 2}{2\times \text{sizeof(T)}}
 \end{aligned}
@@ -263,7 +263,7 @@ $$
 
 Note: every pair of input data is processed by 1 multiplication and 1 addition. For a real type, a multiplication/addition is simply a MUL/ADD operation. For a complex type, multiplying two complex numbers requires 4 MUL and 2 ADD operations, and adding two complex numbers requires 2 ADD operations.
 
-Obviously, the arithmetic intensity is less than 1, so `reconfigurable_dotprod`'s machine peak throughput is limited by the FPGA DRAM bandwidth. Thus the theoretical peak performance = FPGA DRAM bandwidth * Arithmetic intensity. The maximum bandwidth is 34.1 GB/s and 76.8 GB/s for A10 and S10, respectively, so for different data types, their peak throughputs are as follows:
+Obviously, the arithmetic intensity is no more than 1, so `reconfigurable_dotprod`'s machine peak throughput is limited by the FPGA DRAM bandwidth. Thus the theoretical peak performance = FPGA DRAM bandwidth * Arithmetic intensity. The maximum bandwidth is 34.1 GB/s and 76.8 GB/s for A10 and S10, respectively, so for different data types, their peak throughputs are as follows:
 
 
 |         |  Peak performance on A10 (GFLOPS) | Peak performance on S10 (GFLOPS) | Note: precision of the ops|
