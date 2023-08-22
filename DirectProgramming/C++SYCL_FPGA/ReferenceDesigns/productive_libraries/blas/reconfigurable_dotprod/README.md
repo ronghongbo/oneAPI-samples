@@ -6,7 +6,7 @@ $$
 result \longleftarrow op_3(op_1(\vec{x})\cdot op_2(\vec{y}))
 $$
 
-where $op_1(\vec{x})$ is $\vec{x}$ or $\overline{\vec{x}}$ , $op_2(y)$ is $\vec{y}$ or $\text{sign}(\vec{y})$ , $op_3(v)$ is $v$ or $\sqrt{v}$, and $\vec{x}$ and $\vec{y}$ are vectors. The definition of $\text{sign}$ is as follows
+where $op_1(\vec{x})$ is $\vec{x}$ or $\overline{\vec{x}}$ , $op_2(\vec{y})$ is $\vec{y}$ or $\text{sign}(\vec{y})$ , $op_3(v)$ is $v$ or $\sqrt{v}$, and $\vec{x}$ and $\vec{y}$ are vectors. The definition of $\text{sign}$ is as follows
 
 * if $\vec{y}$ is a real vector, $\text{sign}(\vec{y})$ results in a real vector, and $\text{sign}(\vec{y})_i$ is 1 (-1) if $y_i$ is positive (negative).
 
@@ -99,9 +99,8 @@ Note: in pre-processing, due to the way the inputs are to be divided, when the l
 
 The [parameters.h](./parameters.h) file pre-defines the sizes for a tiny and large systolic array. The tiny configuration specifies a systolic array with 4 PEs. The large configuration tries to maximally utilize resources, and varies with precision and hardware. One can modify these parameters. If so, please remember to modify the `get_systolic_array_dimensions()` function in [api.hpp](./api.hpp) accordingly.
 
-## Build and test
-
-Follow the [general instructions](../README.md#user-content-test-an-individual-kernel) to build a demo application `demo_VARIATION_SIZE_HW`for any kernel `VARIATION` that is covered by the design with a systolic array of any `SIZE` (`tiny` or `large` as defined in [parameters.h](./parameters.h)) on any `HW` (`a10` or `s10`), and the design will be synthesized under the hood into an image and  linked with that kernel. The correspondence between VARIATION and image, and the current status, are as follows:
+## Test
+Follow the general instructions in [blas/README.md](../README.md#user-content-environment-requirement) to set up the environment and build a demo application `demo_VARIATION_SIZE_HW` for any kernel `VARIATION` with a systolic array of any `SIZE` (`tiny` or `large` as defined in [parameters.h](./parameters.h)) on any `HW` (`a10` or `s10`), and the design will be synthesized under the hood into an image (bitstream) of the systolic array and linked with that kernel. The correspondence between the VARIATIONs and images is as follows:
 
 | VARIATION of a kernel      | Image      |
 | -------------------------- | ---------- |
@@ -114,22 +113,26 @@ Follow the [general instructions](../README.md#user-content-test-an-individual-k
 | sdsdot                     | sdsdotprod |
 | dsdot                      | dsdotprod  |
 
-
 For example,
 
-```shell
-cd blas/dot/build
-cmake ..
-make demo_sdot_large_a10
+```
+    source /glob/development-tools/versions/oneapi/2023.2.0.1/oneapi/setvars.sh --force
+    cd PATH_TO_ONEAPI_SAMPLES/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/dot 
+    mkdir -p build && cd build
+    cmake ..
+    
+    make demo_sdot_large_a10
 ```
 
-will automatically synthesize this design into an image `blas/reconfigurable_dotprod/bin/sdotprod_large_a10.a`, and link the image into the demo application `blas/dot/bin/demo_sdot_large_a10`.
+will automatically synthesize this design into an image `sdotprod_large_a10.a` under `blas/reconfigurable_dotprod/bin/`, and link the image into the demo application `demo_sdot_large_a10` under `blas/dot/bin/`. 
 
-Alternatively, one can install the pre-synthesized bitstreams following the general instructions.
+Alternatively, one can install a pre-synthesized image following the general instructions there.
 
-Running a demo application will generate performance metrics.
+After unsigning the image (for A10 FPGA only), the demo can run on a hardware, which will generate performance metrics.
 
 ## Metrics
+
+The following data are gathered on node s001-n084 on DevCloud:
 
 <table style="width:120%">
 <tr>
@@ -150,7 +153,7 @@ Running a demo application will generate performance metrics.
     <td>20 / 1,518 ( 1 % )</td>
     <td>425 / 2,713 ( 16 % )</td>
     <td>312</td>
-    <td>5.8 GFLOPS<br>(68% peak)</td>
+    <td>7.6 GFLOPS<br>(89% peak)</td>
     <td>256M, 256M</td>
     <td>blas/dot/bin/demo_sdot_large_a10.unsigned</td>
 </tr>
@@ -160,7 +163,7 @@ Running a demo application will generate performance metrics.
     <td>76 / 1,518 ( 5 % )</td>
     <td>489 / 2,713 ( 18 % )</td>
     <td>258</td>
-    <td>2.7 GFLOPS<br>(32% peak)<br>(<a href="https://github.com/haoxiaochen/t2sp/issues/39">perf issue to adress in next release</a>)</td>
+    <td>3.0 GFLOPS<br>(35% peak)<br>(<a href="https://github.com/haoxiaochen/t2sp/issues/39">perf issue to adress in next release</a>)</td>
     <td>256M, 256M</td>
     <td>blas/dot/bin/demo_dsdot_large_a10.unsigned<br> or blas/sdsdot/bin/demo_sdsdot_large_a10.unsigned</td>
 </tr>
@@ -170,7 +173,7 @@ Running a demo application will generate performance metrics.
     <td>44 / 1,518 ( 3 % )</td>
     <td>437 / 2,713 ( 16 % )</td>
     <td>260</td>
-    <td>2.9 GFLOPS<br>(69% peak)</td>
+    <td>3.2 GFLOPS<br>(75% peak)</td>
     <td>128M, 128M</td>
     <td>blas/dot/bin/demo_ddot_large_a10.unsigned</td>
 </tr>
@@ -180,7 +183,7 @@ Running a demo application will generate performance metrics.
     <td>58 / 1,518 ( 4 % )</td>
     <td>451 / 2,713 ( 17 % )</td>
     <td>289</td>
-    <td>11.6 GFLOPS<br>(68% peak)</td>
+    <td>11.8 GFLOPS<br>(69% peak)</td>
     <td>32M, 32M</td>
     <td>blas/dotu/bin/demo_cdotu_large_a10.unsigned</td>
 </tr>
