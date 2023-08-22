@@ -12,8 +12,8 @@
 using namespace Halide;
 
 namespace t2sp::blas::row_major {
-// The API for GEMM. We choose the USM version of oneMKL DPC++ interface (https://oneapi-src.github.io/oneMKL/domains/blas/gemm.html) with the
-// restriction of standard data types (s, d, c, z) only. In this case, the matrices, alpha and beta all have the same data type according to the DPC++ interface.
+// The API for GEMM. We choose the USM version of oneMKL DPC++/SYCL interface (https://oneapi-src.github.io/oneMKL/domains/blas/gemm.html) with the
+// restriction of standard data types (s, d, c, z) only. In this case, the matrices, alpha and beta all have the same data type.
 // So we define our GEMM interface as a template with a single type T.
 template<typename T>
 sycl::event gemm(sycl::queue &queue,

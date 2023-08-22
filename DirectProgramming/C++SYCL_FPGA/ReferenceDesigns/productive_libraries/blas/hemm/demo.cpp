@@ -47,15 +47,10 @@ void test(oneapi::mkl::side left_right, oneapi::mkl::uplo upper_lower, int m, in
     // TOFIX
     double number_ops;
     int k = (left_right == oneapi::mkl::side::left ? m : n);
-    if ((std::is_same_v<float, T> || std::is_same_v<double, T>)) {
-        // FP operations per MAD (MUL and ADD) for float and double =2
-        number_ops = 2.0 * m * n * k + m * n;
-    } else {
-        // FP operations per MAD (MUL and ADD) for complex float and double =8:
-        // Multiplying two complex numbers requires 4 rand_matrixFP MUL and 2 FP ADD
-        // Adding two complex numbers requires 2 FP ADD
-        number_ops = 8.0 * m * n * k + 2.0 * m * n;
-    }
+	// FP operations per MAD (multiplication and addition) for complex float and double=8:
+	// 	Multiplying two complex numbers requires 4 rand_matrixFP MUL and 2 FP ADD operations
+	// 	Adding two complex numbers requires 2 FP ADD operations
+	number_ops = 8.0 * m * n * k + 2.0 * m * n;
     std::cout << "GFLOPs: " << number_ops / exec_time << "\n";
     std::cout << "Size of matrix a: " << m << " * " << k << "\n";
     std::cout << "Size of matrix b: " << k << " * " << n << "\n";

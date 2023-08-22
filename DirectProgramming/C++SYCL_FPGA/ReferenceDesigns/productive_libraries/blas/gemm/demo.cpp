@@ -38,34 +38,28 @@ void test(oneapi::mkl::transpose transa, oneapi::mkl::transpose transb,
     uint64_t end   = e.get_profiling_info<sycl::info::event_profiling::command_end>();
     uint64_t exec_time = end - start;
 
-    double MULs_in_product, ADDs_in_product, MULs_in_sum, ADDs_in_sum, flops_per_MUL, flops_per_ADD, total_flops, total_data, bytes_per_data, total_bytes;
-    // m*n results in computing product=op(A)*op(B), each result is reduced from k number of MULs and ADDs.
-    MULs_in_product = m * n * k;
-    ADDs_in_product = m * n * k;
-    // m*n results in computing alpha*product + beta*C, each is reduced from two MULs and one ADD.
-    MULs_in_sum = 2.0 * m * n;
-    ADDs_in_sum = m * n;
+    double multiplications_in_product, additions_in_product, multiplications_in_sum, additions_in_sum, flops_per_multiplication, flops_per_addition, total_flops, total_data, bytes_per_data, total_bytes;
+    // m*n results in computing product=op(A)*op(B), each result is reduced from k number of multiplications and additions.
+    multiplications_in_product = m * n * k;
+    additions_in_product = m * n * k;
+    // m*n results in computing alpha*product + beta*C, each is reduced from two multiplications and one addition.
+    multiplications_in_sum = 2.0 * m * n;
+    additions_in_sum = m * n;
     if ((std::is_same_v<float, T> || std::is_same_v<double, T>)) {
-        // For float and double, 1 MUL/ADD is 1 FP operation (of single- or double-precision)
-        flops_per_MUL = 1;
-        flops_per_ADD = 1;
+        // For float and double, 1 multiplication/addition is 1 FP operation (of single- or double-precision)
+        flops_per_multiplication = 1;
+        flops_per_addition = 1;
     } else {
-        // For complex float and double, 1 MUL of two complex numbers requires 4 FP multiplies and 2 FP adds (of single- or double-precision)
-        // 1 ADD of two complex numbers requires 2 FP adds (of single- or double-precision)
-        flops_per_MUL = 6;
-        flops_per_ADD = 2;
+        // For complex float and double, 1 multiplication of two complex numbers requires 4 FP MUL and 2 FP ADD operations (of single- or double-precision)
+        // 1 addition of two complex numbers requires 2 FP ADD operations (of single- or double-precision)
+        flops_per_multiplication = 6;
+        flops_per_addition = 2;
     }
-    total_flops = MULs_in_product * flops_per_MUL + ADDs_in_product * flops_per_ADD +
-                  MULs_in_sum     * flops_per_MUL + ADDs_in_sum     * flops_per_ADD;
+    total_flops = multiplications_in_product * flops_per_multiplication + additions_in_product * flops_per_addition +
+                  multiplications_in_sum     * flops_per_multiplication + additions_in_sum     * flops_per_addition;
 
     total_data = m * k + k * n + 2.0 * m * n; // data accessed from op(A), op(B), original C, and final C
-//    if ((std::is_same_v<float, T> || std::is_same_v<double, T>)) {
-        bytes_per_data = sizeof(T);
-/*    } else if ((std::is_same_v<std::complex<float>, T> >)) {
-        bytes_per_data = 8;
-    } else {
-        bytes_per_data = 16;
-    }*/
+    bytes_per_data = sizeof(T);
     total_bytes = total_data * bytes_per_data;
     std::cout << "FP operations: " << total_flops << "\n";
     std::cout << "Execution time: " << exec_time << " ns\n";

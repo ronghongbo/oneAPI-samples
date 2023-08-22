@@ -42,10 +42,10 @@ void test(oneapi::mkl::side left_right, oneapi::mkl::uplo upper_lower, int m, in
     double number_ops;
     int k = (left_right == oneapi::mkl::side::left ? m : n);
     if ((std::is_same_v<float, T> || std::is_same_v<double, T>)) {
-        // FP operations per MAD (MUL and ADD) for float and double =2
+        // FP operations per MAD (multiplication and addition) for float and double=2
         number_ops = 2.0 * m * n * k + m * n;
     } else {
-        // FP operations per MAD (MUL and ADD) for complex float and double =8:
+        // FP operations per MAD (multiplication and addition) for complex float and double=8:
         // Multiplying two complex numbers requires 4 FP MUL and 2 FP ADD
         // Adding two complex numbers requires 2 FP ADD
         number_ops = 8.0 * m * n * k + 2.0 * m * n;
@@ -61,8 +61,7 @@ int main() {
     const auto [KKK, JJJ, III, JJ, II, KK] = t2sp::blas::row_major::get_systolic_array_dimensions<float>();
     int64_t m = III * II * 32;
     int64_t n = JJJ * JJ * 32;
-    int64_t k = KKK * KK * 32;
-    int64_t lda = k;
+    int64_t lda = m;
     int64_t ldb = n;
     int64_t ldc = n;
     float alpha = 2.0f;
@@ -72,8 +71,7 @@ int main() {
     const auto [KKK, JJJ, III, JJ, II, KK] = t2sp::blas::row_major::get_systolic_array_dimensions<double>();
     int64_t m = III * II * 32;
     int64_t n = JJJ * JJ * 32;
-    int64_t k = KKK * KK * 32;
-    int64_t lda = k;
+    int64_t lda = m;
     int64_t ldb = n;
     int64_t ldc = n;
     double alpha = 2.0f;
@@ -83,8 +81,7 @@ int main() {
     const auto [KKK, JJJ, III, JJ, II, KK] = t2sp::blas::row_major::get_systolic_array_dimensions<std::complex<float>>();
     int64_t m = III * II * 32;
     int64_t n = JJJ * JJ * 32;
-    int64_t k = KKK * KK * 32;
-    int64_t lda = k;
+    int64_t lda = m;
     int64_t ldb = n;
     int64_t ldc = n;
     std::complex<float> alpha = {2.0f, -0.5f};
@@ -94,8 +91,7 @@ int main() {
     const auto [KKK, JJJ, III, JJ, II, KK] = t2sp::blas::row_major::get_systolic_array_dimensions<std::complex<double>>();
     int64_t m = III * II * 32;
     int64_t n = JJJ * JJ * 32;
-    int64_t k = KKK * KK * 32;
-    int64_t lda = k;
+    int64_t lda = m;
     int64_t ldb = n;
     int64_t ldc = n;
     std::complex<double> alpha = {2.0f, -0.5f};

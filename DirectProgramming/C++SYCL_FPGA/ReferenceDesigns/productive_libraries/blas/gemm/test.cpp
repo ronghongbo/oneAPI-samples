@@ -63,11 +63,11 @@ int test(device* dev, oneapi::mkl::layout layout, oneapi::mkl::transpose transa,
 
     auto C_ref = C;
 
-    // Call DPC++ GEMM.
+    // Call MKL GEMM.
     oneapi::mkl::blas::row_major::gemm(main_queue, transa, transb, m, n, k, alpha, A.data(), lda, B.data(),
                                        ldb, beta, C_ref.data(), ldc, dependencies).wait();
 
-    // Call T2SP GEMM.
+    // Call T2SP GEMM
     try {
         switch (layout) {
             case oneapi::mkl::layout::col_major:
