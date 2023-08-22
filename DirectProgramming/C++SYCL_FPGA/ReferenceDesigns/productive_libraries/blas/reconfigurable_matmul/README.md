@@ -82,7 +82,7 @@ Each time the systolic array multiplies a tile of $op(A)$ and a tile of $op(B)$,
 The [parameters.h](./parameters.h) file pre-defines the sizes for a tiny and large systolic array. The tiny configuration specifies a 4x4 systolic array, with each PE computing 16 results. The large configuration tries to maximally utilize resources, and varies with precision and hardware. One can modify these parameters. If so, please remember to modify the `get_systolic_array_dimensions()` function in [api.hpp](./api.hpp) accordingly.
 
 ## Test
-Follow the general instructions in [blas/README.md](../README.md#user-content-environment-requirement) to set up the environment and build a demo application `demo_VARIATION_SIZE_HW`for any kernel `VARIATION` with a systolic array of any `SIZE` (`tiny` or `large` as defined in [parameters.h](./parameters.h)) on any `HW` (`a10` or `s10`), and the design will be synthesized under the hood into an image (bitstream) of the systolic array and linked with that kernel. The correspondence between the VARIATIONs and images is as follows:
+Follow the general instructions in [blas/README.md](../README.md#user-content-environment-requirement) to set up the environment and build a demo application `demo_VARIATION_SIZE_HW` for any kernel `VARIATION` with a systolic array of any `SIZE` (`tiny` or `large` as defined in [parameters.h](./parameters.h)) on any `HW` (`a10` or `s10`), and the design will be synthesized under the hood into an image (bitstream) of the systolic array and linked with that kernel. The correspondence between the VARIATIONs and images is as follows:
 
 <table>
 <tr>
@@ -186,7 +186,7 @@ After unsigning the image (for A10 FPGA only), the demo can run on a hardware, w
     <td>1,281 / 2,713 ( 47 % )</td>
     <td>217</td>
     <td>85<br>(50% peak)</td>
-    <td>3K*4K, 4K*4K</td>
+    <td>3K*3K, 4K*4K</td>
     <td>blas/gemm/bin/demo_zgemm_large_a10.unsigned</td>
 </tr>
 <tr>
@@ -288,5 +288,4 @@ $$
 Every cycle, a pair of data from matrix $A$ and $B$ are reduced by 1 multiplication and 1 addition. For a real type, a multiplication/addition is simply a MUL/ADD operation. For a complex type, multiplying two complex numbers requires 4 MUL and 2 ADD operations, and adding two complex numbers requires 2 ADD operations. That explains the `number of MUL and ADD operations per reduction per cycle` above. Note that a MUL/ADD operation has single precision in the case of S and C, but double precision in the case of D and Z.
  The `number of DSPs per reduction` is observed from synthesis results.
 
-
-
+So far, single-precision matrix multiplications on A10 (SGEMM and CGEMM) achieve >80% theoretcial peak throughputs. However, double-precision and S10 throughputs suffer from several issues ([synthesis failure](https://github.com/haoxiaochen/t2sp/issues/33), [synthesis overtime](https://github.com/haoxiaochen/t2sp/issues/34), and [scalility issue](https://github.com/haoxiaochen/t2sp/issues/41)). Also from the table above, it seems that logic utilization, instead of DSP blocks, has become the critical resources in these cases, which partially explains the performanc gap. Performance tuning is still ongoing for these cases, and once the issues are addressed, the throughputs should be significantly improved.
