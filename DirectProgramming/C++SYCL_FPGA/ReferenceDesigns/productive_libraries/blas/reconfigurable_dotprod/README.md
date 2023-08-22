@@ -190,7 +190,7 @@ Running a demo application will generate performance metrics.
     <td>185 / 1,518 ( 12 % )</td>
     <td> 494 / 2,713 ( 18 % )</td>
     <td>248</td>
-    <td>5.8 GFLOPS<br>(68% peak)</td>
+    <td>7.3 GFLOPS<br>(86% peak)</td>
     <td>16M, 16M</td>
     <td>blas/dotu/bin/demo_zdotu_large_a10.unsigned</td>
 </tr>

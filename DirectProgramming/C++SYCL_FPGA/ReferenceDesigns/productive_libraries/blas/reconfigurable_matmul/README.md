@@ -50,7 +50,7 @@ Note:
 | Software             | Intel® oneAPI DPC++/C++ Compiler 2023.2<br> BSP used for Arria® 10 FPGA: inteldevstack/a10_gx_pac_ias_1_2_1_pv/opencl/opencl_bsp<br>T2SP compiler (a beta version is pre-installed)
 
 ## The design
-In this design, the input/output matrices are pre/post-processed on the host so that the FPGA device loads/stores data sequentially from/to the device DRAM. This ensures that the memory accesses won't be a bottleneck of the performance. In pre-processing, the host reads an input matrix $X$ in such a way that in effect, the elements of $op(X)$ are read in the order they are to used in the computation, and sent sequentially to the device. This is called serialization.
+In this design, the input/output matrices are pre/post-processed on the host so that the FPGA device loads/stores data sequentially from/to the device DRAM. This ensures that the memory accesses won't be a bottleneck of the performance. In pre-processing, the host reads an input matrix $X$ in such a way that in effect, the elements of $op(X)$ are read in the order they are to used in the computation, and sent sequentially to the device. This is serialization.
 
 To allow arbitrarily large matrices, the matrices are tiled. Every time, a tile of matrix $op(A)$ and a tile of matrix $op(B)$ are fetched into the device SRAM. The product of two input tiles is calculated by a systolic array, and is used to update a tile of the product $op(A)*op(B)$. The product tile is divided between the PEs (processing elements) of the systolic array. Each PE works on a part of the product tile, storing them in rotating registers.
 
@@ -58,10 +58,9 @@ To allow arbitrarily large matrices, the matrices are tiled. Every time, a tile 
 
 When the tiles of an input matrix $op(X)$ cover a bigger area than the original matrix, zeros are automatically inserted. This is zero-padding.
 
-Similary, when the tiles of the product matrix $op(A)*op(B)$ cover a bigger area than the product matrix, extraneous data are automatically removed.
-
 ![](figures/zero-padding.png)
 
+Similary, when the tiles of the product matrix $op(A)*op(B)$ cover a bigger area than the product matrix, extraneous data are automatically removed.
 
 ### Sizes of a systolic array
 * `III` - Rows of PEs in the systolic array.
@@ -82,8 +81,8 @@ Each time the systolic array multiplies a tile of $op(A)$ and a tile of $op(B)$,
 
 The [parameters.h](./parameters.h) file pre-defines the sizes for a tiny and large systolic array. The tiny configuration specifies a 4x4 systolic array, with each PE computing 16 results. The large configuration tries to maximally utilize resources, and varies with precision and hardware. One can modify these parameters. If so, please remember to modify the `get_systolic_array_dimensions()` function in [api.hpp](./api.hpp) accordingly.
 
-## Build, test, and clean
-Follow the [general instructions](../README.md#user-content-test-an-individual-kernel) to build a demo application `demo_VARIATION_SIZE_HW`for any kernel `VARIATION` that is covered by the design with a systolic array of any `SIZE` (`tiny` or `large` as defined in [parameters.h](./parameters.h)) on any `HW` (`a10` or `s10`), and the design will be synthesized under the hood into an image and linked with that kernel. The correspondence between the VARIATIONs and images is as follows:
+## Test
+Follow the general instructions in [blas/README.md](../README.md#user-content-environment-requirement) to set up the environment and build a demo application `demo_VARIATION_SIZE_HW`for any kernel `VARIATION` with a systolic array of any `SIZE` (`tiny` or `large` as defined in [parameters.h](./parameters.h)) on any `HW` (`a10` or `s10`), and the design will be synthesized under the hood into an image (bitstream) of the systolic array and linked with that kernel. The correspondence between the VARIATIONs and images is as follows:
 
 <table>
 <tr>
@@ -101,7 +100,6 @@ Follow the [general instructions](../README.md#user-content-test-an-individual-k
 <tr>
     <td>cgemm, csymm, csyrk, chemm</td>
     <td>ccccmatmul</td>
-td>
 </tr>
 <tr>
     <td>zgemm, zsymm, zsyrk, zhemm</td>
@@ -122,16 +120,19 @@ Here the prefix `ssss` etc. refers to the data types of `TA`, `TB`, `TC` and `TS
 For example,
 
 ```
-    mkdir blas/gemm/build && cd blas/gemm/build
+    source /glob/development-tools/versions/oneapi/2023.2.0.1/oneapi/setvars.sh --force
+    cd PATH_TO_ONEAPI_SAMPLES/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/gemm 
+    mkdir -p build && cd build
     cmake ..
+    
     make demo_sgemm_large_a10
 ```
 
-will automatically synthesize this design into an image `blas/reconfigurable_matmul/bin/ssssmatmul_large_a10.a`, and link the image into the demo application `blas/gemm/bin/demo_sgemm_large_a10`. 
+will automatically synthesize this design into an image `ssssmatmul_large_a10.a` under `blas/reconfigurable_matmul/bin/`, and link the image into the demo application `demo_sgemm_large_a10` under `blas/gemm/bin/`. 
 
-Alternatively, one can install the pre-synthesized bitstreams following the general instructions.
+Alternatively, one can install a pre-synthesized image following the general instructions there.
 
-Running a demo application will generate performance metrics.
+After unsigning the image (for A10 FPGA only), the demo can run on a hardware, which will generate performance metrics.
 
 ## Metrics
 
@@ -176,7 +177,7 @@ Running a demo application will generate performance metrics.
     <td>252</td>
     <td>640<br>(82% peak)</td>
     <td>10K*8K, 8K*4K</td>
-    <td></td>
+    <td>blas/gemm/bin/demo_cgemm_large_a10.unsigned</td>
 </tr>
 <tr>
     <td>Z, Z, Z, Z<br>4, 4, 3, 32, 32, 32</td>
@@ -186,7 +187,7 @@ Running a demo application will generate performance metrics.
     <td>217</td>
     <td>85<br>(50% peak)</td>
     <td>3K*4K, 4K*4K</td>
-    <td></td>
+    <td>blas/gemm/bin/demo_zgemm_large_a10.unsigned</td>
 </tr>
 <tr>
     <td>C, C, C, S<br></td>
@@ -237,7 +238,7 @@ Running a demo application will generate performance metrics.
     <td>300</td>
     <td>560<br>(16% peak)</td>
     <td>10K*8K, 8K*4K</td>
-    <td></td>
+    <td>blas/gemm/bin/demo_cgemm_large_s10</td>
 </tr>
 <tr>
     <td>Z, Z, Z, Z<br></td>
@@ -278,13 +279,13 @@ Matrix multiplication is bound by compute. Therefore,
 
 $$
 \begin{aligned}
-\text{Theoretical peak throughput} &= \text{number of MUL and ADD ops per DSP per cycle} * \text{number of DSPs} * \text{frequency}\\
+\text{Theoretical peak throughput} &= \text{number of MUL and ADD operations per DSP per cycle} * \text{number of DSPs} * \text{frequency}\\
 &= \frac{\text{number of MUL and ADD operations per reduction per cycle}}{\text{number of DSPs per reduction}} * \text{number of DSPs} * \text{frequency}\\
 &= \frac{\text{2:2:8:8 for S:D:C:Z, respectively}}{\text{1:4:4:16 for S:D:C:Z, respectively}} * \text{number of DSPs} * \text{frequency}
 \end{aligned}
 $$
 
-Every cycle, a pair of data from matrix $A$ and $B$ are reduced by 1 multiplication and 1 addition. For a real type, a multiplication/addition is simply a MUL/ADD operation. For a complex type, multiplying two complex numbers requires 4 MUL and 2 ADD operations, and adding two complex numbers requires 2 ADD operations. That explains the `number of MUL and ADD operations per reduction per cycle` above. Note that a MUL/ADD operation has single precision in the case S and C, but double precision in the case of D and Z.
+Every cycle, a pair of data from matrix $A$ and $B$ are reduced by 1 multiplication and 1 addition. For a real type, a multiplication/addition is simply a MUL/ADD operation. For a complex type, multiplying two complex numbers requires 4 MUL and 2 ADD operations, and adding two complex numbers requires 2 ADD operations. That explains the `number of MUL and ADD operations per reduction per cycle` above. Note that a MUL/ADD operation has single precision in the case of S and C, but double precision in the case of D and Z.
  The `number of DSPs per reduction` is observed from synthesis results.
 
 

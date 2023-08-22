@@ -114,7 +114,7 @@ To batch build and run the tests and demos of all the kernels:
     ../bin/tests.sh
     ```
 
-3. Test performance
+3. Build a demo applictaion and test performance
 
     Replace `VARIATION` below with a specific variation of the kernel as listed in the tables above, and replace `HW` below with either `a10` or `s10`.
 
