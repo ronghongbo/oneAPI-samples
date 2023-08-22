@@ -132,8 +132,6 @@ After unsigning the image (for A10 FPGA only), the demo can run on a hardware, w
 
 ## Metrics
 
-The following data are gathered from DevCloud on node s001-n084 with an A10 FPGA, and node with an S10 FPGA, respectively:
-
 <table style="width:120%">
 <tr>
     <th>Device</th>
