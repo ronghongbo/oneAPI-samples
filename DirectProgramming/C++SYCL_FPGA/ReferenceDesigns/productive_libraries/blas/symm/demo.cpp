@@ -38,6 +38,7 @@ void test(oneapi::mkl::side left_right, oneapi::mkl::uplo upper_lower, int m, in
     uint64_t start = e.get_profiling_info<sycl::info::event_profiling::command_start>();
     uint64_t end   = e.get_profiling_info<sycl::info::event_profiling::command_end>();
     uint64_t exec_time = end - start;
+    int k = (left_right == oneapi::mkl::side::left ? m : n);
     double   total_flops, total_bytes;
     matrix_multiply_statistics<T>(m, n, k, exec_time, total_flops, total_bytes);
     std::cout << "FP operations: " << total_flops << "\n";
