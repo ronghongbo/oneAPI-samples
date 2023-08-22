@@ -13,6 +13,7 @@
 #include "test_helper.hpp"
 
 #include "exception_handler.hpp"
+#include "matrix_multiply_statistics.hpp"
 
 using namespace std;
 
@@ -33,24 +34,16 @@ void test(oneapi::mkl::side left_right, oneapi::mkl::uplo upper_lower, int m, in
                                                 b.data(), ldb, beta, c.data(), ldc);
     e.wait();
 
-    // Get time in ns
+    // Statistics for performance measurement
     uint64_t start = e.get_profiling_info<sycl::info::event_profiling::command_start>();
     uint64_t end   = e.get_profiling_info<sycl::info::event_profiling::command_end>();
     uint64_t exec_time = end - start;
-    std::cout << "Execution time in nanoseconds = " << exec_time << "\n";
-
-    double number_ops;
-    int k = (left_right == oneapi::mkl::side::left ? m : n);
-    if ((std::is_same_v<float, T> || std::is_same_v<double, T>)) {
-        // FP operations per MAD (multiplication and addition) for float and double=2
-        number_ops = 2.0 * m * n * k + m * n;
-    } else {
-        // FP operations per MAD (multiplication and addition) for complex float and double=8:
-        // Multiplying two complex numbers requires 4 FP MUL and 2 FP ADD
-        // Adding two complex numbers requires 2 FP ADD
-        number_ops = 8.0 * m * n * k + 2.0 * m * n;
-    }
-    std::cout << "GFLOPs: " << number_ops / exec_time << "\n";
+    double   total_flops, total_bytes;
+    matrix_multiply_statistics<T>(m, n, k, exec_time, total_flops, total_bytes);
+    std::cout << "FP operations: " << total_flops << "\n";
+    std::cout << "Execution time: " << exec_time << " ns\n";
+    std::cout << "GFLOPs: " << total_flops / exec_time << "\n";
+    std::cout << "Memory bytes: " << total_bytes << "\n";
     std::cout << "Size of matrix a: " << m << " * " << k << "\n";
     std::cout << "Size of matrix b: " << k << " * " << n << "\n";
     std::cout << "Size of matrix c: " << m << " * " << n << "\n";
