@@ -64,9 +64,8 @@ The device divides an input vector into `parts`, and calculates the vector addit
 
 The [parameters.h](./parameters.h) file pre-defines the sizes for a tiny and large hardware implementation. The tiny configuration specifies 4 SIMD lanes. The large configuration tries to maximally utilize resources, and varies with precision and hardware. One can modify these parameters. If so, please remember to modify the `get_systolic_array_dimensions()` function in [api.hpp](./api.hpp) accordingly.
 
-## Build and test
-
-Follow the [general instructions](../README.md#user-content-test-an-individual-kernel) to build a demo application `demo_VARIATION_SIZE_HW`for any kernel `VARIATION` that is covered by the design with any `SIZE` (`tiny` or `large` as defined in [parameters.h](./parameters.h)) on any `HW` (`a10` or `s10`), and the design will be synthesized under the hood into an image and  linked with that kernel. The correspondence between VARIATION and image is as follows:
+## Test
+Follow the general instructions in [blas/README.md](../README.md#user-content-environment-requirement) to set up the environment and build a demo application `demo_VARIATION_SIZE_HW` for any kernel `VARIATION` with a systolic array of any `SIZE` (`tiny` or `large` as defined in [parameters.h](./parameters.h)) on any `HW` (`a10` or `s10`), and the design will be synthesized under the hood into an image (bitstream) of the systolic array and linked with that kernel. The correspondence between the VARIATIONs and images is as follows:
 
 | VARIATION of a kernel | Image   |
 | --------------------- | ------- |
@@ -77,17 +76,20 @@ Follow the [general instructions](../README.md#user-content-test-an-individual-k
 
 For example,
 
-```shell
-mkdir blas/axpy/build && cd blas/axpy/build
-cmake ..
-make demo_saxpy_large_a10
+```
+    source /glob/development-tools/versions/oneapi/2023.2.0.1/oneapi/setvars.sh --force
+    cd PATH_TO_ONEAPI_SAMPLES/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/axpy 
+    mkdir -p build && cd build
+    cmake ..
+    
+    make demo_saxpy_large_a10
 ```
 
-will automatically synthesize this design into an image `blas/reconfigurable_vecadd/bin/svecadd_large_a10.a`, and link the image into the demo application `blas/axpy/bin/demo_saxpy_large_a10`.
+will automatically synthesize this design into an image `svecadd_large_a10.a` under `blas/reconfigurable_vecadd/bin/`, and link the image into the demo application `demo_saxpy_large_a10` under `blas/axpy/bin/`. 
 
-Alternatively, one can install pre-synthesized bitstreams following the general instructions.
+Alternatively, one can install a pre-synthesized image following the general instructions there.
 
-Running a demo application will generate performance metrics.
+After unsigning the image (for A10 FPGA only), the demo can run on a hardware, which will generate performance metrics.
 
 ## Metrics
 
@@ -201,7 +203,7 @@ $$
 
 Note: every pair of input data is processed by 2 multiplications and 1 addition. For a real type, a multiplication/addition is simply a MUL/ADD operation. For a complex type, multiplying two complex numbers requires 4 MUL and 2 ADD operations, and adding two complex numbers requires 2 ADD operations.
 
-Obviously, the arithmetic intensity is less than 1, so `reconfigurable_vecadd`'s machine peak throughput is limited by the FPGA DRAM bandwidth. Thus the theoretical peak performance = FPGA DRAM bandwidth * Arithmetic intensity. The maximum bandwidth is 34.1 GB/s and 76.8 GB/s for A10 and S10, respectively, so for different data types, their peak throughputs are as follows:
+Obviously, the arithmetic intensity is very small (the maximal value is only 14/12=1.17), so `reconfigurable_vecadd`'s machine peak throughput is limited by the FPGA DRAM bandwidth. Thus the theoretical peak performance = FPGA DRAM bandwidth * Arithmetic intensity. The maximum bandwidth is 34.1 GB/s and 76.8 GB/s for A10 and S10, respectively, so for different data types, their peak throughputs are as follows:
 
 
 |         |  Peak performance on A10 (GFLOPS) | Peak performance on S10 (GFLOPS) |Note: precision of the ops|
