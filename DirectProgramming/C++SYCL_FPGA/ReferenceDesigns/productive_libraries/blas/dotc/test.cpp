@@ -57,7 +57,7 @@ int test(device *dev, oneapi::mkl::layout layout, int N, int incx, int incy) {
     rand_vector(x, N, incx);
     rand_vector(y, N, incy);
 
-    // Call DPC++ DOTC.
+    // Call MKL DOTC.
     oneapi::mkl::blas::row_major::dotc(main_queue, N, x.data(), incx, y.data(),
                                        incy, result_reference, dependencies).wait();
 

@@ -3,7 +3,7 @@
 #include <sycl/sycl.hpp>
 #include <sycl/ext/intel/fpga_extensions.hpp>
 
-// The GEMM API to invoke
+// The sdsdot API to invoke
 #include "./api.hpp"
 
 // Useful routines from the OneMKL unit tests

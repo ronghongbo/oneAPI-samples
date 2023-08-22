@@ -64,7 +64,7 @@ int test(device* dev, oneapi::mkl::layout layout, oneapi::mkl::side left_right,
 
     auto C_ref = C;
 
-    // Call DPC++ SYMM.
+    // Call MKL SYMM.
     oneapi::mkl::blas::row_major::symm(main_queue, left_right, upper_lower, m, n,
                                        alpha, A.data(), lda, B.data(), ldb, beta,
                                        C_ref.data(), ldc, dependencies).wait();

@@ -1,12 +1,9 @@
-// To compile this file, pass in a macro for the compute (T2SP_S/DDOT), the size of the systolic array (TINY or LARGE), and the hardware(A10 or S10).
-// And pass in a macro FPGA_EMULATOR if to use the emulator instead of FPGA hardware.
-
 #include <cstdlib>
 #include <iostream>
 #include <sycl/sycl.hpp>
 #include <sycl/ext/intel/fpga_extensions.hpp>
 
-// The GEMM API to invoke
+// The copy API to invoke
 #include "./api.hpp"
 
 // Useful routines from the OneMKL unit tests

@@ -56,7 +56,7 @@ int test(device *dev, oneapi::mkl::layout layout, int N, int incx, int incy, flo
     rand_vector(x, N, incx);
     rand_vector(y, N, incy);
 
-    // Call DPC++ SDSDOT.
+    // Call MKL SDSDOT.
     oneapi::mkl::blas::row_major::sdsdot(main_queue, N, alpha, x.data(), incx, y.data(),
                                          incy, result_reference, dependencies).wait();
 

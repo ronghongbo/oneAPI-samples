@@ -58,7 +58,7 @@ int test(device *dev, oneapi::mkl::layout layout, int N, int incx, int incy, fp 
 
     auto y_ref = y;
 
-    // Call DPC++ AXPY.
+    // Call MKL AXPY.
     oneapi::mkl::blas::row_major::axpy(main_queue, N, alpha, x.data(), incx,
                                        y_ref.data(), incy, dependencies).wait();
 

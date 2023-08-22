@@ -58,7 +58,7 @@ int test(device *dev, oneapi::mkl::layout layout, int N, int incx, int incy) {
 
     auto y_ref = y;
 
-    // Call DPC++ COPY.
+    // Call MKL COPY.
     oneapi::mkl::blas::row_major::copy(main_queue, N, x.data(), incx,
                                        y_ref.data(), incy, dependencies).wait();
 

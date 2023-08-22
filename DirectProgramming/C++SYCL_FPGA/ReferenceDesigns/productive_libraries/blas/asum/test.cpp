@@ -56,11 +56,11 @@ int test(device *dev, oneapi::mkl::layout layout, int N, int incx) {
 
     rand_vector(x, N, incx);
 
-    // Call DPC++ NRM2.
+    // Call MKL asum.
     oneapi::mkl::blas::row_major::asum(main_queue, N, x.data(), incx,
                                        result_reference, dependencies).wait();
 
-    // Call T2SP NRM2.
+    // Call T2SP asum.
     auto result_p = (fp_res *)oneapi::mkl::malloc_shared(64, sizeof(fp_res), *dev, cxt);
     try {
         switch (layout) {

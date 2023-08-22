@@ -57,7 +57,7 @@ int test(device *dev, oneapi::mkl::layout layout, int N, int incx, fp_scalar alp
 
     auto x_ref = x;
 
-    // Call DPC++ SCAL.
+    // Call MKL SCAL.
     oneapi::mkl::blas::row_major::scal(main_queue, N, alpha, x_ref.data(), incx,
                                        dependencies).wait();
 

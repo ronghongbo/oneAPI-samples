@@ -56,7 +56,7 @@ int test(device *dev, oneapi::mkl::layout layout, int N, int incx) {
 
     rand_vector(x, N, incx);
 
-    // Call DPC++ NRM2.
+    // Call MKL NRM2.
     oneapi::mkl::blas::row_major::nrm2(main_queue, N, x.data(), incx,
                                        result_reference, dependencies).wait();
 
