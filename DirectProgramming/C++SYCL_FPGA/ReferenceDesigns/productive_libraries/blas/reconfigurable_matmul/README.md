@@ -246,7 +246,7 @@ After unsigning the image (for A10 FPGA only), the demo can run on a hardware, w
     <td>1,109 / 5,760 ( 19 % )</td>
     <td>1,847 / 11,721 ( 16 % )</td>
     <td>256</td>
-    <td></td>
+    <td>96<br>(13% peak)</td>
     <td>4K*4K, 4K*4K</td>
     <td>blas/gemm/bin/demo_zgemm_large_s10</td>
 </tr>
