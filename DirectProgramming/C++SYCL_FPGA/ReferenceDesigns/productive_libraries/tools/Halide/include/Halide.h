@@ -32781,7 +32781,6 @@ protected:
         // Only meaningful for Intel FPGAs.
         void visit(const Realize *op) override;
         void visit(const Provide *op) override;
-        void visit_binop(Type t, Expr a, Expr b, const char *op) override;
         void cast_to_bool_vector(Type bool_type, Type other_type, std::string other_var);
         std::string vector_index_to_string(int idx);
     };
