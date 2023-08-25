@@ -241,14 +241,14 @@ After unsigning the image (for A10 FPGA only), the demo can run on a hardware, w
     <td>blas/gemm/bin/demo_cgemm_large_s10</td>
 </tr>
 <tr>
-    <td>Z, Z, Z, Z<br></td>
+    <td>Z, Z, Z, Z<br>4, 4, 4, 32, 32, 32</td>
+    <td>641,633 / 933,120 ( 69 % )</td>
+    <td>1,109 / 5,760 ( 19 % )</td>
+    <td>1,847 / 11,721 ( 16 % )</td>
+    <td>256</td>
     <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
+    <td>4K*4K, 4K*4K</td>
+    <td>blas/gemm/bin/demo_zgemm_large_s10</td>
 </tr>
 <tr>
     <td>C, C, C, S<br></td>

@@ -150,11 +150,11 @@ endforeach()
 # Generate correctness tests for the current kernel. They assume a tiny systolic array on an FPGA emulator.
 add_custom_target(oneapi_targets_for_tests)
 foreach(PRECISION ${PRECISIONS})
-    add_dependencies(oneapi_targets_for_tests oneapi_${PRECISION}vecadd_tiny_a10)
+    add_dependencies(oneapi_targets_for_tests oneapi_${PRECISION}vecadd_tiny_${HW})
 endforeach()
 
 foreach(PRECISION ${PRECISIONS})
-    set(GENERATED_ONEAPI_SOURCE_FILES_FOR_TESTS ${GENERATED_ONEAPI_SOURCE_FILES_FOR_TESTS} ${RECONFIGURABLE_VECADD_PATH}/oneapi/${PRECISION}vecadd_tiny_a10.cpp)
+    set(GENERATED_ONEAPI_SOURCE_FILES_FOR_TESTS ${GENERATED_ONEAPI_SOURCE_FILES_FOR_TESTS} ${RECONFIGURABLE_VECADD_PATH}/oneapi/${PRECISION}vecadd_tiny_${HW}.cpp)
 endforeach()
 
 file(MAKE_DIRECTORY ${CURRENT_KERNEL_PATH}/bin)
