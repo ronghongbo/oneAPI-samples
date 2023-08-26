@@ -94,8 +94,6 @@ Alternatively, one can install a pre-synthesized image following the general ins
 
 After unsigning the image (for A10 FPGA only), the demo can run on a hardware, which will generate performance metrics.
 
-
-
 ## Metrics
 
 <table style="width:120%">
@@ -208,13 +206,26 @@ $$
 
 Note: every pair of input data is processed by 2 multiplications and 1 addition. For a real type, a multiplication/addition is simply a MUL/ADD operation. For a complex type, multiplying two complex numbers requires 4 MUL and 2 ADD operations, and adding two complex numbers requires 2 ADD operations.
 
+As For the two special cases of `csvecadd` and `zdvecadd`, their arithmetic intensities are calculated as follows:
+
+$$
+\begin{aligned}
+\text{Arithmetic intensity} &= \frac{\text{numbers of ops}}{\text{numbers of bytes}}\\
+&= \frac{\text{numbers of ADD ops} + \text{numbers of MUL ops}}{3\times \text{Vector Length}\times \text{sizeof(Vector Type)}}\\
+&= \frac{\text{Vector Length}\times 6}{3\times \text{Vector Length}\times \text{sizeof(Vector Type)}}\\
+&= \frac{2}{\text{sizeof(Vector Type)}}
+\end{aligned}
+$$
+
 Obviously, the arithmetic intensity is very small (the maximal value is only 14/12=1.17), so `reconfigurable_vecadd`'s machine peak throughput is limited by the FPGA DRAM bandwidth. Thus the theoretical peak performance = FPGA DRAM bandwidth * Arithmetic intensity. The maximum bandwidth is 34.1 GB/s and 76.8 GB/s for A10 and S10, respectively, so for different data types, their peak throughputs are as follows:
 
-|         | Peak performance on A10 (GFLOPS) | Peak performance on S10 (GFLOPS) | Note: precision of the ops |
-| ------- | -------------------------------- | -------------------------------- | -------------------------- |
-| svecadd | 8.5                              | 19.2                             | single                     |
-| dvecadd | 4.3                              | 9.6                              | double                     |
-| cvecadd | 19.9                             | 44.8                             | single                     |
-| zvecadd | 9.9                              | 22.4                             | double                     |
+|          | Peak performance on A10 (GFLOPS) | Peak performance on S10 (GFLOPS) | Note: precision of the ops |
+| -------- | -------------------------------- | -------------------------------- | -------------------------- |
+| svecadd  | 8.5                              | 19.2                             | single                     |
+| dvecadd  | 4.3                              | 9.6                              | double                     |
+| cvecadd  | 19.9                             | 44.8                             | single                     |
+| zvecadd  | 9.9                              | 22.4                             | double                     |
+| csvecadd | 8.5                              | 19.2                             | single                     |
+| zdvecadd | 4.3                              | 9.6                              | double                     |
 
 These kernels suffer from [an issue](https://github.com/haoxiaochen/t2sp/issues/40) that two input vectors cannot be allocated to two different DDR channels exclusively in SYCL compiler in USM memory model. One addressed, their performances are expected double and close to their peaks.
