@@ -10,7 +10,7 @@ where $\alpha$ and $\beta$ are scalars, and $\vec{x}$ and $\vec{y}$ are vectors.
 
 The design has static and dynamic parameters. The static parameters include
 
-* data type of the vectors, denoted `TTYPE`. In this release, the scalars' type is the same as the vectors' type. A data type can be any of `s` (single precision), `d` (double precision), `c` (complex single precision), and `z` (complex double precision).
+* data type of the vectors and scalars, denoted `TTYPE` and `CONST_TYPE`. A data type can be any of `s` (single precision), `d` (double precision), `c` (complex single precision), and `z` (complex double precision). Scalars are of the same type as vectors, except for `csvecadd` and `zdvecadd`. For `csvecadd`, the scalars' type is `s` and the vectors' type is `c` and for `zdvecadd`, the scalars' type is `d` and the vectors' type is `z`. 
 
 * [size of the hardware](#user-content-size-of-the-hardware)
 
@@ -30,11 +30,11 @@ Through APIs that provide appropriate dynamic parameters and post-processing, a 
 
 * `COPY` - Copies a vector to another vector.
 
-| Area                | Description                                                                       |
-| ------------------- | --------------------------------------------------------------------------------- |
+| Area                | Description                                                                |
+| ------------------- | -------------------------------------------------------------------------- |
 | What you will learn | How to implement a high performance circuit for vector addition on an FPGA |
-| Time to complete    | ~1 hr (excluding compile time)                                                    |
-| Category            | Reference Designs and End to End                                                  |
+| Time to complete    | ~1 hr (excluding compile time)                                             |
+| Category            | Reference Designs and End to End                                           |
 
 ## Prerequisites
 
@@ -65,14 +65,17 @@ The device divides an input vector into `parts`, and calculates the vector addit
 The [parameters.h](./parameters.h) file pre-defines the sizes for a tiny and large hardware implementation. The tiny configuration specifies 4 SIMD lanes. The large configuration tries to maximally utilize resources, and varies with precision and hardware. One can modify these parameters. If so, please remember to modify the `get_systolic_array_dimensions()` function in [api.hpp](./api.hpp) accordingly.
 
 ## Test
+
 Follow the general instructions in [blas/README.md](../README.md#user-content-environment-requirement) to set up the environment and build a demo application `demo_VARIATION_SIZE_HW` for any kernel `VARIATION` with a systolic array of any `SIZE` (`tiny` or `large` as defined in [parameters.h](./parameters.h)) on any `HW` (`a10` or `s10`), and the design will be synthesized under the hood into an image (bitstream) of the systolic array and linked with that kernel. The correspondence between the VARIATIONs and images is as follows:
 
-| VARIATION of a kernel | Image   |
-| --------------------- | ------- |
-| saxpy, sscal, scopy   | svecadd |
-| daxpy, dscal, dcopy   | dvecadd |
-| caxpy, cscal, ccopy   | cvecadd |
-| zaxpy, zscal, zcopy   | zvecadd |
+| VARIATION of a kernel | Image    |
+| --------------------- | -------- |
+| saxpy, sscal, scopy   | svecadd  |
+| daxpy, dscal, dcopy   | dvecadd  |
+| caxpy, cscal, ccopy   | cvecadd  |
+| zaxpy, zscal, zcopy   | zvecadd  |
+| csscal                | csvecadd |
+| zdscal                | zdvecadd |
 
 For example,
 
@@ -81,7 +84,7 @@ For example,
     cd PATH_TO_ONEAPI_SAMPLES/DirectProgramming/C++SYCL_FPGA/ReferenceDesigns/productive_libraries/blas/axpy 
     mkdir -p build && cd build
     cmake ..
-    
+
     make demo_saxpy_large_a10
 ```
 
@@ -90,6 +93,8 @@ will automatically synthesize this design into an image `svecadd_large_a10.a` un
 Alternatively, one can install a pre-synthesized image following the general instructions there.
 
 After unsigning the image (for A10 FPGA only), the demo can run on a hardware, which will generate performance metrics.
+
+
 
 ## Metrics
 
@@ -205,14 +210,11 @@ Note: every pair of input data is processed by 2 multiplications and 1 addition.
 
 Obviously, the arithmetic intensity is very small (the maximal value is only 14/12=1.17), so `reconfigurable_vecadd`'s machine peak throughput is limited by the FPGA DRAM bandwidth. Thus the theoretical peak performance = FPGA DRAM bandwidth * Arithmetic intensity. The maximum bandwidth is 34.1 GB/s and 76.8 GB/s for A10 and S10, respectively, so for different data types, their peak throughputs are as follows:
 
-
-|         |  Peak performance on A10 (GFLOPS) | Peak performance on S10 (GFLOPS) |Note: precision of the ops|
-| ------- | ----------- | ----------- |----------- |
-| svecadd | 8.5           | 19.2  |single|
-| dvecadd | 4.3           | 9.6       |double|
-| cvecadd | 19.9           | 44.8      |single|
-| zvecadd | 9.9           | 22.4      |double|
-
+|         | Peak performance on A10 (GFLOPS) | Peak performance on S10 (GFLOPS) | Note: precision of the ops |
+| ------- | -------------------------------- | -------------------------------- | -------------------------- |
+| svecadd | 8.5                              | 19.2                             | single                     |
+| dvecadd | 4.3                              | 9.6                              | double                     |
+| cvecadd | 19.9                             | 44.8                             | single                     |
+| zvecadd | 9.9                              | 22.4                             | double                     |
 
 These kernels suffer from [an issue](https://github.com/haoxiaochen/t2sp/issues/40) that two input vectors cannot be allocated to two different DDR channels exclusively in SYCL compiler in USM memory model. One addressed, their performances are expected double and close to their peaks.
-

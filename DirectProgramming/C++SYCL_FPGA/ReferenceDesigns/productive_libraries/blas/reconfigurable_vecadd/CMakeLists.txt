@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.10)
 
-set(TYPES "s" "d" "c" "z")
+set(TYPES "s" "d" "c" "z" "cs" "zd")
 set(CMAKE_CXX_COMPILER icpx)
 set(OPENCL_1_2_1_BSP /opt/a10/inteldevstack/a10_gx_pac_ias_1_2_1_pv/opencl/opencl_bsp)
 

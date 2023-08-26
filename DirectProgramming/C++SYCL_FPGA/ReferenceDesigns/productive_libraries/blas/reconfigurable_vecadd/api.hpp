@@ -23,6 +23,14 @@ namespace zvecadd {
 extern sycl::event zvecadd(sycl::queue &, complexd, halide_buffer_t *, int, complexd, halide_buffer_t *, int, halide_buffer_t *);
 }
 
+namespace csvecadd {
+extern sycl::event csvecadd(sycl::queue &, float, halide_buffer_t *, int, float, halide_buffer_t *, int, halide_buffer_t *);
+}
+
+namespace zdvecadd {
+extern sycl::event zdvecadd(sycl::queue &, double, halide_buffer_t *, int, double, halide_buffer_t *, int, halide_buffer_t *);
+}
+
 // Query of the parameters of the systolic array (KKK) based on types
 template <typename T>
 constexpr auto get_systolic_array_dimensions() {

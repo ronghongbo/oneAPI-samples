@@ -8,9 +8,9 @@
             #define KK 16
         #elif defined(T2SP_DVECADD)
             #define KK 8
-        #elif defined(T2SP_CVECADD)
+        #elif defined(T2SP_CVECADD) || defined(T2SP_CSVECADD)
             #define KK 8
-        #elif defined(T2SP_ZVECADD)
+        #elif defined(T2SP_ZVECADD) || defined(T2SP_ZDVECADD)
             #define KK 4
         #endif
     #elif defined(A10) // A10
@@ -18,9 +18,9 @@
             #define KK 16
         #elif defined(T2SP_DVECADD)
             #define KK 8
-        #elif defined(T2SP_CVECADD)
+        #elif defined(T2SP_CVECADD) || defined(T2SP_CSVECADD)
             #define KK 8
-        #elif defined(T2SP_ZVECADD)
+        #elif defined(T2SP_ZVECADD) || defined(T2SP_ZDVECADD)
             #define KK 4
         #endif
     #else
@@ -37,7 +37,13 @@
 #elif defined(T2SP_CVECADD)
     #define TTYPE Complex(32)
     #define CONST_TYPE complex32_t
+#elif defined(T2SP_CSVECADD)
+    #define TTYPE Complex(32)
+    #define CONST_TYPE float
 #elif defined(T2SP_ZVECADD)
     #define TTYPE Complex(64)
     #define CONST_TYPE complex64_t
+#elif defined(T2SP_ZDVECADD)
+    #define TTYPE Complex(64)
+    #define CONST_TYPE double
 #endif

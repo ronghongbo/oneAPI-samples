@@ -16,7 +16,7 @@
 
 using namespace std;
 
-template <typename T>
+template <typename T, typename Ts>
 void test(int N, int incx, int incy) {
     vector<T, allocator_helper<T, 64>> x, y;
     rand_vector(x, N, incx);
@@ -24,7 +24,7 @@ void test(int N, int incx, int incy) {
 
     sycl::queue q_device(sycl::ext::intel::fpga_selector_v, fpga_tools::exception_handler, sycl::property::queue::enable_profiling());
 
-    auto done = t2sp::blas::row_major::scal(q_device, N, rand_scalar<T>(), x.data(), incx);
+    auto done = t2sp::blas::row_major::scal(q_device, N, rand_scalar<Ts>(), x.data(), incx);
     done.wait();
 
     // Get time in ns
@@ -47,16 +47,26 @@ void test(int N, int incx, int incy) {
 int main() {
 #if defined(T2SP_SSCAL)
     using test_type = float;
+    using scalar_type = test_type;
 #elif defined(T2SP_DSCAL)
     using test_type = double;
+    using scalar_type = test_type;
 #elif defined(T2SP_CSCAL)
     using test_type = std::complex<float>;
+    using scalar_type = test_type;
 #elif defined(T2SP_ZSCAL)
     using test_type = std::complex<double>;
+    using scalar_type = test_type;
+#elif defined(T2SP_CSSCAL)
+    using test_type = std::complex<float>;
+    using scalar_type = float;
+#elif defined(T2SP_ZDSCAL)
+    using test_type = std::complex<double>;
+    using scalar_type = double;
 #else
 #error No test type (float or double or std::complex<float> or std::complex<double>) specified
 #endif
-    const auto KKK = t2sp::blas::row_major::get_systolic_array_dimensions<test_type>();
-    int64_t n = KKK * 2048 * 2048;
-    test<test_type>(n, 1, 1);
+    const auto KK = t2sp::blas::row_major::get_systolic_array_dimensions<test_type>();
+    int64_t n = KK * 2048 * 2048;
+    test<test_type, scalar_type>(n, 1, 1);
 }
