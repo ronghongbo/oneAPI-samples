@@ -222,11 +222,11 @@ After unsigning the image (for A10 FPGA only), the demo can run on a hardware, w
 </tr>
 <tr>
     <td>Z, D<br>4</td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td><br>(% peak)</td>
+    <td>247,165 / 933,120 ( 26 % )</td>
+    <td>64 / 5,760 ( 1 % )</td>
+    <td>752 / 11,721 ( 6 % )</td>
+    <td>293</td>
+    <td>9<br>(94% peak)</td>
     <td>16M, 16M</td>
     <td>blas/axpy/bin/demo_zdscal_large_s10</td>
 </tr>
