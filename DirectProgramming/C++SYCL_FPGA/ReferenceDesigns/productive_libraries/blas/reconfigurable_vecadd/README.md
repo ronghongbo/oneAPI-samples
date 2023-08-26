@@ -109,7 +109,7 @@ After unsigning the image (for A10 FPGA only), the demo can run on a hardware, w
     <th>Command to reproduce</th>
 </tr>
 <tr>
-    <td rowspan="4">Intel Arria 10 GX 1150</td>
+    <td rowspan="6">Intel Arria 10 GX 1150</td>
     <td>S, S<br>16</td>
     <td>80,715 / 427,200 ( 19 % )</td>
     <td>32 / 1,518 ( 2 % )</td>
@@ -150,7 +150,27 @@ After unsigning the image (for A10 FPGA only), the demo can run on a hardware, w
     <td>blas/axpy/bin/demo_zaxpy_large_a10.unsigned</td>
 </tr>
 <tr>
-    <td rowspan="4">Intel Stratix 10 GX 2800</td>
+    <td>C, S<br>8</td>
+    <td>79,890 / 427,200 ( 19 % )</td>
+    <td>32 / 1,518 ( 2 % )</td>
+    <td>440 / 2,713 ( 16 % )</td>
+    <td>312</td>
+    <td>6.8<br>(80% peak)</td>
+    <td>32M, 32M</td>
+    <td>blas/axpy/bin/demo_csscal_large_a10.unsigned</td>
+</tr>
+<tr>
+    <td>Z, D<br>4</td>
+    <td>88,245 / 427,200 ( 21 % )</td>
+    <td>64 / 1,518 ( 4 % )</td>
+    <td>440 / 2,713 ( 16 % )</td>
+    <td>271</td>
+    <td>3.5<br>(81% peak)</td>
+    <td>16M, 16M</td>
+    <td>blas/axpy/bin/demo_zdscal_large_a10.unsigned</td>
+</tr>
+<tr>
+    <td rowspan="6">Intel Stratix 10 GX 2800</td>
     <td>S, S<br>16</td>
     <td>237,809 / 933,120 ( 25 % )</td>
     <td> 32 / 5,760 ( < 1 % )</td>
@@ -189,6 +209,26 @@ After unsigning the image (for A10 FPGA only), the demo can run on a hardware, w
     <td>18.6<br>(83% peak)</td>
     <td>64M, 64M</td>
     <td>blas/axpy/bin/demo_zaxpy_large_s10</td>
+</tr>
+<tr>
+    <td>C, S<br>8</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td><br>(% peak)</td>
+    <td></td>
+    <td>blas/axpy/bin/demo_csscal_large_s10</td>
+</tr>
+<tr>
+    <td>Z, D<br>4</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td><br>(% peak)</td>
+    <td></td>
+    <td>blas/axpy/bin/demo_zdscal_large_s10</td>
 </tr>
 
 </table>
