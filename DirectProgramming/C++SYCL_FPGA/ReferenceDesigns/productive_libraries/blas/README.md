@@ -172,29 +172,29 @@ To batch build and run the tests and demos of all the kernels:
 
 ## Known issues
 
-- [] Level 1 kernels suffer from [an issue](https://github.com/haoxiaochen/t2sp/issues/40) that two input vectors cannot be allocated two different DDR channels exclusively in SYCL in USM memory model.
+- [ ] Level 1 kernels suffer from [an issue](https://github.com/haoxiaochen/t2sp/issues/40) that two input vectors cannot be allocated two different DDR channels exclusively in SYCL in USM memory model.
 
 - [x] dsdot and sdsdot further suffer from [another issue](https://github.com/haoxiaochen/t2sp/issues/39) that T2SP compiler converts floats to doubles too early in the datapaths
 
 - [x] Synthesis of level 3 kernels with complex types [fail](https://github.com/haoxiaochen/t2sp/issues/33) or [overtime](https://github.com/haoxiaochen/t2sp/issues/34) in some configurations.
 
-- [] The systolic array of matrix multiply [scales worse](https://github.com/haoxiaochen/t2sp/issues/41) in SYCL than in OpenCL. Especially, DSP utilization on S10 is low, and parameter tuning is ongoing.
+- [ ] The systolic array of matrix multiply [scales worse](https://github.com/haoxiaochen/t2sp/issues/41) in SYCL than in OpenCL. Especially, DSP utilization on S10 is low, and parameter tuning is ongoing.
 
-- [] Running a demo occasionally shows segmentation fault during SYCL queue destruction. Usually, re-run it would be fine.
+- [ ] Running a demo occasionally shows segmentation fault during SYCL queue destruction. Usually, re-run it would be fine.
 
 ## Next release
 
 * Further tuned performance
-    - [] Near-peak performance for level 1 kernels and complex-typed kernels after addressing the above known issues
-    - [] Increased DSP utilization of level 3 kernels on S10
+    - [ ] Near-peak performance for level 1 kernels and complex-typed kernels after addressing the above known issues
+    - [ ] Increased DSP utilization of level 3 kernels on S10
 
 * Automatic parameter tuning
-    - [] Linear programming models for the systolic arrays
+    - [ ] Linear programming models for the systolic arrays
 
 * More kernels
     - [x] level 1: csscal, zdscal
-    - [] levle 2: gemv, gbmv, hemv, hbmv, hpmv, symv, sbmv, spmv
-    - [] level 3: syrk, herk, syr2k, her2k
+    - [ ] levle 2: gemv, gbmv, hemv, hbmv, hpmv, symv, sbmv, spmv
+    - [ ] level 3: syrk, herk, syr2k, her2k
 
 * Further improved readability of generated SYCL files
 
