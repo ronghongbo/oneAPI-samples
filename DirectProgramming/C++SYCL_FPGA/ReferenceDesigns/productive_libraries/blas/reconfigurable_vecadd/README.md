@@ -204,7 +204,7 @@ After unsigning the image (for A10 FPGA only), the demo can run on a hardware, w
     <td>Z, Z<br>4</td>
     <td> 267,396 / 933,120 ( 29 % )</td>
     <td>128 / 5,760 ( 2 % )</td>
-    <td> 755 / 11,721 ( 6 % )</td>
+    <td>755 / 11,721 ( 6 % )</td>
     <td>344</td>
     <td>18.6<br>(83% peak)</td>
     <td>64M, 64M</td>
@@ -212,12 +212,12 @@ After unsigning the image (for A10 FPGA only), the demo can run on a hardware, w
 </tr>
 <tr>
     <td>C, S<br>8</td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td><br>(% peak)</td>
-    <td></td>
+    <td>233,178 / 933,120 ( 25 % )</td>
+    <td>32 / 5,760 ( < 1 % )</td>
+    <td>752 / 11,721 ( 6 % )</td>
+    <td>357</td>
+    <td>19<br>(98% peak)</td>
+    <td>32M, 32M</td>
     <td>blas/axpy/bin/demo_csscal_large_s10</td>
 </tr>
 <tr>
@@ -227,7 +227,7 @@ After unsigning the image (for A10 FPGA only), the demo can run on a hardware, w
     <td></td>
     <td></td>
     <td><br>(% peak)</td>
-    <td></td>
+    <td>16M, 16M</td>
     <td>blas/axpy/bin/demo_zdscal_large_s10</td>
 </tr>
 
