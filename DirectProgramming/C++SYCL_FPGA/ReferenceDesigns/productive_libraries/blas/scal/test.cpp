@@ -124,6 +124,20 @@ TEST_P(ScalUsmTests, ComplexDoublePrecision) {
     EXPECT_TRUEORSKIP((test<std::complex<double>, std::complex<double>>(
         std::get<0>(GetParam()), std::get<1>(GetParam()), 1356, -3, alpha)));
 }
+TEST_P(ScalUsmTests, ComplexRealSinglePrecision) {
+    float alpha(2.0);
+    EXPECT_TRUEORSKIP((test<std::complex<float>, float>(std::get<0>(GetParam()),
+                                                        std::get<1>(GetParam()), 1356, 2, alpha)));
+    EXPECT_TRUEORSKIP((test<std::complex<float>, float>(std::get<0>(GetParam()),
+                                                        std::get<1>(GetParam()), 1356, -3, alpha)));
+}
+TEST_P(ScalUsmTests, ComplexRealDoublePrecision) {
+    double alpha(2.0);
+    EXPECT_TRUEORSKIP((test<std::complex<double>, double>(
+        std::get<0>(GetParam()), std::get<1>(GetParam()), 1356, 2, alpha)));
+    EXPECT_TRUEORSKIP((test<std::complex<double>, double>(
+        std::get<0>(GetParam()), std::get<1>(GetParam()), 1356, -3, alpha)));
+}
 
 INSTANTIATE_TEST_SUITE_P(ScalUsmTestSuite, ScalUsmTests,
                          ::testing::Combine(testing::ValuesIn(devices),

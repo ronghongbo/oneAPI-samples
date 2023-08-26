@@ -35,12 +35,12 @@ sycl::event axpy(sycl::queue &queue,
                               << "(the vectorized dimension for the input vectors), but n = " << n;
 
     using Halide::Runtime::Buffer;
-    halide_dimension_t dim_x[]{{0, n, std::abs(incx)}, {0, 1, 1}};
-    halide_dimension_t dim_y[]{{0, n, std::abs(incy)}, {0, 1, 1}};
+    halide_dimension_t dim_x[]{{0, n, std::abs(incx)}};
+    halide_dimension_t dim_y[]{{0, n, std::abs(incy)}};
 
-    Buffer<T> X_buffer{const_cast<T *>(x), 2, dim_x};
-    Buffer<T> Y_buffer{y, 2, dim_y};
-    Buffer<T> Res_buffer(KK, n / KK, 1);
+    Buffer<T> X_buffer{const_cast<T *>(x), 1, dim_x};
+    Buffer<T> Y_buffer{y, 1, dim_y};
+    Buffer<T> Res_buffer(KK, n / KK);
 
     for (sycl::event e : dependencies) {
         e.wait();
@@ -71,7 +71,7 @@ sycl::event axpy(sycl::queue &queue,
     done.wait();
     for (auto k = 0; k < n / KK; k++) {
         for (auto kk = 0; kk < KK; kk++)
-        y[(kk + k * KK) * std::abs(incy)] = Res_buffer(kk, k, 0);
+        y[(kk + k * KK) * std::abs(incy)] = Res_buffer(kk, k);
     }
     return done;
 }

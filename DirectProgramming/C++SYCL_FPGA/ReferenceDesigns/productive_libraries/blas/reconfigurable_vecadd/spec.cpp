@@ -5,18 +5,17 @@ using namespace Halide;
 
 int main()
 {
-    // Indices. b is an additional loop for batch processing of dot products
-    #define P       kk, k, b
+    // Indices.
+    #define P       kk, k
     // Linearized addresses
     #define total_k (kk + KK * k)
 
     // Outer loop bounds, which are determined by input sizes
-    #define K ((X.dim(0).extent() + KK - 1) / KK)
-    #define B (X.dim(1).extent())
+    #define K (X.dim(0).extent() / KK)
 
     // Inputs. X and Y are vectors, but we add an outer dimension to give us the flexibility of testing performance in batch mode.
-    ImageParam X("X", TTYPE, 2);
-    ImageParam Y("Y", TTYPE, 2);
+    ImageParam X("X", TTYPE, 1);
+    ImageParam Y("Y", TTYPE, 1);
     Param<int> IncX("IncX");
     Param<int> IncY("IncY");
     Param<CONST_TYPE> Alpha("Alpha"), Beta("Beta");
@@ -25,11 +24,11 @@ int main()
     Y.dim(0).set_stride(IncY);
 
     // UREs
-    Var kk("kk"), k("k"), b("b");
+    Var kk("kk"), k("k");
     URE uY("uY", TTYPE, {P}), uX("uX", TTYPE, {P}), uZ_1("uZ_1", TTYPE, {P}), Z("Z");
 
-    Expr Load_X = X(total_k, b);
-    Expr Load_Y = Y(total_k, b);
+    Expr Load_X = X(total_k);
+    Expr Load_Y = Y(total_k);
 
     uX(P)   = Load_X;
     uY(P)   = Load_Y;
@@ -40,8 +39,7 @@ int main()
     uX.merge_ures(uY, uZ_1, Z);
 
     // Explicitly set the loop bounds
-    uX.set_bounds(kk, 0, KK, k, 0, K)
-      .set_bounds(b,  0, B);
+    uX.set_bounds(kk, 0, KK, k, 0, K);
     uX.vectorize(kk);
 
     // I/O network. On the device side, DX, DY and DZ are responsible for I/O. On the host side, Load_X, Load_Y, and Out are responsible for I/O.
