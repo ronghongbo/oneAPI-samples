@@ -1,6 +1,10 @@
 #pragma once
 #include <complex>
+#if __has_include(<sycl/sycl.hpp>)
 #include <sycl/sycl.hpp>
+#else
+#include <CL/sycl.hpp>
+#endif
 
 template <typename T>
 void matrix_multiply_statistics(int64_t m, int64_t n, int64_t k, uint64_t exec_time, double &total_flops, double &total_bytes) {

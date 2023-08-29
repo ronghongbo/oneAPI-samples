@@ -73,7 +73,7 @@ constexpr auto get_systolic_array_dimensions() {
     } else if constexpr (std::is_same_v<T, std::complex<float>>) {
         return run_on_s10 ? std::tuple{8, 4, 10, 32, 32, 32} : std::tuple{8, 4, 10, 32, 32, 32};
     } else {
-        return run_on_s10 ? std::tuple{4, 6, 3, 32, 32, 32} : std::tuple{4, 4, 3, 32, 32, 32};
+        return run_on_s10 ? std::tuple{4, 4, 4, 32, 32, 32} : std::tuple{4, 4, 3, 32, 32, 32};
     }
 #endif
 }
