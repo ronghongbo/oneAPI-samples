@@ -1,7 +1,11 @@
 #pragma once
 #include <array>
 #include <complex>
+#if __has_include(<sycl/sycl.hpp>)
 #include <sycl/sycl.hpp>
+#else
+#include <CL/sycl.hpp>
+#endif
 #include <utility>
 
 namespace t2sp {

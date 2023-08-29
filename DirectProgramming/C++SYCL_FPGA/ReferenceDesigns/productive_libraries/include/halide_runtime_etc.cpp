@@ -1,6 +1,10 @@
 // Some Halide runtime functions adapted to use in Sycl.
 
+#if __has_include(<sycl/sycl.hpp>)
 #include <sycl/sycl.hpp>
+#else
+#include <CL/sycl.hpp>
+#endif
 #include "halide_runtime_etc.hpp"
 
 void halide_sycl_device_malloc(struct halide_buffer_t *buf, const sycl::queue &q_device) {

@@ -35,8 +35,8 @@
             #define KK          32
         #elif TYPEC_Z
             #define KKK         4
-            #define JJJ         6
-            #define III         3
+            #define JJJ         4
+            #define III         4
             #define JJ          32
             #define II          32
             #define KK          32
